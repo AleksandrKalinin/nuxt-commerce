@@ -1,5 +1,8 @@
 <template>
-  <div>Main page</div>
+  <div class="container mx-auto py-10 flex">
+    <Sidebar />
+    <CatalogContainer />
+  </div>
 </template>
 
 <script setup lang="ts"></script>

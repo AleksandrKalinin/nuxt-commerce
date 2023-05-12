@@ -1,5 +1,8 @@
 <template>
-  <header>Header</header>
+  <header class="h-20 bg-sky-400 px-10 flex items-center justify-between">
+    <span>Logo</span>
+    <div>User avatar</div>
+  </header>
 </template>
 
 <script setup lang="ts"></script>
