@@ -1,5 +1,11 @@
 export default defineNuxtConfig({
-  components: ["~/components"],
+  components: [
+    "~/components",
+    {
+      path: "~/components/base",
+      global: true,
+    },
+  ],
   modules: [
     "@nuxtjs/tailwindcss",
     [

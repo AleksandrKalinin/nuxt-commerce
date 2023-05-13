@@ -15,6 +15,7 @@
       <CatalogItem />
       <CatalogItem />
     </div>
+    <BasePagination />
   </section>
 </template>
 
