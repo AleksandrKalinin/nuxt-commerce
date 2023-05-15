@@ -1,13 +1,15 @@
 <template>
   <div class="toggle">
     <label class="switch">
-      <input type="checkbox" />
+      <input type="checkbox" :value="state" />
       <span class="slider round"></span>
     </label>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const props = defineProps(["state"]);
+</script>
 
 <style scoped>
 .toggle {
