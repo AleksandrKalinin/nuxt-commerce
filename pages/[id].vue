@@ -1,10 +1,12 @@
 <template>
-  <div>Item page</div>
+  <div class="container mx-auto py-10 flex">
+    <Sidebar />
+    <SelectedItem />
+  </div>
 </template>
 
 <script setup lang="ts">
 const id = ref(useRoute().params.id);
-console.log(id.value);
 </script>
 
 <style scoped></style>
