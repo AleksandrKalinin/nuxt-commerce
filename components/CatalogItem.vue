@@ -5,7 +5,9 @@
     </div>
     <div class="py-5">
       <h2 class="text-lg flex justify-between items-center font-semibold py-2">
-        Canon EOS 6D <span class="">2400$</span>
+        <NuxtLink :to="itemRoute"
+          >Canon EOS 6D <span class="">2400$</span></NuxtLink
+        >
       </h2>
       <p class="text-base mb-4">Lorem ipsum dolor sit amet</p>
       <button
@@ -17,6 +19,11 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const props = defineProps(["id"]);
+const itemRoute = computed(() => {
+  return "/" + props.id;
+});
+</script>
 
 <style scoped></style>
