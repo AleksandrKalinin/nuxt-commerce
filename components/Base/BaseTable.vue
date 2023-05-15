@@ -8,7 +8,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="item in data" class="text-left border-t-2 sky-blue-400">
+      <tr v-for="item in data" class="text-left">
         <template v-for="option in header">
           <td v-if="option.type === 'plain'" class="py-4">
             {{ item[option.value] }}
