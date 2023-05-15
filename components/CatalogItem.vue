@@ -1,15 +1,14 @@
 <template>
   <div class="p-5 border sky-blue-400 mb-5 max-w-[300px]">
     <div class="flew lg:w-60 lg:h-36 w-40 h-24">
-      <img class="w-fit h-full mx-auto object-cover" src="/images/1.jpg" />
+      <img class="w-fit h-full mx-auto object-cover" :src="item.photo" />
     </div>
     <div class="py-5">
       <h2 class="text-lg flex justify-between items-center font-semibold py-2">
-        <NuxtLink :to="itemRoute"
-          >Canon EOS 6D <span class="">2400$</span></NuxtLink
-        >
+        <NuxtLink :to="itemRoute">{{ item.name }} </NuxtLink
+        ><span class="">{{ item.price }}$</span>
       </h2>
-      <p class="text-base mb-4">Lorem ipsum dolor sit amet</p>
+      <p class="text-base mb-4">{{ item.type }}</p>
       <button
         class="text-lg px-7 mx-auto py-2 bg-sky-400 text-white rounded-none"
       >
@@ -20,9 +19,10 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps(["id"]);
+const props = defineProps(["item"]);
+
 const itemRoute = computed(() => {
-  return "/" + props.id;
+  return "/" + 1;
 });
 </script>
 

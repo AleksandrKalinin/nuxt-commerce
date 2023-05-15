@@ -2,24 +2,24 @@
   <section class="w-full lg:ml-10 ml-5">
     <CatalogPanel />
     <div class="2xl:columns-4 xl:columns-3 md:columns-2 sm:columns-1">
-      <CatalogItem :item="item" :id="1" />
-      <CatalogItem :item="item" :id="2" />
-      <CatalogItem :item="item" :id="3" />
-      <CatalogItem :item="item" :id="4" />
-      <CatalogItem :item="item" :id="5" />
-      <CatalogItem :item="item" :id="6" />
-      <CatalogItem :item="item" :id="7" />
-      <CatalogItem :item="item" :id="8" />
-      <CatalogItem :item="item" :id="9" />
-      <CatalogItem :item="item" :id="10" />
-      <CatalogItem :item="item" :id="11" />
-      <CatalogItem :item="item" :id="12" />
+      <CatalogItem v-for="item in catalogItems" :item="item" />
     </div>
     <BasePagination />
   </section>
 </template>
 
 <script setup lang="ts">
+import { useCatalogStore } from "~/store/catalog";
+const catalogStore = useCatalogStore();
+
+const catalogItems = computed(() => {
+  return catalogStore.catalogItems;
+});
+
+onMounted(() => {
+  catalogStore.fetchCatalogItems();
+});
+
 const item = {
   name: "Panasonic EOS 80",
   id: 1,
