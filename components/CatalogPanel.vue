@@ -7,7 +7,11 @@
       <span class="sorting-option mr-3 text-sm cursor-pointer">По цене</span>
     </div>
     <div class="navigation__search">
-      <input type="text" placeholder="Search" class="py-2 px-4" />
+      <input
+        type="text"
+        placeholder="Search"
+        class="leading-7 py-2 px-4 border sky-blue-400 w-72 mr-2"
+      />
     </div>
   </div>
 </template>
