@@ -21,10 +21,20 @@ export const useCatalogStore = defineStore("catalog", () => {
     }
   }
 
+  const searchValue = ref("");
+
+  const filteredItems = computed(() => {
+    return catalogItems.value.filter((item: CatalogItem) => {
+      return item.name.toLowerCase().includes(searchValue.value.toLowerCase());
+    });
+  });
+
   return {
     catalogItems,
     fetchCatalogItems,
     selectedItem,
     fetchSelectedItem,
+    filteredItems,
+    searchValue,
   };
 });

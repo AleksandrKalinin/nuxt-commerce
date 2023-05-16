@@ -11,11 +11,16 @@
         type="text"
         placeholder="Search"
         class="leading-7 py-2 px-4 border sky-blue-400 w-72 mr-2"
+        v-model="store.searchValue"
       />
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useCatalogStore } from "~/store/catalog";
+
+const store = useCatalogStore();
+</script>
 
 <style scoped></style>
