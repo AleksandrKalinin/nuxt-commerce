@@ -1,5 +1,5 @@
 <template>
-  <header class="h-20 bg-sky-400 px-10 flex items-center justify-between">
+  <header class="z-10 h-20 bg-sky-400 px-10 flex items-center justify-between">
     <span>Logo</span>
     <div>User avatar</div>
   </header>

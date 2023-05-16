@@ -13,7 +13,7 @@ import { useCatalogStore } from "~/store/catalog";
 const catalogStore = useCatalogStore();
 
 const catalogItems = computed(() => {
-  return catalogStore.catalogItems;
+  return catalogStore.selectedItems;
 });
 
 onMounted(() => {
