@@ -71,6 +71,129 @@ export const useCatalogStore = defineStore("catalog", () => {
     }
   });
 
+  const manufacturers = computed(() => {
+    const labels = [
+      ...new Set(catalogItems.value.map((item) => item.manufacturer)),
+    ].map((label) => {
+      const obj = {};
+      obj.label = label;
+      obj.selected = false;
+      return obj;
+    });
+    return labels;
+  });
+
+  const types = computed(() => {
+    const labels = [
+      ...new Set(catalogItems.value.map((item) => item.type)),
+    ].map((label) => {
+      const obj = {};
+      obj.label = label;
+      obj.selected = false;
+      return obj;
+    });
+    return labels;
+  });
+
+  const matrixTypes = computed(() => {
+    const labels = [
+      ...new Set(catalogItems.value.map((item) => item.matrix_type)),
+    ].map((label) => {
+      const obj = {};
+      obj.label = label;
+      obj.selected = false;
+      return obj;
+    });
+    return labels;
+  });
+
+  const matrixSizes = computed(() => {
+    const labels = [
+      ...new Set(catalogItems.value.map((item) => item.matrix_size)),
+    ].map((label) => {
+      const obj = {};
+      obj.label = label;
+      obj.selected = false;
+      return obj;
+    });
+    return labels;
+  });
+
+  const matrixPixels = computed(() => {
+    const labels = [
+      ...new Set(catalogItems.value.map((item) => item.pixels)),
+    ].map((label) => {
+      const obj = {};
+      obj.label = label;
+      obj.selected = false;
+      return obj;
+    });
+    return labels;
+  });
+
+  const filteringOptions = computed(() => {
+    return [
+      {
+        label: "Производитель",
+        value: manufacturers.value,
+        category: "manufacturer",
+      },
+      {
+        label: "Тип камеры",
+        value: types.value,
+        category: "type",
+      },
+      {
+        label: "Тип матрицы",
+        value: matrixTypes.value,
+        category: "matrix_type",
+      },
+      {
+        label: "Размер матрицы",
+        value: matrixSizes.value,
+        category: "matrix_size",
+      },
+      {
+        label: "Кол-в точек матрицы",
+        value: matrixPixels.value,
+        category: "pixels",
+      },
+    ];
+  });
+
+  const selectedOptions = reactive({
+    manufacturer: [],
+    type: [],
+    matrix_type: [],
+    matrix_size: [],
+    pixels: [],
+  });
+
+  const selectedItems = computed(() => {
+    return sortedItems.value.filter((curItem) => {
+      let flag = true;
+      for (const key in selectedOptions) {
+        const values = selectedOptions[key];
+        if (values.length) {
+          if (!values.includes(curItem[key])) {
+            flag = false;
+          }
+        }
+      }
+      if (flag) return curItem;
+    });
+  });
+
+  const selectItem = (value, category) => {
+    if (selectedOptions[category].includes(value)) {
+      selectedOptions[category] = selectedOptions[category].filter(
+        (item) => item !== value
+      );
+    } else {
+      selectedOptions[category].push(value);
+    }
+  };
+
   return {
     catalogItems,
     fetchCatalogItems,
@@ -80,5 +203,9 @@ export const useCatalogStore = defineStore("catalog", () => {
     searchValue,
     updateSort,
     sortedItems,
+    selectedOptions,
+    filteringOptions,
+    selectedItems,
+    selectItem,
   };
 });
