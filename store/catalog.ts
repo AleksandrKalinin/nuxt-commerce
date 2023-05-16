@@ -29,6 +29,48 @@ export const useCatalogStore = defineStore("catalog", () => {
     });
   });
 
+  const sortValue = ref("default");
+  const sortOrder = ref(true);
+
+  const updateSort = (val: string) => {
+    if (sortValue.value === val) {
+      sortOrder.value = !sortOrder.value;
+    }
+    sortValue.value = val;
+  };
+
+  const sortedItems = computed(() => {
+    const val = sortValue.value;
+    const order = sortOrder.value;
+    if (val === "default") {
+      return filteredItems.value;
+    } else {
+      if (order === true) {
+        return [
+          ...filteredItems.value.sort((a: CatalogItem, b: CatalogItem) => {
+            if (a[val as keyof CatalogItem] === "") return +1;
+            if (b[val as keyof CatalogItem] === "") return -1;
+            else
+              return a[val as keyof CatalogItem]
+                .toString()
+                .localeCompare(b[val as keyof CatalogItem].toString());
+          }),
+        ];
+      } else {
+        return [
+          ...filteredItems.value.sort((a: CatalogItem, b: CatalogItem) => {
+            if (a[val as keyof CatalogItem] === "") return +1;
+            if (b[val as keyof CatalogItem] === "") return -1;
+            else
+              return b[val as keyof CatalogItem]
+                .toString()
+                .localeCompare(a[val as keyof CatalogItem].toString());
+          }),
+        ];
+      }
+    }
+  });
+
   return {
     catalogItems,
     fetchCatalogItems,
@@ -36,5 +78,7 @@ export const useCatalogStore = defineStore("catalog", () => {
     fetchSelectedItem,
     filteredItems,
     searchValue,
+    updateSort,
+    sortedItems,
   };
 });
