@@ -23,4 +23,22 @@ declare global {
     popularity: number;
     rating: number;
   }
+
+  interface CartItem extends CatalogItem {
+    amount: number;
+    total: number;
+  }
+
+  interface SelectOption {
+    label: string;
+    selected: boolean;
+  }
+
+  interface SelectedOptions {
+    manufacturer: string[];
+    type: string[];
+    matrix_type: string[];
+    matrix_size: string[];
+    pixels: string[];
+  }
 }

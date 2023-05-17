@@ -9,7 +9,7 @@
         <p class="mb-2">Производитель: {{ selectedItem.manufacturer }}</p>
         <p class="mb-2">
           Гарантия:
-          {{ selectedItem.warranty ? selectedItem.warranty : "12 месяцев" }}
+          {{ "12 месяцев" }}
         </p>
         <p class="mb-2">Есть в наличии</p>
         <button
@@ -32,7 +32,7 @@
             {{ item.label }}
           </th>
           <td class="py-4">
-            {{ selectedItem[item.value] }}
+            {{ selectedItem[item.value as keyof CatalogItem] }}
           </td>
         </tr>
       </tbody>
@@ -105,8 +105,8 @@ const selectedProperties = [
   },
 ];
 
-const selectedItem = computed(() => {
-  return catalogStore.selectedItem;
+const selectedItem = computed<CatalogItem>((): CatalogItem => {
+  return catalogStore.selectedItem as unknown as CatalogItem;
 });
 
 onMounted(() => {

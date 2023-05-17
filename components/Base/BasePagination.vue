@@ -45,7 +45,7 @@ const lastPage = () => {
   store.currentPage = maxLength - 1;
 };
 
-const setPage = (num) => {
+const setPage = (num: number) => {
   store.currentPage = num - 1;
 };
 </script>
