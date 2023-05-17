@@ -21,6 +21,21 @@
           <td v-else-if="option.type === 'toggle'" class="py-4">
             <BaseToggleInput :state="item[option.value]" />
           </td>
+          <td v-else-if="option.type === 'number'" class="py-4">
+            <input
+              min="1"
+              type="number"
+              v-model.number="item[option.value]"
+              @input="option.action($event, item.id)"
+            />
+          </td>
+          <td v-else-if="option.type === 'icon'" class="py-4">
+            <img
+              :src="option.iconUrl"
+              class="w-8 h-12 cursor-pointer"
+              @click="option.action(item.id)"
+            />
+          </td>
         </template>
       </tr>
     </tbody>
