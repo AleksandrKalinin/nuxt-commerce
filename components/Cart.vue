@@ -1,14 +1,27 @@
 <template>
-  <BaseTable :header="header" :data="data" />
+  <BaseTable :header="header" :data="cartItems" />
   <div class="py-5 flex flex-row justify-end items-center">
-    <p class="font-bold text-2xl mr-5">Total: 1234</p>
-    <button class="text-lg px-7 py-2 bg-sky-400 text-white rounded-none">
-      Оформить заказ
-    </button>
+    <p class="font-bold text-2xl mr-5">
+      Total: {{ cartStore.totalSum }}
+      <button
+        class="text-lg px-7 py-2 bg-sky-400 text-white rounded-none"
+        @click="cartStore.addToCart(1)"
+      >
+        Оформить заказ
+      </button>
+    </p>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useCartStore } from "~/store/cart";
+
+const cartStore = useCartStore();
+
+const cartItems = computed(() => {
+  return cartStore.cartItems;
+});
+
 const header = [
   {
     label: "Фото",
@@ -36,6 +49,7 @@ const header = [
     type: "plain",
   },
 ];
+
 const data = [
   {
     name: "Canon 2340",

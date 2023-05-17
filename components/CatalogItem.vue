@@ -11,6 +11,7 @@
       <p class="text-base mb-4">{{ item.type }}</p>
       <button
         class="text-lg px-7 mx-auto py-2 bg-sky-400 text-white rounded-none"
+        @click="cartStore.addToCart(item.id)"
       >
         Add to cart
       </button>
@@ -19,6 +20,9 @@
 </template>
 
 <script setup lang="ts">
+import { useCartStore } from "~/store/cart";
+const cartStore = useCartStore();
+
 const props = defineProps(["item"]);
 
 const itemRoute = computed(() => {
