@@ -73,9 +73,11 @@ export const useCatalogStore = defineStore("catalog", () => {
 
   const manufacturers = computed(() => {
     const labels = [
-      ...new Set(catalogItems.value.map((item) => item.manufacturer)),
+      ...new Set(
+        catalogItems.value.map((item: CatalogItem) => item.manufacturer)
+      ),
     ].map((label) => {
-      const obj = {};
+      const obj = {} as SelectOption;
       obj.label = label;
       obj.selected = false;
       return obj;
@@ -85,9 +87,9 @@ export const useCatalogStore = defineStore("catalog", () => {
 
   const types = computed(() => {
     const labels = [
-      ...new Set(catalogItems.value.map((item) => item.type)),
+      ...new Set(catalogItems.value.map((item: CatalogItem) => item.type)),
     ].map((label) => {
-      const obj = {};
+      const obj = {} as SelectOption;
       obj.label = label;
       obj.selected = false;
       return obj;
@@ -97,9 +99,11 @@ export const useCatalogStore = defineStore("catalog", () => {
 
   const matrixTypes = computed(() => {
     const labels = [
-      ...new Set(catalogItems.value.map((item) => item.matrix_type)),
+      ...new Set(
+        catalogItems.value.map((item: CatalogItem) => item.matrix_type)
+      ),
     ].map((label) => {
-      const obj = {};
+      const obj = {} as SelectOption;
       obj.label = label;
       obj.selected = false;
       return obj;
@@ -109,9 +113,11 @@ export const useCatalogStore = defineStore("catalog", () => {
 
   const matrixSizes = computed(() => {
     const labels = [
-      ...new Set(catalogItems.value.map((item) => item.matrix_size)),
+      ...new Set(
+        catalogItems.value.map((item: CatalogItem) => item.matrix_size)
+      ),
     ].map((label) => {
-      const obj = {};
+      const obj = {} as SelectOption;
       obj.label = label;
       obj.selected = false;
       return obj;
@@ -121,10 +127,10 @@ export const useCatalogStore = defineStore("catalog", () => {
 
   const matrixPixels = computed(() => {
     const labels = [
-      ...new Set(catalogItems.value.map((item) => item.pixels)),
+      ...new Set(catalogItems.value.map((item: CatalogItem) => item.pixels)),
     ].map((label) => {
-      const obj = {};
-      obj.label = label;
+      const obj = {} as SelectOption;
+      obj.label = label.toString();
       obj.selected = false;
       return obj;
     });
@@ -161,7 +167,7 @@ export const useCatalogStore = defineStore("catalog", () => {
     ];
   });
 
-  const selectedOptions = reactive({
+  const selectedOptions = reactive<SelectedOptions>({
     manufacturer: [],
     type: [],
     matrix_type: [],
@@ -170,12 +176,12 @@ export const useCatalogStore = defineStore("catalog", () => {
   });
 
   const selectedItems = computed(() => {
-    return sortedItems.value.filter((curItem) => {
+    return sortedItems.value.filter((curItem: CatalogItem) => {
       let flag = true;
       for (const key in selectedOptions) {
-        const values = selectedOptions[key];
+        const values = selectedOptions[key as keyof SelectedOptions];
         if (values.length) {
-          if (!values.includes(curItem[key])) {
+          if (!values.includes(curItem[key as keyof SelectedOptions])) {
             flag = false;
           }
         }
@@ -184,13 +190,13 @@ export const useCatalogStore = defineStore("catalog", () => {
     });
   });
 
-  const selectItem = (value, category) => {
-    if (selectedOptions[category].includes(value)) {
-      selectedOptions[category] = selectedOptions[category].filter(
-        (item) => item !== value
-      );
+  const selectItem = (value: string, category: string) => {
+    if (selectedOptions[category as keyof SelectedOptions].includes(value)) {
+      selectedOptions[category as keyof SelectedOptions] = selectedOptions[
+        category as keyof SelectedOptions
+      ].filter((item) => item !== value);
     } else {
-      selectedOptions[category].push(value);
+      selectedOptions[category as keyof SelectedOptions].push(value);
     }
   };
 

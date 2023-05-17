@@ -22,12 +22,13 @@ const cartItems = computed(() => {
   return cartStore.cartItems;
 });
 
-const setAmount = (e, id) => {
-  const val = e.target.value;
+const setAmount = (e: Event, id: number) => {
+  const target = e.target as HTMLInputElement;
+  const val = Number(target.value);
   cartStore.updateAmount(val, id);
 };
 
-const deleteItem = (id) => {
+const deleteItem = (id: number) => {
   cartStore.deleteItem(id);
 };
 
