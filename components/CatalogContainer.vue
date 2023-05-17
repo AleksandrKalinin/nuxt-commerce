@@ -2,7 +2,10 @@
   <section class="w-full lg:ml-10 ml-5">
     <CatalogPanel />
     <div class="2xl:columns-4 xl:columns-3 md:columns-2 sm:columns-1">
-      <CatalogItem v-for="item in catalogItems" :item="item" />
+      <CatalogItem
+        v-for="item in catalogItems.slice(store.currentPage, 12)"
+        :item="item"
+      />
     </div>
     <BasePagination />
   </section>
@@ -10,14 +13,18 @@
 
 <script setup lang="ts">
 import { useCatalogStore } from "~/store/catalog";
-const catalogStore = useCatalogStore();
+const store = useCatalogStore();
 
 const catalogItems = computed(() => {
-  return catalogStore.selectedItems;
+  return store.selectedItems;
+});
+
+const page = computed(() => {
+  return store.currentPage;
 });
 
 onMounted(() => {
-  catalogStore.fetchCatalogItems();
+  store.fetchCatalogItems();
 });
 
 const item = {

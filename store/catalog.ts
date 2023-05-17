@@ -194,6 +194,8 @@ export const useCatalogStore = defineStore("catalog", () => {
     }
   };
 
+  const currentPage = ref(0);
+
   return {
     catalogItems,
     fetchCatalogItems,
@@ -207,5 +209,6 @@ export const useCatalogStore = defineStore("catalog", () => {
     filteringOptions,
     selectedItems,
     selectItem,
+    currentPage,
   };
 });
