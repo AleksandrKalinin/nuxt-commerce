@@ -26,7 +26,14 @@
               min="1"
               type="number"
               v-model.number="item[option.value]"
-              @input="option.callback($event, item.id)"
+              @input="option.action($event, item.id)"
+            />
+          </td>
+          <td v-else-if="option.type === 'icon'" class="py-4">
+            <img
+              :src="option.iconUrl"
+              class="w-8 h-12 cursor-pointer"
+              @click="option.action(item.id)"
             />
           </td>
         </template>

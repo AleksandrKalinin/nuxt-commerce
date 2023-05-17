@@ -33,10 +33,16 @@ export const useCartStore = defineStore("cart", () => {
     item.total = item.amount * item.price;
   };
 
+  const deleteItem = (id) => {
+    const newItems = cartItems.value.filter((item) => item.id !== id);
+    cartItems.value = newItems;
+  };
+
   return {
     cartItems,
     addToCart,
     totalSum,
     updateAmount,
+    deleteItem,
   };
 });
