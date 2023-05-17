@@ -20,15 +20,23 @@ export const useCartStore = defineStore("cart", () => {
       cartItems.value.push(item);
       item.total = item.amount * item.price;
     } else {
-      cartItems.value[present].amount += 1;
+      cartItems.value[present].amount =
+        Number(cartItems.value[present].amount) + 1;
       cartItems.value[present].total =
         cartItems.value[present].amount * cartItems.value[present].price;
     }
+  };
+
+  const updateAmount = (value, id) => {
+    const item = catalogStore.catalogItems.find((el) => el.id === id);
+    item.amount = value;
+    item.total = item.amount * item.price;
   };
 
   return {
     cartItems,
     addToCart,
     totalSum,
+    updateAmount,
   };
 });
