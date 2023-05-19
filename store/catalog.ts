@@ -137,7 +137,7 @@ export const useCatalogStore = defineStore("catalog", () => {
       ...new Set(catalogItems.value?.map((item: CatalogItem) => item.pixels)),
     ].map((label) => {
       const obj = {} as SelectOption;
-      obj.label = label.toString();
+      obj.label = label;
       obj.selected = false;
       return obj;
     });

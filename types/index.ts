@@ -32,7 +32,7 @@ declare global {
   }
 
   interface SelectOption {
-    label: string;
+    label: string | number;
     selected: boolean;
   }
 
