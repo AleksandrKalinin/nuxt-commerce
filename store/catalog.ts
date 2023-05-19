@@ -1,21 +1,28 @@
 import { defineStore } from "pinia";
+import { createClient } from "@supabase/supabase-js";
 
 export const useCatalogStore = defineStore("catalog", () => {
-  const catalogItems = ref([]);
-  const isLoaded = ref(false);
+  const config = useSupabaseConfig();
+  const client = createClient(config.URL, config.KEY);
+  const catalogItems: Ref<CatalogItem[] | null> = ref([]);
 
   async function fetchCatalogItems() {
-    await fetch("./items.json")
-      .then((res) => res.json())
-      .then((json) => {
-        (isLoaded.value = true), (catalogItems.value = json);
-      });
+    try {
+      let { data, error } = await client
+        .from("catalog")
+        .select(
+          "id, name, price, date, manufacturer, photo, type, battery_type, pixels, max_FPS_video, max_FPS_photo, max_sensitivity, max_resolution, min_sensitivity, wi_fi, card_support, matrix_type, matrix_size, popularity, rating, warranty, in_stock"
+        );
+      catalogItems.value = data;
+    } catch (e) {
+      console.log(e);
+    }
   }
 
-  const selectedItem = ref(null);
+  const selectedItem: Ref<CatalogItem | null> = ref(null);
 
   function fetchSelectedItem(id: string | string[]) {
-    const item = catalogItems.value.find((x: any) => x.id === Number(id));
+    const item = catalogItems.value?.find((x: any) => x.id === Number(id));
     if (item) {
       selectedItem.value = item;
     }
@@ -24,7 +31,7 @@ export const useCatalogStore = defineStore("catalog", () => {
   const searchValue = ref("");
 
   const filteredItems = computed(() => {
-    return catalogItems.value.filter((item: CatalogItem) => {
+    return catalogItems.value?.filter((item: CatalogItem) => {
       return item.name.toLowerCase().includes(searchValue.value.toLowerCase());
     });
   });
@@ -74,7 +81,7 @@ export const useCatalogStore = defineStore("catalog", () => {
   const manufacturers = computed(() => {
     const labels = [
       ...new Set(
-        catalogItems.value.map((item: CatalogItem) => item.manufacturer)
+        catalogItems.value?.map((item: CatalogItem) => item.manufacturer)
       ),
     ].map((label) => {
       const obj = {} as SelectOption;
@@ -87,7 +94,7 @@ export const useCatalogStore = defineStore("catalog", () => {
 
   const types = computed(() => {
     const labels = [
-      ...new Set(catalogItems.value.map((item: CatalogItem) => item.type)),
+      ...new Set(catalogItems.value?.map((item: CatalogItem) => item.type)),
     ].map((label) => {
       const obj = {} as SelectOption;
       obj.label = label;
@@ -100,7 +107,7 @@ export const useCatalogStore = defineStore("catalog", () => {
   const matrixTypes = computed(() => {
     const labels = [
       ...new Set(
-        catalogItems.value.map((item: CatalogItem) => item.matrix_type)
+        catalogItems.value?.map((item: CatalogItem) => item.matrix_type)
       ),
     ].map((label) => {
       const obj = {} as SelectOption;
@@ -114,7 +121,7 @@ export const useCatalogStore = defineStore("catalog", () => {
   const matrixSizes = computed(() => {
     const labels = [
       ...new Set(
-        catalogItems.value.map((item: CatalogItem) => item.matrix_size)
+        catalogItems.value?.map((item: CatalogItem) => item.matrix_size)
       ),
     ].map((label) => {
       const obj = {} as SelectOption;
@@ -127,7 +134,7 @@ export const useCatalogStore = defineStore("catalog", () => {
 
   const matrixPixels = computed(() => {
     const labels = [
-      ...new Set(catalogItems.value.map((item: CatalogItem) => item.pixels)),
+      ...new Set(catalogItems.value?.map((item: CatalogItem) => item.pixels)),
     ].map((label) => {
       const obj = {} as SelectOption;
       obj.label = label.toString();
@@ -176,7 +183,7 @@ export const useCatalogStore = defineStore("catalog", () => {
   });
 
   const selectedItems = computed(() => {
-    return sortedItems.value.filter((curItem: CatalogItem) => {
+    return sortedItems.value?.filter((curItem: CatalogItem) => {
       let flag = true;
       for (const key in selectedOptions) {
         const values = selectedOptions[key as keyof SelectedOptions];
