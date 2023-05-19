@@ -1,6 +1,34 @@
 export {};
 
 declare global {
+  interface User {
+    id: number;
+    registration_date: Date;
+    email: string;
+    role: string;
+  }
+
+  interface Order {
+    id: number;
+    created_at: Date;
+    items: OrderItem[];
+    userId: number;
+    user: string;
+    total: number;
+    status: OrderStatus;
+  }
+
+  interface OrderItem {
+    id: number;
+    amount: number;
+  }
+
+  enum OrderStatus {
+    Pending = "Pending",
+    Completed = "Completed",
+    Cancelled = "Cancelled",
+  }
+
   interface CatalogItem {
     name: string;
     id: number;
