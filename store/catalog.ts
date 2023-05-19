@@ -14,7 +14,7 @@ export const useCatalogStore = defineStore("catalog", () => {
       let { data, error } = await client
         .from("catalog")
         .select(
-          "id, name, price, date, manufacturer, photo, type, battery_type, pixels, max_FPS_video, max_FPS_photo, max_sensitivity, max_resolution, min_sensitivity, wi_fi, card_support, matrix_type, matrix_size, popularity, rating, warranty, in_stock"
+          "id, name, price, date, manufacturer, photo, type, battery_type, pixels, max_FPS_video, max_FPS_photo, max_sensitivity, max_resolution, min_sensitivity, wi_fi, card_support, matrix_type, matrix_size, popularity, rating, warranty, in_stock, item_code, is_visible"
         );
       catalogItems.value = data;
     } catch (e) {

@@ -24,6 +24,8 @@ declare global {
     rating: number;
     warranty: number;
     in_stock: number;
+    item_code: number;
+    is_visible: boolean;
   }
 
   interface CartItem extends CatalogItem {

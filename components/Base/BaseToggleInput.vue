@@ -1,7 +1,7 @@
 <template>
   <div class="toggle">
     <label class="switch">
-      <input type="checkbox" :value="state" />
+      <input type="checkbox" :checked="state" :value="state" />
       <span class="slider round"></span>
     </label>
   </div>
