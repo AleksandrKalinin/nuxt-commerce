@@ -3,7 +3,7 @@
     <CatalogPanel />
     <div class="2xl:columns-4 xl:columns-3 md:columns-2 sm:columns-1">
       <CatalogItem
-        v-for="item in catalogItems.slice(store.currentPage, 12)"
+        v-for="item in catalogItems?.slice(store.currentPage, 12)"
         :item="item"
       />
     </div>
@@ -13,7 +13,9 @@
 
 <script setup lang="ts">
 import { useCatalogStore } from "~/store/catalog";
+import { useDatabaseStore } from "~/store/database";
 const store = useCatalogStore();
+const dbStore = useDatabaseStore();
 
 const catalogItems = computed(() => {
   return store.selectedItems;

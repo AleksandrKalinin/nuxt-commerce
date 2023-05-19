@@ -11,17 +11,19 @@ declare global {
     type: string;
     battery_type: string;
     pixels: number;
-    max_FPS_video: string;
-    max_FPS_photo: string;
-    max_sensitivity: string;
+    max_FPS_video: number;
+    max_FPS_photo: number;
+    max_sensitivity: number;
     max_resolution: string;
-    min_sensitivity: string;
-    wi_fi: string;
+    min_sensitivity: number;
+    wi_fi: boolean;
     card_support: string;
     matrix_type: string;
     matrix_size: string;
     popularity: number;
     rating: number;
+    warranty: number;
+    in_stock: number;
   }
 
   interface CartItem extends CatalogItem {
@@ -30,7 +32,7 @@ declare global {
   }
 
   interface SelectOption {
-    label: string;
+    label: string | number;
     selected: boolean;
   }
 
