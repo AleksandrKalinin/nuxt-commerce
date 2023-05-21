@@ -1,14 +1,28 @@
 <template>
   <section class="w-full lg:ml-10 ml-5">
     <CatalogPanel />
-    <div
-      class="grid gap-4 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1"
-    >
-      <CatalogItem
-        v-for="item in catalogItems?.slice(store.currentPage, 12)"
-        :item="item"
-      />
-    </div>
+    <template v-if="catalogItems?.length">
+      <Transition>
+        <div
+          v-if="catalogItems?.length"
+          class="grid gap-4 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1"
+        >
+          <CatalogItem
+            v-for="item in catalogItems?.slice(store.currentPage, 12)"
+            :item="item"
+          />
+        </div>
+      </Transition>
+    </template>
+    <template v-else>
+      <Transition>
+        <div
+          class="preloader-wrapper flex justify-center items-center h-full w-full"
+        >
+          Loading
+        </div>
+      </Transition>
+    </template>
     <BasePagination />
   </section>
 </template>
@@ -55,4 +69,14 @@ const item = {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>
