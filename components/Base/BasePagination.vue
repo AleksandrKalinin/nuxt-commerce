@@ -3,7 +3,7 @@
     <div class="pagination flex cursor-pointer">
       <div
         @click="firstPage"
-        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-3"
+        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5"
       >
         First
       </div>
@@ -17,7 +17,7 @@
       </div>
       <div
         @click="lastPage"
-        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-3"
+        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5"
       >
         Last
       </div>

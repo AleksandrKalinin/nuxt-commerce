@@ -16,7 +16,7 @@
       <input
         type="text"
         placeholder="Search"
-        class="leading-7 py-2 px-4 border sky-blue-400 w-72 mr-2"
+        class="leading-7 py-2 px-4 border sky-blue-400 w-72"
         v-model="store.searchValue"
       />
     </div>
