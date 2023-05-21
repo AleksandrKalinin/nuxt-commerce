@@ -1,7 +1,9 @@
 <template>
   <section class="w-full lg:ml-10 ml-5">
     <CatalogPanel />
-    <div class="2xl:columns-4 xl:columns-3 md:columns-2 sm:columns-1">
+    <div
+      class="grid gap-4 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1"
+    >
       <CatalogItem
         v-for="item in catalogItems?.slice(store.currentPage, 12)"
         :item="item"

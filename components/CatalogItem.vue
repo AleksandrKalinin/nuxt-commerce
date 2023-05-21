@@ -1,6 +1,6 @@
 <template>
-  <div class="p-5 border sky-blue-400 mb-5 max-w-[300px]">
-    <div class="flew lg:w-60 lg:h-36 w-40 h-24">
+  <div class="p-5 border sky-blue-400 max-w-[300px] mx-auto">
+    <div class="flew w-60 h-36">
       <img class="w-fit h-full mx-auto object-cover" :src="item.photo" />
     </div>
     <div class="py-5">
