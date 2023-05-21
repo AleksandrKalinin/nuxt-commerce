@@ -11,23 +11,35 @@
             {{ userExists ? "Log into your account" : "Create account" }}
           </h1>
           <form
-            class="w-full flex flex-col"
+            class="w-full flex flex-col mb-4"
             @submit.prevent="userExists ? loginUser() : registerUser()"
           >
             <input
               type="email"
+              v-model="email"
               class="h-12 bg-white border bg-sky-300 rounded-none mb-4 px-3 text-xl"
             />
             <input
               type="password"
+              v-model="password"
               class="h-12 bg-white border bg-sky-300 rounded-none mb-4 px-3 text-xl"
             />
             <input
               type="submit"
-              class="bg-sky-300 text-white px-8 py-6 block text-xl uppercase cursor-pointer"
+              class="bg-sky-300 text-white px-8 py-4 block text-xl uppercase cursor-pointer"
               :value="userExists ? 'Log in' : 'Register now'"
             />
           </form>
+          <p
+            @click="userExists = !userExists"
+            class="cursor-pointer py-4 text-xl text-center"
+          >
+            {{
+              !userExists
+                ? "I already have an account"
+                : "I don't have an account"
+            }}
+          </p>
         </div>
       </div>
     </Transition>
@@ -36,22 +48,44 @@
 
 <script setup lang="ts">
 const modalOpen = ref(false);
-
+const userExists = ref(true);
 const target = ref(null);
 
 onClickOutside(target, () => {
   modalOpen.value = false;
 });
 
-const userExists = ref(false);
+const user = useSupabaseUser();
 
-const loginUser = () => {
-  console.log("login");
+const client = useSupabaseClient();
+const password = ref("");
+const email = ref("");
+
+const loginUser = async () => {
+  const { data, error } = await client.auth.signInWithPassword({
+    email: email.value,
+    password: password.value,
+  });
+  //console.log(data);
+  //console.log(error);
 };
 
-const registerUser = () => {
-  console.log("register");
+const registerUser = async () => {
+  const { data, error } = await client.auth.signUp({
+    email: email.value,
+    password: password.value,
+  });
+  //console.log(data);
+  //console.log(error);
 };
+
+onMounted(() => {
+  watchEffect(() => {
+    if (user.value) {
+      navigateTo("/admin/users");
+    }
+  });
+});
 </script>
 
 <style scoped>

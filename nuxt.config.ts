@@ -17,6 +17,7 @@ export default defineNuxtConfig({
   ],
   modules: [
     "@vueuse/nuxt",
+    "@nuxtjs/supabase",
     "@nuxtjs/tailwindcss",
     [
       "@pinia/nuxt",
