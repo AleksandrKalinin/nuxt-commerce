@@ -73,4 +73,13 @@ declare global {
     matrix_size: string[];
     pixels: string[];
   }
+
+  interface BaseItemModalForm {
+    name: string;
+    dataType: string;
+    elType: string;
+    default: string;
+    placeholder: string;
+    options?: Boolean[];
+  }
 }
