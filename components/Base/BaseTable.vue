@@ -33,7 +33,7 @@
           </td>
           <td v-else-if="option.type === 'icon'" class="py-4">
             <img
-              :src="option.iconUrl"
+              :src="option.value"
               class="w-8 h-12 cursor-pointer"
               @click="option.action(item.id)"
             />

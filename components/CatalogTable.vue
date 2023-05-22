@@ -14,12 +14,13 @@ import { useCatalogStore } from "~/store/catalog";
 const store = useCatalogStore();
 
 const data = computed(() => {
-  return store.catalogItems?.slice(store.currentPage, 12).map((item) => {
+  return store.catalogItems?.slice(store.currentPage, 30).map((item) => {
     return {
       id: item.id,
       name: item.name,
       photo: item.photo,
       item_code: item.item_code,
+      date: item.date,
       in_stock: item.in_stock,
       is_visible: item.is_visible,
     };
@@ -29,6 +30,20 @@ const data = computed(() => {
 onMounted(() => {
   store.fetchCatalogItems();
 });
+
+const editItem = (id: number) => {
+  console.log("edit", id);
+};
+
+const client = useSupabaseClient();
+
+const deleteItem = async (id: number) => {
+  try {
+    const { error } = await client.from("catalog").delete().eq("id", id);
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 const header = [
   {
@@ -52,6 +67,11 @@ const header = [
     type: "plain",
   },
   {
+    label: "Дата",
+    value: "date",
+    type: "plain",
+  },
+  {
     label: "Остаток",
     value: "in_stock",
     type: "plain",
@@ -60,6 +80,18 @@ const header = [
     label: "Видимость",
     value: "is_visible",
     type: "toggle",
+  },
+  {
+    label: "",
+    value: "./edit.svg",
+    type: "icon",
+    action: editItem,
+  },
+  {
+    label: "",
+    value: "./delete.svg",
+    type: "icon",
+    action: deleteItem,
   },
 ];
 </script>
