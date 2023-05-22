@@ -19,7 +19,7 @@
         <div
           class="preloader-wrapper flex justify-center items-center h-full w-full"
         >
-          Loading
+          <img class="w-16" src="~/public/oval.svg" />
         </div>
       </Transition>
     </template>
