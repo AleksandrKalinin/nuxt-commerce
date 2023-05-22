@@ -9,7 +9,9 @@
         placeholder="Search"
         class="leading-7 py-2 px-4 border sky-blue-400 w-72 mr-2"
       />
-      <button class="text-lg px-7 py-2 bg-sky-400 text-white rounded-none">
+      <button
+        class="transition duration-200 hover:bg-sky-500 text-lg px-7 mx-auto py-2 bg-sky-400 text-white rounded-none"
+      >
         Добавить
       </button>
     </div>

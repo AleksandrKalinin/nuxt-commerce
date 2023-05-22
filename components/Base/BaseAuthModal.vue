@@ -1,15 +1,15 @@
 <template>
   <button
     @click="modalOpen = true"
-    class="text-lg px-7 py-2 bg-white text-sky-300 rounded-none"
+    class="text-lg px-7 py-2 bg-white text-sky-400 rounded-none"
   >
-    Open modal
+    Log in
   </button>
   <Teleport to="body">
     <Transition>
       <div
         v-if="modalOpen"
-        class="overlay fixed overflow-y-auto z-10 w-full h-screen bg-sky-300/75 flex justify-center items-center"
+        class="overlay fixed overflow-y-auto z-10 w-full h-screen bg-sky-400/75 flex justify-center items-center"
       >
         <div class="w-[500px] bg-white p-10 opacity-100" ref="target">
           <h1 class="text-xl tracking-wider uppercase mb-4 text-center">
@@ -22,16 +22,16 @@
             <input
               type="email"
               v-model="email"
-              class="h-12 bg-white border bg-sky-300 rounded-none mb-4 px-3 text-xl"
+              class="h-12 bg-white border bg-sky-400 rounded-none mb-4 px-3 text-xl"
             />
             <input
               type="password"
               v-model="password"
-              class="h-12 bg-white border bg-sky-300 rounded-none mb-4 px-3 text-xl"
+              class="h-12 bg-white border bg-sky-400 rounded-none mb-4 px-3 text-xl"
             />
             <input
               type="submit"
-              class="bg-sky-300 text-white px-8 py-4 block text-xl uppercase cursor-pointer"
+              class="bg-sky-400 text-white px-8 py-4 block text-xl cursor-pointer tracking-wider"
               :value="userExists ? 'Log in' : 'Register now'"
             />
           </form>
