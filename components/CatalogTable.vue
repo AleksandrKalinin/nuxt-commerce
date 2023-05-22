@@ -1,5 +1,11 @@
 <template>
-  <BaseTable :header="header" :data="data"></BaseTable>
+  <BaseTable :header="header" :data="data" v-if="data?.length"> </BaseTable>
+  <div
+    v-else
+    class="preloader-wrapper flex justify-center items-center h-full w-full"
+  >
+    Loading
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -8,8 +14,9 @@ import { useCatalogStore } from "~/store/catalog";
 const store = useCatalogStore();
 
 const data = computed(() => {
-  return store.catalogItems?.map((item) => {
+  return store.catalogItems?.slice(store.currentPage, 12).map((item) => {
     return {
+      id: item.id,
       name: item.name,
       photo: item.photo,
       item_code: item.item_code,
@@ -24,6 +31,11 @@ onMounted(() => {
 });
 
 const header = [
+  {
+    label: "Id",
+    value: "id",
+    type: "plain",
+  },
   {
     label: "Название",
     value: "name",

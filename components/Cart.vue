@@ -1,15 +1,31 @@
 <template>
-  <BaseTable :header="header" :data="cartItems" />
-  <div class="py-5 flex flex-row justify-end items-center">
-    <p class="font-bold text-2xl mr-5">
-      Total: {{ cartStore.totalSum }}
-      <button
-        class="text-lg px-7 py-2 bg-sky-400 text-white rounded-none"
-        @click="cartStore.addToCart(1)"
-      >
-        Оформить заказ
-      </button>
-    </p>
+  <template v-if="cartItems.length">
+    <BaseTable :header="header" :data="cartItems" />
+    <div class="py-5 flex flex-row justify-end items-center">
+      <p class="font-bold text-2xl mr-5">
+        Total: {{ cartStore.totalSum }}
+        <button
+          class="text-lg px-7 py-2 bg-sky-400 text-white rounded-none"
+          @click="cartStore.addToCart(1)"
+        >
+          Оформить заказ
+        </button>
+      </p>
+    </div>
+  </template>
+
+  <div class="w-full h-80 flex flex-col justify-center items-center text-2xl">
+    <div class="flex justify-center items-center mb-6">
+      <p class="text-2xl">Your cart is empty</p>
+      <div class="w-16 h-16 ml-2">
+        <img src="~/public/sad.svg" class="w-full" />
+      </div>
+    </div>
+    <NuxtLink
+      to="/"
+      class="text-lg px-7 mx-auto py-2 bg-sky-400 text-white rounded-none"
+      >Back to catalog</NuxtLink
+    >
   </div>
 </template>
 

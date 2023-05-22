@@ -1,5 +1,11 @@
 <template>
-  <BaseTable :header="header" :data="data" />
+  <BaseTable :header="header" :data="data" v-if="data.length" />
+  <div
+    v-else
+    class="preloader-wrapper flex justify-center items-center h-full w-full"
+  >
+    Loading
+  </div>
 </template>
 
 <script setup lang="ts">

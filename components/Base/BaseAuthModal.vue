@@ -1,5 +1,10 @@
 <template>
-  <button @click="modalOpen = true">Open modal</button>
+  <button
+    @click="modalOpen = true"
+    class="text-lg px-7 py-2 bg-white text-sky-300 rounded-none"
+  >
+    Open modal
+  </button>
   <Teleport to="body">
     <Transition>
       <div
@@ -66,8 +71,6 @@ const loginUser = async () => {
     email: email.value,
     password: password.value,
   });
-  //console.log(data);
-  //console.log(error);
 };
 
 const registerUser = async () => {
@@ -75,8 +78,6 @@ const registerUser = async () => {
     email: email.value,
     password: password.value,
   });
-  //console.log(data);
-  //console.log(error);
 };
 
 onMounted(() => {
