@@ -18,7 +18,7 @@
     <div class="flex justify-center items-center mb-6">
       <p class="text-2xl">Your cart is empty</p>
       <div class="w-16 h-16 ml-2">
-        <img src="~/public/sad.svg" class="w-full" />
+        <img src="~/assets/sad.svg" class="w-full" />
       </div>
     </div>
     <NuxtLink

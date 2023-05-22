@@ -9,7 +9,7 @@
         <div class="border rounded flex items-center ml-6 bg-white py-2 px-4">
           <div class="w-8 h-8 mr-2">
             <img
-              src="~/public/cart.svg"
+              src="~/assets/cart.svg"
               class="w-full text-white cursor-pointer block"
             />
           </div>
