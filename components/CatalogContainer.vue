@@ -8,7 +8,7 @@
           class="grid gap-4 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1"
         >
           <CatalogItem
-            v-for="item in catalogItems?.slice(store.currentPage, 12)"
+            v-for="item in catalogItems?.slice(start, end)"
             :item="item"
           />
         </div>
@@ -23,22 +23,28 @@
         </div>
       </Transition>
     </template>
-    <BasePagination />
+    <BasePagination :items="catalogItems" />
   </section>
 </template>
 
 <script setup lang="ts">
 import { useCatalogStore } from "~/store/catalog";
 import { useDatabaseStore } from "~/store/database";
+import { usePaginationStore } from "~/store/pagination";
 const store = useCatalogStore();
+const pagesStore = usePaginationStore();
 const dbStore = useDatabaseStore();
 
 const catalogItems = computed(() => {
   return store.selectedItems;
 });
 
-const page = computed(() => {
-  return store.currentPage;
+const start = computed(() => {
+  return pagesStore.currentPage * 12;
+});
+
+const end = computed(() => {
+  return (pagesStore.currentPage + 1) * 12;
 });
 
 onMounted(() => {
