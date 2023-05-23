@@ -1,6 +1,7 @@
 <template>
   <template v-if="cartItems.length">
     <BaseTable :header="header" :data="cartItems" />
+
     <div class="py-5 flex flex-row justify-end items-center">
       <p class="font-bold text-2xl mr-5">
         Total: {{ cartStore.totalSum }}
@@ -14,7 +15,10 @@
     </div>
   </template>
 
-  <div class="w-full h-80 flex flex-col justify-center items-center text-2xl">
+  <div
+    v-else
+    class="w-full h-80 flex flex-col justify-center items-center text-2xl"
+  >
     <div class="flex justify-center items-center mb-6">
       <p class="text-2xl">Your cart is empty</p>
       <div class="w-16 h-16 ml-2">
@@ -77,12 +81,15 @@ const header = [
   },
   {
     label: "",
-    value: "",
+    value: "_nuxt/assets/delete.svg",
     type: "icon",
     action: deleteItem,
-    iconUrl: "./delete.svg",
   },
 ];
+
+onMounted(() => {
+  cartStore.getCartItems();
+});
 </script>
 
 <style scoped></style>

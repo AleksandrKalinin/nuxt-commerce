@@ -4,10 +4,6 @@ export function filterAndSortArray(
   sortValue: string,
   sortOrder: boolean
 ) {
-  console.log(arrayInput),
-    console.log(searchValue),
-    console.log(sortValue),
-    console.log(sortOrder);
   const filteredArray = [
     ...arrayInput.filter((item: any) => {
       return item.id

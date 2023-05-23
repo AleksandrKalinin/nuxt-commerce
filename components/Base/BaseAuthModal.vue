@@ -52,6 +52,9 @@
 </template>
 
 <script setup lang="ts">
+import { useUsersStore } from "~/store/users";
+
+const usersStore = useUsersStore();
 const modalOpen = ref(false);
 const userExists = ref(true);
 const target = ref(null);
@@ -78,6 +81,7 @@ const registerUser = async () => {
     email: email.value,
     password: password.value,
   });
+  usersStore.addUser(email.value);
 };
 
 onMounted(() => {
