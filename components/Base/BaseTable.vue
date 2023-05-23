@@ -21,7 +21,10 @@
             </div>
           </td>
           <td v-else-if="option.type === 'toggle'" class="py-4">
-            <BaseToggleInput :state="item[option.value]" />
+            <BaseToggleInput
+              :state="item[option.value]"
+              @change="adminStore.toggleVisibility($event, item.id)"
+            />
           </td>
           <td v-else-if="option.type === 'number'" class="py-4">
             <input
@@ -46,8 +49,10 @@
 
 <script setup lang="ts">
 import { useFilterStore } from "~/store/filter";
+import { useAdminStore } from "~/store/admin";
 const props = defineProps(["header", "data"]);
 const store = useFilterStore();
+const adminStore = useAdminStore();
 
 const sortOrder = computed(() => {
   return store.sortOrder;

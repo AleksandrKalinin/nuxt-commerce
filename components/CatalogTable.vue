@@ -9,9 +9,11 @@
 </template>
 
 <script setup lang="ts">
+import { useAdminStore } from "~/store/admin";
 import { useCatalogStore } from "~/store/catalog";
 
 const store = useCatalogStore();
+const adminStore = useAdminStore();
 
 const data = computed(() => {
   return store.catalogItems?.slice(store.currentPage, 30).map((item) => {
@@ -80,16 +82,17 @@ const header = [
     label: "Видимость",
     value: "is_visible",
     type: "toggle",
+    action: adminStore.toggleVisibility,
   },
   {
     label: "",
-    value: "./edit.svg",
+    value: "_nuxt/assets/edit.svg",
     type: "icon",
     action: editItem,
   },
   {
     label: "",
-    value: "./delete.svg",
+    value: "_nuxt/assets/delete.svg",
     type: "icon",
     action: deleteItem,
   },

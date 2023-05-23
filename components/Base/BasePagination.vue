@@ -30,7 +30,7 @@ import { useCatalogStore } from "~/store/catalog";
 const store = useCatalogStore();
 const pageNumbers = computed(() => {
   let numbers = [];
-  for (let i = 1; i <= Math.ceil(store.selectedItems.length / 12); i++) {
+  for (let i = 1; i <= Math.ceil(store.selectedItems!.length / 12); i++) {
     numbers.push(i);
   }
   return numbers;
@@ -41,7 +41,7 @@ const firstPage = () => {
 };
 
 const lastPage = () => {
-  const maxLength = Math.ceil(store.selectedItems.length / 12);
+  const maxLength = Math.ceil(store.selectedItems!.length / 12);
   store.currentPage = maxLength - 1;
 };
 
