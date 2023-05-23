@@ -5,17 +5,25 @@
         <img :src="selectedItem.photo" />
       </div>
       <div class="w-full p-5">
-        <h1 class="text-lg mb-2">{{ selectedItem.name }}</h1>
-        <p class="mb-2">Производитель: {{ selectedItem.manufacturer }}</p>
-        <p class="mb-2">
-          Гарантия:
-          {{ "12 месяцев" }}
+        <h1 class="text-3xl font-semibold mb-2">{{ selectedItem.name }}</h1>
+        <p class="mb-3">
+          <span class="text-xl font-semibold">Производитель:</span>
+          {{ selectedItem.manufacturer }}
         </p>
-        <p class="mb-2">Есть в наличии</p>
+        <p class="mb-3">
+          <span class="text-xl font-semibold">Гарантия:</span>
+          {{ selectedItem.warranty }} месяцев
+        </p>
+        <p class="mb-3">
+          <span class="text-xl font-semibold">{{
+            selectedItem.in_stock ? "Есть в наличии" : "Нет в наличии"
+          }}</span>
+        </p>
         <button
-          class="mt-5 text-lg px-7 mx-auto py-2 bg-sky-400 text-white rounded-none"
+          class="mt-5 text-lg px-7 py-2 hover:bg-sky-500 bg-sky-400 text-white rounded-none flex items-center justify-center"
         >
-          Добавить в корзину
+          <img class="w-6 h-6 mr-1" src="~/assets/shopping-bag.svg" /> Добавить
+          в корзину
         </button>
       </div>
     </div>

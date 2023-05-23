@@ -1,6 +1,7 @@
 <template>
   <div class="navigation w-100 flex justify-between items-center pb-5">
     <div class="navigation__sorting flex justify-between">
+      <span class="mr-3"> Сортировать: </span>
       <span
         class="sorting-option mr-3 text-base cursor-pointer"
         @click="store.updateSort('date')"

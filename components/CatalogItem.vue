@@ -30,7 +30,7 @@ const cartStore = useCartStore();
 const props = defineProps(["item"]);
 
 const itemRoute = computed(() => {
-  return "/" + 1;
+  return "/catalog/" + props.item.id;
 });
 </script>
 
