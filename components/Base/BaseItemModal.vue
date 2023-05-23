@@ -18,9 +18,9 @@
           <form
             ref="form"
             class="w-full flex flex-col mb-4"
-            @submit.prevent="getValues"
+            @submit.prevent="callFunction"
           >
-            <template v-for="item in inputFields">
+            <template v-for="item in store.inputFields">
               <input
                 v-if="item.elType === 'input'"
                 v-model="item.default"
@@ -31,7 +31,7 @@
               <input
                 v-else-if="item.elType === 'file'"
                 type="file"
-                @change="selectImage"
+                @change="store.selectImage"
                 :name="item.name"
                 :placeholder="item.placeholder"
                 class="file:mr-4 file:py-2 file:px-4 file:rounded-none file:border-0 file:text-xl file:bg-sky-400 file:text-white hover:file:bg-sky-500 cursor-pointer mb-4"
@@ -50,7 +50,7 @@
             <input
               type="submit"
               class="bg-sky-400 text-white px-8 py-4 block text-xl cursor-pointer tracking-wider"
-              :value="activeItem ? 'Edit item' : 'Create item'"
+              :value="store.activeItem ? 'Edit item' : 'Create item'"
             />
           </form>
         </div>
@@ -60,7 +60,9 @@
 </template>
 
 <script setup lang="ts">
-import { v4 as uuidv4 } from "uuid";
+import { useAdminStore } from "~/store/admin";
+
+const store = useAdminStore();
 const modalOpen = ref(false);
 const target = ref(null);
 
@@ -68,203 +70,12 @@ onClickOutside(target, () => {
   modalOpen.value = false;
 });
 
-const activeItem = ref(false);
-const image = ref(null);
-const inputFields = [
-  {
-    name: "photo",
-    dataType: "string",
-    elType: "file",
-    default: "",
-    placeholder: "Drop a photo or select it manually",
-  },
-  {
-    name: "name",
-    dataType: "string",
-    elType: "input",
-    default: "",
-    placeholder: "Item name",
-  },
-  {
-    name: "price",
-    dataType: "number",
-    elType: "input",
-    default: "",
-    placeholder: "Price",
-  },
-  {
-    name: "manufacturer",
-    dataType: "string",
-    elType: "input",
-    default: "",
-    placeholder: "Manufacturer",
-  },
-  {
-    name: "type",
-    dataType: "string",
-    elType: "input",
-    default: "",
-    placeholder: "Type",
-  },
-  {
-    name: "battery_type",
-    dataType: "string",
-    elType: "input",
-    default: "",
-    placeholder: "Battery type",
-  },
-  {
-    name: "pixels",
-    dataType: "number",
-    elType: "input",
-    default: "",
-    placeholder: "Pixels",
-  },
-  {
-    name: "max_FPS_video",
-    dataType: "number",
-    elType: "input",
-    default: "",
-    placeholder: "Max. video framerate",
-  },
-  {
-    name: "max_FPS_photo",
-    dataType: "number",
-    elType: "input",
-    default: "",
-    placeholder: "Max. photo framerate",
-  },
-  {
-    name: "max_sensitivity",
-    dataType: "number",
-    elType: "input",
-    default: "",
-    placeholder: "Max. sensitivity",
-  },
-  {
-    name: "min_sensitivity",
-    dataType: "number",
-    elType: "input",
-    default: "",
-    placeholder: "Min. sensitivity",
-  },
-  {
-    name: "max_resolution",
-    dataType: "number",
-    elType: "input",
-    default: "",
-    placeholder: "Max. resolution",
-  },
-  {
-    name: "wi_fi",
-    dataType: "boolean",
-    elType: "select",
-    options: [true, false],
-    default: "",
-    placeholder: "Wi-Fi",
-  },
-  {
-    name: "card_support",
-    dataType: "string",
-    elType: "input",
-    default: "",
-    placeholder: "Support card types",
-  },
-  {
-    name: "matrix_type",
-    dataType: "string",
-    elType: "input",
-    default: "",
-    placeholder: "Matrix type",
-  },
-  {
-    name: "matrix_size",
-    dataType: "string",
-    elType: "input",
-    default: "",
-    placeholder: "Matrix size",
-  },
-  {
-    name: "warranty",
-    dataType: "number",
-    elType: "input",
-    default: "",
-    placeholder: "Warranty(months)",
-  },
-  {
-    name: "in_stock",
-    dataType: "number",
-    elType: "input",
-    default: "",
-    placeholder: "Items in stock",
-  },
-  {
-    name: "item_code",
-    dataType: "number",
-    elType: "input",
-    default: "",
-    placeholder: "Item code",
-  },
-  {
-    name: "is_visible",
-    dataType: "boolean",
-    elType: "select",
-    options: [true, false],
-    default: "",
-    placeholder: "Visible for customers",
-  },
-];
-
-const selectImage = (e: any) => {
-  image.value = e.target.files[0];
-};
-
 const form = ref(null);
 
-const formValues = {
-  date: new Date().toISOString(),
-  popularity: 0,
-  rating: 0,
-} as any;
-
-const client = useSupabaseClient();
-
-const getValues = async () => {
-  if (form.value) {
-    for (let i = 0; i < form.value.length; i++) {
-      const curVal = form.value[i] as HTMLInputElement;
-      if (curVal.type !== "submit") {
-        const key = curVal.name;
-        if (curVal.type === "file") {
-          const filename: string = uuidv4();
-          try {
-            const { data, error } = await client.storage
-              .from("catalog")
-              .upload(`${filename}.png`, image.value!, {
-                cacheControl: "3600",
-                upsert: false,
-              });
-            const path = client.storage
-              .from("catalog")
-              .getPublicUrl(data?.path!).data.publicUrl;
-            formValues[key as keyof BaseItemModalForm] = path;
-          } catch (e) {
-            console.log(e);
-          }
-        } else {
-          formValues[key as keyof BaseItemModalForm] = curVal.value;
-        }
-      }
-    }
-  }
-  addItem();
+const callFunction = () => {
+  const values = form.value;
+  store.addItem(values);
 };
-
-const addItem = async () => {
-  const { data, error } = await client.from("catalog").insert([formValues]);
-};
-
-const editItem = () => {};
 </script>
 
 <style scoped></style>

@@ -47,7 +47,7 @@ const deleteItem = async (id: number) => {
 
 const header = [
   {
-    label: "Id",
+    label: "ID",
     value: "id",
     type: "plain",
   },
