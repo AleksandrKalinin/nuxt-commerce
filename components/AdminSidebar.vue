@@ -2,11 +2,23 @@
   <aside class="admin-panel w-96 border sky-blue-400 p-4">
     <div class="admin-panel__categories">
       <div class="">
-        <a class="text-lg p-2 w-full flex cursor-pointer">Каталог</a>
+        <NuxtLink class="text-lg p-2 w-full flex cursor-pointer" to="/admin"
+          >Каталог</NuxtLink
+        >
       </div>
-      <div><a class="text-lg p-2 w-full flex cursor-pointer">Заказы</a></div>
       <div>
-        <a class="text-lg p-2 w-full flex cursor-pointer">Пользователи</a>
+        <NuxtLink
+          class="text-lg p-2 w-full flex cursor-pointer"
+          to="/admin/orders"
+          >Заказы</NuxtLink
+        >
+      </div>
+      <div>
+        <NuxtLink
+          class="text-lg p-2 w-full flex cursor-pointer"
+          to="/admin/users"
+          >Пользователи</NuxtLink
+        >
       </div>
     </div>
   </aside>

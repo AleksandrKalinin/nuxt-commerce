@@ -1,8 +1,5 @@
 import { defineStore } from "pinia";
 import { createClient } from "@supabase/supabase-js";
-import { PrismaClient } from "@prisma/client";
-
-//const prisma = new PrismaClient();
 
 export const useCatalogStore = defineStore("catalog", () => {
   const config = useSupabaseConfig();
@@ -14,7 +11,7 @@ export const useCatalogStore = defineStore("catalog", () => {
       let { data, error } = await client
         .from("catalog")
         .select(
-          "id, name, price, date, manufacturer, photo, type, battery_type, pixels, max_FPS_video, max_FPS_photo, max_sensitivity, max_resolution, min_sensitivity, wi_fi, card_support, matrix_type, matrix_size, popularity, rating, warranty, in_stock"
+          "id, name, price, date, manufacturer, photo, type, battery_type, pixels, max_FPS_video, max_FPS_photo, max_sensitivity, max_resolution, min_sensitivity, wi_fi, card_support, matrix_type, matrix_size, popularity, rating, warranty, in_stock, item_code, is_visible"
         );
       catalogItems.value = data;
     } catch (e) {
@@ -33,8 +30,12 @@ export const useCatalogStore = defineStore("catalog", () => {
 
   const searchValue = ref("");
 
+  const visibleItems = computed(() => {
+    return catalogItems.value?.filter((item) => item.is_visible === true);
+  });
+
   const filteredItems = computed(() => {
-    return catalogItems.value?.filter((item: CatalogItem) => {
+    return visibleItems.value?.filter((item: CatalogItem) => {
       return item.name.toLowerCase().includes(searchValue.value.toLowerCase());
     });
   });
@@ -84,7 +85,7 @@ export const useCatalogStore = defineStore("catalog", () => {
   const manufacturers = computed(() => {
     const labels = [
       ...new Set(
-        catalogItems.value?.map((item: CatalogItem) => item.manufacturer)
+        visibleItems.value?.map((item: CatalogItem) => item.manufacturer)
       ),
     ].map((label) => {
       const obj = {} as SelectOption;
@@ -97,7 +98,7 @@ export const useCatalogStore = defineStore("catalog", () => {
 
   const types = computed(() => {
     const labels = [
-      ...new Set(catalogItems.value?.map((item: CatalogItem) => item.type)),
+      ...new Set(visibleItems.value?.map((item: CatalogItem) => item.type)),
     ].map((label) => {
       const obj = {} as SelectOption;
       obj.label = label;
@@ -110,7 +111,7 @@ export const useCatalogStore = defineStore("catalog", () => {
   const matrixTypes = computed(() => {
     const labels = [
       ...new Set(
-        catalogItems.value?.map((item: CatalogItem) => item.matrix_type)
+        visibleItems.value?.map((item: CatalogItem) => item.matrix_type)
       ),
     ].map((label) => {
       const obj = {} as SelectOption;
@@ -124,7 +125,7 @@ export const useCatalogStore = defineStore("catalog", () => {
   const matrixSizes = computed(() => {
     const labels = [
       ...new Set(
-        catalogItems.value?.map((item: CatalogItem) => item.matrix_size)
+        visibleItems.value?.map((item: CatalogItem) => item.matrix_size)
       ),
     ].map((label) => {
       const obj = {} as SelectOption;
@@ -137,7 +138,7 @@ export const useCatalogStore = defineStore("catalog", () => {
 
   const matrixPixels = computed(() => {
     const labels = [
-      ...new Set(catalogItems.value?.map((item: CatalogItem) => item.pixels)),
+      ...new Set(visibleItems.value?.map((item: CatalogItem) => item.pixels)),
     ].map((label) => {
       const obj = {} as SelectOption;
       obj.label = label;
@@ -210,8 +211,6 @@ export const useCatalogStore = defineStore("catalog", () => {
     }
   };
 
-  const currentPage = ref(0);
-
   return {
     catalogItems,
     fetchCatalogItems,
@@ -225,6 +224,5 @@ export const useCatalogStore = defineStore("catalog", () => {
     filteringOptions,
     selectedItems,
     selectItem,
-    currentPage,
   };
 });

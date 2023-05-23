@@ -2,9 +2,32 @@ import { defineStore } from "pinia";
 import { useCatalogStore } from "./catalog";
 
 export const useCartStore = defineStore("cart", () => {
-  const cartItems: Ref<CartItem[]> = ref([]);
+  const client = useSupabaseClient();
+  const userId = ref("");
+  const dbItems: any = ref([]);
   const catalogStore = useCatalogStore();
   catalogStore.fetchCatalogItems();
+
+  const getCartItems = async () => {
+    const {
+      data: { user },
+    } = await client.auth.getUser();
+
+    let { data, error } = await client
+      .from("users")
+      .select("cart")
+      .eq("user_id", user?.id);
+    dbItems.value = data[0].cart;
+  };
+
+  const cartItems = computed(() => {
+    return dbItems.value.map((el) => {
+      const item = el.item;
+      item.amount = el.amount;
+      item.total = el.amount * item.price;
+      return item;
+    });
+  });
 
   const totalSum = computed(() => {
     return cartItems.value.reduce((acc: number, item: CartItem) => {
@@ -48,5 +71,6 @@ export const useCartStore = defineStore("cart", () => {
     totalSum,
     updateAmount,
     deleteItem,
+    getCartItems,
   };
 });

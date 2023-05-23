@@ -1,5 +1,8 @@
 <template>
   <aside class="w-96 border sky-blue-400">
+    <h3 class="flex justify-center text-center py-5 text-2xl font-semibold">
+      Фильтры
+    </h3>
     <div
       v-for="item in store.filteringOptions"
       class="filter-section border-b-1 sky-blue-400 p-5"

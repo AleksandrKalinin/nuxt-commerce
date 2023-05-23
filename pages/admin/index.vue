@@ -5,12 +5,15 @@
       <AdminPanel />
       <div class="columns-1">
         <CatalogTable />
-        <BasePagination />
+        <BasePagination :items="store.catalogItems" />
       </div>
     </section>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useCatalogStore } from "~/store/catalog";
+const store = useCatalogStore();
+</script>
 
 <style scoped></style>

@@ -5,12 +5,15 @@
       <AdminPanel />
       <div class="columns-1">
         <UsersTable />
-        <BasePagination />
+        <BasePagination :items="store.users" />
       </div>
     </section>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useUsersStore } from "~/store/users";
+const store = useUsersStore();
+</script>
 
 <style scoped></style>

@@ -1,32 +1,47 @@
 <template>
-  <table
-    class="w-full border-separate border-spacing-2 border sky-blue-400 py-5 px-3"
+  <BaseTable v-if="data?.length" :header="header" :data="data"></BaseTable>
+  <div
+    v-else
+    class="preloader-wrapper flex justify-center items-center h-full w-full"
   >
-    <thead>
-      <tr class="text-left cursor-pointer">
-        <th>№</th>
-        <th>Дата заказа</th>
-        <th>Стоимость</th>
-        <th>Статус</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="text-left border-t-2 sky-blue-400">
-        <td class="py-4">1</td>
-        <td class="py-4">22.04.2023 12.04</td>
-        <td class="py-4">1234.32$</td>
-        <td class="py-4">Выполнен</td>
-      </tr>
-      <tr class="text-left border-t-2 sky-blue-400">
-        <td class="py-4">2</td>
-        <td class="py-4">22.04.2023 12.04</td>
-        <td class="py-4">1234.32$</td>
-        <td class="py-4">Выполнен</td>
-      </tr>
-    </tbody>
-  </table>
+    <img class="w-16" src="~/assets/oval.svg" />
+  </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useOrdersStore } from "~/store/orders";
+const store = useOrdersStore();
+
+const header = [
+  {
+    label: "№",
+    value: "id",
+    type: "plain",
+  },
+  {
+    label: "Дата заказа",
+    value: "created_at",
+    type: "plain",
+  },
+  {
+    label: "Сумма",
+    value: "total",
+    type: "plain",
+  },
+  {
+    label: "Статус",
+    value: "status",
+    type: "plain",
+  },
+];
+
+const data = computed(() => {
+  return store.orders;
+});
+
+onMounted(() => {
+  store.fetchOrders();
+});
+</script>
 
 <style scoped></style>

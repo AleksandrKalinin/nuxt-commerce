@@ -4,11 +4,13 @@
   >
     <thead>
       <tr class="text-left cursor-pointer">
-        <th v-for="item in header">{{ item.label }}</th>
+        <th @click="store.updateSort(item.value)" v-for="item in header">
+          {{ item.label }}
+        </th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="item in data" class="text-left">
+      <tr v-for="item in sortedItems" class="text-left">
         <template v-for="option in header">
           <td v-if="option.type === 'plain'" class="py-4">
             {{ item[option.value] }}
@@ -19,7 +21,10 @@
             </div>
           </td>
           <td v-else-if="option.type === 'toggle'" class="py-4">
-            <BaseToggleInput :state="item[option.value]" />
+            <BaseToggleInput
+              :state="item[option.value]"
+              @change="adminStore.toggleVisibility($event, item.id)"
+            />
           </td>
           <td v-else-if="option.type === 'number'" class="py-4">
             <input
@@ -31,7 +36,7 @@
           </td>
           <td v-else-if="option.type === 'icon'" class="py-4">
             <img
-              :src="option.iconUrl"
+              :src="option.value"
               class="w-8 h-12 cursor-pointer"
               @click="option.action(item.id)"
             />
@@ -43,7 +48,64 @@
 </template>
 
 <script setup lang="ts">
+import { useFilterStore } from "~/store/filter";
+import { useAdminStore } from "~/store/admin";
 const props = defineProps(["header", "data"]);
+const store = useFilterStore();
+const adminStore = useAdminStore();
+
+const sortOrder = computed(() => {
+  return store.sortOrder;
+});
+
+const searchValue = computed(() => {
+  return store.searchValue;
+});
+
+const sortValue = computed(() => {
+  return store.sortValue;
+});
+
+const filteredItems = computed(() => {
+  return props.data.filter((item: any) => {
+    return item.id
+      .toString()
+      .toLowerCase()
+      .includes(searchValue.value.toLowerCase());
+  });
+});
+
+const sortedItems = computed(() => {
+  const val = sortValue.value;
+  const order = sortOrder.value;
+  if (val === "default") {
+    return filteredItems.value;
+  } else {
+    if (order === true) {
+      return [
+        ...filteredItems.value.sort((a: CatalogItem, b: CatalogItem) => {
+          if (a[val as keyof CatalogItem] === "") return +1;
+          if (b[val as keyof CatalogItem] === "") return -1;
+          else
+            return a[val as keyof CatalogItem]
+              .toString()
+              .localeCompare(b[val as keyof CatalogItem].toString());
+        }),
+      ];
+    } else {
+      return [
+        ...filteredItems.value.sort((a: CatalogItem, b: CatalogItem) => {
+          if (a[val as keyof CatalogItem] === "") return +1;
+          if (b[val as keyof CatalogItem] === "") return -1;
+          else
+            return b[val as keyof CatalogItem]
+              .toString()
+              .localeCompare(a[val as keyof CatalogItem].toString());
+        }),
+      ];
+    }
+  }
+});
 </script>
 
 <style scoped></style>

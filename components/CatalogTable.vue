@@ -1,9 +1,68 @@
 <template>
-  <BaseTable :header="header" :data="data"></BaseTable>
+  <BaseTable :header="header" :data="data" v-if="data?.length"> </BaseTable>
+  <div
+    v-else
+    class="preloader-wrapper flex justify-center items-center h-full w-full"
+  >
+    <img class="w-16" src="~/assets/oval.svg" />
+  </div>
 </template>
 
 <script setup lang="ts">
+import { useAdminStore } from "~/store/admin";
+import { useCatalogStore } from "~/store/catalog";
+import { usePaginationStore } from "~/store/pagination";
+
+const store = useCatalogStore();
+const adminStore = useAdminStore();
+const pagesStore = usePaginationStore();
+
+const start = computed(() => {
+  return pagesStore.currentPage * 12;
+});
+
+const end = computed(() => {
+  return (pagesStore.currentPage + 1) * 12;
+});
+
+const data = computed(() => {
+  return store.catalogItems?.slice(start.value, end.value).map((item) => {
+    return {
+      id: item.id,
+      name: item.name,
+      photo: item.photo,
+      item_code: item.item_code,
+      date: item.date,
+      in_stock: item.in_stock,
+      is_visible: item.is_visible,
+    };
+  });
+});
+
+onMounted(() => {
+  store.fetchCatalogItems();
+});
+
+const editItem = (id: number) => {
+  console.log("edit", id);
+};
+
+const client = useSupabaseClient();
+
+const deleteItem = async (id: number) => {
+  try {
+    const { error } = await client.from("catalog").delete().eq("id", id);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 const header = [
+  {
+    label: "ID",
+    value: "id",
+    type: "plain",
+  },
   {
     label: "Название",
     value: "name",
@@ -16,146 +75,36 @@ const header = [
   },
   {
     label: "Артикул",
-    value: "articul",
+    value: "item_code",
+    type: "plain",
+  },
+  {
+    label: "Дата",
+    value: "date",
     type: "plain",
   },
   {
     label: "Остаток",
-    value: "amount",
+    value: "in_stock",
     type: "plain",
   },
   {
     label: "Видимость",
-    value: "visibility",
+    value: "is_visible",
     type: "toggle",
-  },
-];
-const data = [
-  {
-    name: "Canon 2340",
-    photo: "/images/1.jpg",
-    articul: "3868746",
-    amount: "12",
-    visibility: true,
+    action: adminStore.toggleVisibility,
   },
   {
-    name: "Canon 2340",
-    photo: "/images/1.jpg",
-    articul: "3868746",
-    amount: "12",
-    visibility: true,
+    label: "",
+    value: "_nuxt/assets/edit.svg",
+    type: "icon",
+    action: editItem,
   },
   {
-    name: "Canon 2340",
-    photo: "/images/1.jpg",
-    articul: "3868746",
-    amount: "12",
-    visibility: true,
-  },
-  {
-    name: "Canon 2340",
-    photo: "/images/1.jpg",
-    articul: "3868746",
-    amount: "12",
-    visibility: true,
-  },
-  {
-    name: "Canon 2340",
-    photo: "/images/1.jpg",
-    articul: "3868746",
-    amount: "12",
-    visibility: true,
-  },
-  {
-    name: "Canon 2340",
-    photo: "/images/1.jpg",
-    articul: "3868746",
-    amount: "12",
-    visibility: true,
-  },
-  {
-    name: "Canon 2340",
-    photo: "/images/1.jpg",
-    articul: "3868746",
-    amount: "12",
-    visibility: true,
-  },
-  {
-    name: "Canon 2340",
-    photo: "/images/1.jpg",
-    articul: "3868746",
-    amount: "12",
-    visibility: true,
-  },
-  {
-    name: "Canon 2340",
-    photo: "/images/1.jpg",
-    articul: "3868746",
-    amount: "12",
-    visibility: true,
-  },
-  {
-    name: "Canon 2340",
-    photo: "/images/1.jpg",
-    articul: "3868746",
-    amount: "12",
-    visibility: true,
-  },
-  {
-    name: "Canon 2340",
-    photo: "/images/1.jpg",
-    articul: "3868746",
-    amount: "12",
-    visibility: true,
-  },
-  {
-    name: "Canon 2340",
-    photo: "/images/1.jpg",
-    articul: "3868746",
-    amount: "12",
-    visibility: true,
-  },
-  {
-    name: "Canon 2340",
-    photo: "/images/1.jpg",
-    articul: "3868746",
-    amount: "12",
-    visibility: true,
-  },
-  {
-    name: "Canon 2340",
-    photo: "/images/1.jpg",
-    articul: "3868746",
-    amount: "12",
-    visibility: true,
-  },
-  {
-    name: "Canon 2340",
-    photo: "/images/1.jpg",
-    articul: "3868746",
-    amount: "12",
-    visibility: true,
-  },
-  {
-    name: "Canon 2340",
-    photo: "/images/1.jpg",
-    articul: "3868746",
-    amount: "12",
-    visibility: true,
-  },
-  {
-    name: "Canon 2340",
-    photo: "/images/1.jpg",
-    articul: "3868746",
-    amount: "12",
-    visibility: true,
-  },
-  {
-    name: "Canon 2340",
-    photo: "/images/1.jpg",
-    articul: "3868746",
-    amount: "12",
-    visibility: true,
+    label: "",
+    value: "_nuxt/assets/delete.svg",
+    type: "icon",
+    action: deleteItem,
   },
 ];
 </script>

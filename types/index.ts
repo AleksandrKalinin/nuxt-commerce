@@ -1,6 +1,34 @@
 export {};
 
 declare global {
+  interface User {
+    id: number;
+    registration_date: Date;
+    email: string;
+    role: string;
+  }
+
+  interface Order {
+    id: number;
+    created_at: Date;
+    items: OrderItem[];
+    userId: number;
+    user: string;
+    total: number;
+    status: OrderStatus;
+  }
+
+  interface OrderItem {
+    id: number;
+    amount: number;
+  }
+
+  enum OrderStatus {
+    Pending = "Pending",
+    Completed = "Completed",
+    Cancelled = "Cancelled",
+  }
+
   interface CatalogItem {
     name: string;
     id: number;
@@ -24,6 +52,8 @@ declare global {
     rating: number;
     warranty: number;
     in_stock: number;
+    item_code: number;
+    is_visible: boolean;
   }
 
   interface CartItem extends CatalogItem {
@@ -42,5 +72,14 @@ declare global {
     matrix_type: string[];
     matrix_size: string[];
     pixels: string[];
+  }
+
+  interface BaseItemModalForm {
+    name: string;
+    dataType: string;
+    elType: string;
+    default: string;
+    placeholder: string;
+    options?: Boolean[];
   }
 }

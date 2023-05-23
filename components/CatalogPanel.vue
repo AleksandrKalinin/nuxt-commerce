@@ -1,13 +1,14 @@
 <template>
   <div class="navigation w-100 flex justify-between items-center pb-5">
     <div class="navigation__sorting flex justify-between">
+      <span class="mr-3"> Сортировать: </span>
       <span
-        class="sorting-option mr-3 text-sm cursor-pointer"
+        class="sorting-option mr-3 text-base cursor-pointer"
         @click="store.updateSort('date')"
         >По дате добавления</span
       >
       <span
-        class="sorting-option mr-3 text-sm cursor-pointer"
+        class="sorting-option mr-3 text-base cursor-pointer"
         @click="store.updateSort('price')"
         >По цене</span
       >
@@ -16,7 +17,7 @@
       <input
         type="text"
         placeholder="Search"
-        class="leading-7 py-2 px-4 border sky-blue-400 w-72 mr-2"
+        class="leading-7 py-2 px-4 border sky-blue-400 w-72"
         v-model="store.searchValue"
       />
     </div>

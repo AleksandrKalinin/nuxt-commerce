@@ -3,7 +3,7 @@
     <div class="pagination flex cursor-pointer">
       <div
         @click="firstPage"
-        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-3"
+        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5"
       >
         First
       </div>
@@ -17,7 +17,7 @@
       </div>
       <div
         @click="lastPage"
-        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-3"
+        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5"
       >
         Last
       </div>
@@ -26,11 +26,13 @@
 </template>
 
 <script setup lang="ts">
-import { useCatalogStore } from "~/store/catalog";
-const store = useCatalogStore();
+import { usePaginationStore } from "~/store/pagination";
+const props = defineProps(["items"]);
+const store = usePaginationStore();
+
 const pageNumbers = computed(() => {
   let numbers = [];
-  for (let i = 1; i <= Math.ceil(store.selectedItems.length / 12); i++) {
+  for (let i = 1; i <= Math.ceil(props.items.length / 12); i++) {
     numbers.push(i);
   }
   return numbers;
@@ -41,7 +43,7 @@ const firstPage = () => {
 };
 
 const lastPage = () => {
-  const maxLength = Math.ceil(store.selectedItems.length / 12);
+  const maxLength = Math.ceil(props.items.length / 12);
   store.currentPage = maxLength - 1;
 };
 

@@ -1,28 +1,50 @@
 <template>
   <section class="w-full lg:ml-10 ml-5">
     <CatalogPanel />
-    <div class="2xl:columns-4 xl:columns-3 md:columns-2 sm:columns-1">
-      <CatalogItem
-        v-for="item in catalogItems?.slice(store.currentPage, 12)"
-        :item="item"
-      />
-    </div>
-    <BasePagination />
+    <template v-if="catalogItems?.length">
+      <Transition>
+        <div
+          v-if="catalogItems?.length"
+          class="grid gap-4 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1"
+        >
+          <CatalogItem
+            v-for="item in catalogItems?.slice(start, end)"
+            :item="item"
+          />
+        </div>
+      </Transition>
+    </template>
+    <template v-else>
+      <Transition>
+        <div
+          class="preloader-wrapper flex justify-center items-center h-full w-full"
+        >
+          <img class="w-16" src="~/assets/oval.svg" />
+        </div>
+      </Transition>
+    </template>
+    <BasePagination :items="catalogItems" />
   </section>
 </template>
 
 <script setup lang="ts">
 import { useCatalogStore } from "~/store/catalog";
 import { useDatabaseStore } from "~/store/database";
+import { usePaginationStore } from "~/store/pagination";
 const store = useCatalogStore();
+const pagesStore = usePaginationStore();
 const dbStore = useDatabaseStore();
 
 const catalogItems = computed(() => {
   return store.selectedItems;
 });
 
-const page = computed(() => {
-  return store.currentPage;
+const start = computed(() => {
+  return pagesStore.currentPage * 12;
+});
+
+const end = computed(() => {
+  return (pagesStore.currentPage + 1) * 12;
 });
 
 onMounted(() => {
@@ -53,4 +75,14 @@ const item = {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>

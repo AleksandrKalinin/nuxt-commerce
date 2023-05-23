@@ -5,12 +5,15 @@
       <AdminPanel />
       <div class="columns-1">
         <OrdersTable />
-        <BasePagination />
+        <BasePagination :items="store.orders" />
       </div>
     </section>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useOrdersStore } from "~/store/orders";
+const store = useOrdersStore();
+</script>
 
 <style scoped></style>
