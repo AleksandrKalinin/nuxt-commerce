@@ -216,6 +216,7 @@ export const useCatalogStore = defineStore("catalog", () => {
     fetchCatalogItems,
     selectedItem,
     fetchSelectedItem,
+    visibleItems,
     filteredItems,
     searchValue,
     updateSort,
