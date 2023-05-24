@@ -23,6 +23,10 @@ const props = defineProps(["item"]);
 const item = computed(() => {
   return props.item;
 });
+
+const itemRoute = computed(() => {
+  return "/catalog/" + props.item.id;
+});
 </script>
 
 <style scoped></style>

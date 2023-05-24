@@ -16,7 +16,6 @@
 
 <script setup lang="ts">
 import { Carousel, Slide, Navigation } from "vue3-carousel";
-import { useCatalogStore } from "~/store/catalog";
 const props = defineProps(["items"]);
 const { type } = useBreakpoints();
 
@@ -27,6 +26,8 @@ const itemsNumber = computed(() => {
     case "xl":
       return 3;
     case "lg":
+      return 1;
+    default:
       return 1;
   }
 });
