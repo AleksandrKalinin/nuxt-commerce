@@ -1,4 +1,5 @@
 export default defineNuxtConfig({
+  css: ["vue3-carousel/dist/carousel.css"],
   runtimeConfig: {
     public: {
       supabaseUrl: "",

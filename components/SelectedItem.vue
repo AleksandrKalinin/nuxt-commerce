@@ -45,6 +45,7 @@
         </tr>
       </tbody>
     </table>
+    <Gallery :items="galleryItems" />
   </section>
 </template>
 
@@ -115,6 +116,13 @@ const selectedProperties = [
 
 const selectedItem = computed<CatalogItem>((): CatalogItem => {
   return catalogStore.selectedItem as unknown as CatalogItem;
+});
+
+const galleryItems = computed(() => {
+  const random = Math.floor(
+    Math.random() * (catalogStore.visibleItems?.length! - 6) + 1
+  );
+  return catalogStore.visibleItems?.slice(random, random + 7);
 });
 
 onMounted(() => {
