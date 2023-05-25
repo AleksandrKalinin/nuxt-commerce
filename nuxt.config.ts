@@ -20,6 +20,7 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "@nuxtjs/supabase",
     "@nuxtjs/tailwindcss",
+    "@nuxtjs/google-fonts",
     [
       "@pinia/nuxt",
       {
@@ -27,4 +28,9 @@ export default defineNuxtConfig({
       },
     ],
   ],
+  googleFonts: {
+    families: {
+      Raleway: [400, 500, 600, 700],
+    },
+  },
 });
