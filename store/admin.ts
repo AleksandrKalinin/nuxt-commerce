@@ -172,7 +172,7 @@ export const useAdminStore = defineStore("admin", () => {
           if (curVal.type === "file") {
             const filename: string = uuidv4();
             try {
-              const { data, error } = await client.storage
+              const { error } = await client.storage
                 .from("catalog")
                 .upload(`${filename}.png`, selectedImage.value!, {
                   cacheControl: "3600",
@@ -183,8 +183,9 @@ export const useAdminStore = defineStore("admin", () => {
                 .from("catalog")
                 .getPublicUrl(data?.path!).data.publicUrl;
               formValues[key as keyof BaseItemModalForm] = path;
+              if (error) throw error;
             } catch (e) {
-              console.log(e);
+              throw e;
             }
           } else {
             formValues[key as keyof BaseItemModalForm] = curVal.value;
@@ -192,7 +193,12 @@ export const useAdminStore = defineStore("admin", () => {
         }
       }
     }
-    const { data, error } = await client.from("catalog").insert([formValues]);
+    try {
+      const { error } = await client.from("catalog").insert([formValues]);
+      if (error) throw error;
+    } catch (e) {
+      throw e;
+    }
   };
 
   const editItem = () => {};
@@ -205,8 +211,9 @@ export const useAdminStore = defineStore("admin", () => {
         .from("catalog")
         .update({ is_visible: checked })
         .eq("id", id);
+      if (error) throw error;
     } catch (e) {
-      console.log(e);
+      throw e;
     }
   };
 

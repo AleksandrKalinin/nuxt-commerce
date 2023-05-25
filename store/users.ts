@@ -10,14 +10,15 @@ export const useUsersStore = defineStore("users", () => {
         .from("users")
         .select("id, registration_date, email, role");
       users.value = data;
+      if (error) throw error;
     } catch (e) {
-      console.log(e);
+      throw e;
     }
   }
 
   const addUser = async (email: string) => {
     try {
-      const { data, error } = await client.from("users").insert([
+      const { error } = await client.from("users").insert([
         {
           registration_date: new Date(),
           email: email,
@@ -25,8 +26,9 @@ export const useUsersStore = defineStore("users", () => {
           cart: [],
         },
       ]);
+      if (error) throw error;
     } catch (e) {
-      console.log(e);
+      throw e;
     }
   };
 

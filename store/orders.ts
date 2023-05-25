@@ -12,8 +12,9 @@ export const useOrdersStore = defineStore("orders", () => {
         .from("orders")
         .select("id, created_at, items, userId, user, total, status");
       orders.value = data;
+      if (error) throw error;
     } catch (e) {
-      console.log(e);
+      throw e;
     }
   }
 

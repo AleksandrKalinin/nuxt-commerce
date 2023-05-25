@@ -4,6 +4,8 @@ import { useCatalogStore } from "./catalog";
 export const useCartStore = defineStore("cart", () => {
   const client = useSupabaseClient();
   const userId: Ref<string | undefined> = ref("");
+  const userEmail: Ref<string | undefined> = ref("");
+  const userOrderId = ref(null);
   const dbItems: any = ref([]);
   const catalogStore = useCatalogStore();
   catalogStore.fetchCatalogItems();
@@ -12,12 +14,19 @@ export const useCartStore = defineStore("cart", () => {
     const {
       data: { user },
     } = await client.auth.getUser();
+    console.log(user);
+    userEmail.value = user?.email;
     userId.value = user?.id;
-    let { data, error } = await client
-      .from("users")
-      .select("cart")
-      .eq("user_id", user?.id);
-    dbItems.value = data[0].cart;
+    try {
+      let { data, error } = await client
+        .from("users")
+        .select("cart")
+        .eq("user_id", user?.id);
+      if (error) throw error;
+      dbItems.value = data[0].cart;
+    } catch (e) {
+      throw e;
+    }
   };
 
   const cartItems = computed(() => {
@@ -51,8 +60,9 @@ export const useCartStore = defineStore("cart", () => {
         .from("users")
         .update({ cart: cartItems.value })
         .eq("user_id", userId.value);
+      if (error) throw error;
     } catch (e) {
-      console.log(e);
+      throw e;
     }
   };
 
@@ -67,8 +77,9 @@ export const useCartStore = defineStore("cart", () => {
         .from("users")
         .update({ cart: cartItems.value })
         .eq("user_id", userId.value);
+      if (error) throw error;
     } catch (e) {
-      console.log(e);
+      throw e;
     }
   };
 
@@ -79,8 +90,34 @@ export const useCartStore = defineStore("cart", () => {
         .from("users")
         .update({ cart: newItems })
         .eq("user_id", userId.value);
+      if (error) throw error;
     } catch (e) {
-      console.log(e);
+      throw e;
+    }
+  };
+
+  const placeOrder = async () => {
+    const newOrder = {} as Order;
+    newOrder.created_at = new Date();
+    newOrder.items = cartItems.value;
+    newOrder.userId = userId.value as string;
+    newOrder.user = userEmail.value as string;
+    newOrder.total = totalSum.value;
+    newOrder.status = "Pending" as OrderStatus.Pending;
+    try {
+      const { error } = await client.from("orders").insert([newOrder]);
+      if (error) throw error;
+      try {
+        const { error } = await client
+          .from("users")
+          .update({ cart: [] })
+          .eq("user_id", userId.value);
+        if (error) throw error;
+      } catch (e) {
+        throw e;
+      }
+    } catch (e) {
+      throw e;
     }
   };
 
@@ -91,5 +128,6 @@ export const useCartStore = defineStore("cart", () => {
     updateAmount,
     deleteItem,
     getCartItems,
+    placeOrder,
   };
 });

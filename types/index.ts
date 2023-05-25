@@ -9,10 +9,10 @@ declare global {
   }
 
   interface Order {
-    id: number;
+    id?: number;
     created_at: Date;
     items: OrderItem[];
-    userId: number;
+    userId: string;
     user: string;
     total: number;
     status: OrderStatus;

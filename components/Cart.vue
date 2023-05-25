@@ -32,7 +32,7 @@
     <div class="py-5 flex flex-row justify-end items-center">
       <button
         class="transition duration-200 hover:bg-sky-500 text-lg px-7 py-3 bg-sky-400 text-white rounded-none flex items-center"
-        @click="cartStore.addToCart(1)"
+        @click="cartStore.placeOrder()"
       >
         <img src="~/assets/shopping-bag.svg" class="h-6 w-6 mr-2" />
         Оформить заказ
@@ -51,7 +51,7 @@
       </div>
     </div>
     <NuxtLink
-      to="/"
+      to="/catalog"
       class="transition duration-200 hover:bg-sky-500 text-lg px-7 mx-auto py-2 bg-sky-400 text-white rounded-none"
       >Back to catalog</NuxtLink
     >
