@@ -2,17 +2,18 @@
   <section class="w-full lg:ml-10 ml-5">
     <CatalogPanel />
     <template v-if="catalogItems?.length">
-      <Transition>
-        <div
-          v-if="catalogItems?.length"
-          class="grid gap-4 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1"
-        >
+      <div
+        v-if="catalogItems?.length"
+        class="grid gap-4 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1"
+      >
+        <TransitionGroup name="catalog">
           <CatalogItem
             v-for="item in catalogItems?.slice(start, end)"
             :item="item"
+            :key="item.id"
           />
-        </div>
-      </Transition>
+        </TransitionGroup>
+      </div>
     </template>
     <template v-else>
       <Transition>
@@ -76,13 +77,17 @@ const item = {
 </script>
 
 <style scoped>
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.2s ease;
+.catalog-enter-active,
+.catalog-leave-active {
+  transition: opacity 0.1s ease;
 }
 
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
+.catalog-enter-active {
+  transition-delay: 0.15s;
+}
+
+.catalog-enter-from,
+.catalog-leave-to {
+  opacity: 0.5;
 }
 </style>

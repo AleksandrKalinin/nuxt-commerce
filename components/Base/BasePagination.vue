@@ -54,7 +54,7 @@ const setPage = (num: number) => {
 
 <style scoped>
 .pagination-item {
-  transition: 1s all;
+  transition: 0.5s all;
 }
 
 .pagination-item_active {
