@@ -74,7 +74,9 @@ const form = ref(null);
 
 const callFunction = () => {
   const values = form.value;
-  store.addItem(values);
+  if (values) {
+    store.addItem(values);
+  }
 };
 </script>
 

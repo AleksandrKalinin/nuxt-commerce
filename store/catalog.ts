@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { createClient } from "@supabase/supabase-js";
+import { usePaginationStore } from "./pagination";
 
 export const useCatalogStore = defineStore("catalog", () => {
   const config = useSupabaseConfig();
@@ -201,7 +202,10 @@ export const useCatalogStore = defineStore("catalog", () => {
     });
   });
 
+  const pagesStore = usePaginationStore();
+
   const selectItem = (value: string, category: string) => {
+    pagesStore.currentPage = 0;
     if (selectedOptions[category as keyof SelectedOptions].includes(value)) {
       selectedOptions[category as keyof SelectedOptions] = selectedOptions[
         category as keyof SelectedOptions

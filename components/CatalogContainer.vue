@@ -30,11 +30,9 @@
 
 <script setup lang="ts">
 import { useCatalogStore } from "~/store/catalog";
-import { useDatabaseStore } from "~/store/database";
 import { usePaginationStore } from "~/store/pagination";
 const store = useCatalogStore();
 const pagesStore = usePaginationStore();
-const dbStore = useDatabaseStore();
 
 const catalogItems = computed(() => {
   return store.selectedItems;

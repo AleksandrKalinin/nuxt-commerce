@@ -157,7 +157,7 @@ export const useAdminStore = defineStore("admin", () => {
 
   const activeItem = ref(false);
 
-  const addItem = async (values) => {
+  const addItem = async (values: HTMLFormElement) => {
     const formValues = {
       date: new Date().toISOString(),
       popularity: 0,

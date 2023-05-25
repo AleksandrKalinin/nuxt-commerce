@@ -82,4 +82,9 @@ declare global {
     placeholder: string;
     options?: Boolean[];
   }
+
+  interface SelectedItemTabs {
+    description: string;
+    reviews: string;
+  }
 }

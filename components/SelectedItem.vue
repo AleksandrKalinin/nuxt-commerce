@@ -67,24 +67,20 @@ const id = useRoute().params.id;
 const props = defineProps(["item"]);
 const catalogStore = useCatalogStore();
 
-interface SelectedItemTabs {
-  description: string;
-  reviews: string;
-}
-
 const tabs = {
   description: resolveComponent("SelectedItemDescription"),
   reviews: resolveComponent("SelectedItemReviews"),
 };
 
-const currentTab = ref("description");
+const currentTab: Ref<string | null> = ref("description");
 
 const currentTabComponent = computed(() => {
   return tabs[currentTab.value as keyof SelectedItemTabs];
 });
 
-const setTab = (e) => {
-  currentTab.value = e.currentTarget.getAttribute("value");
+const setTab = (e: Event) => {
+  const target = e.currentTarget as HTMLElement;
+  currentTab.value = target.getAttribute("value");
 };
 
 const selectedProperties = [
