@@ -5,9 +5,9 @@
     </h3>
     <div
       v-for="item in store.filteringOptions"
-      class="filter-section border-b-1 sky-blue-400 p-5"
+      class="filter-section border-b-1 sky-blue-400 px-5 py-4"
     >
-      <h3 class="filter-section__title text-xl font-semibold mb-3">
+      <h3 class="filter-section__title text-xl font-semibold mb-2">
         {{ item.label }}
       </h3>
       <div class="filter-section__list filter-list">
