@@ -56,11 +56,6 @@ declare global {
     is_visible: boolean;
   }
 
-  interface CartItem extends CatalogItem {
-    amount: number;
-    total: number;
-  }
-
   interface SelectOption {
     label: string | number;
     selected: boolean;
@@ -86,5 +81,15 @@ declare global {
   interface SelectedItemTabs {
     description: string;
     reviews: string;
+  }
+
+  interface CartDBItem {
+    item: CatalogItem;
+    amount: number;
+  }
+
+  interface CartItem extends CatalogItem {
+    total?: number;
+    amount?: number;
   }
 }

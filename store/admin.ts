@@ -197,12 +197,17 @@ export const useAdminStore = defineStore("admin", () => {
 
   const editItem = () => {};
 
-  const toggleVisibility = async (event, id) => {
-    const checked = event.target.checked;
-    const { error } = await client
-      .from("catalog")
-      .update({ is_visible: checked })
-      .eq("id", id);
+  const toggleVisibility = async (event: Event, id: number) => {
+    const target: HTMLElement = event.target;
+    const checked = target?.checked;
+    try {
+      const { error } = await client
+        .from("catalog")
+        .update({ is_visible: checked })
+        .eq("id", id);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return {

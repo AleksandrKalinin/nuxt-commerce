@@ -29,10 +29,12 @@
 </template>
 
 <script setup lang="ts">
+import { useCartStore } from "~/store/cart";
 import { useCatalogStore } from "~/store/catalog";
 import { usePaginationStore } from "~/store/pagination";
 const store = useCatalogStore();
 const pagesStore = usePaginationStore();
+const cartStore = useCartStore();
 
 const catalogItems = computed(() => {
   return store.selectedItems;
@@ -48,6 +50,7 @@ const end = computed(() => {
 
 onMounted(() => {
   store.fetchCatalogItems();
+  cartStore.getCartItems();
 });
 </script>
 
