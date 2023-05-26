@@ -1,5 +1,6 @@
 <template>
-  <BaseTable :header="header" :data="data" v-if="data?.length"> </BaseTable>
+  <BaseTable :header="CATALOG_HEADER" :data="data" v-if="data?.length">
+  </BaseTable>
   <div
     v-else
     class="preloader-wrapper flex justify-center items-center h-full w-full"
@@ -16,38 +17,11 @@ import { usePaginationStore } from "~/store/pagination";
 const store = useCatalogStore();
 const adminStore = useAdminStore();
 const pagesStore = usePaginationStore();
-
-const start = computed(() => {
-  return pagesStore.currentPage * 12;
-});
-
-const end = computed(() => {
-  return (pagesStore.currentPage + 1) * 12;
-});
-
-const data = computed(() => {
-  return store.catalogItems?.slice(start.value, end.value).map((item) => {
-    return {
-      id: item.id,
-      name: item.name,
-      photo: item.photo,
-      item_code: item.item_code,
-      date: item.date,
-      in_stock: item.in_stock,
-      is_visible: item.is_visible,
-    };
-  });
-});
-
-onMounted(() => {
-  store.fetchCatalogItems();
-});
+const client = useSupabaseClient();
 
 const editItem = (id: number) => {
   console.log("edit", id);
 };
-
-const client = useSupabaseClient();
 
 const deleteItem = async (id: number) => {
   try {
@@ -57,7 +31,7 @@ const deleteItem = async (id: number) => {
   }
 };
 
-const header = [
+const CATALOG_HEADER = [
   {
     label: "ID",
     value: "id",
@@ -107,6 +81,32 @@ const header = [
     action: deleteItem,
   },
 ];
+
+const start = computed(() => {
+  return pagesStore.currentPage * 12;
+});
+
+const end = computed(() => {
+  return (pagesStore.currentPage + 1) * 12;
+});
+
+const data = computed(() => {
+  return store.catalogItems?.slice(start.value, end.value).map((item) => {
+    return {
+      id: item.id,
+      name: item.name,
+      photo: item.photo,
+      item_code: item.item_code,
+      date: item.date,
+      in_stock: item.in_stock,
+      is_visible: item.is_visible,
+    };
+  });
+});
+
+onMounted(() => {
+  store.fetchCatalogItems();
+});
 </script>
 
 <style scoped></style>

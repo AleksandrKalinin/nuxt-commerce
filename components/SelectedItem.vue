@@ -1,8 +1,11 @@
 <template>
   <section class="w-full lg:ml-10 ml-5" v-if="selectedItem">
     <div class="w-full flex justify-between mb-5">
-      <div class="w-96 p-5">
-        <img :src="selectedItem.photo" />
+      <div class="p-5">
+        <img
+          class="min-w-[300px] w-[300px] h-auto object-cover"
+          :src="selectedItem.photo"
+        />
       </div>
       <div class="w-full p-5">
         <h1 class="text-3xl font-semibold mb-2">{{ selectedItem.name }}</h1>
@@ -27,24 +30,33 @@
         </button>
       </div>
     </div>
-    <table
-      class="w-full border-separate border-spacing-2 border sky-blue-400 py-5 px-3"
-    >
-      <tbody>
-        <tr
-          v-for="(item, key) in selectedProperties"
-          :key="key"
-          class="text-left"
-        >
-          <th class="py-4">
-            {{ item.label }}
-          </th>
-          <td class="py-4">
-            {{ selectedItem[item.value as keyof CatalogItem] }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="tabs-header w-full flex">
+      <div
+        class="min-w-[180px] h-16 px-4 flex items-center justify-center cursor-pointer text-center text-lg bg-slate-200 text-slate-400 border border-slate-200 transition duration-100"
+        :class="currentTab === 'description' ? 'tab_active' : ''"
+        value="description"
+        @click="setTab($event)"
+      >
+        <img class="w-8 mr-2" src="~/assets/data.svg" />
+        Характеристики
+      </div>
+      <div
+        class="min-w-[180px] h-16 px-4 flex items-center justify-center cursor-pointer text-center text-lg bg-slate-200 text-slate-400 border border-slate-200 transition duration-100"
+        :class="currentTab === 'reviews' ? 'tab_active' : ''"
+        value="reviews"
+        @click="setTab($event)"
+      >
+        <img class="w-8 mr-2" src="~/assets/chat.svg" />Отзывы
+        <span class="pl-1">(2)</span>
+      </div>
+    </div>
+    <KeepAlive>
+      <component
+        :is="currentTabComponent"
+        :selectedItem="selectedItem"
+        :selectedProperties="selectedProperties"
+      />
+    </KeepAlive>
     <Gallery :items="galleryItems" />
   </section>
 </template>
@@ -54,6 +66,22 @@ import { useCatalogStore } from "~/store/catalog";
 const id = useRoute().params.id;
 const props = defineProps(["item"]);
 const catalogStore = useCatalogStore();
+
+const tabs = {
+  description: resolveComponent("SelectedItemDescription"),
+  reviews: resolveComponent("SelectedItemReviews"),
+};
+
+const currentTab: Ref<string | null> = ref("description");
+
+const currentTabComponent = computed(() => {
+  return tabs[currentTab.value as keyof SelectedItemTabs];
+});
+
+const setTab = (e: Event) => {
+  const target = e.currentTarget as HTMLElement;
+  currentTab.value = target.getAttribute("value");
+};
 
 const selectedProperties = [
   {
@@ -130,4 +158,14 @@ onMounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.tab_active {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.tab_active img {
+  -webkit-filter: invert(0.1);
+  filter: invert(0.1);
+}
+</style>

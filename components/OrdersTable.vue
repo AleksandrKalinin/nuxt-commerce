@@ -1,5 +1,9 @@
 <template>
-  <BaseTable v-if="data?.length" :header="header" :data="data"></BaseTable>
+  <BaseTable
+    v-if="data?.length"
+    :header="ORDERS_HEADER"
+    :data="data"
+  ></BaseTable>
   <div
     v-else
     class="preloader-wrapper flex justify-center items-center h-full w-full"
@@ -10,30 +14,9 @@
 
 <script setup lang="ts">
 import { useOrdersStore } from "~/store/orders";
-const store = useOrdersStore();
+import { ORDERS_HEADER } from "~/constants";
 
-const header = [
-  {
-    label: "№",
-    value: "id",
-    type: "plain",
-  },
-  {
-    label: "Дата заказа",
-    value: "created_at",
-    type: "plain",
-  },
-  {
-    label: "Сумма",
-    value: "total",
-    type: "plain",
-  },
-  {
-    label: "Статус",
-    value: "status",
-    type: "plain",
-  },
-];
+const store = useOrdersStore();
 
 const data = computed(() => {
   return store.orders;

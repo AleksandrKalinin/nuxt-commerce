@@ -16,7 +16,7 @@
     <div class="navigation__search">
       <input
         type="text"
-        placeholder="Search"
+        placeholder="Искать товары"
         class="leading-7 py-2 px-4 border sky-blue-400 w-72"
         v-model="store.searchValue"
       />

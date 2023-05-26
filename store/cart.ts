@@ -1,10 +1,14 @@
 import { defineStore } from "pinia";
 import { useCatalogStore } from "./catalog";
+import { useToastsStore } from "./toasts";
+import { toastHandler } from "~/utils/toastHandler";
 
 export const useCartStore = defineStore("cart", () => {
   const client = useSupabaseClient();
-  const userId = ref("");
+  const userId: Ref<string | undefined> = ref("");
+  const userEmail: Ref<string | undefined> = ref("");
   const dbItems: any = ref([]);
+  const toastsStore = useToastsStore();
   const catalogStore = useCatalogStore();
   catalogStore.fetchCatalogItems();
 
@@ -12,19 +16,22 @@ export const useCartStore = defineStore("cart", () => {
     const {
       data: { user },
     } = await client.auth.getUser();
-
-    let { data, error } = await client
-      .from("users")
-      .select("cart")
-      .eq("user_id", user?.id);
-    dbItems.value = data[0].cart;
+    userEmail.value = user?.email;
+    userId.value = user?.id;
+    try {
+      let { data, error } = await client
+        .from("users")
+        .select("cart")
+        .eq("user_id", user?.id);
+      if (error) throw error;
+      dbItems.value = data[0].cart;
+    } catch (e) {
+      throw e;
+    }
   };
 
   const cartItems = computed(() => {
-    return dbItems.value.map((el) => {
-      const item = el.item;
-      item.amount = el.amount;
-      item.total = el.amount * item.price;
+    return dbItems.value.map((item: any) => {
       return item;
     });
   });
@@ -35,34 +42,99 @@ export const useCartStore = defineStore("cart", () => {
     }, 0);
   });
 
-  const addToCart = (id: number) => {
-    const present = cartItems.value.findIndex((el: CartItem) => el.id === id);
-    if (present === -1) {
-      const item = catalogStore.catalogItems.find(
-        (el: CatalogItem) => el.id === id
-      ) as unknown as CartItem;
-      item.amount = 1;
-      cartItems.value.push(item);
-      item.total = item.amount * item.price;
-    } else {
-      cartItems.value[present].amount =
-        Number(cartItems.value[present].amount) + 1;
-      cartItems.value[present].total =
-        cartItems.value[present].amount * cartItems.value[present].price;
+  const addToCart = async (id: number) => {
+    try {
+      const {
+        data: { user },
+      } = await client.auth.getUser();
+      if (user) {
+        const present = dbItems.value.findIndex((el: CartItem) => el.id === id);
+        if (present === -1) {
+          const item = catalogStore.catalogItems?.find(
+            (el: CatalogItem) => el.id === id
+          ) as unknown as CartItem;
+          item.amount = 1;
+          item.total = item.amount * item.price;
+          dbItems.value.push(item);
+        } else {
+          dbItems.value[present].amount =
+            Number(dbItems.value[present].amount) + 1;
+          dbItems.value[present].total =
+            dbItems.value[present].amount * dbItems.value[present].price;
+        }
+        try {
+          const { error } = await client
+            .from("users")
+            .update({ cart: cartItems.value })
+            .eq("user_id", userId.value);
+          const { toast, message } = toastHandler("add-to-cart");
+          toastsStore.showSuccessToast(toast, message);
+          if (error) throw error;
+        } catch (e) {
+          throw e;
+        }
+      } else {
+        const { toast, message } = toastHandler("not-authorized");
+        toastsStore.showErrorToast(toast, message);
+      }
+    } catch (error) {
+      throw error;
     }
   };
 
-  const updateAmount = (value: number, id: number) => {
+  const updateAmount = async (value: number, id: number) => {
     const item = cartItems.value.find(
       (el: CartItem) => el.id === id
     ) as unknown as CartItem;
     item.amount = value;
     item.total = item.amount * item.price;
+    try {
+      const { error } = await client
+        .from("users")
+        .update({ cart: cartItems.value })
+        .eq("user_id", userId.value);
+      if (error) throw error;
+    } catch (e) {
+      throw e;
+    }
   };
 
-  const deleteItem = (id: number) => {
-    const newItems = cartItems.value.filter((item) => item.id !== id);
-    cartItems.value = newItems;
+  const deleteItem = async (id: number) => {
+    const newItems = cartItems.value.filter((item: CartItem) => item.id !== id);
+    try {
+      const { error } = await client
+        .from("users")
+        .update({ cart: newItems })
+        .eq("user_id", userId.value);
+      if (error) throw error;
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  const placeOrder = async () => {
+    const newOrder = {} as Order;
+    newOrder.created_at = new Date();
+    newOrder.items = cartItems.value;
+    newOrder.userId = userId.value as string;
+    newOrder.user = userEmail.value as string;
+    newOrder.total = totalSum.value;
+    newOrder.status = "Pending" as OrderStatus.Pending;
+    try {
+      const { error } = await client.from("orders").insert([newOrder]);
+      if (error) throw error;
+      try {
+        const { error } = await client
+          .from("users")
+          .update({ cart: [] })
+          .eq("user_id", userId.value);
+        if (error) throw error;
+      } catch (e) {
+        throw e;
+      }
+    } catch (e) {
+      throw e;
+    }
   };
 
   return {
@@ -72,5 +144,6 @@ export const useCartStore = defineStore("cart", () => {
     updateAmount,
     deleteItem,
     getCartItems,
+    placeOrder,
   };
 });

@@ -3,7 +3,7 @@
     <div class="pagination flex cursor-pointer">
       <div
         @click="firstPage"
-        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5"
+        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5 h-10"
       >
         First
       </div>
@@ -17,7 +17,7 @@
       </div>
       <div
         @click="lastPage"
-        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5"
+        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5 h-10"
       >
         Last
       </div>
@@ -54,7 +54,7 @@ const setPage = (num: number) => {
 
 <style scoped>
 .pagination-item {
-  transition: 1s all;
+  transition: 0.5s all;
 }
 
 .pagination-item_active {

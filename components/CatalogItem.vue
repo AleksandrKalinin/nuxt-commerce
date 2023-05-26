@@ -9,9 +9,14 @@
           class="text-lg flex justify-between items-center font-semibold py-2"
         >
           <NuxtLink :to="itemRoute">{{ item.name }} </NuxtLink
-          ><span class="">{{ item.price }}$</span>
+          ><span class="text-xl">{{ item.price }}$</span>
         </h2>
-        <p class="text-base mb-4">{{ item.type }}</p>
+        <p class="text-base mb-1">{{ item.type }}</p>
+        <p class="text-base mb-4 flex items-center">
+          <img class="w-5 h-5 mr-2" src="~/assets/time.svg" />{{
+            item.in_stock > 0 ? "В наличии" : "Нет в наличии"
+          }}
+        </p>
         <button
           class="transition duration-200 hover:bg-sky-500 text-lg px-7 mx-auto py-2 bg-sky-400 text-white rounded-none"
           @click="cartStore.addToCart(item.id)"

@@ -1,17 +1,42 @@
 <template>
   <template v-if="cartItems.length">
     <BaseTable :header="header" :data="cartItems" />
-
-    <div class="py-5 flex flex-row justify-end items-center">
-      <p class="font-bold text-2xl mr-5">
-        Total: {{ cartStore.totalSum }}
-        <button
-          class="text-lg px-7 py-2 bg-sky-400 text-white rounded-none"
-          @click="cartStore.addToCart(1)"
+    <div class="price-panel flex justify-between items-center py-5">
+      <div
+        class="price-panel__item price-item flex justify-between items-center w-1/5 p-5 border border-slate-200"
+      >
+        <span class="price-item__category">Discount</span>
+        <span class="price-item__sum font-semibold text-2xl">$0.00</span>
+      </div>
+      <div
+        class="price-panel__item price-item flex justify-between items-center w-1/5 p-5 border border-slate-200"
+      >
+        <span class="price-item__category">Delivery</span>
+        <span class="price-item__sum font-semibold text-2xl">$0.00</span>
+      </div>
+      <div
+        class="price-panel__item price-item flex justify-between items-center w-1/5 p-5 border border-slate-200"
+      >
+        <span class="price-item__category">Subtotal</span>
+        <span class="price-item__sum font-semibold text-2xl">$0.00</span>
+      </div>
+      <div
+        class="price-panel__item price-item flex justify-between items-center w-1/5 p-5 border border-slate-200"
+      >
+        <span class="price-item__category">Total</span>
+        <span class="price-item__sum font-semibold text-2xl"
+          >${{ cartStore.totalSum }}</span
         >
-          Оформить заказ
-        </button>
-      </p>
+      </div>
+    </div>
+    <div class="py-5 flex flex-row justify-end items-center">
+      <button
+        class="transition duration-200 hover:bg-sky-500 text-lg px-7 py-3 bg-sky-400 text-white rounded-none flex items-center"
+        @click="cartStore.placeOrder()"
+      >
+        <img src="~/assets/shopping-bag.svg" class="h-6 w-6 mr-2" />
+        Оформить заказ
+      </button>
     </div>
   </template>
 
@@ -26,7 +51,7 @@
       </div>
     </div>
     <NuxtLink
-      to="/"
+      to="/catalog"
       class="transition duration-200 hover:bg-sky-500 text-lg px-7 mx-auto py-2 bg-sky-400 text-white rounded-none"
       >Back to catalog</NuxtLink
     >

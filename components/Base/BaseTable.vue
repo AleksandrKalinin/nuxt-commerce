@@ -41,6 +41,19 @@
               @click="option.action(item.id)"
             />
           </td>
+          <td v-else-if="option.type === 'select'" class="py-4">
+            <select
+              :name="item.name"
+              class="h-12 bg-white border bg-sky-400 rounded-none mb-4 px-3 text-xl"
+            >
+              <option :value="item[option]">{{ item[option.value] }}</option>
+              <template v-for="el in option.options">
+                <option v-if="el !== item[option.value]" :value="el">
+                  {{ el }}
+                </option>
+              </template>
+            </select>
+          </td>
         </template>
       </tr>
     </tbody>
@@ -108,4 +121,9 @@ const sortedItems = computed(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  opacity: 1;
+}
+</style>

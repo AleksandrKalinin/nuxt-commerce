@@ -12,6 +12,9 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  middleware: ["auth"],
+});
 import { useCatalogStore } from "~/store/catalog";
 const store = useCatalogStore();
 </script>

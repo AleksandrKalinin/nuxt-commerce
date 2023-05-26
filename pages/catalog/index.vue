@@ -3,6 +3,7 @@
     <Sidebar />
     <CatalogContainer />
   </div>
+  <Newsletter />
 </template>
 
 <script setup lang="ts"></script>
