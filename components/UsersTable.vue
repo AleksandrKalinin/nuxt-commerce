@@ -1,5 +1,5 @@
 <template>
-  <BaseTable :header="header" :data="data" v-if="data.length" />
+  <BaseTable :header="USERS_HEADER" :data="data" v-if="data.length" />
   <div
     v-else
     class="preloader-wrapper flex justify-center items-center h-full w-full"
@@ -10,6 +10,7 @@
 
 <script setup lang="ts">
 import { useUsersStore } from "~/store/users";
+import { USERS_HEADER } from "~/constants";
 const store = useUsersStore();
 
 const data = computed(() => {
@@ -19,29 +20,6 @@ const data = computed(() => {
 onMounted(() => {
   store.fetchUsers();
 });
-
-const header = [
-  {
-    label: "ID",
-    value: "id",
-    type: "plain",
-  },
-  {
-    label: "E-mail",
-    value: "email",
-    type: "plain",
-  },
-  {
-    label: "Registered on",
-    value: "registration_date",
-    type: "plain",
-  },
-  {
-    label: "Role",
-    value: "role",
-    type: "plain",
-  },
-];
 </script>
 
 <style scoped></style>

@@ -20,7 +20,7 @@
             class="w-full flex flex-col mb-4"
             @submit.prevent="callFunction"
           >
-            <template v-for="item in store.inputFields">
+            <template v-for="item in store.INPUT_FIELDS">
               <input
                 v-if="item.elType === 'input'"
                 v-model="item.default"
