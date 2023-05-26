@@ -69,7 +69,7 @@ export const useAdminStore = defineStore("admin", () => {
   const editItem = () => {};
 
   const toggleVisibility = async (event: Event, id: number) => {
-    const target: HTMLElement = event.target;
+    const target = event.target as HTMLInputElement;
     const checked = target?.checked;
     try {
       const { error } = await client
