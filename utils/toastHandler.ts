@@ -1,5 +1,11 @@
 export function toastHandler(error: string) {
   switch (error) {
+    case "no-permission":
+      return {
+        toast: "showErrorToast",
+        message: "You don't have permission to access this page",
+      };
+      break;
     case "not-authorized":
       return {
         toast: "showErrorToast",
@@ -53,13 +59,13 @@ export function toastHandler(error: string) {
       break;
     case "item-visible":
       return {
-        toast: "showSuccesToast",
+        toast: "showSuccessToast",
         message: "Item visible!",
       };
       break;
     case "item-hidden":
       return {
-        toast: "showSuccesToast",
+        toast: "showSuccessToast",
         message: "Item hidden!",
       };
       break;

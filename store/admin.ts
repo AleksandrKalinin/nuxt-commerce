@@ -225,7 +225,7 @@ export const useAdminStore = defineStore("admin", () => {
         toastsStore.showErrorToast(toast, message);
       } else {
         const { toast, message } = toastHandler(
-          checked ? "item-showed" : "item-hidden"
+          checked ? "item-visible" : "item-hidden"
         );
         toastsStore.showSuccessToast(toast, message);
       }

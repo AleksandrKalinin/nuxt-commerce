@@ -10,6 +10,7 @@
 
 <script setup lang="ts">
 import { useOrdersStore } from "~/store/orders";
+
 const store = useOrdersStore();
 
 const header = [
@@ -31,7 +32,8 @@ const header = [
   {
     label: "Статус",
     value: "status",
-    type: "plain",
+    type: "select",
+    options: ["Pending", "Completed", "Cancelled"],
   },
 ];
 
