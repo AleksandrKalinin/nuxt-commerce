@@ -1,8 +1,11 @@
 import { defineStore } from "pinia";
 import { v4 as uuidv4 } from "uuid";
+import { toastHandler } from "~/utils/toastHandler";
+import { useToastsStore } from "./toasts";
 
 export const useAdminStore = defineStore("admin", () => {
   const client = useSupabaseClient();
+  const toastsStore = useToastsStore();
 
   const inputFields = [
     {
@@ -195,7 +198,13 @@ export const useAdminStore = defineStore("admin", () => {
     }
     try {
       const { error } = await client.from("catalog").insert([formValues]);
-      if (error) throw error;
+      if (error) {
+        const { toast, message } = toastHandler(error.code);
+        toastsStore.showErrorToast(toast, message);
+      } else {
+        const { toast, message } = toastHandler("add-to-database");
+        toastsStore.showSuccessToast(toast, message);
+      }
     } catch (e) {
       throw e;
     }
@@ -211,7 +220,15 @@ export const useAdminStore = defineStore("admin", () => {
         .from("catalog")
         .update({ is_visible: checked })
         .eq("id", id);
-      if (error) throw error;
+      if (error) {
+        const { toast, message } = toastHandler(error.code);
+        toastsStore.showErrorToast(toast, message);
+      } else {
+        const { toast, message } = toastHandler(
+          checked ? "item-showed" : "item-hidden"
+        );
+        toastsStore.showSuccessToast(toast, message);
+      }
     } catch (e) {
       throw e;
     }

@@ -1,12 +1,14 @@
 import { defineStore } from "pinia";
 import { useCatalogStore } from "./catalog";
+import { useToastsStore } from "./toasts";
+import { toastHandler } from "~/utils/toastHandler";
 
 export const useCartStore = defineStore("cart", () => {
   const client = useSupabaseClient();
   const userId: Ref<string | undefined> = ref("");
   const userEmail: Ref<string | undefined> = ref("");
-  const userOrderId = ref(null);
   const dbItems: any = ref([]);
+  const toastsStore = useToastsStore();
   const catalogStore = useCatalogStore();
   catalogStore.fetchCatalogItems();
 
@@ -14,7 +16,6 @@ export const useCartStore = defineStore("cart", () => {
     const {
       data: { user },
     } = await client.auth.getUser();
-    console.log(user);
     userEmail.value = user?.email;
     userId.value = user?.id;
     try {
@@ -42,27 +43,42 @@ export const useCartStore = defineStore("cart", () => {
   });
 
   const addToCart = async (id: number) => {
-    const present = dbItems.value.findIndex((el: CartItem) => el.id === id);
-    if (present === -1) {
-      const item = catalogStore.catalogItems?.find(
-        (el: CatalogItem) => el.id === id
-      ) as unknown as CartItem;
-      item.amount = 1;
-      item.total = item.amount * item.price;
-      dbItems.value.push(item);
-    } else {
-      dbItems.value[present].amount = Number(dbItems.value[present].amount) + 1;
-      dbItems.value[present].total =
-        dbItems.value[present].amount * dbItems.value[present].price;
-    }
     try {
-      const { error } = await client
-        .from("users")
-        .update({ cart: cartItems.value })
-        .eq("user_id", userId.value);
-      if (error) throw error;
-    } catch (e) {
-      throw e;
+      const {
+        data: { user },
+      } = await client.auth.getUser();
+      if (user) {
+        const present = dbItems.value.findIndex((el: CartItem) => el.id === id);
+        if (present === -1) {
+          const item = catalogStore.catalogItems?.find(
+            (el: CatalogItem) => el.id === id
+          ) as unknown as CartItem;
+          item.amount = 1;
+          item.total = item.amount * item.price;
+          dbItems.value.push(item);
+        } else {
+          dbItems.value[present].amount =
+            Number(dbItems.value[present].amount) + 1;
+          dbItems.value[present].total =
+            dbItems.value[present].amount * dbItems.value[present].price;
+        }
+        try {
+          const { error } = await client
+            .from("users")
+            .update({ cart: cartItems.value })
+            .eq("user_id", userId.value);
+          const { toast, message } = toastHandler("add-to-cart");
+          toastsStore.showSuccessToast(toast, message);
+          if (error) throw error;
+        } catch (e) {
+          throw e;
+        }
+      } else {
+        const { toast, message } = toastHandler("not-authorized");
+        toastsStore.showErrorToast(toast, message);
+      }
+    } catch (error) {
+      throw error;
     }
   };
 
