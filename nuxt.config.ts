@@ -33,4 +33,8 @@ export default defineNuxtConfig({
       Raleway: [400, 500, 600, 700],
     },
   },
+  routeRules: {
+    "/emailbuilder/**": { ssr: false },
+    "/admin/**": { ssr: false },
+  },
 });

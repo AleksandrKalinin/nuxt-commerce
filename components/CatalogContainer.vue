@@ -1,5 +1,5 @@
 <template>
-  <section class="w-full lg:ml-10 ml-5">
+  <section class="w-full lg:ml-10 ml-5" ref="scrollEl">
     <CatalogPanel />
     <template v-if="catalogItems?.length">
       <div
@@ -24,7 +24,7 @@
         </div>
       </Transition>
     </template>
-    <BasePagination :items="catalogItems" />
+    <BasePagination :items="catalogItems" :targetRef="scrollEl" />
   </section>
 </template>
 
@@ -32,9 +32,11 @@
 import { useCartStore } from "~/store/cart";
 import { useCatalogStore } from "~/store/catalog";
 import { usePaginationStore } from "~/store/pagination";
+
 const store = useCatalogStore();
 const pagesStore = usePaginationStore();
 const cartStore = useCartStore();
+const scrollEl = ref(null);
 
 const catalogItems = computed(() => {
   return store.selectedItems;

@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto py-10 flex">
+  <div class="container mx-auto py-10 flex min-h-[calc(100vh-160px)]">
     <Sidebar />
     <CatalogContainer />
   </div>

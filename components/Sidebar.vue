@@ -3,6 +3,18 @@
     <h3 class="flex justify-center text-center py-5 text-2xl font-semibold">
       Фильтры
     </h3>
+
+    <div class="filter-section sky-blue-400 px-5 py-4">
+      <h3 class="filter-section__title text-xl font-semibold mb-2">Цена</h3>
+      <div class="filter-section__list filter-list">
+        <BaseSlider
+          :max="maxPrice ? maxPrice : 0"
+          :min="0"
+          :step="1"
+          v-model="slider1"
+        />
+      </div>
+    </div>
     <div
       v-for="item in store.filteringOptions"
       class="filter-section border-b-1 sky-blue-400 px-5 py-4"
@@ -27,12 +39,25 @@
 </template>
 
 <script setup lang="ts">
+import { watchDebounced } from "@vueuse/core";
 import { useCatalogStore } from "~/store/catalog";
 const store = useCatalogStore();
 
-const catalogItems = computed(() => {
-  return store.sortedItems;
+const slider1 = ref(0);
+
+const maxPrice = computed(() => {
+  return store.sortedItems!.reduce((prev, cur) => {
+    return prev.price > cur.price ? prev.price : cur.price;
+  }, 0);
 });
+
+watchDebounced(
+  slider1,
+  () => {
+    store.initialPrice = slider1.value;
+  },
+  { debounce: 500, maxWait: 1000 }
+);
 </script>
 
 <style scoped></style>

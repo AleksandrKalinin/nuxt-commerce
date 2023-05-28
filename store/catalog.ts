@@ -30,6 +30,7 @@ export const useCatalogStore = defineStore("catalog", () => {
   }
 
   const searchValue = ref("");
+  const initialPrice = ref(0);
 
   const visibleItems = computed(() => {
     return catalogItems.value?.filter((item) => item.is_visible === true);
@@ -38,6 +39,13 @@ export const useCatalogStore = defineStore("catalog", () => {
   const filteredItems = computed(() => {
     return visibleItems.value?.filter((item: CatalogItem) => {
       return item.name.toLowerCase().includes(searchValue.value.toLowerCase());
+    });
+  });
+
+  const filteredByPrice = computed(() => {
+    console.log("computed", initialPrice.value);
+    return filteredItems.value?.filter((item: CatalogItem) => {
+      return item.price > initialPrice.value;
     });
   });
 
@@ -55,11 +63,11 @@ export const useCatalogStore = defineStore("catalog", () => {
     const val = sortValue.value;
     const order = sortOrder.value;
     if (val === "default") {
-      return filteredItems.value;
+      return filteredByPrice.value;
     } else {
       if (order === true) {
         return [
-          ...filteredItems.value.sort((a: CatalogItem, b: CatalogItem) => {
+          ...filteredByPrice.value.sort((a: CatalogItem, b: CatalogItem) => {
             if (a[val as keyof CatalogItem] === "") return +1;
             if (b[val as keyof CatalogItem] === "") return -1;
             else
@@ -70,7 +78,7 @@ export const useCatalogStore = defineStore("catalog", () => {
         ];
       } else {
         return [
-          ...filteredItems.value.sort((a: CatalogItem, b: CatalogItem) => {
+          ...filteredByPrice.value.sort((a: CatalogItem, b: CatalogItem) => {
             if (a[val as keyof CatalogItem] === "") return +1;
             if (b[val as keyof CatalogItem] === "") return -1;
             else
@@ -223,6 +231,7 @@ export const useCatalogStore = defineStore("catalog", () => {
     visibleItems,
     filteredItems,
     searchValue,
+    initialPrice,
     updateSort,
     sortedItems,
     selectedOptions,

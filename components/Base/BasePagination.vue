@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import { usePaginationStore } from "~/store/pagination";
-const props = defineProps(["items"]);
+const props = defineProps(["items", "targetRef"]);
 const store = usePaginationStore();
 
 const pageNumbers = computed(() => {
@@ -38,17 +38,30 @@ const pageNumbers = computed(() => {
   return numbers;
 });
 
+const scroolToTarget = () => {
+  props.targetRef.scrollIntoView({ behavior: "smooth" });
+};
+
 const firstPage = () => {
-  store.currentPage = 0;
+  scroolToTarget();
+  setTimeout(() => {
+    store.currentPage = 0;
+  }, 500);
 };
 
 const lastPage = () => {
-  const maxLength = Math.ceil(props.items.length / 12);
-  store.currentPage = maxLength - 1;
+  scroolToTarget();
+  setTimeout(() => {
+    const maxLength = Math.ceil(props.items.length / 12);
+    store.currentPage = maxLength - 1;
+  }, 500);
 };
 
 const setPage = (num: number) => {
-  store.currentPage = num - 1;
+  scroolToTarget();
+  setTimeout(() => {
+    store.currentPage = num - 1;
+  }, 500);
 };
 </script>
 

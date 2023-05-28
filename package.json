@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.10",
+    "vue-email-editor": "^2.0.0",
     "vue-toastification": "^2.0.0-rc.5"
   }
 }
