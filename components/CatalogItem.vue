@@ -1,6 +1,8 @@
 <template>
   <Transition>
-    <div class="p-5 border sky-blue-400 max-w-[300px] mx-auto bg-white">
+    <div
+      class="p-5 border sky-blue-400 max-w-[300px] mx-auto bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg"
+    >
       <div class="flew w-60 h-36">
         <img class="w-fit h-full mx-auto object-cover" :src="item.photo" />
       </div>

@@ -1,14 +1,14 @@
 <template>
   <div class="navigation w-100 flex justify-between items-center pb-5">
-    <div class="navigation__sorting flex justify-between">
+    <div class="navigation__sorting flex justify-between text-lg font-semibold">
       <span class="mr-3"> Сортировать: </span>
       <span
-        class="sorting-option mr-3 text-base cursor-pointer"
+        class="sorting-option mr-3 cursor-pointer"
         @click="store.updateSort('date')"
         >По дате добавления</span
       >
       <span
-        class="sorting-option mr-3 text-base cursor-pointer"
+        class="sorting-option mr-3 cursor-pointer"
         @click="store.updateSort('price')"
         >По цене</span
       >

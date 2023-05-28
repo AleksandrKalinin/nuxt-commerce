@@ -1,6 +1,6 @@
 <template>
   <table
-    class="w-full min-w-full border-separate border-spacing-2 border sky-blue-400 py-5 px-3 bg-white"
+    class="w-full min-w-full border-separate border-spacing-2 border sky-blue-400 py-5 px-3 bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg"
   >
     <thead>
       <tr class="text-left cursor-pointer">

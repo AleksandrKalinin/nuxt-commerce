@@ -3,7 +3,7 @@
     <div class="pagination flex cursor-pointer bg-white">
       <div
         @click="firstPage"
-        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5 h-10"
+        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5 h-[50px]"
       >
         First
       </div>
@@ -11,13 +11,13 @@
         v-for="num in pageNumbers"
         @click="setPage(num)"
         :class="{ 'pagination-item_active': num === store.currentPage + 1 }"
-        class="pagination-item flex justify-center items-center border sky-blue-400 w-10 h-10 font-lg font-semibold"
+        class="pagination-item flex justify-center items-center border sky-blue-400 w-[50px] h-[50px] font-lg font-semibold"
       >
         {{ num }}
       </div>
       <div
         @click="lastPage"
-        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5 h-10"
+        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5 h-[50px]"
       >
         Last
       </div>
