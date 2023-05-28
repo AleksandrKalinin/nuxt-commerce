@@ -1,9 +1,7 @@
 import { defineStore } from "pinia";
-import { createClient } from "@supabase/supabase-js";
 
 export const useOrdersStore = defineStore("orders", () => {
-  const config = useSupabaseConfig();
-  const client = createClient(config.URL, config.KEY);
+  const client = useSupabaseClient();
   const orders: Ref<Order[] | null> = ref([]);
 
   async function fetchOrders() {
@@ -18,8 +16,25 @@ export const useOrdersStore = defineStore("orders", () => {
     }
   }
 
+  async function fetchUserOrders() {
+    const {
+      data: { user },
+    } = await client.auth.getUser();
+    try {
+      let { data, error } = await client
+        .from("orders")
+        .select("id, created_at, items, userId, user, total, status")
+        .eq("userId", user?.id);
+      orders.value = data;
+      if (error) throw error;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   return {
     orders,
     fetchOrders,
+    fetchUserOrders,
   };
 });

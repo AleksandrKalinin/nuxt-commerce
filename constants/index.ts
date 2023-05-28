@@ -189,3 +189,41 @@ export const USERS_HEADER = [
     type: "plain",
   },
 ];
+
+export const USER_ORDERS_HEADER = [
+  {
+    label: "ID",
+    value: "id",
+    type: "plain",
+  },
+  {
+    label: "Название",
+    value: "name",
+    type: "plain",
+  },
+  {
+    label: "Фото",
+    value: "photo",
+    type: "image",
+  },
+  {
+    label: "Артикул",
+    value: "item_code",
+    type: "plain",
+  },
+  {
+    label: "Цена",
+    value: "price",
+    type: "plain",
+  },
+  {
+    label: "Кол-во",
+    value: "amount",
+    type: "plain",
+  },
+  {
+    label: "Общая цена",
+    value: "total",
+    type: "plain",
+  },
+];
