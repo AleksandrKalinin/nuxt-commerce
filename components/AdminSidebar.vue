@@ -23,8 +23,8 @@
       <div>
         <NuxtLink
           class="text-lg p-2 w-full flex cursor-pointer"
-          to="/admin/users"
-          >Dashboard</NuxtLink
+          to="/admin/dashboard"
+          >Статистика</NuxtLink
         >
       </div>
     </div>

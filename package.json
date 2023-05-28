@@ -17,10 +17,12 @@
     "@types/node": "^18",
     "@types/uuid": "^9.0.1",
     "@vueuse/nuxt": "^10.1.2",
+    "chart.js": "^3.9.1",
     "nuxt": "^3.4.3",
     "pinia": "^2.0.36",
     "prisma": "^4.14.1",
     "uuid": "^9.0.0",
+    "vue-chart-3": "^3.1.8",
     "vue3-carousel": "^0.3.1"
   },
   "dependencies": {
