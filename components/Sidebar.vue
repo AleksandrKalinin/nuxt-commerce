@@ -1,5 +1,5 @@
 <template>
-  <aside class="w-96 border sky-blue-400">
+  <aside class="w-96 border sky-blue-400 bg-white">
     <h3 class="flex justify-center text-center py-5 text-2xl font-semibold">
       Фильтры
     </h3>

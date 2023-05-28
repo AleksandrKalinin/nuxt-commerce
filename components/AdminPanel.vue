@@ -1,6 +1,6 @@
 <template>
   <div
-    class="admin-panel border sky-blue-400 w-100 flex justify-between items-center py-5 px-5 mb-5"
+    class="admin-panel border sky-blue-400 w-100 flex justify-between items-center py-5 px-5 mb-5 bg-white"
   >
     <h2 class="text-lg font-bold py-2">Каталог</h2>
     <div>

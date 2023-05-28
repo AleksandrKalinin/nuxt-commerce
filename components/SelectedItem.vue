@@ -1,6 +1,6 @@
 <template>
-  <section class="w-full lg:ml-10 ml-5" v-if="selectedItem">
-    <div class="w-full flex justify-between mb-5">
+  <section class="w-full lg:ml-10 ml-5 bg-white" v-if="selectedItem">
+    <div class="w-full flex justify-between mb-5 bg-white">
       <div class="p-5">
         <img
           class="min-w-[300px] w-[300px] h-auto object-cover"

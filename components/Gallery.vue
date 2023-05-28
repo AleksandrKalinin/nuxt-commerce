@@ -1,6 +1,6 @@
 <template>
-  <section class="mt-5" :class="`max-w-[${380 * itemsNumber}px]`">
-    <div class="gallery__header flex justify-between mb-5 py-3">
+  <section class="py-10" :class="`max-w-[${380 * itemsNumber}px]`">
+    <div class="gallery__header flex justify-between mb-5 py-3 px-5">
       <h2 class="text-3xl font-semibold">Похожие товары</h2>
     </div>
     <carousel :items-to-show="itemsNumber" :style="maxWidth" class="mx-auto">

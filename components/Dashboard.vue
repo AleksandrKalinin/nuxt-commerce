@@ -2,7 +2,7 @@
   <div class="px-3">
     <div class="flex flex-wrap justify-between items-center">
       <div
-        class="mb-5 stat-item h-[120px] w-[250px] flex justify-between items-center border border-white shadow-[0_-1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg px-4 overflow-hidden"
+        class="mb-5 bg-white stat-item h-[120px] w-[250px] flex justify-between items-center border border-white shadow-[0_-1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg px-4 overflow-hidden"
       >
         <div class="">
           <h3 class="text-xl font-semibold mb-1">Total Users</h3>
@@ -11,7 +11,7 @@
         <img class="h-8 w-8" src="~/assets/users.svg" />
       </div>
       <div
-        class="mb-5 stat-item h-[120px] w-[250px] flex justify-between items-center border border-white shadow-[0_-1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg px-4 overflow-hidden"
+        class="mb-5 bg-white stat-item h-[120px] w-[250px] flex justify-between items-center border border-white shadow-[0_-1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg px-4 overflow-hidden"
       >
         <div class="">
           <h3 class="text-xl font-semibold mb-1">Total Orders</h3>
@@ -20,7 +20,7 @@
         <img class="h-8 w-8" src="~/assets/users.svg" />
       </div>
       <div
-        class="mb-5 stat-item h-[120px] w-[250px] flex justify-between items-center border border-white shadow-[0_-1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg px-4 overflow-hidden"
+        class="mb-5 bg-white stat-item h-[120px] w-[250px] flex justify-between items-center border border-white shadow-[0_-1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg px-4 overflow-hidden"
       >
         <div class="">
           <h3 class="text-xl font-semibold mb-1">Total Products</h3>
@@ -29,7 +29,7 @@
         <img class="h-8 w-8 filter" src="~/assets/shopping-bag.svg" />
       </div>
       <div
-        class="mb-5 stat-item h-[120px] w-[250px] flex justify-between items-center border border-white shadow-[0_-1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg px-4 overflow-hidden"
+        class="mb-5 bg-white stat-item h-[120px] w-[250px] flex justify-between items-center border border-white shadow-[0_-1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg px-4 overflow-hidden"
       >
         <div class="">
           <h3 class="text-xl font-semibold mb-1">Total Revenue</h3>
@@ -40,25 +40,25 @@
     </div>
     <div class="flex flex-wrap justify-between items-center py-7">
       <div
-        class="mb-10 w-[550px] h-[350px] px-10 py-5 border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg"
+        class="bg-white mb-10 w-[550px] h-[350px] px-10 py-5 border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg"
       >
         <h2 class="text-2xl font-semibold">Revenue</h2>
         <DoughnutChart :height="250" :chartData="testData" :options="options" />
       </div>
       <div
-        class="mb-10 w-[550px] h-[350px] px-10 py-5 border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg"
+        class="bg-white mb-10 w-[550px] h-[350px] px-10 py-5 border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg"
       >
         <h2 class="text-2xl font-semibold">Revenue</h2>
         <BarChart :height="250" :chartData="testData" :options="options" />
       </div>
       <div
-        class="mb-10 w-[550px] h-[350px] px-10 py-5 border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg"
+        class="bg-white mb-10 w-[550px] h-[350px] px-10 py-5 border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg"
       >
         <h2 class="text-2xl font-semibold">Revenue</h2>
         <LineChart :height="250" :chartData="testData" :options="options" />
       </div>
       <div
-        class="mb-10 w-[550px] h-[350px] px-10 py-5 border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg"
+        class="bg-white mb-10 w-[550px] h-[350px] px-10 py-5 border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg"
       >
         <h2 class="text-2xl font-semibold">Revenue</h2>
         <PieChart :height="250" :chartData="testData" :options="options" />

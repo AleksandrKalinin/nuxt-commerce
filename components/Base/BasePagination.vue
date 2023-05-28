@@ -1,6 +1,6 @@
 <template>
   <div class="pagination-container w-full flex justify-end mt-3">
-    <div class="pagination flex cursor-pointer">
+    <div class="pagination flex cursor-pointer bg-white">
       <div
         @click="firstPage"
         class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5 h-10"
