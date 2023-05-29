@@ -23,10 +23,10 @@
           }}</span>
         </p>
         <button
-          class="mt-5 text-lg px-7 py-2 hover:bg-sky-500 bg-sky-400 text-white rounded-none flex items-center justify-center"
+          class="mt-5 text-lg px-7 py-4 hover:bg-sky-500 bg-sky-400 text-white rounded-none flex items-center justify-center"
         >
-          <img class="w-6 h-6 mr-1" src="~/assets/shopping-bag.svg" /> Добавить
-          в корзину
+          <img class="w-6 h-6 mr-2 icon" src="~/assets/shopping-bag.svg" />
+          Добавить в корзину
         </button>
       </div>
     </div>
@@ -167,5 +167,9 @@ onMounted(() => {
 .tab_active img {
   -webkit-filter: invert(0.1);
   filter: invert(0.1);
+}
+
+.icon {
+  color: #ffffff;
 }
 </style>

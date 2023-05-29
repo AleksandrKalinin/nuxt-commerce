@@ -1,4 +1,18 @@
 <template>
+  <div class="w-full flex items-center justify-start h-[80px] px-[30px]">
+    <button
+      v-on:click="saveDesign"
+      class="mr-4 transition duration-200 hover:bg-sky-500 text-lg px-7 py-2 bg-sky-400 text-white rounded-none"
+    >
+      Save Design
+    </button>
+    <button
+      v-on:click="exportHtml"
+      class="transition duration-200 hover:bg-sky-500 text-lg px-7 py-2 bg-sky-400 text-white rounded-none"
+    >
+      Export HTML
+    </button>
+  </div>
   <div id="app" class="h-[calc(100vh-160px)]">
     <EmailEditor
       minHeight="500"

@@ -4,29 +4,44 @@
   >
     <div class="admin-panel__categories">
       <div class="">
-        <NuxtLink class="text-lg p-2 w-full flex cursor-pointer" to="/admin"
-          >Каталог</NuxtLink
+        <NuxtLink
+          class="text-lg p-3 w-full flex cursor-pointer items-center transition duration-200"
+          to="/admin"
+        >
+          <img class="w-6 h-6 mr-2 icon" src="~/assets/shopping-bag.svg" />
+          Каталог</NuxtLink
         >
       </div>
       <div>
         <NuxtLink
-          class="text-lg p-2 w-full flex cursor-pointer"
+          class="text-lg p-3 w-full flex cursor-pointer items-center transition duration-200"
           to="/admin/orders"
-          >Заказы</NuxtLink
+          ><img class="w-6 h-6 mr-2 icon" src="~/assets/cart.svg" />
+          Заказы</NuxtLink
         >
       </div>
       <div>
         <NuxtLink
-          class="text-lg p-2 w-full flex cursor-pointer"
+          class="text-lg p-3 w-full flex cursor-pointer items-center transition duration-200"
           to="/admin/users"
-          >Пользователи</NuxtLink
+          ><img class="w-6 h-6 mr-2 icon" src="~/assets/users.svg" />
+          Пользователи</NuxtLink
         >
       </div>
       <div>
         <NuxtLink
-          class="text-lg p-2 w-full flex cursor-pointer"
+          class="text-lg p-3 w-full flex cursor-pointer items-center transition duration-200"
           to="/admin/dashboard"
-          >Статистика</NuxtLink
+          ><img class="w-6 h-6 mr-2 icon" src="~/assets/chart.svg" />
+          Статистика</NuxtLink
+        >
+      </div>
+      <div>
+        <NuxtLink
+          class="text-lg p-3 w-full flex cursor-pointer items-center transition duration-200"
+          to="/admin/emailbuilder"
+          ><img class="w-6 h-6 mr-2 icon" src="~/assets/mail.svg" />
+          Рассылка</NuxtLink
         >
       </div>
     </div>
@@ -35,4 +50,12 @@
 
 <script setup lang="ts"></script>
 
-<style scoped></style>
+<style scoped>
+.icon {
+  color: #222222;
+}
+
+a.router-link-active {
+  @apply bg-gray-200 font-semibold;
+}
+</style>
