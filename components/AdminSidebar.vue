@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="admin-panel w-96 border sky-blue-400 p-4 bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg"
+    class="admin-panel w-96 max-lg:w-full max-lg:mb-5 border sky-blue-400 p-4 bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg"
   >
     <div class="admin-panel__categories">
       <div class="">

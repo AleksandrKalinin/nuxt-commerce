@@ -4,7 +4,7 @@
       <h1 class="font-semibold text-4xl mb-7 flex justify-between">
         Аккаунт
         <button
-          @click="client.auth.signOut()"
+          @click="logoutUser()"
           class="text-lg px-7 py-2 bg-sky-400 text-white rounded-none"
         >
           Log out
@@ -88,6 +88,7 @@
 import { useOrdersStore } from "~/store/orders";
 import { USER_ORDERS_HEADER } from "~/constants";
 
+const router = useRouter();
 const user = useSupabaseUser();
 const client = useSupabaseClient();
 
@@ -118,6 +119,11 @@ const formatDate = (date: Date) => {
     ":" +
     date.getSeconds()
   );
+};
+
+const logoutUser = () => {
+  router.push("/catalog");
+  client.auth.signOut();
 };
 
 onMounted(() => {

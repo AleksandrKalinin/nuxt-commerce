@@ -1,5 +1,5 @@
 <template>
-  <div class="pagination-container w-full flex justify-end mt-3">
+  <div class="pagination-container w-full flex justify-end mt-10">
     <div class="pagination flex cursor-pointer bg-white">
       <div
         @click="firstPage"

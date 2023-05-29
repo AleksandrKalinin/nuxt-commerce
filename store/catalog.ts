@@ -43,7 +43,6 @@ export const useCatalogStore = defineStore("catalog", () => {
   });
 
   const filteredByPrice = computed(() => {
-    console.log("computed", initialPrice.value);
     return filteredItems.value?.filter((item: CatalogItem) => {
       return item.price > initialPrice.value;
     });

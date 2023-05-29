@@ -7,14 +7,16 @@
       class="w-full h-full object-cover absolute top-0 left-0 z-2 bg-gray-700 bg-opacity-75 flex justify-center items-center"
     >
       <div class="container mx-auto flex flex-col justify-center items-center">
-        <h2 class="text-white text-4xl tracking-wide font-semibold mb-6">
+        <h2
+          class="text-white text-4xl tracking-wide font-semibold mb-6 max-md:text-2xl"
+        >
           Subscribe to our newsletter
         </h2>
         <form @submit.prevent="subscribeToNews">
           <input
             type="text"
             placeholder="Ваш e-mail"
-            class="w-[400px] border bg-transparent px-5 py-3 mr-3 border border-white rounded-0 text-white text-xl rounded-none"
+            class="w-[400px] max-md:w-[200px] border bg-transparent px-5 py-3 mr-3 border border-white rounded-0 text-white text-xl rounded-none"
           />
           <input
             type="submit"

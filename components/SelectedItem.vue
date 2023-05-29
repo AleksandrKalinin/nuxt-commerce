@@ -1,5 +1,5 @@
 <template>
-  <section class="w-full lg:ml-10 ml-5 bg-white" v-if="selectedItem">
+  <section class="w-full lg:ml-10 bg-white" v-if="selectedItem">
     <div class="w-full flex justify-between mb-5 bg-white">
       <div class="p-5">
         <img

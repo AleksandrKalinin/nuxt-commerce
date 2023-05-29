@@ -1,5 +1,7 @@
 <template>
-  <div class="container mx-auto py-10 flex min-h-[calc(100vh-160px)]">
+  <div
+    class="container mx-auto py-10 flex min-h-[calc(100vh-160px)] max-lg:flex-col"
+  >
     <Sidebar />
     <SelectedItem />
   </div>

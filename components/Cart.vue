@@ -1,27 +1,29 @@
 <template>
   <template v-if="cartItems.length">
     <BaseTable :header="header" :data="cartItems" />
-    <div class="price-panel flex justify-between items-center py-5">
+    <div
+      class="price-panel flex justify-between items-center py-5 max-lg:flex-col"
+    >
       <div
-        class="price-panel__item price-item flex justify-between items-center w-1/5 p-5 border border-slate-200"
+        class="price-panel__item price-item flex justify-between items-center w-1/5 max-lg:w-full max-lg:mb-4 p-5 border border-slate-200"
       >
         <span class="price-item__category">Discount</span>
         <span class="price-item__sum font-semibold text-2xl">$0.00</span>
       </div>
       <div
-        class="price-panel__item price-item flex justify-between items-center w-1/5 p-5 border border-slate-200"
+        class="price-panel__item price-item flex justify-between items-center w-1/5 max-lg:w-full max-lg:mb-4 p-5 border border-slate-200"
       >
         <span class="price-item__category">Delivery</span>
         <span class="price-item__sum font-semibold text-2xl">$0.00</span>
       </div>
       <div
-        class="price-panel__item price-item flex justify-between items-center w-1/5 p-5 border border-slate-200"
+        class="price-panel__item price-item flex justify-between items-center w-1/5 max-lg:w-full max-lg:mb-4 p-5 border border-slate-200"
       >
         <span class="price-item__category">Subtotal</span>
         <span class="price-item__sum font-semibold text-2xl">$0.00</span>
       </div>
       <div
-        class="price-panel__item price-item flex justify-between items-center w-1/5 p-5 border border-slate-200"
+        class="price-panel__item price-item flex justify-between items-center w-1/5 max-lg:w-full max-lg:mb-4 p-5 border border-slate-200"
       >
         <span class="price-item__category">Total</span>
         <span class="price-item__sum font-semibold text-2xl"

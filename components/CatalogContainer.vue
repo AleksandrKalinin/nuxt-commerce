@@ -1,10 +1,10 @@
 <template>
-  <section class="w-full lg:ml-10 ml-5" ref="scrollEl">
+  <section class="w-full lg:ml-10" ref="scrollEl">
     <CatalogPanel />
     <template v-if="catalogItems?.length">
       <div
         v-if="catalogItems?.length"
-        class="grid gap-4 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1"
+        class="grid gap-4 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2"
       >
         <TransitionGroup name="catalog">
           <CatalogItem
