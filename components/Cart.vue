@@ -1,4 +1,5 @@
 <template>
+  <BasePopup />
   <template v-if="cartItems.length">
     <BaseTable :header="header" :data="cartItems" />
     <div

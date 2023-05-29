@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { useCatalogStore } from "./catalog";
 import { useToastsStore } from "./toasts";
 import { toastHandler } from "~/utils/toastHandler";
+import { usePopupStore } from "./popup";
 
 export const useCartStore = defineStore("cart", () => {
   const client = useSupabaseClient();
@@ -9,6 +10,7 @@ export const useCartStore = defineStore("cart", () => {
   const userEmail: Ref<string | undefined> = ref("");
   const dbItems: any = ref([]);
   const toastsStore = useToastsStore();
+  const popupStore = usePopupStore();
   const catalogStore = useCatalogStore();
   catalogStore.fetchCatalogItems();
 
@@ -69,6 +71,7 @@ export const useCartStore = defineStore("cart", () => {
             .eq("user_id", userId.value);
           const { toast, message } = toastHandler("add-to-cart");
           toastsStore.showSuccessToast(toast, message);
+
           if (error) throw error;
         } catch (e) {
           throw e;
@@ -128,7 +131,13 @@ export const useCartStore = defineStore("cart", () => {
           .from("users")
           .update({ cart: [] })
           .eq("user_id", userId.value);
-        if (error) throw error;
+        if (error) {
+          throw error;
+        }
+        popupStore.openPopup(
+          "You order was succesfully placed!",
+          "В личный кабинет"
+        );
       } catch (e) {
         throw e;
       }
