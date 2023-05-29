@@ -23,6 +23,7 @@ export const useUsersStore = defineStore("users", () => {
           registration_date: new Date(),
           email: email,
           role: "user",
+          user_id: "",
           cart: [],
         },
       ]);
