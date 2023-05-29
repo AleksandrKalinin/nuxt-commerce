@@ -1,7 +1,7 @@
 <template>
   <button
     @click="modalOpen = true"
-    class="text-lg px-7 py-2 bg-white text-sky-400 rounded-none"
+    class="text-lg px-7 py-2 bg-sky-400 text-white rounded-none"
   >
     Log in
   </button>
