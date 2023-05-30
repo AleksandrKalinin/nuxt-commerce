@@ -1,7 +1,27 @@
 <template>
-  <EmailBuilder />
+  <NuxtErrorBoundary>
+    <EmailBuilder />
+    <template #error="{ error }">
+      <div>
+        <p>
+          An error occured when loading email builder
+          <code>{{ error }}</code>
+        </p>
+        <p>
+          <button class="hover:cursor-pointer" @click="clearError(error)">
+            Go back
+          </button>
+        </p>
+      </div>
+    </template>
+  </NuxtErrorBoundary>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const clearError = async (err) => {
+  await navigateTo("/admin");
+  err.value = null;
+};
+</script>
 
 <style scoped></style>

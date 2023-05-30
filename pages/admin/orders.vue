@@ -6,7 +6,22 @@
     <section class="w-full lg:ml-10" ref="scrollEl">
       <AdminPanel />
       <div class="columns-1">
-        <OrdersTable />
+        <NuxtErrorBoundary>
+          <OrdersTable />
+          <template #error="{ error }">
+            <div>
+              <p>
+                An error occured when orders
+                <code>{{ error }}</code>
+              </p>
+              <p>
+                <button class="hover:cursor-pointer" @click="clearError(error)">
+                  Go back
+                </button>
+              </p>
+            </div>
+          </template>
+        </NuxtErrorBoundary>
         <BasePagination :items="store.orders" :targetRef="scrollEl" />
       </div>
     </section>
@@ -15,7 +30,10 @@
 
 <script setup lang="ts">
 import { useOrdersStore } from "~/store/orders";
-
+const clearError = async (err) => {
+  await navigateTo("/admin");
+  err.value = null;
+};
 const store = useOrdersStore();
 const scrollEl = ref(null);
 </script>

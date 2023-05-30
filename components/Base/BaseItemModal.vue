@@ -1,7 +1,7 @@
 <template>
   <button
     @click="modalOpen = true"
-    class="transition duration-200 hover:bg-sky-500 text-lg px-7 mx-auto py-2 bg-sky-400 text-white rounded-lg"
+    class="transition duration-200 hover:bg-sky-500 text-lg px-7 mx-auto py-2 bg-sky-400 text-white"
   >
     Добавить
   </button>

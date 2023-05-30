@@ -69,6 +69,12 @@ export function toastHandler(error: string) {
         message: "Item hidden!",
       };
       break;
+    case "item-not-found":
+      return {
+        toast: "showErrorToast",
+        message: "Error! Requested item does not exist",
+      };
+      break;
     default:
       return {
         toast: "showErrorToast",

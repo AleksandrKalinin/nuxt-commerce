@@ -1,6 +1,6 @@
 <template>
   <table
-    class="w-full border-separate border-spacing-2 border sky-blue-400 py-5 px-3"
+    class="w-full border-separate border-spacing-2 sky-blue-400 py-5 px-3 mb-5 bg-white"
   >
     <thead>
       <tr>

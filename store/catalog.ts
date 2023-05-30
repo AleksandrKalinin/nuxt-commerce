@@ -1,10 +1,10 @@
 import { defineStore } from "pinia";
-import { createClient } from "@supabase/supabase-js";
 import { usePaginationStore } from "./pagination";
+import { useToastsStore } from "./toasts";
 
 export const useCatalogStore = defineStore("catalog", () => {
-  const config = useSupabaseConfig();
-  const client = createClient(config.URL, config.KEY);
+  const client = useSupabaseClient();
+  const toastsStore = useToastsStore();
   const catalogItems: Ref<CatalogItem[] | null> = ref([]);
 
   async function fetchCatalogItems() {
@@ -15,6 +15,10 @@ export const useCatalogStore = defineStore("catalog", () => {
           "id, name, price, date, manufacturer, photo, type, battery_type, pixels, max_FPS_video, max_FPS_photo, max_sensitivity, max_resolution, min_sensitivity, wi_fi, card_support, matrix_type, matrix_size, popularity, rating, warranty, in_stock, item_code, is_visible"
         );
       catalogItems.value = data;
+      if (error) {
+        const { toast, message } = toastHandler(error.code);
+        toastsStore.showErrorToast(toast, message);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -33,8 +37,15 @@ export const useCatalogStore = defineStore("catalog", () => {
           "id, name, price, date, manufacturer, photo, type, battery_type, pixels, max_FPS_video, max_FPS_photo, max_sensitivity, max_resolution, min_sensitivity, wi_fi, card_support, matrix_type, matrix_size, popularity, rating, warranty, in_stock, item_code, is_visible"
         )
         .eq("id", Number(id));
-      if (data) {
+      if (error) {
+        const { toast, message } = toastHandler(error.code);
+        toastsStore.showErrorToast(toast, message);
+      }
+      if (data?.length) {
         selectedItem.value = data[0];
+      } else {
+        const { toast, message } = toastHandler("item-not-found");
+        toastsStore.showErrorToast(toast, message);
       }
     } catch (e) {
       throw e;

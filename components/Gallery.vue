@@ -1,5 +1,5 @@
 <template>
-  <section class="py-10" :class="`max-w-[${380 * itemsNumber}px]`">
+  <section class="py-10 bg-white" :class="`max-w-[${380 * itemsNumber}px]`">
     <div class="gallery__header flex justify-between mb-5 py-3 px-5">
       <h2 class="text-3xl font-semibold">Похожие товары</h2>
     </div>

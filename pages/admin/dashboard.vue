@@ -5,16 +5,31 @@
     <AdminSidebar />
     <section class="w-full lg:ml-10">
       <div class="columns-1">
-        <Dashboard
-          :orders="ordersOverview"
-          :users="usersData"
-          :revenue="revenue"
-          :balance="balanceData"
-          :totalOrders="orders?.length"
-          :totalUsers="users?.length"
-          :totalItems="items?.length"
-          :totalRevenue="totalRevenue"
-        />
+        <NuxtErrorBoundary>
+          <Dashboard
+            :orders="ordersOverview"
+            :users="usersData"
+            :revenue="revenue"
+            :balance="balanceData"
+            :totalOrders="orders?.length"
+            :totalUsers="users?.length"
+            :totalItems="items?.length"
+            :totalRevenue="totalRevenue"
+          />
+          <template #error="{ error }">
+            <div>
+              <p>
+                An error occured when loading the dashboard!
+                <code>{{ error }}</code>
+              </p>
+              <p>
+                <button class="hover:cursor-pointer" @click="clearError(error)">
+                  Back
+                </button>
+              </p>
+            </div>
+          </template>
+        </NuxtErrorBoundary>
       </div>
     </section>
   </div>
@@ -24,6 +39,11 @@
 import { useCatalogStore } from "~/store/catalog";
 import { useOrdersStore } from "~/store/orders";
 import { useUsersStore } from "~/store/users";
+
+const clearError = async (err) => {
+  await navigateTo("/admin");
+  err.value = null;
+};
 
 const ordersStore = useOrdersStore();
 const usersStore = useUsersStore();

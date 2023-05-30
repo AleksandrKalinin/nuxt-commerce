@@ -3,7 +3,7 @@
     @click="modalOpen = true"
     class="text-lg px-7 py-2 bg-sky-400 text-white rounded-none"
   >
-    Log in
+    Войти
   </button>
   <Teleport to="body">
     <Transition>

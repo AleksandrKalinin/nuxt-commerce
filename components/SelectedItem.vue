@@ -1,5 +1,8 @@
 <template>
-  <section class="w-full lg:ml-10 bg-white" v-if="selectedItem">
+  <section
+    class="w-full lg:ml-10 bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg"
+    v-if="selectedItem"
+  >
     <div class="w-full flex justify-between mb-5 bg-white">
       <div class="p-5">
         <img
@@ -23,7 +26,7 @@
           }}</span>
         </p>
         <button
-          class="mt-5 text-lg px-7 py-4 hover:bg-sky-500 bg-sky-400 text-white rounded-lg flex items-center justify-center"
+          class="mt-5 text-lg px-7 py-4 hover:bg-sky-500 bg-sky-400 text-white flex items-center justify-center"
         >
           <img class="w-6 h-6 mr-2 icon" src="~/assets/shopping-bag.svg" />
           Добавить в корзину
@@ -32,7 +35,7 @@
     </div>
     <div class="tabs-header w-full flex">
       <div
-        class="min-w-[180px] h-16 px-4 flex items-center justify-center cursor-pointer text-center text-lg bg-slate-200 text-slate-400 border border-slate-200 transition duration-100"
+        class="min-w-[180px] h-16 px-4 flex items-center justify-center cursor-pointer text-center text-lg bg-slate-200 text-slate-400 transition duration-100"
         :class="currentTab === 'description' ? 'tab_active' : ''"
         value="description"
         @click="setTab($event)"
@@ -41,7 +44,7 @@
         Характеристики
       </div>
       <div
-        class="min-w-[180px] h-16 px-4 flex items-center justify-center cursor-pointer text-center text-lg bg-slate-200 text-slate-400 border border-slate-200 transition duration-100"
+        class="min-w-[180px] h-16 px-4 flex items-center justify-center cursor-pointer text-center text-lg bg-slate-200 text-slate-400 transition duration-100"
         :class="currentTab === 'reviews' ? 'tab_active' : ''"
         value="reviews"
         @click="setTab($event)"

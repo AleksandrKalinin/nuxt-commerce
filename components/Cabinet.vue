@@ -5,7 +5,7 @@
         Аккаунт
         <button
           @click="logoutUser()"
-          class="text-lg px-7 py-2 bg-sky-400 text-white rounded-lg"
+          class="text-lg px-7 py-2 bg-sky-400 text-white"
         >
           Log out
         </button>

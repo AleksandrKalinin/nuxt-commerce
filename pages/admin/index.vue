@@ -6,7 +6,22 @@
     <section class="w-full lg:ml-10" ref="scrollEl">
       <AdminPanel />
       <div class="columns-1">
-        <CatalogTable />
+        <NuxtErrorBoundary>
+          <CatalogTable />
+          <template #error="{ error }">
+            <div>
+              <p>
+                An error occured when orders
+                <code>{{ error }}</code>
+              </p>
+              <p>
+                <button class="hover:cursor-pointer" @click="clearError(error)">
+                  Go back
+                </button>
+              </p>
+            </div>
+          </template>
+        </NuxtErrorBoundary>
         <BasePagination :items="store.catalogItems" :targetRef="scrollEl" />
       </div>
     </section>
@@ -19,6 +34,11 @@ definePageMeta({
 });
 
 import { useCatalogStore } from "~/store/catalog";
+
+const clearError = async (err) => {
+  await navigateTo("/admin");
+  err.value = null;
+};
 
 const store = useCatalogStore();
 const scrollEl = ref(null);
