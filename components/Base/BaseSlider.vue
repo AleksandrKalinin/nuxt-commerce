@@ -11,15 +11,7 @@
       class="slider cursor-pointer"
     />
     <div class="flex w-full justify-between">
-      <input
-        :value="sliderValue"
-        @input="({ target }) => (sliderValue = parseFloat(target.value))"
-        :min="min"
-        :max="max"
-        :step="step"
-        type="number"
-        class="input"
-      />
+      <span>{{ min }}</span>
       <span>{{ max }}</span>
     </div>
   </div>

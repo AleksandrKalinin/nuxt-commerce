@@ -22,12 +22,24 @@ export const useCatalogStore = defineStore("catalog", () => {
 
   const selectedItem: Ref<CatalogItem | null> = ref(null);
 
-  function fetchSelectedItem(id: string | string[]) {
-    const item = catalogItems.value?.find((x: any) => x.id === Number(id));
-    if (item) {
-      selectedItem.value = item;
+  const fetchSelectedItem = async (id: string | string[]) => {
+    if (catalogItems.value?.length === 0) {
+      fetchCatalogItems();
     }
-  }
+    try {
+      let { data, error } = await client
+        .from("catalog")
+        .select(
+          "id, name, price, date, manufacturer, photo, type, battery_type, pixels, max_FPS_video, max_FPS_photo, max_sensitivity, max_resolution, min_sensitivity, wi_fi, card_support, matrix_type, matrix_size, popularity, rating, warranty, in_stock, item_code, is_visible"
+        )
+        .eq("id", Number(id));
+      if (data) {
+        selectedItem.value = data[0];
+      }
+    } catch (e) {
+      throw e;
+    }
+  };
 
   const searchValue = ref("");
   const initialPrice = ref(0);
