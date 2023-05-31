@@ -18,6 +18,18 @@ export function toastHandler(error: string) {
         message: "Item added to cart!",
       };
       break;
+    case "add-review-success":
+      return {
+        toast: "showSuccessToast",
+        message: "Succesfully added review",
+      };
+      break;
+    case "add-review-error":
+      return {
+        toast: "showErrorToast",
+        message: "Error! Unable to add your review",
+      };
+      break;
     case "order-confirmed":
       return {
         toast: "showSuccessToast",
@@ -45,6 +57,29 @@ export function toastHandler(error: string) {
         message: "Email already in use!",
       };
       break;
+    case "item-delete-success":
+      return {
+        toast: "showSuccessToast",
+        message: "Item deleted!",
+      };
+      break;
+    case "item-delete-error":
+      return {
+        toast: "showErrorToast",
+        message: "Error! Cannot delete selected item",
+      };
+    case "item-update-success":
+      return {
+        toast: "showSuccessToast",
+        message: "Item updated!",
+      };
+      break;
+    case "item-update-error":
+      return {
+        toast: "showErrorToast",
+        message: "Error! Cannot update selected item",
+      };
+      break;
     case "add-to-database":
       return {
         toast: "showSuccessToast",
@@ -67,6 +102,24 @@ export function toastHandler(error: string) {
       return {
         toast: "showSuccessToast",
         message: "Item hidden!",
+      };
+      break;
+    case "item-not-found":
+      return {
+        toast: "showErrorToast",
+        message: "Error! Requested item does not exist",
+      };
+      break;
+    case "status-update-error":
+      return {
+        toast: "showErrorToast",
+        message: "Error! Cannot change order status",
+      };
+      break;
+    case "status-update-success":
+      return {
+        toast: "showErrorToast",
+        message: "Order status changed!",
       };
       break;
     default:

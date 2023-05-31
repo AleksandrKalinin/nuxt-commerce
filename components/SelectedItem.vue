@@ -1,6 +1,9 @@
 <template>
-  <section class="w-full lg:ml-10 ml-5" v-if="selectedItem">
-    <div class="w-full flex justify-between mb-5">
+  <section
+    class="w-full lg:ml-10 bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg"
+    v-if="selectedItem"
+  >
+    <div class="w-full flex justify-between mb-5 bg-white">
       <div class="p-5">
         <img
           class="min-w-[300px] w-[300px] h-auto object-cover"
@@ -23,16 +26,16 @@
           }}</span>
         </p>
         <button
-          class="mt-5 text-lg px-7 py-2 hover:bg-sky-500 bg-sky-400 text-white rounded-none flex items-center justify-center"
+          class="mt-5 text-lg px-7 py-2 hover:bg-sky-500 bg-sky-400 text-white flex items-center justify-center"
         >
-          <img class="w-6 h-6 mr-1" src="~/assets/shopping-bag.svg" /> Добавить
-          в корзину
+          <img class="w-6 h-6 mr-2 icon" src="~/assets/bag.svg" />
+          Добавить в корзину
         </button>
       </div>
     </div>
     <div class="tabs-header w-full flex">
       <div
-        class="min-w-[180px] h-16 px-4 flex items-center justify-center cursor-pointer text-center text-lg bg-slate-200 text-slate-400 border border-slate-200 transition duration-100"
+        class="min-w-[180px] h-16 px-4 flex items-center justify-center cursor-pointer text-center text-lg bg-slate-200 text-slate-400 transition duration-100"
         :class="currentTab === 'description' ? 'tab_active' : ''"
         value="description"
         @click="setTab($event)"
@@ -41,13 +44,17 @@
         Характеристики
       </div>
       <div
-        class="min-w-[180px] h-16 px-4 flex items-center justify-center cursor-pointer text-center text-lg bg-slate-200 text-slate-400 border border-slate-200 transition duration-100"
+        class="min-w-[180px] h-16 px-4 flex items-center justify-center cursor-pointer text-center text-lg bg-slate-200 text-slate-400 transition duration-100"
         :class="currentTab === 'reviews' ? 'tab_active' : ''"
         value="reviews"
         @click="setTab($event)"
       >
         <img class="w-8 mr-2" src="~/assets/chat.svg" />Отзывы
-        <span class="pl-1">(2)</span>
+        <span class="pl-1"
+          >({{
+            selectedItem.reviews?.length ? selectedItem.reviews?.length : 0
+          }})</span
+        >
       </div>
     </div>
     <KeepAlive>
@@ -167,5 +174,9 @@ onMounted(() => {
 .tab_active img {
   -webkit-filter: invert(0.1);
   filter: invert(0.1);
+}
+
+.icon {
+  color: #ffffff;
 }
 </style>

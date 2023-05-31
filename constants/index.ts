@@ -143,30 +143,6 @@ export const INPUT_FIELDS = [
   },
 ];
 
-export const ORDERS_HEADER = [
-  {
-    label: "№",
-    value: "id",
-    type: "plain",
-  },
-  {
-    label: "Дата заказа",
-    value: "created_at",
-    type: "plain",
-  },
-  {
-    label: "Сумма",
-    value: "total",
-    type: "plain",
-  },
-  {
-    label: "Статус",
-    value: "status",
-    type: "select",
-    options: ["Pending", "Completed", "Cancelled"],
-  },
-];
-
 export const USERS_HEADER = [
   {
     label: "ID",
@@ -186,6 +162,44 @@ export const USERS_HEADER = [
   {
     label: "Role",
     value: "role",
+    type: "plain",
+  },
+];
+
+export const USER_ORDERS_HEADER = [
+  {
+    label: "ID",
+    value: "id",
+    type: "plain",
+  },
+  {
+    label: "Название",
+    value: "name",
+    type: "plain",
+  },
+  {
+    label: "Фото",
+    value: "photo",
+    type: "image",
+  },
+  {
+    label: "Артикул",
+    value: "item_code",
+    type: "plain",
+  },
+  {
+    label: "Цена",
+    value: "price",
+    type: "plain",
+  },
+  {
+    label: "Кол-во",
+    value: "amount",
+    type: "plain",
+  },
+  {
+    label: "Общая цена",
+    value: "total",
     type: "plain",
   },
 ];

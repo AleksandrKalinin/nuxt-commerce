@@ -16,14 +16,16 @@ export const useUsersStore = defineStore("users", () => {
     }
   }
 
-  const addUser = async (email: string) => {
+  const addUser = async (email: string, isSubscribed: boolean) => {
     try {
       const { error } = await client.from("users").insert([
         {
           registration_date: new Date(),
           email: email,
           role: "user",
+          user_id: "",
           cart: [],
+          subscribed: isSubscribed,
         },
       ]);
       if (error) throw error;

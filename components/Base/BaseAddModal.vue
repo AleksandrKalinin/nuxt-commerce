@@ -1,15 +1,12 @@
 <template>
-  <button
-    @click="modalOpen = true"
-    class="transition duration-200 hover:bg-sky-500 text-lg px-7 mx-auto py-2 bg-sky-400 text-white rounded-none"
-  >
-    Добавить
-  </button>
+  <div @click="modalOpen = true" class="flex">
+    <slot></slot>
+  </div>
   <Teleport to="body">
     <Transition>
       <div
         v-if="modalOpen"
-        class="overlay fixed overflow-y-auto z-10 w-full h-screen bg-sky-400/75 flex justify-center items-center"
+        class="overlay fixed top-0 left-0 overflow-y-auto z-999 w-full h-screen bg-sky-400/75 flex justify-center items-center"
       >
         <div
           class="w-[700px] h-[calc(100vh_-_100px)] overflow-y-auto bg-white p-10 opacity-100"

@@ -1,19 +1,41 @@
 <template>
-  <div class="container mx-auto py-10 flex">
-    <AdminSidebar />
-    <section class="w-full lg:ml-10 ml-5">
-      <AdminPanel />
-      <div class="columns-1">
-        <OrdersTable />
-        <BasePagination :items="store.orders" />
+  <NuxtErrorBoundary>
+    <OrdersTable />
+    <template #error="{ error }">
+      <div class="flex flex-col items-center w-full pt-[50px]">
+        <p class="mb-3 text-xl">
+          An error occured when loading orders
+          <code>{{ error }}</code>
+        </p>
+        <p class="py-3">
+          <button
+            class="transition duration-200 hover:bg-sky-500 text-lg px-7 mx-auto py-2 bg-sky-400 text-white border"
+            @click="clearError(error)"
+          >
+            Back to catalog
+          </button>
+        </p>
       </div>
-    </section>
-  </div>
+    </template>
+  </NuxtErrorBoundary>
+  <BasePagination :items="store.orders" :targetRef="scrollEl" />
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  middleware: ["auth"],
+  layout: "admin",
+});
+
 import { useOrdersStore } from "~/store/orders";
+
+const clearError = async (err) => {
+  await navigateTo("/admin");
+  err.value = null;
+};
+
 const store = useOrdersStore();
+const scrollEl = ref(null);
 </script>
 
 <style scoped></style>

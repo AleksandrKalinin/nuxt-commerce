@@ -1,10 +1,10 @@
 <template>
-  <section class="w-full lg:ml-10 ml-5">
+  <section class="w-full lg:ml-10" ref="scrollEl">
     <CatalogPanel />
     <template v-if="catalogItems?.length">
       <div
-        v-if="catalogItems?.length"
-        class="grid gap-4 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1"
+        v-if="catalogItems?.length && isLoaded"
+        class="grid gap-4 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2"
       >
         <TransitionGroup name="catalog">
           <CatalogItem
@@ -15,6 +15,15 @@
         </TransitionGroup>
       </div>
     </template>
+    <template v-else-if="catalogItems?.length === 0 && isLoaded">
+      <Transition>
+        <div
+          class="preloader-wrapper flex justify-center items-center h-full w-full"
+        >
+          <span class="text-2xl">No items found</span>
+        </div>
+      </Transition>
+    </template>
     <template v-else>
       <Transition>
         <div
@@ -24,7 +33,7 @@
         </div>
       </Transition>
     </template>
-    <BasePagination :items="catalogItems" />
+    <BasePagination :items="catalogItems" :targetRef="scrollEl" />
   </section>
 </template>
 
@@ -32,9 +41,16 @@
 import { useCartStore } from "~/store/cart";
 import { useCatalogStore } from "~/store/catalog";
 import { usePaginationStore } from "~/store/pagination";
+
+const user = useSupabaseUser();
 const store = useCatalogStore();
 const pagesStore = usePaginationStore();
 const cartStore = useCartStore();
+const scrollEl = ref(null);
+
+const isLoaded = computed(() => {
+  return store.loaded;
+});
 
 const catalogItems = computed(() => {
   return store.selectedItems;
@@ -50,7 +66,10 @@ const end = computed(() => {
 
 onMounted(() => {
   store.fetchCatalogItems();
-  cartStore.getCartItems();
+  if (user.value) {
+    console.log(user.value);
+    cartStore.getCartItems();
+  }
 });
 </script>
 

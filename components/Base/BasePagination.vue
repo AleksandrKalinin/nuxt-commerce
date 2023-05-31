@@ -1,9 +1,9 @@
 <template>
-  <div class="pagination-container w-full flex justify-end mt-3">
-    <div class="pagination flex cursor-pointer">
+  <div class="pagination-container w-full flex justify-end mt-10">
+    <div class="pagination flex cursor-pointer bg-white">
       <div
         @click="firstPage"
-        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5 h-10"
+        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5 h-[50px]"
       >
         First
       </div>
@@ -11,13 +11,13 @@
         v-for="num in pageNumbers"
         @click="setPage(num)"
         :class="{ 'pagination-item_active': num === store.currentPage + 1 }"
-        class="pagination-item flex justify-center items-center border sky-blue-400 w-10 h-10 font-lg font-semibold"
+        class="pagination-item flex justify-center items-center border sky-blue-400 w-[50px] h-[50px] font-lg font-semibold"
       >
         {{ num }}
       </div>
       <div
         @click="lastPage"
-        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5 h-10"
+        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5 h-[50px]"
       >
         Last
       </div>
@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import { usePaginationStore } from "~/store/pagination";
-const props = defineProps(["items"]);
+const props = defineProps(["items", "targetRef"]);
 const store = usePaginationStore();
 
 const pageNumbers = computed(() => {
@@ -38,17 +38,32 @@ const pageNumbers = computed(() => {
   return numbers;
 });
 
+const scroolToTarget = () => {
+  if (props.targetRef) {
+    props.targetRef.scrollIntoView({ behavior: "smooth" });
+  }
+};
+
 const firstPage = () => {
-  store.currentPage = 0;
+  scroolToTarget();
+  setTimeout(() => {
+    store.currentPage = 0;
+  }, 500);
 };
 
 const lastPage = () => {
-  const maxLength = Math.ceil(props.items.length / 12);
-  store.currentPage = maxLength - 1;
+  scroolToTarget();
+  setTimeout(() => {
+    const maxLength = Math.ceil(props.items.length / 12);
+    store.currentPage = maxLength - 1;
+  }, 500);
 };
 
 const setPage = (num: number) => {
-  store.currentPage = num - 1;
+  scroolToTarget();
+  setTimeout(() => {
+    store.currentPage = num - 1;
+  }, 500);
 };
 </script>
 

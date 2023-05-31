@@ -1,6 +1,7 @@
 <template>
   <table
-    class="w-full border-separate border-spacing-2 border sky-blue-400 py-5 px-3"
+    :class="shadowed ? 'shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)]' : ''"
+    class="w-full min-w-full border-separate border-spacing-2 border sky-blue-400 py-5 px-3 bg-white border border-white rounded-lg"
   >
     <thead>
       <tr class="text-left cursor-pointer">
@@ -37,13 +38,14 @@
           <td v-else-if="option.type === 'icon'" class="py-4">
             <img
               :src="option.value"
-              class="w-8 h-12 cursor-pointer"
+              class="w-[25px] h-[25px] cursor-pointer"
               @click="option.action(item.id)"
             />
           </td>
           <td v-else-if="option.type === 'select'" class="py-4">
             <select
               :name="item.name"
+              @change="option.action(item.id, $event)"
               class="h-12 bg-white border bg-sky-400 rounded-none mb-4 px-3 text-xl"
             >
               <option :value="item[option]">{{ item[option.value] }}</option>
@@ -54,6 +56,14 @@
               </template>
             </select>
           </td>
+          <td v-else-if="option.type === 'markup'" class="py-4">
+            <BaseUpdateModal :item="item" :originalItems="originalItems">
+              <img
+                :src="option.value"
+                class="w-[25px] h-[25px] cursor-pointer"
+              />
+            </BaseUpdateModal>
+          </td>
         </template>
       </tr>
     </tbody>
@@ -63,7 +73,7 @@
 <script setup lang="ts">
 import { useFilterStore } from "~/store/filter";
 import { useAdminStore } from "~/store/admin";
-const props = defineProps(["header", "data"]);
+const props = defineProps(["header", "data", "shadowed", "originalItems"]);
 const store = useFilterStore();
 const adminStore = useAdminStore();
 

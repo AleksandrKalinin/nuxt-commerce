@@ -1,11 +1,14 @@
 import { defineStore } from "pinia";
-import { createClient } from "@supabase/supabase-js";
 import { usePaginationStore } from "./pagination";
+import { useToastsStore } from "./toasts";
+import { useReviewsStore } from "./reviews";
 
 export const useCatalogStore = defineStore("catalog", () => {
-  const config = useSupabaseConfig();
-  const client = createClient(config.URL, config.KEY);
+  const client = useSupabaseClient();
+  const toastsStore = useToastsStore();
+  const reviewsStore = useReviewsStore();
   const catalogItems: Ref<CatalogItem[] | null> = ref([]);
+  const loaded: Ref<boolean> = ref(false);
 
   async function fetchCatalogItems() {
     try {
@@ -15,21 +18,46 @@ export const useCatalogStore = defineStore("catalog", () => {
           "id, name, price, date, manufacturer, photo, type, battery_type, pixels, max_FPS_video, max_FPS_photo, max_sensitivity, max_resolution, min_sensitivity, wi_fi, card_support, matrix_type, matrix_size, popularity, rating, warranty, in_stock, item_code, is_visible"
         );
       catalogItems.value = data;
+      loaded.value = true;
+      if (error) {
+        const { toast, message } = toastHandler(error.code);
+        toastsStore.showErrorToast(toast, message);
+      }
     } catch (e) {
-      console.log(e);
+      throw e;
     }
   }
 
   const selectedItem: Ref<CatalogItem | null> = ref(null);
 
-  function fetchSelectedItem(id: string | string[]) {
-    const item = catalogItems.value?.find((x: any) => x.id === Number(id));
-    if (item) {
-      selectedItem.value = item;
+  const fetchSelectedItem = async (id: string | string[]) => {
+    if (catalogItems.value?.length === 0) {
+      fetchCatalogItems();
     }
-  }
+    try {
+      let { data, error } = await client
+        .from("catalog")
+        .select(
+          "id, name, price, date, manufacturer, photo, type, battery_type, pixels, max_FPS_video, max_FPS_photo, max_sensitivity, max_resolution, min_sensitivity, wi_fi, card_support, matrix_type, matrix_size, popularity, rating, warranty, in_stock, item_code, is_visible, reviews"
+        )
+        .eq("id", Number(id));
+      if (error) {
+        const { toast, message } = toastHandler(error.code);
+        toastsStore.showErrorToast(toast, message);
+      }
+      if (data?.length) {
+        selectedItem.value = data[0];
+      } else {
+        const { toast, message } = toastHandler("item-not-found");
+        toastsStore.showErrorToast(toast, message);
+      }
+    } catch (e) {
+      throw e;
+    }
+  };
 
   const searchValue = ref("");
+  const initialPrice = ref(0);
 
   const visibleItems = computed(() => {
     return catalogItems.value?.filter((item) => item.is_visible === true);
@@ -38,6 +66,12 @@ export const useCatalogStore = defineStore("catalog", () => {
   const filteredItems = computed(() => {
     return visibleItems.value?.filter((item: CatalogItem) => {
       return item.name.toLowerCase().includes(searchValue.value.toLowerCase());
+    });
+  });
+
+  const filteredByPrice = computed(() => {
+    return filteredItems.value?.filter((item: CatalogItem) => {
+      return item.price > initialPrice.value;
     });
   });
 
@@ -55,11 +89,11 @@ export const useCatalogStore = defineStore("catalog", () => {
     const val = sortValue.value;
     const order = sortOrder.value;
     if (val === "default") {
-      return filteredItems.value;
+      return filteredByPrice.value;
     } else {
       if (order === true) {
         return [
-          ...filteredItems.value.sort((a: CatalogItem, b: CatalogItem) => {
+          ...filteredByPrice.value.sort((a: CatalogItem, b: CatalogItem) => {
             if (a[val as keyof CatalogItem] === "") return +1;
             if (b[val as keyof CatalogItem] === "") return -1;
             else
@@ -70,7 +104,7 @@ export const useCatalogStore = defineStore("catalog", () => {
         ];
       } else {
         return [
-          ...filteredItems.value.sort((a: CatalogItem, b: CatalogItem) => {
+          ...filteredByPrice.value.sort((a: CatalogItem, b: CatalogItem) => {
             if (a[val as keyof CatalogItem] === "") return +1;
             if (b[val as keyof CatalogItem] === "") return -1;
             else
@@ -223,11 +257,13 @@ export const useCatalogStore = defineStore("catalog", () => {
     visibleItems,
     filteredItems,
     searchValue,
+    initialPrice,
     updateSort,
     sortedItems,
     selectedOptions,
     filteringOptions,
     selectedItems,
     selectItem,
+    loaded,
   };
 });

@@ -1,9 +1,9 @@
 <template>
   <button
     @click="modalOpen = true"
-    class="text-lg px-7 py-2 bg-white text-sky-400 rounded-none"
+    class="text-lg px-7 py-2 bg-sky-400 text-white rounded-none"
   >
-    Log in
+    Войти
   </button>
   <Teleport to="body">
     <Transition>
@@ -29,6 +29,15 @@
               v-model="password"
               class="h-12 bg-white border bg-sky-400 rounded-none mb-4 px-3 text-xl"
             />
+            <div v-if="!userExists" class="flex justify-between py-4">
+              <p class="text-lg max-w-[320px]">
+                Я хочу получать новости на электронную почту
+              </p>
+              <BaseToggleInput
+                :state="isSubscribed"
+                @change="setSubscription"
+              />
+            </div>
             <input
               type="submit"
               class="bg-sky-400 text-white px-8 py-4 block text-xl cursor-pointer tracking-wider"
@@ -68,6 +77,11 @@ const user = useSupabaseUser();
 const client = useSupabaseClient();
 const password = ref("");
 const email = ref("");
+const isSubscribed = ref(true);
+
+const setSubscription = () => {
+  isSubscribed.value = !isSubscribed.value;
+};
 
 const loginUser = async () => {
   const { data, error } = await client.auth.signInWithPassword({
@@ -81,7 +95,7 @@ const registerUser = async () => {
     email: email.value,
     password: password.value,
   });
-  usersStore.addUser(email.value);
+  usersStore.addUser(email.value, isSubscribed.value);
 };
 
 onMounted(() => {
