@@ -29,7 +29,6 @@
 const id = ref(useRoute().params.id);
 
 const clearError = async (err) => {
-  console.log(err);
   await navigateTo("/catalog");
   err.value = null;
 };

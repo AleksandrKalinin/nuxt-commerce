@@ -73,7 +73,6 @@ const callFunction = () => {
   const values = form.value;
   if (values) {
     store.editItem(values, props.item.id);
-    console.log(props.item.id);
   }
 };
 

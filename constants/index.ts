@@ -143,30 +143,6 @@ export const INPUT_FIELDS = [
   },
 ];
 
-export const ORDERS_HEADER = [
-  {
-    label: "№",
-    value: "id",
-    type: "plain",
-  },
-  {
-    label: "Дата заказа",
-    value: "created_at",
-    type: "plain",
-  },
-  {
-    label: "Сумма",
-    value: "total",
-    type: "plain",
-  },
-  {
-    label: "Статус",
-    value: "status",
-    type: "select",
-    options: ["Pending", "Completed", "Cancelled"],
-  },
-];
-
 export const USERS_HEADER = [
   {
     label: "ID",

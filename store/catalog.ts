@@ -24,7 +24,7 @@ export const useCatalogStore = defineStore("catalog", () => {
         toastsStore.showErrorToast(toast, message);
       }
     } catch (e) {
-      console.log(e);
+      throw e;
     }
   }
 

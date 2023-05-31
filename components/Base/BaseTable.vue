@@ -45,6 +45,7 @@
           <td v-else-if="option.type === 'select'" class="py-4">
             <select
               :name="item.name"
+              @change="option.action(item.id, $event)"
               class="h-12 bg-white border bg-sky-400 rounded-none mb-4 px-3 text-xl"
             >
               <option :value="item[option]">{{ item[option.value] }}</option>

@@ -16,7 +16,7 @@ export const useUsersStore = defineStore("users", () => {
     }
   }
 
-  const addUser = async (email: string) => {
+  const addUser = async (email: string, isSubscribed: boolean) => {
     try {
       const { error } = await client.from("users").insert([
         {
@@ -25,6 +25,7 @@ export const useUsersStore = defineStore("users", () => {
           role: "user",
           user_id: "",
           cart: [],
+          subscribed: isSubscribed,
         },
       ]);
       if (error) throw error;

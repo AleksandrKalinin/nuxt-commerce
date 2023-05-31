@@ -42,6 +42,7 @@ import { useCartStore } from "~/store/cart";
 import { useCatalogStore } from "~/store/catalog";
 import { usePaginationStore } from "~/store/pagination";
 
+const user = useSupabaseUser();
 const store = useCatalogStore();
 const pagesStore = usePaginationStore();
 const cartStore = useCartStore();
@@ -65,7 +66,10 @@ const end = computed(() => {
 
 onMounted(() => {
   store.fetchCatalogItems();
-  cartStore.getCartItems();
+  if (user.value) {
+    console.log(user.value);
+    cartStore.getCartItems();
+  }
 });
 </script>
 

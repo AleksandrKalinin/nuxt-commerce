@@ -77,13 +77,11 @@ export const useAdminStore = defineStore("admin", () => {
         toastsStore.showSuccessToast(toast, message);
       }
     } catch (e) {
-      console.log(e);
+      throw e;
     }
   };
 
   const editItem = async (values: HTMLFormElement, id: number) => {
-    console.log("editing");
-
     const formValues = {
       date: new Date().toISOString(),
       popularity: 0,

@@ -69,10 +69,12 @@ export const useCartStore = defineStore("cart", () => {
             .from("users")
             .update({ cart: cartItems.value })
             .eq("user_id", userId.value);
-          const { toast, message } = toastHandler("add-to-cart");
-          toastsStore.showSuccessToast(toast, message);
-
-          if (error) throw error;
+          if (error) {
+            throw error;
+          } else {
+            const { toast, message } = toastHandler("add-to-cart");
+            toastsStore.showSuccessToast(toast, message);
+          }
         } catch (e) {
           throw e;
         }

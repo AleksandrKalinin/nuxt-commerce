@@ -110,6 +110,18 @@ export function toastHandler(error: string) {
         message: "Error! Requested item does not exist",
       };
       break;
+    case "status-update-error":
+      return {
+        toast: "showErrorToast",
+        message: "Error! Cannot change order status",
+      };
+      break;
+    case "status-update-success":
+      return {
+        toast: "showErrorToast",
+        message: "Order status changed!",
+      };
+      break;
     default:
       return {
         toast: "showErrorToast",

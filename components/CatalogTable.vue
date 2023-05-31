@@ -23,11 +23,6 @@ import { usePaginationStore } from "~/store/pagination";
 const store = useCatalogStore();
 const adminStore = useAdminStore();
 const pagesStore = usePaginationStore();
-const client = useSupabaseClient();
-
-const editItem = (id: number) => {
-  console.log("edit", id);
-};
 
 const CATALOG_HEADER = [
   {
