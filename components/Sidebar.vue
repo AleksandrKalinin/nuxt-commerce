@@ -50,7 +50,7 @@ const slider1 = ref(0);
 const maxPrice = computed(() => {
   if (store.visibleItems?.length) {
     return store.visibleItems!.reduce((prev, cur) => {
-      return prev.price > cur.price ? prev.price : cur.price;
+      return prev > cur.price ? prev : cur.price;
     }, 0);
   } else return 0;
 });

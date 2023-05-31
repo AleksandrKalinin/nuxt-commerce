@@ -11,7 +11,7 @@
       class="slider cursor-pointer"
     />
     <div class="flex w-full justify-between">
-      <span>{{ min }}</span>
+      <span>{{ sliderValue }}</span>
       <span>{{ max }}</span>
     </div>
   </div>

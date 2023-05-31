@@ -20,7 +20,7 @@
         <div
           class="preloader-wrapper flex justify-center items-center h-full w-full"
         >
-          <span class="text-2xl">Sorry, no matched items found</span>
+          <span class="text-2xl">No items found</span>
         </div>
       </Transition>
     </template>
