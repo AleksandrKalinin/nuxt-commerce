@@ -18,6 +18,18 @@ export function toastHandler(error: string) {
         message: "Item added to cart!",
       };
       break;
+    case "add-review-success":
+      return {
+        toast: "showSuccessToast",
+        message: "Succesfully added review",
+      };
+      break;
+    case "add-review-error":
+      return {
+        toast: "showErrorToast",
+        message: "Error! Unable to add your review",
+      };
+      break;
     case "order-confirmed":
       return {
         toast: "showSuccessToast",

@@ -87,6 +87,7 @@
 <script setup lang="ts">
 import { useOrdersStore } from "~/store/orders";
 import { USER_ORDERS_HEADER } from "~/constants";
+import { formatDate } from "~/utils/formatDate";
 
 const router = useRouter();
 const user = useSupabaseUser();
@@ -104,22 +105,6 @@ const dates = computed(() => {
     return formatDate(created);
   });
 });
-
-const formatDate = (date: Date) => {
-  return (
-    date.getDate() +
-    "." +
-    (date.getMonth() + 1) +
-    "." +
-    date.getFullYear() +
-    " " +
-    date.getHours() +
-    ":" +
-    date.getMinutes() +
-    ":" +
-    date.getSeconds()
-  );
-};
 
 const logoutUser = () => {
   router.push("/catalog");

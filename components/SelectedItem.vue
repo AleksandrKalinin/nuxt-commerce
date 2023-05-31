@@ -50,7 +50,11 @@
         @click="setTab($event)"
       >
         <img class="w-8 mr-2" src="~/assets/chat.svg" />Отзывы
-        <span class="pl-1">(2)</span>
+        <span class="pl-1"
+          >({{
+            selectedItem.reviews?.length ? selectedItem.reviews?.length : 0
+          }})</span
+        >
       </div>
     </div>
     <KeepAlive>

@@ -2,7 +2,7 @@
   <header
     class="z-10 h-20 bg-white px-10 flex items-center justify-between shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)]"
   >
-    <NuxtLink to="catalog">
+    <NuxtLink to="/catalog">
       <div class="logo p-1 bg-sky-300">
         <div class="logo__outer p-1 bg-white">
           <div

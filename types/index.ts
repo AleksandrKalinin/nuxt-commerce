@@ -54,6 +54,7 @@ declare global {
     in_stock: number;
     item_code: number;
     is_visible: boolean;
+    reviews: Review[];
   }
 
   interface SelectOption {
@@ -91,5 +92,12 @@ declare global {
   interface CartItem extends CatalogItem {
     total?: number;
     amount?: number;
+  }
+
+  interface Review {
+    id: string;
+    author: string | undefined;
+    date: Date;
+    text: string;
   }
 }
