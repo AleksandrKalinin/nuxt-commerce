@@ -55,6 +55,14 @@
               </template>
             </select>
           </td>
+          <td v-else-if="option.type === 'markup'" class="py-4">
+            <BaseUpdateModal :item="item" :originalItems="originalItems">
+              <img
+                :src="option.value"
+                class="w-[25px] h-[25px] cursor-pointer"
+              />
+            </BaseUpdateModal>
+          </td>
         </template>
       </tr>
     </tbody>
@@ -64,7 +72,7 @@
 <script setup lang="ts">
 import { useFilterStore } from "~/store/filter";
 import { useAdminStore } from "~/store/admin";
-const props = defineProps(["header", "data", "shadowed"]);
+const props = defineProps(["header", "data", "shadowed", "originalItems"]);
 const store = useFilterStore();
 const adminStore = useAdminStore();
 

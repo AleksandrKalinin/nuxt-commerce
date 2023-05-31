@@ -70,7 +70,7 @@ declare global {
     pixels: string[];
   }
 
-  interface BaseItemModalForm {
+  interface BaseAddModalForm {
     name: string;
     dataType: string;
     elType: string;

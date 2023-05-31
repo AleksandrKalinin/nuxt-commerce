@@ -4,6 +4,7 @@
     :data="data"
     v-if="data?.length"
     :shadowed="true"
+    :originalItems="originalItems"
   >
   </BaseTable>
   <div
@@ -26,14 +27,6 @@ const client = useSupabaseClient();
 
 const editItem = (id: number) => {
   console.log("edit", id);
-};
-
-const deleteItem = async (id: number) => {
-  try {
-    const { error } = await client.from("catalog").delete().eq("id", id);
-  } catch (e) {
-    console.log(e);
-  }
 };
 
 const CATALOG_HEADER = [
@@ -76,14 +69,13 @@ const CATALOG_HEADER = [
   {
     label: "",
     value: "_nuxt/assets/edit.svg",
-    type: "icon",
-    action: editItem,
+    type: "markup",
   },
   {
     label: "",
     value: "_nuxt/assets/delete.svg",
     type: "icon",
-    action: deleteItem,
+    action: adminStore.deleteItem,
   },
 ];
 
@@ -93,6 +85,10 @@ const start = computed(() => {
 
 const end = computed(() => {
   return (pagesStore.currentPage + 1) * 12;
+});
+
+const originalItems = computed(() => {
+  return store.catalogItems?.slice(start.value, end.value);
 });
 
 const data = computed(() => {

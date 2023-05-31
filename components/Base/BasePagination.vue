@@ -39,7 +39,9 @@ const pageNumbers = computed(() => {
 });
 
 const scroolToTarget = () => {
-  props.targetRef.scrollIntoView({ behavior: "smooth" });
+  if (props.targetRef) {
+    props.targetRef.scrollIntoView({ behavior: "smooth" });
+  }
 };
 
 const firstPage = () => {

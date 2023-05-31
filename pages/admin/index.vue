@@ -35,6 +35,7 @@ const clearError = async (err) => {
 };
 
 const store = useCatalogStore();
+
 const scrollEl = ref(null);
 </script>
 

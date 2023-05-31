@@ -57,6 +57,29 @@ export function toastHandler(error: string) {
         message: "Email already in use!",
       };
       break;
+    case "item-delete-success":
+      return {
+        toast: "showSuccessToast",
+        message: "Item deleted!",
+      };
+      break;
+    case "item-delete-error":
+      return {
+        toast: "showErrorToast",
+        message: "Error! Cannot delete selected item",
+      };
+    case "item-update-success":
+      return {
+        toast: "showSuccessToast",
+        message: "Item updated!",
+      };
+      break;
+    case "item-update-error":
+      return {
+        toast: "showErrorToast",
+        message: "Error! Cannot update selected item",
+      };
+      break;
     case "add-to-database":
       return {
         toast: "showSuccessToast",

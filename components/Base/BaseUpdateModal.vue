@@ -1,15 +1,12 @@
 <template>
-  <button
-    @click="modalOpen = true"
-    class="transition duration-200 hover:bg-sky-500 text-lg px-7 mx-auto py-2 bg-sky-400 text-white"
-  >
-    Добавить
-  </button>
+  <div @click="modalOpen = true" class="flex">
+    <slot></slot>
+  </div>
   <Teleport to="body">
     <Transition>
       <div
         v-if="modalOpen"
-        class="overlay fixed overflow-y-auto z-10 w-full h-screen bg-sky-400/75 flex justify-center items-center"
+        class="overlay fixed top-0 left-0 overflow-y-auto z-999 w-full h-screen bg-sky-400/75 flex justify-center items-center"
       >
         <div
           class="w-[700px] h-[calc(100vh_-_100px)] overflow-y-auto bg-white p-10 opacity-100"
@@ -23,7 +20,7 @@
             <template v-for="item in store.INPUT_FIELDS">
               <input
                 v-if="item.elType === 'input'"
-                v-model="item.default"
+                v-model="selectedItem[item.name]"
                 :name="item.name"
                 :placeholder="item.placeholder"
                 class="h-12 bg-white border bg-sky-400 rounded-none mb-4 px-3 text-xl"
@@ -75,9 +72,17 @@ const form = ref(null);
 const callFunction = () => {
   const values = form.value;
   if (values) {
-    store.addItem(values);
+    store.editItem(values, props.item.id);
+    console.log(props.item.id);
   }
 };
+
+const props = defineProps(["item", "originalItems"]);
+
+const selectedItem = computed(() => {
+  const id = props.item.id;
+  return props.originalItems.find((item) => item.id === id);
+});
 </script>
 
 <style scoped></style>

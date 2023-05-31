@@ -25,7 +25,7 @@ export default defineNuxtConfig({
       "nuxt-mail",
       {
         message: {
-          to: "alexander.kalinin@innowise-group.com",
+          to: "aleksandr_kalinin_1995@mail.ru",
         },
         smtp: {
           host: "smtp.gmail.com",
