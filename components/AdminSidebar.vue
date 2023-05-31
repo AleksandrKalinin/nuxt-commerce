@@ -39,7 +39,7 @@
       <div>
         <NuxtLink
           class="text-lg p-3 w-full flex cursor-pointer items-center transition duration-200"
-          to="/admin/emailbuilder"
+          to="/admin/mailing"
           ><img class="w-6 h-6 mr-2 icon" src="~/assets/mail.svg" />
           Рассылка</NuxtLink
         >

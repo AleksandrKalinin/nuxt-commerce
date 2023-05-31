@@ -36,6 +36,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  middleware: ["auth"],
+});
+
 import { useCatalogStore } from "~/store/catalog";
 import { useOrdersStore } from "~/store/orders";
 import { useUsersStore } from "~/store/users";

@@ -18,10 +18,18 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  middleware: ["auth"],
+});
+
 const clearError = async (err) => {
   await navigateTo("/admin");
   err.value = null;
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+svg {
+  color: #0079af;
+}
+</style>

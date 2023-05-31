@@ -6,6 +6,7 @@ export const useCatalogStore = defineStore("catalog", () => {
   const client = useSupabaseClient();
   const toastsStore = useToastsStore();
   const catalogItems: Ref<CatalogItem[] | null> = ref([]);
+  const loaded: Ref<boolean> = ref(false);
 
   async function fetchCatalogItems() {
     try {
@@ -15,6 +16,7 @@ export const useCatalogStore = defineStore("catalog", () => {
           "id, name, price, date, manufacturer, photo, type, battery_type, pixels, max_FPS_video, max_FPS_photo, max_sensitivity, max_resolution, min_sensitivity, wi_fi, card_support, matrix_type, matrix_size, popularity, rating, warranty, in_stock, item_code, is_visible"
         );
       catalogItems.value = data;
+      loaded.value = true;
       if (error) {
         const { toast, message } = toastHandler(error.code);
         toastsStore.showErrorToast(toast, message);
@@ -260,5 +262,6 @@ export const useCatalogStore = defineStore("catalog", () => {
     filteringOptions,
     selectedItems,
     selectItem,
+    loaded,
   };
 });

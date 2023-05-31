@@ -3,7 +3,7 @@
     <CatalogPanel />
     <template v-if="catalogItems?.length">
       <div
-        v-if="catalogItems?.length"
+        v-if="catalogItems?.length && isLoaded"
         class="grid gap-4 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2"
       >
         <TransitionGroup name="catalog">
@@ -14,6 +14,15 @@
           />
         </TransitionGroup>
       </div>
+    </template>
+    <template v-else-if="catalogItems?.length === 0 && isLoaded">
+      <Transition>
+        <div
+          class="preloader-wrapper flex justify-center items-center h-full w-full"
+        >
+          <span class="text-2xl">Sorry, no matched items found</span>
+        </div>
+      </Transition>
     </template>
     <template v-else>
       <Transition>
@@ -37,6 +46,10 @@ const store = useCatalogStore();
 const pagesStore = usePaginationStore();
 const cartStore = useCartStore();
 const scrollEl = ref(null);
+
+const isLoaded = computed(() => {
+  return store.loaded;
+});
 
 const catalogItems = computed(() => {
   return store.selectedItems;

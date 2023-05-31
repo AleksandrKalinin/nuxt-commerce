@@ -48,9 +48,11 @@ const store = useCatalogStore();
 const slider1 = ref(0);
 
 const maxPrice = computed(() => {
-  return store.sortedItems!.reduce((prev, cur) => {
-    return prev.price > cur.price ? prev.price : cur.price;
-  }, 0);
+  if (store.visibleItems?.length) {
+    return store.visibleItems!.reduce((prev, cur) => {
+      return prev.price > cur.price ? prev.price : cur.price;
+    }, 0);
+  } else return 0;
 });
 
 watchDebounced(

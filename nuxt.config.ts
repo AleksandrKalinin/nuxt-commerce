@@ -22,6 +22,22 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "@nuxtjs/google-fonts",
     [
+      "nuxt-mail",
+      {
+        message: {
+          to: "alexander.kalinin@innowise-group.com",
+        },
+        smtp: {
+          host: "smtp.gmail.com",
+          port: 465,
+          auth: {
+            user: "1995kalininaleksandr@gmail.com",
+            pass: "ltgreftivxgjqfqq",
+          },
+        },
+      },
+    ],
+    [
       "@pinia/nuxt",
       {
         autoImports: [["defineStore", "definePiniaStore"]],

@@ -14,37 +14,38 @@
     </button>
   </div>
   <div id="app" class="h-[calc(100vh-160px)]">
-    <EmailEditor
-      minHeight="500"
-      ref="emailEditor"
-      v-on:load="editorLoaded"
-      v-on:ready="editorReady"
-    />
+    <EmailEditor minHeight="500" ref="emailEditor" v-on:load="editorLoaded" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { EmailEditor } from "vue-email-editor";
+import { useEmailStore } from "~/store/emailbuider";
+
 const emailEditor = ref(null);
+const emailStore = useEmailStore();
 
 const editorLoaded = () => {
-  //emailEditor.value.editor.loadDesign({});
-};
-
-const editorReady = () => {
-  console.log("editorReady");
+  if (emailStore.emailTemplate) {
+    emailEditor.value.editor.loadDesign(emailStore.emailTemplatePreset);
+  }
 };
 
 const saveDesign = () => {
   emailEditor.value.editor.saveDesign((design) => {
-    console.log("saveDesign", design);
+    emailStore.emailTemplatePreset = design;
   });
 };
+
 const exportHtml = () => {
   emailEditor.value.editor.exportHtml((data) => {
-    console.log("exportHtml  ", data);
+    emailStore.emailTemplate = data;
   });
 };
+
+onMounted(() => {
+  emailStore.fetchTemplates();
+});
 </script>
 
 <style scoped>
