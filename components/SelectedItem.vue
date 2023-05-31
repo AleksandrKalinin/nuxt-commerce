@@ -26,9 +26,9 @@
           }}</span>
         </p>
         <button
-          class="mt-5 text-lg px-7 py-4 hover:bg-sky-500 bg-sky-400 text-white flex items-center justify-center"
+          class="mt-5 text-lg px-7 py-2 hover:bg-sky-500 bg-sky-400 text-white flex items-center justify-center"
         >
-          <img class="w-6 h-6 mr-2 icon" src="~/assets/shopping-bag.svg" />
+          <img class="w-6 h-6 mr-2 icon" src="~/assets/bag.svg" />
           Добавить в корзину
         </button>
       </div>

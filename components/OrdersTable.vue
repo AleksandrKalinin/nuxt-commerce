@@ -3,6 +3,7 @@
     v-if="data?.length"
     :header="ORDERS_HEADER"
     :data="data"
+    :shadowed="true"
   ></BaseTable>
   <div
     v-else

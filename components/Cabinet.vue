@@ -5,9 +5,10 @@
         Аккаунт
         <button
           @click="logoutUser()"
-          class="text-lg px-7 py-2 bg-sky-400 text-white"
+          class="text-lg px-7 py-2 bg-sky-400 text-white font-normal flex items-center justify-center"
         >
-          Log out
+          <img src="~/assets/exit.svg" class="h-[20px] w-[20px] mr-2" />
+          Выйти
         </button>
       </h1>
       <div class="w-full flex flex-wrap justify-between">
@@ -66,6 +67,7 @@
           v-if="item.items.length"
           :header="USER_ORDERS_HEADER"
           :data="item.items"
+          :shadowed="false"
         />
       </div>
       <div

@@ -1,7 +1,7 @@
 <template>
   <BasePopup />
   <template v-if="cartItems.length">
-    <BaseTable :header="header" :data="cartItems" />
+    <BaseTable :header="header" :data="cartItems" :shadowed="true" />
     <div
       class="price-panel flex justify-between items-center py-5 max-lg:flex-col"
     >
@@ -37,7 +37,7 @@
         class="transition duration-200 hover:bg-sky-500 text-lg px-7 py-3 bg-sky-400 text-white flex items-center"
         @click="cartStore.placeOrder()"
       >
-        <img src="~/assets/shopping-bag.svg" class="h-6 w-6 mr-2" />
+        <img src="~/assets/bag.svg" class="h-[20px] w-[20px] mr-2" />
         Оформить заказ
       </button>
     </div>
@@ -120,4 +120,10 @@ onMounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+svg {
+  color: #0079af;
+  fill: #ffffff;
+  stroke: #ffffff;
+}
+</style>

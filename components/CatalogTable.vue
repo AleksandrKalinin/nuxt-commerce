@@ -1,5 +1,10 @@
 <template>
-  <BaseTable :header="CATALOG_HEADER" :data="data" v-if="data?.length">
+  <BaseTable
+    :header="CATALOG_HEADER"
+    :data="data"
+    v-if="data?.length"
+    :shadowed="true"
+  >
   </BaseTable>
   <div
     v-else

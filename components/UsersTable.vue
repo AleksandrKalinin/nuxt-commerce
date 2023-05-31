@@ -1,5 +1,10 @@
 <template>
-  <BaseTable :header="USERS_HEADER" :data="data" v-if="data.length" />
+  <BaseTable
+    :header="USERS_HEADER"
+    :data="data"
+    :shadowed="true"
+    v-if="data.length"
+  />
   <div
     v-else
     class="preloader-wrapper flex justify-center items-center h-full w-full"
