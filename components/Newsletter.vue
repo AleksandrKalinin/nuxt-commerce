@@ -1,7 +1,12 @@
 <template>
   <section class="w-full h-[350px] flex relative">
     <div class="w-full h-full absolute top-0 left-0 z-1 overflow-hidden">
-      <img class="w-full h-auto" src="~/assets/newsletter.jpg" />
+      <img
+        class="w-full h-auto"
+        src="~/assets/newsletter.jpg"
+        alt="Newsletter"
+        loading="lazy"
+      />
     </div>
     <div
       class="w-full h-full object-cover absolute top-0 left-0 z-2 bg-gray-700 bg-opacity-75 flex justify-center items-center"

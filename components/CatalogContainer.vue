@@ -1,5 +1,6 @@
 <template>
   <section class="w-full lg:ml-10" ref="scrollEl">
+    <h1 class="text-3xl font-semibold mb-5">Каталог</h1>
     <CatalogPanel />
     <template v-if="catalogItems?.length">
       <div
@@ -29,7 +30,12 @@
         <div
           class="preloader-wrapper flex justify-center items-center h-full w-full"
         >
-          <img class="w-16" src="~/assets/oval.svg" />
+          <img
+            class="w-16"
+            src="~/assets/oval.svg"
+            alt="Preloader"
+            loading="eager"
+          />
         </div>
       </Transition>
     </template>
@@ -67,7 +73,6 @@ const end = computed(() => {
 onMounted(() => {
   store.fetchCatalogItems();
   if (user.value) {
-    console.log(user.value);
     cartStore.getCartItems();
   }
 });

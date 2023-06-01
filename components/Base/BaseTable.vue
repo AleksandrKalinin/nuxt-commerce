@@ -18,7 +18,12 @@
           </td>
           <td v-else-if="option.type === 'image'" class="py-4">
             <div class="w-16 h-12 overflow-hidden">
-              <img class="object-cover" :src="item[option.value]" />
+              <img
+                class="object-cover"
+                :src="item[option.value]"
+                :alt="option.value"
+                loading="eager"
+              />
             </div>
           </td>
           <td v-else-if="option.type === 'toggle'" class="py-4">
@@ -40,6 +45,8 @@
               :src="option.value"
               class="w-[25px] h-[25px] cursor-pointer"
               @click="option.action(item.id)"
+              :alt="option.value"
+              loading="eager"
             />
           </td>
           <td v-else-if="option.type === 'select'" class="py-4">
@@ -60,7 +67,9 @@
             <BaseUpdateModal :item="item" :originalItems="originalItems">
               <img
                 :src="option.value"
+                :alt="option.value"
                 class="w-[25px] h-[25px] cursor-pointer"
+                loading="eager"
               />
             </BaseUpdateModal>
           </td>

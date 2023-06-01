@@ -5,9 +5,14 @@
         Аккаунт
         <button
           @click="logoutUser()"
-          class="text-lg px-7 py-2 bg-sky-400 text-white font-normal flex items-center justify-center"
+          class="transition duration-200 hover:bg-sky-500 text-lg px-7 py-2 bg-sky-400 text-white font-normal flex items-center justify-center"
         >
-          <img src="~/assets/exit.svg" class="h-[20px] w-[20px] mr-2" />
+          <img
+            src="~/assets/exit.svg"
+            class="h-[20px] w-[20px] mr-2"
+            alt="Exit"
+            loading="eager"
+          />
           Выйти
         </button>
       </h1>
@@ -43,6 +48,23 @@
       </div>
     </div>
     <div class="mb-10">
+      <h1 class="font-semibold text-4xl mb-7 flex justify-between">
+        Настройка уведомлений
+      </h1>
+      <div
+        class="w-full flex flex-col flex-wrap justify-between item-start bg-white border border-white shadow-[0_-1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg p-4"
+      >
+        <p class="flex items-center text-xl mb-3">
+          Получать новостную рассылку
+          <input class="ml-3 w-[20px] h-[20px]" type="checkbox" />
+        </p>
+        <p class="flex items-center text-xl mb-3">
+          Получать уведомления об изменении статуса заказов
+          <input class="ml-3 w-[20px] h-[20px]" type="checkbox" />
+        </p>
+      </div>
+    </div>
+    <div class="mb-10">
       <h1 class="font-semibold text-4xl mb-7">Заказы</h1>
       <div
         v-if="data?.length"
@@ -74,7 +96,12 @@
         v-else-if="data === null"
         class="preloader-wrapper flex justify-center items-center h-full w-full"
       >
-        <img class="w-16" src="~/assets/oval.svg" />
+        <img
+          class="w-16"
+          src="~/assets/oval.svg"
+          alt="Preloader"
+          loading="eager"
+        />
       </div>
       <div
         v-else="data.length === 0"

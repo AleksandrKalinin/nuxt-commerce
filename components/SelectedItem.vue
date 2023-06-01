@@ -8,6 +8,8 @@
         <img
           class="min-w-[300px] w-[300px] h-auto object-cover"
           :src="selectedItem.photo"
+          :alt="selectedItem.name"
+          loading="eager"
         />
       </div>
       <div class="w-full p-5">
@@ -28,7 +30,12 @@
         <button
           class="mt-5 text-lg px-7 py-2 hover:bg-sky-500 bg-sky-400 text-white flex items-center justify-center"
         >
-          <img class="w-6 h-6 mr-2 icon" src="~/assets/bag.svg" />
+          <img
+            class="w-6 h-6 mr-2 icon"
+            src="~/assets/bag.svg"
+            alt="Корзина"
+            loading="eager"
+          />
           Добавить в корзину
         </button>
       </div>
@@ -40,7 +47,12 @@
         value="description"
         @click="setTab($event)"
       >
-        <img class="w-8 mr-2" src="~/assets/data.svg" />
+        <img
+          class="w-8 mr-2"
+          src="~/assets/data.svg"
+          alt="Характеристики"
+          loading="eager"
+        />
         Характеристики
       </div>
       <div
@@ -49,7 +61,12 @@
         value="reviews"
         @click="setTab($event)"
       >
-        <img class="w-8 mr-2" src="~/assets/chat.svg" />Отзывы
+        <img
+          class="w-8 mr-2"
+          src="~/assets/chat.svg"
+          alt="Отзывы"
+          loading="eager"
+        />Отзывы
         <span class="pl-1"
           >({{
             selectedItem.reviews?.length ? selectedItem.reviews?.length : 0

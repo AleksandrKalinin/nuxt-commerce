@@ -1,7 +1,7 @@
 <template>
   <button
     @click="modalOpen = true"
-    class="text-lg px-7 py-2 bg-sky-400 text-white rounded-none"
+    class="transition duration-200 hover:bg-sky-500 text-lg px-7 py-2 bg-sky-400 text-white rounded-none"
   >
     Войти
   </button>
@@ -9,7 +9,7 @@
     <Transition>
       <div
         v-if="modalOpen"
-        class="overlay fixed overflow-y-auto z-10 w-full h-screen bg-sky-400/75 flex justify-center items-center"
+        class="overlay fixed top-0 left-0 overflow-y-auto z-10 w-full h-screen bg-sky-400/75 flex justify-center items-center"
       >
         <div class="w-[500px] bg-white p-10 opacity-100" ref="target">
           <h1 class="text-xl tracking-wider uppercase mb-4 text-center">
@@ -40,7 +40,7 @@
             </div>
             <input
               type="submit"
-              class="bg-sky-400 text-white px-8 py-4 block text-xl cursor-pointer tracking-wider"
+              class="transition duration-200 hover:bg-sky-500 bg-sky-400 text-white px-8 py-4 block text-xl cursor-pointer tracking-wider"
               :value="userExists ? 'Log in' : 'Register now'"
             />
           </form>

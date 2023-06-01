@@ -1,7 +1,12 @@
 <template>
   <section class="w-full h-[calc(100vh-80px)] flex justify-center items-center">
     <div class="w-[500px] h-[300px] flex flex-col items-center text-center">
-      <img src="~/assets/face-frown.svg" class="w-36 h-36 mb-2" />
+      <img
+        src="~/assets/face-frown.svg"
+        class="w-36 h-36 mb-2"
+        alt="Sad face"
+        loading="eager"
+      />
       <h1 class="text-4xl text-slate-400 mb-2">Page not found</h1>
       <p class="text-slate-400 text-xl mb-5">
         The page you are looking for does not exist.
