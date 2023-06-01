@@ -44,6 +44,7 @@
 </template>
 
 <script setup lang="ts">
+import { fetchAdress, message } from "~/utils/fetchAdress";
 import { useCartStore } from "~/store/cart";
 import { useCatalogStore } from "~/store/catalog";
 import { usePaginationStore } from "~/store/pagination";
@@ -71,10 +72,12 @@ const end = computed(() => {
 });
 
 onMounted(() => {
+  fetchAdress();
   store.fetchCatalogItems();
   if (user.value) {
     cartStore.getCartItems();
   }
+  console.log(message);
 });
 </script>
 

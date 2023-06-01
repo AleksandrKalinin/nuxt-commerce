@@ -17,6 +17,7 @@
     "@types/uuid": "^9.0.1",
     "@vueuse/nuxt": "^10.1.2",
     "chart.js": "^3.9.1",
+    "netlify-cli": "^15.2.0",
     "nuxt": "^3.4.3",
     "pinia": "^2.0.36",
     "uuid": "^9.0.0",

@@ -68,6 +68,7 @@ const sendMail = () => {
     from: "John Doe",
     subject: "Incredible",
     text: "This is an incredible test message",
+    to: "1995kalininaleksandr@gmail.com",
   });
 };
 </script>
