@@ -3,7 +3,7 @@
     <input
       ref="slider"
       :value="sliderValue"
-      @input="({ target }) => (sliderValue = parseFloat(target.value))"
+      @input="({ target }) => (sliderValue = parseFloat(target!.value))"
       type="range"
       :min="min"
       :max="max"

@@ -1,5 +1,3 @@
-import { message } from "./utils/fetchAdress";
-
 export default defineNuxtConfig({
   css: ["vue3-carousel/dist/carousel.css", "~/assets/main.css"],
   runtimeConfig: {
@@ -27,14 +25,14 @@ export default defineNuxtConfig({
       "nuxt-mail",
       {
         message: {
-          to: "aleksandr_kalinin_1995@mail.ru",
+          to: "1995kalininaleksandr@gmail.com",
         },
         smtp: {
           host: "smtp.gmail.com",
           port: 465,
           auth: {
-            user: "1995kalininaleksandr@gmail.com",
-            pass: "ltgreftivxgjqfqq",
+            user: process.env.MAIL_USER,
+            pass: process.env.MAIL_PASSWORD,
           },
         },
       },
