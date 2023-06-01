@@ -1,3 +1,5 @@
+import { message } from "./utils/fetchAdress";
+
 export default defineNuxtConfig({
   css: ["vue3-carousel/dist/carousel.css", "~/assets/main.css"],
   runtimeConfig: {
