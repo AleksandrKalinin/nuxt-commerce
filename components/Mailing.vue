@@ -23,7 +23,12 @@
         <h3 class="text-xl font-semibold min-w-[200px]">Шаблон</h3>
         <template v-if="templates.length">
           <div class="cursor-pointer mr-4 mb-4" v-for="item in templates">
-            <img src="~/assets/svg-file.svg" class="mb-3 w-[80px] h-[80px]" />
+            <img
+              src="~/assets/svg-file.svg"
+              class="mb-3 w-[80px] h-[80px]"
+              alt="File"
+              loading="eager"
+            />
             <p class="text-xl text-center font-semibold">{{ item.name }}</p>
           </div>
         </template>

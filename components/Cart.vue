@@ -37,7 +37,12 @@
         class="transition duration-200 hover:bg-sky-500 text-lg px-7 py-3 bg-sky-400 text-white flex items-center"
         @click="cartStore.placeOrder()"
       >
-        <img src="~/assets/bag.svg" class="h-[20px] w-[20px] mr-2" />
+        <img
+          src="~/assets/bag.svg"
+          class="h-[20px] w-[20px] mr-2"
+          alt="Order"
+          loading="eager"
+        />
         Оформить заказ
       </button>
     </div>
@@ -50,7 +55,12 @@
     <div class="flex justify-center items-center mb-6">
       <p class="text-2xl">Your cart is empty</p>
       <div class="w-16 h-16 ml-2">
-        <img src="~/assets/sad.svg" class="w-full" />
+        <img
+          src="~/assets/sad.svg"
+          class="w-full h-auto"
+          alt="Empty"
+          loading="eager"
+        />
       </div>
     </div>
     <NuxtLink

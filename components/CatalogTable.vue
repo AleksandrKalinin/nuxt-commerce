@@ -11,7 +11,12 @@
     v-else
     class="preloader-wrapper flex justify-center items-center h-full w-full"
   >
-    <img class="w-16" src="~/assets/oval.svg" />
+    <img
+      class="w-16 h-16"
+      src="~/assets/oval.svg"
+      alt="Preloader"
+      loading="eager"
+    />
   </div>
 </template>
 

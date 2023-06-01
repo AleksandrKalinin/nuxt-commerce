@@ -15,7 +15,12 @@
         <div
           class="w-16 h-16 bg-sky-200 flex justify-center items-center border border-sky-200 rounded-lg"
         >
-          <img class="h-8 w-8" src="~/assets/users.svg" />
+          <img
+            class="h-8 w-8"
+            src="~/assets/users.svg"
+            alt="Users"
+            loading="eager"
+          />
         </div>
       </div>
       <div
@@ -32,7 +37,12 @@
         <div
           class="w-16 h-16 bg-sky-200 flex justify-center items-center border border-sky-200 rounded-lg"
         >
-          <img class="h-8 w-8" src="~/assets/cart.svg" />
+          <img
+            class="h-8 w-8"
+            src="~/assets/cart.svg"
+            alt="Корзина"
+            loading="eager"
+          />
         </div>
       </div>
       <div
@@ -49,7 +59,11 @@
         <div
           class="w-16 h-16 bg-sky-200 flex justify-center items-center border border-sky-200 rounded-lg"
         >
-          <img class="h-8 w-8 filter" src="~/assets/shopping-bag.svg" />
+          <img
+            class="h-8 w-8 filter"
+            src="~/assets/shopping-bag.svg"
+            loading="eager"
+          />
         </div>
       </div>
       <div
@@ -66,7 +80,7 @@
         <div
           class="w-16 h-16 bg-sky-200 flex justify-center bg-sky-200 items-center border border-sky-200 rounded-lg"
         >
-          <img class="h-8 w-8" src="~/assets/currency.svg" />
+          <img class="h-8 w-8" src="~/assets/currency.svg" loading="eager" />
         </div>
       </div>
     </div>

@@ -19,7 +19,9 @@
           <div class="w-8 h-8 mr-2">
             <img
               src="~/assets/account.svg"
-              class="icon text-red w-full cursor-pointer block"
+              alt="Account"
+              class="icon text-red w-full h-auto cursor-pointer block"
+              loading="eager"
             />
           </div>
           Кабинет
@@ -31,7 +33,9 @@
           <div class="w-8 h-8 mr-2">
             <img
               src="~/assets/cart.svg"
-              class="icon text-red w-full cursor-pointer block"
+              alt="Корзина"
+              loading="eager"
+              class="icon text-red w-full cursor-pointer block h-full w-full"
             />
           </div>
           Корзина

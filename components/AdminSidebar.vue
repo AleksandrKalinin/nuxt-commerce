@@ -8,7 +8,12 @@
           class="text-lg p-3 w-full flex cursor-pointer items-center transition duration-200"
           to="/admin"
         >
-          <img class="w-6 h-6 mr-2 icon" src="~/assets/shopping-bag.svg" />
+          <img
+            class="w-6 h-6 mr-2 icon"
+            src="~/assets/shopping-bag.svg"
+            alt="Каталог"
+            loading="eager"
+          />
           Каталог</NuxtLink
         >
       </div>
@@ -16,7 +21,12 @@
         <NuxtLink
           class="text-lg p-3 w-full flex cursor-pointer items-center transition duration-200"
           to="/admin/orders"
-          ><img class="w-6 h-6 mr-2 icon" src="~/assets/cart.svg" />
+          ><img
+            class="w-6 h-6 mr-2 icon"
+            src="~/assets/cart.svg"
+            alt="Корзина"
+            loading="eager"
+          />
           Заказы</NuxtLink
         >
       </div>
@@ -24,7 +34,12 @@
         <NuxtLink
           class="text-lg p-3 w-full flex cursor-pointer items-center transition duration-200"
           to="/admin/users"
-          ><img class="w-6 h-6 mr-2 icon" src="~/assets/users.svg" />
+          ><img
+            class="w-6 h-6 mr-2 icon"
+            src="~/assets/users.svg"
+            alt="Пользователи"
+            loading="eager"
+          />
           Пользователи</NuxtLink
         >
       </div>
@@ -32,7 +47,12 @@
         <NuxtLink
           class="text-lg p-3 w-full flex cursor-pointer items-center transition duration-200"
           to="/admin/dashboard"
-          ><img class="w-6 h-6 mr-2 icon" src="~/assets/chart.svg" />
+          ><img
+            class="w-6 h-6 mr-2 icon"
+            src="~/assets/chart.svg"
+            alt="Статистика"
+            loading="eager"
+          />
           Статистика</NuxtLink
         >
       </div>
@@ -40,7 +60,12 @@
         <NuxtLink
           class="text-lg p-3 w-full flex cursor-pointer items-center transition duration-200"
           to="/admin/mailing"
-          ><img class="w-6 h-6 mr-2 icon" src="~/assets/mail.svg" />
+          ><img
+            class="w-6 h-6 mr-2 icon"
+            src="~/assets/mail.svg"
+            alt="Рассылка"
+            loading="eager"
+          />
           Рассылка</NuxtLink
         >
       </div>

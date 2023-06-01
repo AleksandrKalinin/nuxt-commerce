@@ -1,7 +1,11 @@
 <template>
   <div class="p-5 border sky-blue-400 max-w-[300px] w-full mx-auto">
     <div class="m-w-full h-36">
-      <img class="w-fit h-full mx-auto object-cover" :src="item.photo" />
+      <img
+        class="w-fit h-full mx-auto object-cover"
+        :src="item.photo"
+        loading="eager"
+      />
     </div>
     <div class="py-5">
       <h2 class="text-lg flex justify-between items-center font-semibold py-2">
