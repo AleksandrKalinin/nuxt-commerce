@@ -21,6 +21,7 @@
 </template>
 
 <script setup lang="ts">
+import { filename } from "pathe/utils";
 import { useAdminStore } from "~/store/admin";
 import { useCatalogStore } from "~/store/catalog";
 import { usePaginationStore } from "~/store/pagination";
@@ -68,12 +69,12 @@ const CATALOG_HEADER = [
   },
   {
     label: "",
-    value: "_nuxt/assets/edit.svg",
+    value: "edit",
     type: "markup",
   },
   {
     label: "",
-    value: "_nuxt/assets/delete.svg",
+    value: "delete",
     type: "icon",
     action: adminStore.deleteItem,
   },
