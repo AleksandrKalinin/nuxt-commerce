@@ -5,7 +5,7 @@
     <template v-if="catalogItems?.length">
       <div
         v-if="catalogItems?.length && isLoaded"
-        class="grid gap-4 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2"
+        class="grid gap-4 min-[1920px]:grid-cols-4 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2"
       >
         <TransitionGroup name="catalog">
           <CatalogItem

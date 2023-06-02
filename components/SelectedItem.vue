@@ -75,11 +75,13 @@
       </div>
     </div>
     <KeepAlive>
-      <component
-        :is="currentTabComponent"
-        :selectedItem="selectedItem"
-        :selectedProperties="selectedProperties"
-      />
+      <Transition name="fade" mode="out-in">
+        <component
+          :is="currentTabComponent"
+          :selectedItem="selectedItem"
+          :selectedProperties="selectedProperties"
+        />
+      </Transition>
     </KeepAlive>
     <Gallery :items="galleryItems" />
   </section>
@@ -195,5 +197,15 @@ onMounted(() => {
 
 .icon {
   color: #ffffff;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.15s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
