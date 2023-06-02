@@ -89,11 +89,9 @@ const adminStore = useAdminStore();
 
 const images = computed(() => {
   const glob = import.meta.glob("~/assets/*.svg", { eager: true });
-  const mapped = Object.fromEntries(
+  return Object.fromEntries(
     Object.entries(glob).map(([key, value]) => [filename(key), value.default])
   );
-  console.log(mapped);:
-  return mapped;
 });
 
 const sortOrder = computed(() => {
