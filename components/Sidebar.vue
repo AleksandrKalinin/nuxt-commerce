@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="w-96 max-lg:w-full max-lg:mb-10 border sky-blue-400 bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg"
+    class="min-w-[300px] max-lg:w-full max-lg:mb-10 border sky-blue-400 bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg"
   >
     <h3 class="flex justify-center text-center py-5 text-2xl font-semibold">
       Фильтры

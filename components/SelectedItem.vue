@@ -1,6 +1,6 @@
 <template>
   <section
-    class="w-full lg:ml-10 bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg"
+    class="lg:ml-10 lg:w-[calc(100%-300px)] bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg"
     v-if="selectedItem"
   >
     <div class="w-full flex justify-between mb-5 bg-white">
