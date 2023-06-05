@@ -18,7 +18,7 @@
         <p class="catalog-item__orders catalog-orders">
           <img
             class="catalog-orders__icon"
-            src="~/assets/time.svg"
+            src="~/assets/icons/time.svg"
             alt="In stock"
             loading="eager"
           />{{ item.in_stock > 0 ? "В наличии" : "Нет в наличии" }}

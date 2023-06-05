@@ -12,7 +12,7 @@
         <div class="header-item header__item">
           <div class="header-item__image">
             <img
-              src="~/assets/account.svg"
+              src="~/assets/icons/account.svg"
               alt="Account"
               class="header-item__icon"
               loading="eager"
@@ -25,7 +25,7 @@
         <div class="header-item header__item">
           <div class="header-item__image">
             <img
-              src="~/assets/cart.svg"
+              src="~/assets/icons/cart.svg"
               alt="Корзина"
               loading="eager"
               class="header-item__icon"

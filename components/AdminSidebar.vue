@@ -5,7 +5,7 @@
         <NuxtLink class="admin-sidebar__link sidebar-link" to="/admin">
           <img
             class="sidebar-link__image"
-            src="~/assets/shopping-bag.svg"
+            src="~/assets/icons/shopping-bag.svg"
             alt="Каталог"
             loading="eager"
           />
@@ -16,7 +16,7 @@
         <NuxtLink class="admin-sidebar__link sidebar-link" to="/admin/orders"
           ><img
             class="sidebar-link__image"
-            src="~/assets/cart.svg"
+            src="~/assets/icons/cart.svg"
             alt="Корзина"
             loading="eager"
           />
@@ -27,7 +27,7 @@
         <NuxtLink class="admin-sidebar__link sidebar-link" to="/admin/users"
           ><img
             class="sidebar-link__image"
-            src="~/assets/users.svg"
+            src="~/assets/icons/users.svg"
             alt="Пользователи"
             loading="eager"
           />
@@ -38,7 +38,7 @@
         <NuxtLink class="admin-sidebar__link sidebar-link" to="/admin/dashboard"
           ><img
             class="sidebar-link__image"
-            src="~/assets/chart.svg"
+            src="~/assets/icons/chart.svg"
             alt="Статистика"
             loading="eager"
           />
@@ -49,7 +49,7 @@
         <NuxtLink class="admin-sidebar__link sidebar-link" to="/admin/mailing"
           ><img
             class="sidebar-link__image"
-            src="~/assets/mail.svg"
+            src="~/assets/icons/mail.svg"
             alt="Рассылка"
             loading="eager"
           />

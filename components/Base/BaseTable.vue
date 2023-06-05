@@ -88,7 +88,7 @@ const store = useFilterStore();
 const adminStore = useAdminStore();
 
 const images = computed(() => {
-  const glob = import.meta.glob("~/assets/*.svg", { eager: true });
+  const glob = import.meta.glob("~/assets/icons/*.svg", { eager: true });
   return Object.fromEntries(
     Object.entries(glob).map(([key, value]) => [filename(key), value.default])
   );

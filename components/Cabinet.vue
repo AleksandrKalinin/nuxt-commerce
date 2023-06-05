@@ -5,7 +5,7 @@
         Аккаунт
         <button @click="logoutUser()" class="button_regular">
           <img
-            src="~/assets/exit.svg"
+            src="~/assets/icons/exit.svg"
             class="button__image"
             alt="Exit"
             loading="eager"
@@ -82,7 +82,7 @@
       <div v-else-if="data === null" class="preloader-wrapper">
         <img
           class="w-16"
-          src="~/assets/oval.svg"
+          src="~/assets/icons/oval.svg"
           alt="Preloader"
           loading="eager"
         />

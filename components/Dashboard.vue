@@ -9,7 +9,7 @@
         <div class="info-item__picture">
           <img
             class="info-item__image"
-            src="~/assets/users.svg"
+            src="~/assets/icons/users.svg"
             alt="Users"
             loading="eager"
           />
@@ -23,7 +23,7 @@
         <div class="info-item__picture">
           <img
             class="info-item__image"
-            src="~/assets/cart.svg"
+            src="~/assets/icons/cart.svg"
             alt="Корзина"
             loading="eager"
           />
@@ -37,7 +37,7 @@
         <div class="info-item__picture">
           <img
             class="info-item__image filter"
-            src="~/assets/shopping-bag.svg"
+            src="~/assets/icons/shopping-bag.svg"
             loading="eager"
           />
         </div>
@@ -50,7 +50,7 @@
         <div class="info-item__picture">
           <img
             class="info-item__image"
-            src="~/assets/currency.svg"
+            src="~/assets/icons/currency.svg"
             loading="eager"
           />
         </div>

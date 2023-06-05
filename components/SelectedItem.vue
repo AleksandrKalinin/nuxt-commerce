@@ -27,7 +27,7 @@
         <button class="button_regular">
           <img
             class="button__image icon"
-            src="~/assets/bag.svg"
+            src="~/assets/icons/bag.svg"
             alt="Корзина"
             loading="eager"
           />
@@ -44,7 +44,7 @@
       >
         <img
           class="w-8 mr-2"
-          src="~/assets/data.svg"
+          src="~/assets/icons/data.svg"
           alt="Характеристики"
           loading="eager"
         />
@@ -58,7 +58,7 @@
       >
         <img
           class="w-8 mr-2"
-          src="~/assets/chat.svg"
+          src="~/assets/icons/chat.svg"
           alt="Отзывы"
           loading="eager"
         />Отзывы

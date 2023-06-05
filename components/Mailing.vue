@@ -24,7 +24,7 @@
         <div class="templates" v-if="templates.length">
           <div class="mailing-template" v-for="item in templates">
             <img
-              src="~/assets/svg-file.svg"
+              src="~/assets/icons/svg-file.svg"
               class="mailing-template__image"
               alt="File"
               loading="eager"

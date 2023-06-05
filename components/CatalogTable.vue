@@ -10,7 +10,7 @@
   <div v-else class="preloader-wrapper">
     <img
       class="w-16 h-16"
-      src="~/assets/oval.svg"
+      src="~/assets/icons/oval.svg"
       alt="Preloader"
       loading="eager"
     />

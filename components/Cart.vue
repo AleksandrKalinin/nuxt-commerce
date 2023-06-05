@@ -23,7 +23,7 @@
     <div class="cart-controls">
       <button class="button_regular" @click="cartStore.placeOrder()">
         <img
-          src="~/assets/bag.svg"
+          src="~/assets/icons/bag.svg"
           class="button__image"
           alt="Order"
           loading="eager"
@@ -38,7 +38,7 @@
       <p class="text-2xl">Your cart is empty</p>
       <div class="cart-placeholder__picture">
         <img
-          src="~/assets/sad.svg"
+          src="~/assets/icons/sad.svg"
           class="cart-placeholder__image"
           alt="Empty"
           loading="eager"
