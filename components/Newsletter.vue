@@ -56,14 +56,17 @@ const subscribeToNews = () => {};
 }
 
 .newsletter-description__title {
-  @apply text-white text-4xl tracking-wide font-semibold mb-6 max-md:text-2xl;
+  @apply text-white text-4xl tracking-wide font-semibold mb-6 max-md:text-2xl max-sm:text-xl;
 }
 
+.newsletter-form {
+  @apply max-sm:flex max-sm:flex-col max-sm:justify-end;
+}
 .newsletter-form__input {
-  @apply w-[400px] max-md:w-[200px] border bg-transparent px-5 py-3 mr-3 border border-white rounded-none text-white text-xl rounded-none;
+  @apply w-[400px] max-md:w-[200px] max-sm:w-[300px] max-sm:mr-0 max-sm:mb-3 border bg-transparent px-5 py-3 mr-3 border border-white rounded-none text-white text-xl rounded-none;
 }
 
 .newsletter-form__submit {
-  @apply transition duration-200 hover:bg-sky-500 text-xl px-7 mx-auto py-3 bg-sky-400 text-white rounded-none border border-sky-400 cursor-pointer;
+  @apply transition duration-200 hover:bg-sky-500 text-xl px-7 py-3 bg-sky-400 text-white rounded-none border border-sky-400 cursor-pointer;
 }
 </style>

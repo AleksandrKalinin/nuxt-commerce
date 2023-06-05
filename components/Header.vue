@@ -47,7 +47,7 @@ const client = useSupabaseClient();
 
 <style scoped>
 .header {
-  @apply z-10 h-20 bg-white px-10 flex items-center justify-between shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)];
+  @apply z-10 h-20 bg-white px-10 max-md:px-5 flex items-center justify-between shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)];
 }
 
 .logo {
@@ -60,11 +60,11 @@ const client = useSupabaseClient();
 }
 
 .logo__inner {
-  @apply text-2xl tracking-wide uppercase bg-sky-300 py-1 px-2 text-white;
+  @apply text-2xl tracking-wide uppercase bg-sky-300 py-1 px-2 text-white max-md:text-lg;
 }
 
 .header-item {
-  @apply flex flex-col items-center mx-4;
+  @apply flex flex-col items-center mx-4 max-md:mx-2;
 }
 
 .header-item__image {

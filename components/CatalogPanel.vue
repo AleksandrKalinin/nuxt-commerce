@@ -42,18 +42,21 @@ const sortOrder = computed(() => {
 
 <style scoped>
 .navigation {
-  @apply w-full flex justify-between items-center pb-5 max-md:flex-col max-md:items-start;
+  @apply w-full flex justify-between items-center pb-5 max-md:flex-col max-md:items-start max-sm:px-4;
 }
 
 .navigation__wrapper {
   @apply flex justify-between text-lg max-md:mb-4;
 }
 
+.navigation-sorting {
+  @apply flex max-md:mb-3 max-[400px]:flex-col;
+}
 .navigation-sorting__title {
-  @apply mr-3 font-semibold;
+  @apply mr-3 font-semibold max-[400px]:mb-2;
 }
 .navigation-sorting__option {
-  @apply mr-3 cursor-pointer;
+  @apply mr-3 cursor-pointer max-[400px]:mb-2;
 }
 
 .navigation-search__input {

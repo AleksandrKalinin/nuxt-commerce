@@ -79,7 +79,7 @@ onMounted(() => {
 }
 
 .catalog__title {
-  @apply text-3xl font-semibold mb-5;
+  @apply text-3xl font-semibold mb-5 max-sm:px-4;
 }
 
 .catalog__wrapper {
