@@ -8,8 +8,6 @@ let message = [
 const fetchAdress = async () => {
   const client = useSupabaseClient();
 
-  console.log("fire");
-
   let { data: users, error } = await client
     .from("users")
     .select("email")

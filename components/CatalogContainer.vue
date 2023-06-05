@@ -70,7 +70,6 @@ onMounted(() => {
   if (user.value) {
     cartStore.getCartItems();
   }
-  console.log(message);
 });
 </script>
 
