@@ -1,19 +1,16 @@
 <template>
-  <section
-    class="w-full lg:ml-10 bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg"
-    v-if="selectedItem"
-  >
-    <div class="w-full flex justify-between mb-5 bg-white">
+  <section class="selected-item" v-if="selectedItem">
+    <div class="selected-item__info">
       <div class="p-5">
         <img
-          class="min-w-[300px] w-[300px] h-auto object-cover"
+          class="selected-item__image"
           :src="selectedItem.photo"
           :alt="selectedItem.name"
           loading="eager"
         />
       </div>
       <div class="w-full p-5">
-        <h1 class="text-3xl font-semibold mb-2">{{ selectedItem.name }}</h1>
+        <h1 class="selected-item__name">{{ selectedItem.name }}</h1>
         <p class="mb-3">
           <span class="text-xl font-semibold">Производитель:</span>
           {{ selectedItem.manufacturer }}
@@ -27,12 +24,10 @@
             selectedItem.in_stock ? "Есть в наличии" : "Нет в наличии"
           }}</span>
         </p>
-        <button
-          class="mt-5 text-lg px-7 py-2 hover:bg-sky-500 bg-sky-400 text-white flex items-center justify-center"
-        >
+        <button class="button_regular">
           <img
-            class="w-6 h-6 mr-2 icon"
-            src="~/assets/bag.svg"
+            class="button__image icon"
+            src="~/assets/icons/bag.svg"
             alt="Корзина"
             loading="eager"
           />
@@ -40,30 +35,30 @@
         </button>
       </div>
     </div>
-    <div class="tabs-header w-full flex">
+    <div class="tabs">
       <div
-        class="min-w-[180px] h-16 px-4 flex items-center justify-center cursor-pointer text-center text-lg bg-slate-200 text-slate-400 transition duration-100"
+        class="tabs-item"
         :class="currentTab === 'description' ? 'tab_active' : ''"
         value="description"
         @click="setTab($event)"
       >
         <img
           class="w-8 mr-2"
-          src="~/assets/data.svg"
+          src="~/assets/icons/data.svg"
           alt="Характеристики"
           loading="eager"
         />
         Характеристики
       </div>
       <div
-        class="min-w-[180px] h-16 px-4 flex items-center justify-center cursor-pointer text-center text-lg bg-slate-200 text-slate-400 transition duration-100"
+        class="tabs-item"
         :class="currentTab === 'reviews' ? 'tab_active' : ''"
         value="reviews"
         @click="setTab($event)"
       >
         <img
           class="w-8 mr-2"
-          src="~/assets/chat.svg"
+          src="~/assets/icons/chat.svg"
           alt="Отзывы"
           loading="eager"
         />Отзывы
@@ -75,11 +70,13 @@
       </div>
     </div>
     <KeepAlive>
-      <component
-        :is="currentTabComponent"
-        :selectedItem="selectedItem"
-        :selectedProperties="selectedProperties"
-      />
+      <Transition name="fade" mode="out-in">
+        <component
+          :is="currentTabComponent"
+          :selectedItem="selectedItem"
+          :selectedProperties="selectedProperties"
+        />
+      </Transition>
     </KeepAlive>
     <Gallery :items="galleryItems" />
   </section>
@@ -183,6 +180,30 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.selected-item {
+  @apply lg:ml-10 lg:w-[calc(100%-300px)] bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg;
+}
+
+.selected-item__info {
+  @apply w-full flex justify-between mb-5 bg-white;
+}
+
+.selected-item__image {
+  @apply min-w-[300px] w-[300px] h-auto object-cover;
+}
+
+.selected-item__name {
+  @apply text-3xl font-semibold mb-2;
+}
+
+.tabs {
+  @apply w-full flex;
+}
+
+.tabs-item {
+  @apply min-w-[180px] h-16 px-4 flex items-center justify-center cursor-pointer text-center text-lg bg-slate-200 text-slate-400 transition duration-100;
+}
+
 .tab_active {
   background-color: #ffffff;
   color: #000000;
@@ -195,5 +216,15 @@ onMounted(() => {
 
 .icon {
   color: #ffffff;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.15s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

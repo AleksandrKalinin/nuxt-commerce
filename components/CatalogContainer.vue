@@ -1,12 +1,9 @@
 <template>
-  <section class="w-full lg:ml-10" ref="scrollEl">
-    <h1 class="text-3xl font-semibold mb-5">Каталог</h1>
+  <section class="catalog" ref="scrollEl">
+    <h1 class="catalog__title">Каталог</h1>
     <CatalogPanel />
     <template v-if="catalogItems?.length">
-      <div
-        v-if="catalogItems?.length && isLoaded"
-        class="grid gap-4 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2"
-      >
+      <div v-if="catalogItems?.length && isLoaded" class="catalog__wrapper">
         <TransitionGroup name="catalog">
           <CatalogItem
             v-for="item in catalogItems?.slice(start, end)"
@@ -18,21 +15,17 @@
     </template>
     <template v-else-if="catalogItems?.length === 0 && isLoaded">
       <Transition>
-        <div
-          class="preloader-wrapper flex justify-center items-center h-full w-full"
-        >
-          <span class="text-2xl">No items found</span>
+        <div class="preloader-wrapper">
+          <span class="preloader-wrapper__text">No items found</span>
         </div>
       </Transition>
     </template>
     <template v-else>
       <Transition>
-        <div
-          class="preloader-wrapper flex justify-center items-center h-full w-full"
-        >
+        <div class="preloader-wrapper">
           <img
             class="w-16"
-            src="~/assets/oval.svg"
+            src="~/assets/icons/oval.svg"
             alt="Preloader"
             loading="eager"
           />
@@ -77,11 +70,26 @@ onMounted(() => {
   if (user.value) {
     cartStore.getCartItems();
   }
-  console.log(message);
 });
 </script>
 
 <style scoped>
+.catalog {
+  @apply w-full lg:ml-10;
+}
+
+.catalog__title {
+  @apply text-3xl font-semibold mb-5 max-sm:px-4;
+}
+
+.catalog__wrapper {
+  @apply grid gap-4 min-[1920px]:grid-cols-4 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2;
+}
+
+.preloader-wrapper {
+  @apply flex justify-center items-center h-full w-full;
+}
+
 .catalog-enter-active,
 .catalog-leave-active {
   transition: opacity 0.1s ease;

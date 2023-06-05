@@ -1,14 +1,10 @@
 <template>
-  <aside
-    class="w-96 max-lg:w-full max-lg:mb-10 border sky-blue-400 bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg"
-  >
-    <h3 class="flex justify-center text-center py-5 text-2xl font-semibold">
-      Фильтры
-    </h3>
+  <aside class="sidebar">
+    <h3 class="sidebar__title sidebar-title">Фильтры</h3>
 
-    <div class="filter-section sky-blue-400 px-5 py-4">
-      <h3 class="filter-section__title text-xl font-semibold mb-2">Цена</h3>
-      <div class="filter-section__list filter-list">
+    <div class="sidebar-block sidebar__block">
+      <h3 class="sidebar-block__title">Цена</h3>
+      <div class="sidebar-block__list filter-list">
         <BaseSlider
           :max="maxPrice ? maxPrice : 0"
           :min="0"
@@ -17,15 +13,12 @@
         />
       </div>
     </div>
-    <div
-      v-for="item in store.filteringOptions"
-      class="filter-section border-b-1 sky-blue-400 px-5 py-4"
-    >
-      <h3 class="filter-section__title text-xl font-semibold mb-2">
+    <div v-for="item in store.filteringOptions" class="sidebar__block">
+      <h3 class="sidebar-block__title">
         {{ item.label }}
       </h3>
       <div class="filter-section__list filter-list">
-        <div class="filter-list__option flex flex-col">
+        <div class="filter-list__option">
           <label v-for="option in item.value" class="flex items-center py-2"
             ><input
               type="checkbox"
@@ -64,4 +57,24 @@ watchDebounced(
 );
 </script>
 
-<style scoped></style>
+<style scoped>
+.sidebar {
+  @apply min-w-[300px] max-lg:w-full max-lg:mb-10 border bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg;
+}
+
+.sidebar-title {
+  @apply flex justify-center text-center py-5 text-2xl font-semibold;
+}
+
+.sidebar__block {
+  @apply px-5 py-4;
+}
+
+.sidebar-block__title {
+  @apply text-xl font-semibold mb-2;
+}
+
+.filter-list__options {
+  @apply flex flex-col;
+}
+</style>

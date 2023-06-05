@@ -1,7 +1,7 @@
 <template>
-  <section class="py-10 bg-white" :class="`max-w-[${380 * itemsNumber}px]`">
-    <div class="gallery__header flex justify-between mb-5 py-3 px-5">
-      <h2 class="text-3xl font-semibold">Похожие товары</h2>
+  <section class="gallery" :class="`max-w-[${380 * itemsNumber}px]`">
+    <div class="gallery__header gallery-header">
+      <h2 class="gallery-header__text">Похожие товары</h2>
     </div>
     <carousel :items-to-show="itemsNumber" :style="maxWidth" class="mx-auto">
       <slide v-for="item in items" :key="item.id">
@@ -38,6 +38,18 @@ const maxWidth = computed(() => {
 </script>
 
 <style>
+.gallery {
+  @apply py-10 bg-white;
+}
+
+.gallery-header {
+  @apply flex justify-between mb-5 py-3 px-5;
+}
+
+.gallery-header__text {
+  @apply text-3xl font-semibold;
+}
+
 .carousel__prev {
   margin-left: 0;
 }

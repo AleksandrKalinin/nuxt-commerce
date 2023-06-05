@@ -42,10 +42,10 @@
           </td>
           <td v-else-if="option.type === 'icon'" class="py-4">
             <img
-              :src="option.value"
+              :src="images[option.value]"
               class="w-[25px] h-[25px] cursor-pointer"
               @click="option.action(item.id)"
-              :alt="option.value"
+              :alt="images[option.value]"
               loading="eager"
             />
           </td>
@@ -66,8 +66,8 @@
           <td v-else-if="option.type === 'markup'" class="py-4">
             <BaseUpdateModal :item="item" :originalItems="originalItems">
               <img
-                :src="option.value"
-                :alt="option.value"
+                :src="images[option.value]"
+                :alt="images[option.value]"
                 class="w-[25px] h-[25px] cursor-pointer"
                 loading="eager"
               />
@@ -80,11 +80,19 @@
 </template>
 
 <script setup lang="ts">
+import { filename } from "pathe/utils";
 import { useFilterStore } from "~/store/filter";
 import { useAdminStore } from "~/store/admin";
 const props = defineProps(["header", "data", "shadowed", "originalItems"]);
 const store = useFilterStore();
 const adminStore = useAdminStore();
+
+const images = computed(() => {
+  const glob = import.meta.glob("~/assets/icons/*.svg", { eager: true });
+  return Object.fromEntries(
+    Object.entries(glob).map(([key, value]) => [filename(key), value.default])
+  );
+});
 
 const sortOrder = computed(() => {
   return store.sortOrder;

@@ -1,23 +1,15 @@
 <template>
-  <div class="p-5 border sky-blue-400 max-w-[300px] w-full mx-auto">
+  <div class="gallery__item gallery-item">
     <div class="m-w-full h-36">
-      <img
-        class="w-fit h-full mx-auto object-cover"
-        :src="item.photo"
-        loading="eager"
-      />
+      <img class="gallery-item__image" :src="item.photo" loading="eager" />
     </div>
     <div class="py-5">
-      <h2 class="text-lg flex justify-between items-center font-semibold py-2">
+      <h2 class="gallery-item__title">
         <NuxtLink :to="itemRoute">{{ item.name }} </NuxtLink
         ><span class="">{{ item.price }}$</span>
       </h2>
       <p class="text-base mb-4">{{ item.type }}</p>
-      <button
-        class="transition duration-200 hover:bg-sky-500 text-lg px-7 mx-auto py-2 bg-sky-400 text-white rounded-none w-64"
-      >
-        Add to cart
-      </button>
+      <button class="button_regular button_centered">Add to cart</button>
     </div>
   </div>
 </template>
@@ -33,4 +25,16 @@ const itemRoute = computed(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.gallery__item {
+  @apply p-5 border max-w-[300px] w-full mx-auto;
+}
+
+.gallery-item__image {
+  @apply w-fit h-full mx-auto object-cover;
+}
+
+.gallery-item__title {
+  @apply text-lg flex justify-between items-center font-semibold py-2;
+}
+</style>

@@ -7,13 +7,10 @@
     :originalItems="originalItems"
   >
   </BaseTable>
-  <div
-    v-else
-    class="preloader-wrapper flex justify-center items-center h-full w-full"
-  >
+  <div v-else class="preloader-wrapper">
     <img
       class="w-16 h-16"
-      src="~/assets/oval.svg"
+      src="~/assets/icons/oval.svg"
       alt="Preloader"
       loading="eager"
     />
@@ -68,12 +65,12 @@ const CATALOG_HEADER = [
   },
   {
     label: "",
-    value: "_nuxt/assets/edit.svg",
+    value: "edit",
     type: "markup",
   },
   {
     label: "",
-    value: "_nuxt/assets/delete.svg",
+    value: "delete",
     type: "icon",
     action: adminStore.deleteItem,
   },
