@@ -21,7 +21,6 @@
           Кабинет
         </div>
       </NuxtLink>
-
       <NuxtLink to="/cart" v-if="user">
         <div class="header-item header__item">
           <div class="header-item__image">
@@ -60,7 +59,7 @@ const client = useSupabaseClient();
   font-family: "Raleway", sans-serif;
 }
 
-.logo-inner {
+.logo__inner {
   @apply text-2xl tracking-wide uppercase bg-sky-300 py-1 px-2 text-white;
 }
 

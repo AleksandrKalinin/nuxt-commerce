@@ -97,7 +97,7 @@ const header = [
   },
   {
     label: "",
-    value: "_nuxt/assets/delete.svg",
+    value: "delete",
     type: "icon",
     action: deleteItem,
   },

@@ -258,6 +258,8 @@ export const useCatalogStore = defineStore("catalog", () => {
     filteredItems,
     searchValue,
     initialPrice,
+    sortValue,
+    sortOrder,
     updateSort,
     sortedItems,
     selectedOptions,

@@ -2,11 +2,15 @@
   <div class="navigation">
     <div class="navigation__sorting navigation-sorting">
       <span class="navigation-sorting__title"> Сортировать: </span>
-      <span class="navigation-sorting__option" @click="store.updateSort('date')"
+      <span
+        class="navigation-sorting__option sorting-option"
+        :class="sortValue === 'date' ? 'sorting-option_active' : ''"
+        @click="store.updateSort('date')"
         >По дате добавления</span
       >
       <span
-        class="navigation-sorting__option"
+        class="navigation-sorting__option sorting-option"
+        :class="sortValue === 'price' ? 'sorting-option_active' : ''"
         @click="store.updateSort('price')"
         >По цене</span
       >
@@ -26,6 +30,14 @@
 import { useCatalogStore } from "~/store/catalog";
 
 const store = useCatalogStore();
+
+const sortValue = computed(() => {
+  return store.sortValue;
+});
+
+const sortOrder = computed(() => {
+  return store.sortOrder;
+});
 </script>
 
 <style scoped>
@@ -46,5 +58,13 @@ const store = useCatalogStore();
 
 .navigation-search__input {
   @apply leading-7 py-2 px-4 border w-72;
+}
+
+.sorting-option {
+  @apply transition duration-200 hover:text-sky-500;
+}
+
+.sorting-option_active {
+  @apply text-sky-500;
 }
 </style>
