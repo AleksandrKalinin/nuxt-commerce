@@ -152,10 +152,10 @@ onMounted(() => {
 }
 
 .cabinet-block__info {
-  @apply flex justify-between;
+  @apply flex justify-between max-lg:flex-col;
 }
 .cabinet-info__item {
-  @apply mb-5 bg-white h-[120px] xl:w-[350px] max-lg:w-full flex justify-between items-center border border-white shadow-[0_-1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg px-4 overflow-hidden;
+  @apply mb-5 bg-white h-[120px] lg:min-w-[320px] max-lg:w-full flex justify-between items-center border border-white shadow-[0_-1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg px-4 overflow-hidden;
 }
 
 .cabinet-orders__status {

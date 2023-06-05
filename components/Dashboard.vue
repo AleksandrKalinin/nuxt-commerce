@@ -109,10 +109,10 @@ const options = ref({
 }
 
 .dashboard-info__item {
-  @apply relative mb-5 bg-white info-item h-[120px] w-[270px] flex justify-between items-center border border-white shadow-[0_-1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg px-4 overflow-hidden;
+  @apply relative mb-5 bg-white info-item h-[120px] w-[270px] max-lg:mb-4 max-sm:w-full flex justify-between items-center border border-white shadow-[0_-1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg px-4 overflow-hidden;
 }
 
-.dashboard-info__item {
+.info-item__title {
   @apply text-lg tracking-wide text-teal-600 uppercase mb-2 font-semibold;
 }
 

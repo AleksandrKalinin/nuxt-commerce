@@ -21,7 +21,7 @@
       </div>
       <div class="mailing__item mailing-item">
         <h3 class="mailing-item__title">Шаблон</h3>
-        <template v-if="templates.length">
+        <div class="templates" v-if="templates.length">
           <div class="mailing-template" v-for="item in templates">
             <img
               src="~/assets/svg-file.svg"
@@ -31,7 +31,7 @@
             />
             <p class="mailing-template__name">{{ item.name }}</p>
           </div>
-        </template>
+        </div>
         <template v-else>
           <div class="mailing-template__placeholder">
             У вас нет готовых шаблонов
@@ -78,27 +78,31 @@ const sendMail = () => {
 }
 
 .mailing__item {
-  @apply flex mb-6;
+  @apply flex mb-6 max-[340px]:flex-col;
 }
 
 .mailing-item__title {
-  @apply text-xl font-semibold min-w-[200px];
+  @apply text-xl font-semibold min-w-[200px] max-sm:text-lg max-sm:min-w-[150px] max-[340px]:mb-2;
 }
 
 .mailing-template {
-  @apply cursor-pointer mr-4 mb-4;
+  @apply cursor-pointer mr-4 mb-4 max-[340px]:mb-2;
 }
 
 .mailing-template__image {
-  @apply mb-3 w-[80px] h-[80px];
+  @apply mb-3 w-[80px] h-[80px] max-sm:w-[40px] max-sm:h-[40px];
 }
 
 .mailing-template__name {
-  @apply text-xl text-center font-semibold;
+  @apply text-xl text-center font-semibold max-sm:text-lg;
 }
 
 .mailing-template__placeholder {
   @apply w-full text-center text-xl py-5;
+}
+
+.templates {
+  @apply flex flex-wrap;
 }
 
 svg {
