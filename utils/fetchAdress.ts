@@ -8,18 +8,23 @@ let message = [
 const fetchAdress = async () => {
   const client = useSupabaseClient();
 
-  console.log("fire");
-
-  let { data: users, error } = await client
-    .from("users")
-    .select("email")
-    .eq("subscribed", false);
-
-  message = users?.map((email) => {
-    const item = {};
-    item.to = email;
-    return item;
-  });
+  try {
+    let { data: users, error } = await client
+      .from("users")
+      .select("email")
+      .eq("subscribed", false);
+    if (error) {
+      throw error;
+    } else {
+      message = users?.map((email) => {
+        const item = {};
+        item.to = email;
+        return item;
+      });
+    }
+  } catch (e) {
+    throw e;
+  }
 };
 
 export { fetchAdress, message };

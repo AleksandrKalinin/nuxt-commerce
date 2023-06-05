@@ -2,7 +2,7 @@
   <section class="w-full h-[calc(100vh-80px)] flex justify-center items-center">
     <div class="w-[500px] h-[300px] flex flex-col items-center text-center">
       <img
-        src="~/assets/face-frown.svg"
+        src="~/assets/icons/face-frown.svg"
         class="w-36 h-36 mb-2"
         alt="Sad face"
         loading="eager"

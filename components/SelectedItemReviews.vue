@@ -1,7 +1,5 @@
 <template>
-  <table
-    class="w-full border-separate border-spacing-2 sky-blue-400 py-5 px-3 mb-5 bg-white"
-  >
+  <table class="selected-item__reviews selected-reviews">
     <tbody>
       <tr v-if="reviews?.length" v-for="item in reviews" :key="item.id">
         <td>
@@ -22,18 +20,15 @@
       <tr>
         <td>
           <form
-            class="flex flex-col justify-end"
+            class="selected-reviews__form reviews-form"
             @submit.prevent="sendReview()"
           >
-            <h3 class="text-2xl font-semibold mb-4">Оставить отзыв</h3>
-            <textarea
-              v-model="reviewTxt"
-              class="w-full resize-none p-3 bg-white border bg-sky-400 min-h-[120px] rounded-none mb-4 p-3 text-lg py-2"
-            />
+            <h3 class="reviews-form__title">Оставить отзыв</h3>
+            <textarea v-model="reviewTxt" class="reviews-form__text" />
             <input
               type="submit"
               value="Отправить"
-              class="self-end bg-sky-400 text-white px-8 max-h-[50px] py-2 text-lg cursor-pointer tracking-wider transition duration-200 hover:bg-sky-500"
+              class="reviews-form__submit"
             />
           </form>
         </td>
@@ -74,4 +69,21 @@ const sendReview = () => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.selected-item__reviews {
+  @apply w-full border-separate border-spacing-2 py-5 px-3 mb-5 bg-white;
+}
+.selected-reviews__form {
+  @apply flex flex-col justify-end;
+}
+.reviews-title {
+  @apply text-2xl font-semibold mb-4;
+}
+.reviews-form__text {
+  @apply w-full resize-none p-3 bg-white border min-h-[120px] rounded-none mb-4 p-3 text-lg py-2;
+}
+
+.reviews-form__submit {
+  @apply self-end bg-sky-400 text-white px-8 max-h-[50px] py-2 text-lg cursor-pointer tracking-wider transition duration-200 hover:bg-sky-500;
+}
+</style>

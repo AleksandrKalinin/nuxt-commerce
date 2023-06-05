@@ -7,13 +7,10 @@
     :originalItems="originalItems"
   >
   </BaseTable>
-  <div
-    v-else
-    class="preloader-wrapper flex justify-center items-center h-full w-full"
-  >
+  <div v-else class="preloader-wrapper">
     <img
       class="w-16 h-16"
-      src="~/assets/oval.svg"
+      src="~/assets/icons/oval.svg"
       alt="Preloader"
       loading="eager"
     />
@@ -21,7 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import { filename } from "pathe/utils";
 import { useAdminStore } from "~/store/admin";
 import { useCatalogStore } from "~/store/catalog";
 import { usePaginationStore } from "~/store/pagination";
