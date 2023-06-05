@@ -21,7 +21,6 @@
 </template>
 
 <script setup lang="ts">
-import { filename } from "pathe/utils";
 import { useAdminStore } from "~/store/admin";
 import { useCatalogStore } from "~/store/catalog";
 import { usePaginationStore } from "~/store/pagination";
