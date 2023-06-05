@@ -5,10 +5,7 @@
     :data="data"
     :shadowed="true"
   ></BaseTable>
-  <div
-    v-else
-    class="preloader-wrapper flex justify-center items-center h-full w-full"
-  >
+  <div v-else class="preloader-wrapper">
     <img class="w-16" src="~/assets/oval.svg" alt="preloader" loading="eager" />
   </div>
 </template>

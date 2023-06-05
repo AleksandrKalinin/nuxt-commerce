@@ -1,9 +1,9 @@
 <template>
-  <div class="w-full min-h-[120px] px-[30px] py-5">
-    <h2 class="text-2xl font-semibold mb-5">Настройки</h2>
-    <div class="">
-      <div class="flex mb-6">
-        <h3 class="text-xl font-semibold min-w-[200px]">Время:</h3>
+  <div class="mailing">
+    <h2 class="mailing__title">Настройки</h2>
+    <div>
+      <div class="mailing__item mailing-item">
+        <h3 class="mailing-item__title">Время:</h3>
         <select class="text-lg bg-transparent">
           <option value="9">09.00</option>
           <option value="12">12.00</option>
@@ -11,39 +11,34 @@
           <option value="16">18.00</option>
         </select>
       </div>
-      <div class="flex mb-6">
-        <h3 class="text-xl font-semibold min-w-[200px]">Периодичность:</h3>
+      <div class="mailing__item mailing-item">
+        <h3 class="mailing-item__title">Периодичность:</h3>
         <select class="text-lg bg-transparent">
           <option value="9">Каждые 24 часа</option>
           <option value="12">Каждую неделю</option>
           <option value="15">Каждый месяц</option>
         </select>
       </div>
-      <div class="flex flex-wrap mb-6">
-        <h3 class="text-xl font-semibold min-w-[200px]">Шаблон</h3>
+      <div class="mailing__item mailing-item">
+        <h3 class="mailing-item__title">Шаблон</h3>
         <template v-if="templates.length">
-          <div class="cursor-pointer mr-4 mb-4" v-for="item in templates">
+          <div class="mailing-template" v-for="item in templates">
             <img
               src="~/assets/svg-file.svg"
-              class="mb-3 w-[80px] h-[80px]"
+              class="mailing-template__image"
               alt="File"
               loading="eager"
             />
-            <p class="text-xl text-center font-semibold">{{ item.name }}</p>
+            <p class="mailing-template__name">{{ item.name }}</p>
           </div>
         </template>
         <template v-else>
-          <div class="w-full text-center text-xl py-5">
+          <div class="mailing-template__placeholder">
             У вас нет готовых шаблонов
           </div>
         </template>
       </div>
-      <button
-        @click="sendMail"
-        class="transition duration-200 hover:bg-sky-500 text-lg px-7 mx-auto py-2 bg-sky-400 text-white rounded-none w-64"
-      >
-        Подтвердить
-      </button>
+      <button @click="sendMail" class="button_regular">Подтвердить</button>
     </div>
   </div>
 </template>
@@ -74,6 +69,38 @@ const sendMail = () => {
 </script>
 
 <style scoped>
+.mailing {
+  @apply w-full min-h-[120px] px-[30px] py-5;
+}
+
+.mailing__title {
+  @apply text-2xl font-semibold mb-5;
+}
+
+.mailing__item {
+  @apply flex mb-6;
+}
+
+.mailing-item__title {
+  @apply text-xl font-semibold min-w-[200px];
+}
+
+.mailing-template {
+  @apply cursor-pointer mr-4 mb-4;
+}
+
+.mailing-template__image {
+  @apply mb-3 w-[80px] h-[80px];
+}
+
+.mailing-template__name {
+  @apply text-xl text-center font-semibold;
+}
+
+.mailing-template__placeholder {
+  @apply w-full text-center text-xl py-5;
+}
+
 svg {
   color: #0079af;
 }

@@ -1,7 +1,5 @@
 <template>
-  <table
-    class="w-full border-separate border-spacing-2 sky-blue-400 py-5 px-3 bg-white mb-5"
-  >
+  <table class="selected-item__description">
     <tbody>
       <tr
         v-for="(item, key) in selectedProperties"
@@ -23,4 +21,8 @@
 const props = defineProps(["selectedProperties", "selectedItem"]);
 </script>
 
-<style scoped></style>
+<style scoped>
+.selected-item__description {
+  @apply w-full border-separate border-spacing-2 py-5 px-3 bg-white mb-5;
+}
+</style>

@@ -20,7 +20,6 @@
   -ms-user-select: none;
   user-select: none;
 }
-
 .container input {
   position: absolute;
   opacity: 0;

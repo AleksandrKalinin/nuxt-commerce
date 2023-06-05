@@ -1,34 +1,30 @@
 <template>
   <Transition>
-    <div
-      class="p-5 border sky-blue-400 max-w-[300px] mx-auto bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg"
-    >
-      <div class="flew w-60 h-36">
+    <div class="catalog__item catalog-item">
+      <div class="catalog-item__image">
         <img
-          class="w-fit h-full mx-auto object-cover"
+          class="catalog-item__picture"
           :src="item.photo"
           :alt="item.name"
           loading="eager"
         />
       </div>
       <div class="py-5">
-        <h2
-          class="text-lg flex justify-between items-center font-semibold py-2"
-        >
+        <h2 class="catalog-item__title">
           <NuxtLink :to="itemRoute">{{ item.name }} </NuxtLink
           ><span class="text-xl">{{ item.price }}$</span>
         </h2>
         <p class="text-base mb-1">{{ item.type }}</p>
-        <p class="text-base mb-4 flex items-center">
+        <p class="catalog-item__orders catalog-orders">
           <img
-            class="w-5 h-5 mr-2"
+            class="catalog-orders__icon"
             src="~/assets/time.svg"
             alt="In stock"
             loading="eager"
           />{{ item.in_stock > 0 ? "В наличии" : "Нет в наличии" }}
         </p>
         <button
-          class="transition duration-200 hover:bg-sky-500 text-lg px-7 mx-auto py-2 bg-sky-400 text-white border"
+          class="button_regular button_centered"
           @click="cartStore.addToCart(item.id)"
         >
           Add to cart
@@ -50,6 +46,30 @@ const itemRoute = computed(() => {
 </script>
 
 <style scoped>
+.catalog__item {
+  @apply p-5 border max-w-[300px] mx-auto bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg;
+}
+
+.catalog-item__image {
+  @apply flex w-60 h-36;
+}
+
+.catalog-item__picture {
+  @apply w-fit h-full mx-auto object-cover;
+}
+
+.catalog-item__title {
+  @apply text-lg flex justify-between items-center font-semibold py-2;
+}
+
+.catalog-item__orders {
+  @apply text-base mb-4 flex items-center;
+}
+
+.catalog-orders__icon {
+  @apply w-5 h-5 mr-2;
+}
+
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.2s ease;

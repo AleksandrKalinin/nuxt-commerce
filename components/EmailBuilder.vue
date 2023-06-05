@@ -1,19 +1,13 @@
 <template>
-  <div class="w-full flex items-center justify-start h-[80px] px-[30px]">
-    <button
-      v-on:click="saveDesign"
-      class="mr-4 transition duration-200 hover:bg-sky-500 text-lg px-7 py-2 bg-sky-400 text-white"
-    >
+  <div class="builder__panel">
+    <button v-on:click="saveDesign" class="button_regular mr-4">
       Save Design
     </button>
-    <button
-      v-on:click="exportHtml"
-      class="transition duration-200 hover:bg-sky-500 text-lg px-7 py-2 bg-sky-400 text-white"
-    >
+    <button v-on:click="exportHtml" class="button_regular mr-4">
       Export HTML
     </button>
   </div>
-  <div id="app" class="h-[calc(100vh-160px)]">
+  <div class="editor-wrapper">
     <EmailEditor minHeight="500" ref="emailEditor" v-on:load="editorLoaded" />
   </div>
 </template>
@@ -49,6 +43,14 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.builder__panel {
+  @apply w-full flex items-center justify-start h-[80px] px-[30px];
+}
+
+.editor-wrapper {
+  @apply h-[calc(100vh-160px)];
+}
+
 .unlayer-editor {
   height: calc(100vh - 160px);
 }

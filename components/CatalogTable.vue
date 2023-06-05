@@ -7,10 +7,7 @@
     :originalItems="originalItems"
   >
   </BaseTable>
-  <div
-    v-else
-    class="preloader-wrapper flex justify-center items-center h-full w-full"
-  >
+  <div v-else class="preloader-wrapper">
     <img
       class="w-16 h-16"
       src="~/assets/oval.svg"

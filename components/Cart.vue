@@ -2,44 +2,29 @@
   <BasePopup />
   <template v-if="cartItems.length">
     <BaseTable :header="header" :data="cartItems" :shadowed="true" />
-    <div
-      class="price-panel flex justify-between items-center py-5 max-lg:flex-col"
-    >
-      <div
-        class="price-panel__item price-item flex justify-between items-center w-1/5 max-lg:w-full max-lg:mb-4 p-5 border border-slate-200"
-      >
-        <span class="price-item__category">Discount</span>
-        <span class="price-item__sum font-semibold text-2xl">$0.00</span>
+    <div class="cart-panel">
+      <div class="cart-panel__item panel-item">
+        <span class="panel-item__category">Discount</span>
+        <span class="panel-item__sum">$0.00</span>
       </div>
-      <div
-        class="price-panel__item price-item flex justify-between items-center w-1/5 max-lg:w-full max-lg:mb-4 p-5 border border-slate-200"
-      >
-        <span class="price-item__category">Delivery</span>
-        <span class="price-item__sum font-semibold text-2xl">$0.00</span>
+      <div class="cart-panel__item panel-item">
+        <span class="panel-item__category">Delivery</span>
+        <span class="panel-item__sum">$0.00</span>
       </div>
-      <div
-        class="price-panel__item price-item flex justify-between items-center w-1/5 max-lg:w-full max-lg:mb-4 p-5 border border-slate-200"
-      >
-        <span class="price-item__category">Subtotal</span>
-        <span class="price-item__sum font-semibold text-2xl">$0.00</span>
+      <div class="cart-panel__item panel-item">
+        <span class="panel-item__category">Subtotal</span>
+        <span class="panel-item__sum">$0.00</span>
       </div>
-      <div
-        class="price-panel__item price-item flex justify-between items-center w-1/5 max-lg:w-full max-lg:mb-4 p-5 border border-slate-200"
-      >
-        <span class="price-item__category">Total</span>
-        <span class="price-item__sum font-semibold text-2xl"
-          >${{ cartStore.totalSum }}</span
-        >
+      <div class="cart-panel__item panel-item">
+        <span class="panel-item__category">Total</span>
+        <span class="panel-item__sum">${{ cartStore.totalSum }}</span>
       </div>
     </div>
-    <div class="py-5 flex flex-row justify-end items-center">
-      <button
-        class="transition duration-200 hover:bg-sky-500 text-lg px-7 py-3 bg-sky-400 text-white flex items-center"
-        @click="cartStore.placeOrder()"
-      >
+    <div class="cart-controls">
+      <button class="button_regular" @click="cartStore.placeOrder()">
         <img
           src="~/assets/bag.svg"
-          class="h-[20px] w-[20px] mr-2"
+          class="button__image"
           alt="Order"
           loading="eager"
         />
@@ -48,26 +33,19 @@
     </div>
   </template>
 
-  <div
-    v-else
-    class="w-full h-80 flex flex-col justify-center items-center text-2xl"
-  >
-    <div class="flex justify-center items-center mb-6">
+  <div v-else class="cart-placeholder">
+    <div class="cart-placeholder__wrapper">
       <p class="text-2xl">Your cart is empty</p>
-      <div class="w-16 h-16 ml-2">
+      <div class="cart-placeholder__picture">
         <img
           src="~/assets/sad.svg"
-          class="w-full h-auto"
+          class="cart-placeholder__image"
           alt="Empty"
           loading="eager"
         />
       </div>
     </div>
-    <NuxtLink
-      to="/catalog"
-      class="transition duration-200 hover:bg-sky-500 text-lg px-7 mx-auto py-2 bg-sky-400 text-white rounded-none"
-      >Back to catalog</NuxtLink
-    >
+    <NuxtLink to="/catalog" class="button_regular">Back to catalog</NuxtLink>
   </div>
 </template>
 
@@ -131,6 +109,38 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.cart-panel {
+  @apply flex justify-between items-center py-5 max-lg:flex-col;
+}
+
+.cart-panel__item {
+  @apply flex justify-between items-center w-1/5 max-lg:w-full max-lg:mb-4 p-5 border border-slate-200;
+}
+
+.panel-item__sum {
+  @apply font-semibold text-2xl;
+}
+
+.cart-controls {
+  @apply py-5 flex flex-row justify-end items-center;
+}
+
+.cart-placeholder {
+  @apply w-full h-80 flex flex-col justify-center items-center text-2xl;
+}
+
+.cart-placeholder__wrapper {
+  @apply flex justify-center items-center mb-6;
+}
+
+.cart-placeholder__picture {
+  @apply w-16 h-16 ml-2;
+}
+
+.cart-placeholder__image {
+  @apply w-full h-auto;
+}
+
 svg {
   color: #0079af;
   fill: #ffffff;
