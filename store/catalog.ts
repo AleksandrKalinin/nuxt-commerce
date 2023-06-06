@@ -1,30 +1,25 @@
 import { defineStore } from "pinia";
 import { usePaginationStore } from "./pagination";
 import { useToastsStore } from "./toasts";
-import { useReviewsStore } from "./reviews";
 
 export const useCatalogStore = defineStore("catalog", () => {
   const client = useSupabaseClient();
   const toastsStore = useToastsStore();
-  const reviewsStore = useReviewsStore();
   const catalogItems: Ref<CatalogItem[] | null> = ref([]);
   const loaded: Ref<boolean> = ref(false);
 
   async function fetchCatalogItems() {
-    try {
-      let { data, error } = await client
-        .from("catalog")
-        .select(
-          "id, name, price, date, manufacturer, photo, type, battery_type, pixels, max_FPS_video, max_FPS_photo, max_sensitivity, max_resolution, min_sensitivity, wi_fi, card_support, matrix_type, matrix_size, popularity, rating, warranty, in_stock, item_code, is_visible"
-        );
+    const { data, error } = await client
+      .from("catalog")
+      .select(
+        "id, name, price, date, manufacturer, photo, type, battery_type, pixels, max_FPS_video, max_FPS_photo, max_sensitivity, max_resolution, min_sensitivity, wi_fi, card_support, matrix_type, matrix_size, popularity, rating, warranty, in_stock, item_code, is_visible"
+      );
+    if (error) {
+      const { toast, message } = toastHandler(error.code);
+      toastsStore.showErrorToast(toast, message);
+    } else {
       catalogItems.value = data;
       loaded.value = true;
-      if (error) {
-        const { toast, message } = toastHandler(error.code);
-        toastsStore.showErrorToast(toast, message);
-      }
-    } catch (e) {
-      throw e;
     }
   }
 
@@ -34,25 +29,22 @@ export const useCatalogStore = defineStore("catalog", () => {
     if (catalogItems.value?.length === 0) {
       fetchCatalogItems();
     }
-    try {
-      let { data, error } = await client
-        .from("catalog")
-        .select(
-          "id, name, price, date, manufacturer, photo, type, battery_type, pixels, max_FPS_video, max_FPS_photo, max_sensitivity, max_resolution, min_sensitivity, wi_fi, card_support, matrix_type, matrix_size, popularity, rating, warranty, in_stock, item_code, is_visible, reviews"
-        )
-        .eq("id", Number(id));
-      if (error) {
-        const { toast, message } = toastHandler(error.code);
-        toastsStore.showErrorToast(toast, message);
-      }
-      if (data?.length) {
-        selectedItem.value = data[0];
-      } else {
-        const { toast, message } = toastHandler("item-not-found");
-        toastsStore.showErrorToast(toast, message);
-      }
-    } catch (e) {
-      throw e;
+
+    const { data, error } = await client
+      .from("catalog")
+      .select(
+        "id, name, price, date, manufacturer, photo, type, battery_type, pixels, max_FPS_video, max_FPS_photo, max_sensitivity, max_resolution, min_sensitivity, wi_fi, card_support, matrix_type, matrix_size, popularity, rating, warranty, in_stock, item_code, is_visible, reviews"
+      )
+      .eq("id", Number(id));
+    if (error) {
+      const { toast, message } = toastHandler(error.code);
+      toastsStore.showErrorToast(toast, message);
+    }
+    if (data?.length) {
+      selectedItem.value = data[0];
+    } else {
+      const { toast, message } = toastHandler("item-not-found");
+      toastsStore.showErrorToast(toast, message);
     }
   };
 
@@ -232,7 +224,10 @@ export const useCatalogStore = defineStore("catalog", () => {
           }
         }
       }
-      if (flag) return curItem;
+      if (flag) {
+        return curItem;
+      }
+      return false;
     });
   });
 

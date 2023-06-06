@@ -16,7 +16,11 @@
 
 <script setup lang="ts">
 import { Carousel, Slide, Navigation } from "vue3-carousel";
-const props = defineProps(["items"]);
+
+defineProps<{
+  items: any;
+}>();
+
 const { type } = useBreakpoints();
 
 const itemsNumber = computed(() => {
@@ -37,7 +41,7 @@ const maxWidth = computed(() => {
 });
 </script>
 
-<style>
+<style lang="css">
 .gallery {
   @apply py-10 bg-white;
 }

@@ -8,6 +8,17 @@ declare global {
     role: string;
   }
 
+  interface OrderItem {
+    id: number;
+    amount: number;
+  }
+
+  enum OrderStatus {
+    Pending = "Pending",
+    Completed = "Completed",
+    Cancelled = "Cancelled",
+  }
+
   interface Order {
     id?: number;
     created_at: Date;
@@ -18,15 +29,11 @@ declare global {
     status: OrderStatus;
   }
 
-  interface OrderItem {
-    id: number;
-    amount: number;
-  }
-
-  enum OrderStatus {
-    Pending = "Pending",
-    Completed = "Completed",
-    Cancelled = "Cancelled",
+  interface Review {
+    id: string;
+    author: string | undefined;
+    date: Date;
+    text: string;
   }
 
   interface CatalogItem {
@@ -92,12 +99,5 @@ declare global {
   interface CartItem extends CatalogItem {
     total?: number;
     amount?: number;
-  }
-
-  interface Review {
-    id: string;
-    author: string | undefined;
-    date: Date;
-    text: string;
   }
 }

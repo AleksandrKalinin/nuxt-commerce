@@ -12,7 +12,7 @@
 
 <script setup lang="ts"></script>
 
-<style scoped>
+<style scoped lang="css">
 .admin-panel {
   @apply max-sm:flex-col max-sm:items-start border w-full flex justify-between items-center py-5 px-5 mb-5 bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg;
 }

@@ -1,5 +1,5 @@
 export const useBreakpoints = () => {
-  let windowWidth = ref(window.innerWidth);
+  const windowWidth = ref(window.innerWidth);
 
   const onWidthChange = () => (windowWidth.value = window.innerWidth);
   onMounted(() => window.addEventListener("resize", onWidthChange));
@@ -11,8 +11,6 @@ export const useBreakpoints = () => {
     if (windowWidth.value >= 1400 && windowWidth.value < 1920) return "xl";
     else return "xxl";
   });
-
-  const width = computed(() => windowWidth.value);
 
   return { type };
 };

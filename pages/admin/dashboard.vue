@@ -11,10 +11,10 @@
             :users="usersData"
             :revenue="revenue"
             :balance="balanceData"
-            :totalOrders="orders?.length"
-            :totalUsers="users?.length"
-            :totalItems="items?.length"
-            :totalRevenue="totalRevenue"
+            :total-orders="orders?.length"
+            :total-users="users?.length"
+            :total-items="items?.length"
+            :total-revenue="totalRevenue"
           />
           <template #error="{ error }">
             <div class="flex flex-col items-center w-full pt-[50px]">
@@ -39,13 +39,13 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  middleware: ["auth"],
-});
-
 import { useCatalogStore } from "~/store/catalog";
 import { useOrdersStore } from "~/store/orders";
 import { useUsersStore } from "~/store/users";
+
+definePageMeta({
+  middleware: ["auth"],
+});
 
 const clearError = async (err) => {
   await navigateTo("/admin");
@@ -89,17 +89,13 @@ const monthes = [
   "December",
 ];
 
-const daysInMonth = (month: number, year: number) => {
-  return new Date(year, month, 0).getDate();
-};
-
 const revenueByMonth = computed(() => {
   const data: number[] = [];
-  monthes.map((item, id) => {
+  monthes.forEach(() => {
     data.push(0);
   });
-  orders.value?.map((item) => {
-    let date = new Date(item.created_at);
+  orders.value?.forEach((item) => {
+    const date: Date = new Date(item.created_at);
     const dateMonth = date.getMonth();
     data[dateMonth] = data[dateMonth] + item.total;
   });
@@ -121,11 +117,11 @@ const revenue = computed(() => {
 
 const usersByMonth = computed(() => {
   const data: number[] = [];
-  monthes.map((item, id) => {
+  monthes.forEach(() => {
     data.push(0);
   });
-  users.value?.map((item) => {
-    let date = new Date(item.registration_date);
+  users.value?.forEach((item) => {
+    const date = new Date(item.registration_date);
     const dateMonth = date.getMonth();
     data[dateMonth] += 1;
   });
@@ -182,7 +178,7 @@ const ordersStatus = computed(() => {
     Pending: 0,
     Cancelled: 0,
   };
-  orders.value?.map((item) => {
+  orders.value?.forEach((item) => {
     data[item.status] = data[item.status] + 1;
   });
   return data;

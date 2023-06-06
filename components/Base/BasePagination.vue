@@ -2,22 +2,23 @@
   <div class="pagination-container w-full flex justify-end mt-10">
     <div class="pagination flex cursor-pointer bg-white">
       <div
-        @click="firstPage"
         class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5 h-[50px]"
+        @click="firstPage"
       >
         First
       </div>
       <div
         v-for="num in pageNumbers"
-        @click="setPage(num)"
+        :key="num"
         :class="{ 'pagination-item_active': num === store.currentPage + 1 }"
         class="pagination-item flex justify-center items-center border sky-blue-400 w-[50px] h-[50px] font-lg font-semibold"
+        @click="setPage(num)"
       >
         {{ num }}
       </div>
       <div
-        @click="lastPage"
         class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5 h-[50px]"
+        @click="lastPage"
       >
         Last
       </div>
@@ -27,11 +28,16 @@
 
 <script setup lang="ts">
 import { usePaginationStore } from "~/store/pagination";
-const props = defineProps(["items", "targetRef"]);
+
+const props = defineProps<{
+  items: any;
+  targetRef: any;
+}>();
+
 const store = usePaginationStore();
 
 const pageNumbers = computed(() => {
-  let numbers = [];
+  const numbers = [];
   for (let i = 1; i <= Math.ceil(props.items.length / 12); i++) {
     numbers.push(i);
   }

@@ -1,19 +1,21 @@
 <template>
   <table class="selected-item__reviews selected-reviews">
     <tbody>
-      <tr v-if="reviews?.length" v-for="item in reviews" :key="item.id">
-        <td>
-          <div class="review py-3">
-            <div class="flex justify-between">
-              <h6 class="text-lg font-semibold">{{ item.author }}</h6>
-              <span>{{ formatDate(item.date) }}</span>
+      <template v-if="reviews?.length">
+        <tr v-for="item in reviews" :key="item.id">
+          <td>
+            <div class="review py-3">
+              <div class="flex justify-between">
+                <h6 class="text-lg font-semibold">{{ item.author }}</h6>
+                <span>{{ formatDate(item.date) }}</span>
+              </div>
+              <div class="text-lg py-2">
+                {{ item.text }}
+              </div>
             </div>
-            <div class="text-lg py-2">
-              {{ item.text }}
-            </div>
-          </div>
-        </td>
-      </tr>
+          </td>
+        </tr>
+      </template>
       <tr v-else>
         <td><div class="py-8">Отзывов пока нет</div></td>
       </tr>
@@ -42,8 +44,9 @@ import { v4 as uuidv4 } from "uuid";
 import { useReviewsStore } from "~/store/reviews";
 import { formatDate } from "~/utils/formatDate";
 
+const props = defineProps<{ selectedItem: any }>();
+
 const store = useReviewsStore();
-const props = defineProps(["selectedItem"]);
 const user = useSupabaseUser();
 
 const reviews = computed(() => {
@@ -69,7 +72,7 @@ const sendReview = () => {
 };
 </script>
 
-<style scoped>
+<style scoped lang="css">
 .selected-item__reviews {
   @apply w-full border-separate border-spacing-2 py-5 px-3 mb-5 bg-white;
 }

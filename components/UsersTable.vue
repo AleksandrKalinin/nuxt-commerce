@@ -1,9 +1,9 @@
 <template>
   <BaseTable
+    v-if="data.length"
     :header="USERS_HEADER"
     :data="data"
     :shadowed="true"
-    v-if="data.length"
   />
   <div v-else class="preloader-wrapper">
     <img

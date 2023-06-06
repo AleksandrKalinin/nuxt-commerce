@@ -8,7 +8,9 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps(["state"]);
+defineProps<{
+  state: any;
+}>();
 </script>
 
 <style scoped>

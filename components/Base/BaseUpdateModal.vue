@@ -1,5 +1,5 @@
 <template>
-  <div @click="modalOpen = true" class="flex">
+  <div class="flex" @click="modalOpen = true">
     <slot></slot>
   </div>
   <Teleport to="body">
@@ -9,37 +9,41 @@
         class="overlay fixed top-0 left-0 overflow-y-auto z-999 w-full h-screen bg-sky-400/75 flex justify-center items-center"
       >
         <div
-          class="w-[700px] h-[calc(100vh_-_100px)] overflow-y-auto bg-white p-10 opacity-100"
           ref="target"
+          class="w-[700px] h-[calc(100vh_-_100px)] overflow-y-auto bg-white p-10 opacity-100"
         >
           <form
             ref="form"
             class="w-full flex flex-col mb-4"
             @submit.prevent="callFunction"
           >
-            <template v-for="item in store.INPUT_FIELDS">
+            <template v-for="el in store.INPUT_FIELDS" :key="el">
               <input
-                v-if="item.elType === 'input'"
-                v-model="selectedItem[item.name]"
-                :name="item.name"
-                :placeholder="item.placeholder"
+                v-if="el.elType === 'input'"
+                v-model="selectedItem[el.name]"
+                :name="el.name"
+                :placeholder="el.placeholder"
                 class="h-12 bg-white border bg-sky-400 rounded-none mb-4 px-3 text-xl"
               />
               <input
-                v-else-if="item.elType === 'file'"
+                v-else-if="el.elType === 'file'"
                 type="file"
-                @change="store.selectImage"
-                :name="item.name"
-                :placeholder="item.placeholder"
+                :name="el.name"
+                :placeholder="el.placeholder"
                 class="file:mr-4 file:py-2 file:px-4 file:rounded-none file:border-0 file:text-xl file:bg-sky-400 file:text-white hover:file:bg-sky-500 cursor-pointer mb-4"
+                @change="store.selectImage"
               />
               <select
-                v-else-if="item.elType === 'select'"
-                :name="item.name"
+                v-else-if="el.elType === 'select'"
+                :name="el.name"
                 class="h-12 bg-white border bg-sky-400 rounded-none mb-4 px-3 text-xl"
               >
-                <option disabled selected>{{ item.placeholder }}</option>
-                <option v-for="option in item.options" :value="option">
+                <option disabled selected>{{ el.placeholder }}</option>
+                <option
+                  v-for="option in el.options"
+                  :key="el.name + option"
+                  :value="option"
+                >
                   {{ option }}
                 </option>
               </select>
@@ -59,6 +63,11 @@
 <script setup lang="ts">
 import { useAdminStore } from "~/store/admin";
 
+const props = defineProps<{
+  item: any;
+  originalItems: any;
+}>();
+
 const store = useAdminStore();
 const modalOpen = ref(false);
 const target = ref(null);
@@ -75,8 +84,6 @@ const callFunction = () => {
     store.editItem(values, props.item.id);
   }
 };
-
-const props = defineProps(["item", "originalItems"]);
 
 const selectedItem = computed(() => {
   const id = props.item.id;

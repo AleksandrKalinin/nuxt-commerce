@@ -26,8 +26,6 @@
 </template>
 
 <script setup lang="ts">
-const id = ref(useRoute().params.id);
-
 const clearError = async (err) => {
   await navigateTo("/catalog");
   err.value = null;

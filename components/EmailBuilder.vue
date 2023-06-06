@@ -1,14 +1,10 @@
 <template>
   <div class="builder__panel">
-    <button v-on:click="saveDesign" class="button_regular mr-4">
-      Save Design
-    </button>
-    <button v-on:click="exportHtml" class="button_regular mr-4">
-      Export HTML
-    </button>
+    <button class="button_regular mr-4" @click="saveDesign">Save Design</button>
+    <button class="button_regular mr-4" @click="exportHtml">Export HTML</button>
   </div>
   <div class="editor-wrapper">
-    <EmailEditor minHeight="500" ref="emailEditor" v-on:load="editorLoaded" />
+    <EmailEditor ref="emailEditor" min-height="500" @load="editorLoaded" />
   </div>
 </template>
 
@@ -42,7 +38,7 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="css">
 .builder__panel {
   @apply w-full flex items-center justify-start h-[80px] px-[30px];
 }
