@@ -8,6 +8,17 @@ declare global {
     role: string;
   }
 
+  interface OrderItem {
+    id: number;
+    amount: number;
+  }
+
+  enum OrderStatus {
+    Pending = "Pending",
+    Completed = "Completed",
+    Cancelled = "Cancelled",
+  }
+
   interface Order {
     id?: number;
     created_at: Date;
@@ -18,15 +29,11 @@ declare global {
     status: OrderStatus;
   }
 
-  interface OrderItem {
-    id: number;
-    amount: number;
-  }
-
-  enum OrderStatus {
-    Pending = "Pending",
-    Completed = "Completed",
-    Cancelled = "Cancelled",
+  interface Review {
+    id: string;
+    author: string | undefined;
+    date: Date;
+    text: string;
   }
 
   interface CatalogItem {
@@ -94,10 +101,53 @@ declare global {
     amount?: number;
   }
 
-  interface Review {
-    id: string;
-    author: string | undefined;
-    date: Date;
-    text: string;
+  interface EditorObject {
+    [key: string]: undefined | number | string | boolean | EditorObject;
+  }
+
+  interface EditorDesign {
+    body: EditorObject;
+    counters: {
+      u_rows: number;
+      u_columns: number;
+    };
+    schemaVersion: number;
+  }
+
+  interface EditorIframe {
+    callbackId: number;
+    callbacks: any;
+    destroy: () => {};
+    id: number;
+    iframe: HTMLIFrameElement;
+    onWindowMessage: (e: Event) => {};
+    ready: boolean;
+  }
+
+  interface EmailEditor {
+    editor: {
+      frame: EditorIframe;
+      saveDesign: (e: (e: EditorDesign) => void) => void;
+      loadDesign: (e: EditorDesign | null) => void;
+      exportHtml: (html: any) => {};
+    };
+    appearance: undefined | string;
+    editorId: undefined | string;
+    projectId: undefined | string;
+    id: undefined | string;
+    exportHtml: () => {};
+    loadDesign: () => {};
+    loadEditor: () => {};
+    saveDesign: () => {};
+    locale: undefined | string;
+    minHeight: undefined | string;
+    tools: undefined | string;
+  }
+
+  interface EmailEditorData {
+    amp: EditorObject;
+    chunks: EditorObject;
+    design: EditorObject;
+    html: string;
   }
 }

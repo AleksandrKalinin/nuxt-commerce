@@ -3,7 +3,7 @@
     class="container mx-auto py-10 flex min-h-[calc(100vh-160px)] max-lg:flex-col max-lg:px-3"
   >
     <AdminSidebar />
-    <section class="w-full lg:ml-10" ref="scrollEl">
+    <section ref="scrollEl" class="w-full lg:ml-10">
       <div class="columns-1">
         <NuxtErrorBoundary>
           <Mailing />
@@ -33,14 +33,11 @@
 definePageMeta({
   middleware: ["auth"],
 });
-import { useEmailStore } from "~/store/emailbuider";
 
 const clearError = async (err) => {
   await navigateTo("/admin");
   err.value = null;
 };
-
-const store = useEmailStore();
 </script>
 
 <style scoped></style>

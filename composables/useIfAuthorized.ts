@@ -1,5 +1,4 @@
 export const useIfAuthorized = () => {
-  const user = ref(null);
   const client = useSupabaseClient();
   const useIfAuthorized = async () => {
     const {

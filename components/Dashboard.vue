@@ -59,19 +59,23 @@
     <div class="dashboard__statistics dashboard-statistics">
       <div class="dashboard-statistics__item statistics-item">
         <h2 class="statistics-item__title">Income statistics</h2>
-        <BarChart :height="250" :chartData="props.revenue" :options="options" />
+        <BarChart
+          :height="250"
+          :chart-data="props.revenue"
+          :options="options"
+        />
       </div>
       <div class="dashboard-statistics__item statistics-item">
         <h2 class="statistics-item__title">Orders infoistics</h2>
-        <PieChart :height="250" :chartData="props.orders" :options="options" />
+        <PieChart :height="250" :chart-data="props.orders" :options="options" />
       </div>
       <div class="dashboard-statistics__item statistics-item">
         <h2 class="statistics-item__title">User growth</h2>
-        <LineChart :height="250" :chartData="props.users" :options="options" />
+        <LineChart :height="250" :chart-data="props.users" :options="options" />
       </div>
       <div class="dashboard-statistics__item statistics-item">
         <h2 class="statistics-item__title">Balance overview</h2>
-        <LineChart :height="250" :chartData="balance" :options="options" />
+        <LineChart :height="250" :chart-data="balance" :options="options" />
       </div>
     </div>
   </div>
@@ -79,16 +83,17 @@
 
 <script setup lang="ts">
 import { BarChart, LineChart, PieChart } from "vue-chart-3";
-const props = defineProps([
-  "revenue",
-  "users",
-  "orders",
-  "balance",
-  "totalItems",
-  "totalRevenue",
-  "totalUsers",
-  "totalOrders",
-]);
+
+const props = defineProps<{
+  revenue: any;
+  users: any;
+  orders: any;
+  balance: any;
+  totalItems: any;
+  totalRevenue: any;
+  totalUsers: any;
+  totalOrders: any;
+}>();
 
 const options = ref({
   responsive: true,
@@ -103,7 +108,7 @@ const options = ref({
 });
 </script>
 
-<style scoped>
+<style scoped lang="css">
 .dashboard__info {
   @apply flex flex-wrap justify-between items-center;
 }

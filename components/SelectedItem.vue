@@ -1,5 +1,5 @@
 <template>
-  <section class="selected-item" v-if="selectedItem">
+  <section v-if="selectedItem" class="selected-item">
     <div class="selected-item__info">
       <div class="p-5">
         <img
@@ -73,8 +73,8 @@
       <Transition name="fade" mode="out-in">
         <component
           :is="currentTabComponent"
-          :selectedItem="selectedItem"
-          :selectedProperties="selectedProperties"
+          :selected-item="selectedItem"
+          :selected-properties="selectedProperties"
         />
       </Transition>
     </KeepAlive>
@@ -84,9 +84,13 @@
 
 <script setup lang="ts">
 import { useCatalogStore } from "~/store/catalog";
-const id = useRoute().params.id;
-const props = defineProps(["item"]);
+
+defineProps<{
+  item: any;
+}>();
+
 const catalogStore = useCatalogStore();
+const id = useRoute().params.id;
 
 const tabs = {
   description: resolveComponent("SelectedItemDescription"),
@@ -168,9 +172,12 @@ const selectedItem = computed<CatalogItem>((): CatalogItem => {
 });
 
 const galleryItems = computed(() => {
-  const random = Math.floor(
-    Math.random() * (catalogStore.visibleItems?.length! - 6) + 1
-  );
+  let random = 0;
+  if (catalogStore.visibleItems) {
+    random = Math.floor(
+      Math.random() * (catalogStore.visibleItems.length - 6) + 1
+    );
+  }
   return catalogStore.visibleItems?.slice(random, random + 7);
 });
 
@@ -179,7 +186,7 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="css">
 .selected-item {
   @apply lg:ml-10 lg:w-[calc(100%-300px)] bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg;
 }

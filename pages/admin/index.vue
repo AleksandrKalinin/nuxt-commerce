@@ -18,16 +18,16 @@
       </div>
     </template>
   </NuxtErrorBoundary>
-  <BasePagination :items="store.catalogItems" :targetRef="scrollEl" />
+  <BasePagination :items="store.catalogItems" :target-ref="scrollEl" />
 </template>
 
 <script setup lang="ts">
+import { useCatalogStore } from "~/store/catalog";
+
 definePageMeta({
   middleware: ["auth"],
   layout: "admin",
 });
-
-import { useCatalogStore } from "~/store/catalog";
 
 const clearError = async (err) => {
   await navigateTo("/admin");
@@ -35,7 +35,6 @@ const clearError = async (err) => {
 };
 
 const store = useCatalogStore();
-
 const scrollEl = ref(null);
 </script>
 

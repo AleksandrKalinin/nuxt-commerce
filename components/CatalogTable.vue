@@ -1,10 +1,10 @@
 <template>
   <BaseTable
+    v-if="data?.length"
     :header="CATALOG_HEADER"
     :data="data"
-    v-if="data?.length"
     :shadowed="true"
-    :originalItems="originalItems"
+    :original-items="originalItems"
   >
   </BaseTable>
   <div v-else class="preloader-wrapper">

@@ -1,5 +1,5 @@
 <template>
-  <section class="catalog" ref="scrollEl">
+  <section ref="scrollEl" class="catalog">
     <h1 class="catalog__title">Каталог</h1>
     <CatalogPanel />
     <template v-if="catalogItems?.length">
@@ -7,8 +7,8 @@
         <TransitionGroup name="catalog">
           <CatalogItem
             v-for="item in catalogItems?.slice(start, end)"
-            :item="item"
             :key="item.id"
+            :item="item"
           />
         </TransitionGroup>
       </div>
@@ -32,12 +32,12 @@
         </div>
       </Transition>
     </template>
-    <BasePagination :items="catalogItems" :targetRef="scrollEl" />
+    <BasePagination :items="catalogItems" :target-ref="scrollEl" />
   </section>
 </template>
 
 <script setup lang="ts">
-import { fetchAdress, message } from "~/utils/fetchAdress";
+import { fetchAdress } from "~/utils/fetchAdress";
 import { useCartStore } from "~/store/cart";
 import { useCatalogStore } from "~/store/catalog";
 import { usePaginationStore } from "~/store/pagination";
@@ -73,7 +73,7 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="css">
 .catalog {
   @apply w-full lg:ml-10;
 }

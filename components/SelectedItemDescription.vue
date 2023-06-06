@@ -18,10 +18,13 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps(["selectedProperties", "selectedItem"]);
+defineProps<{
+  selectedProperties: any;
+  selectedItem: any;
+}>();
 </script>
 
-<style scoped>
+<style scoped lang="css">
 .selected-item__description {
   @apply w-full border-separate border-spacing-2 py-5 px-3 bg-white mb-5;
 }

@@ -5,21 +5,27 @@
   >
     <thead>
       <tr class="text-left cursor-pointer">
-        <th @click="store.updateSort(item.value)" v-for="item in header">
+        <th
+          v-for="(item, index) in header"
+          :key="index"
+          @click="store.updateSort(item.value)"
+        >
           {{ item.label }}
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="item in sortedItems" class="text-left">
-        <template v-for="option in header">
+      <tr v-for="(item, index) in sortedItems" :key="index" class="text-left">
+        <template v-for="(option, optionId) in header" :key="optionId">
           <td v-if="option.type === 'plain'" class="py-4">
             {{ item[option.value] }}
           </td>
           <td v-else-if="option.type === 'image'" class="py-4">
-            <div class="w-16 h-12 overflow-hidden">
+            <div
+              class="w-16 h-12 overflow-hidden flex justify-center items-center"
+            >
               <img
-                class="object-cover"
+                class="h-full object-cover object-center"
                 :src="item[option.value]"
                 :alt="option.value"
                 loading="eager"
@@ -34,29 +40,31 @@
           </td>
           <td v-else-if="option.type === 'number'" class="py-4">
             <input
+              v-model.number="item[option.value]"
               min="1"
               type="number"
-              v-model.number="item[option.value]"
-              @input="option.action($event, item.id)"
+              @input="option.action ? option.action(item.id, $event) : ''"
             />
           </td>
           <td v-else-if="option.type === 'icon'" class="py-4">
             <img
               :src="images[option.value]"
               class="w-[25px] h-[25px] cursor-pointer"
-              @click="option.action(item.id)"
               :alt="images[option.value]"
               loading="eager"
+              @click="option.action ? option.action(item.id) : ''"
             />
           </td>
           <td v-else-if="option.type === 'select'" class="py-4">
             <select
               :name="item.name"
-              @change="option.action(item.id, $event)"
               class="h-12 bg-white border bg-sky-400 rounded-none mb-4 px-3 text-xl"
+              @change="option.action ? option.action(item.id, $event) : ''"
             >
-              <option :value="item[option]">{{ item[option.value] }}</option>
-              <template v-for="el in option.options">
+              <option :value="item[option.toString()]">
+                {{ item[option.value] }}
+              </option>
+              <template v-for="(el, elId) in option.options" :key="elId">
                 <option v-if="el !== item[option.value]" :value="el">
                   {{ el }}
                 </option>
@@ -64,7 +72,7 @@
             </select>
           </td>
           <td v-else-if="option.type === 'markup'" class="py-4">
-            <BaseUpdateModal :item="item" :originalItems="originalItems">
+            <BaseUpdateModal :item="item" :original-items="originalItems">
               <img
                 :src="images[option.value]"
                 :alt="images[option.value]"
@@ -83,15 +91,36 @@
 import { filename } from "pathe/utils";
 import { useFilterStore } from "~/store/filter";
 import { useAdminStore } from "~/store/admin";
-const props = defineProps(["header", "data", "shadowed", "originalItems"]);
+
+interface BaseTableHeader {
+  label: string;
+  value: string;
+  type: string;
+  action?: (id: string, event?: Event) => {};
+  options?: string[];
+}
+
+interface BaseTableProps {
+  header: BaseTableHeader[];
+  shadowed: boolean;
+  data: Array<CatalogItem> | Array<OrderItem> | Array<User>;
+  originalItems?: CatalogItem[];
+}
+
+const props = defineProps<BaseTableProps>();
+
 const store = useFilterStore();
 const adminStore = useAdminStore();
 
 const images = computed(() => {
-  const glob = import.meta.glob("~/assets/icons/*.svg", { eager: true });
-  return Object.fromEntries(
+  const glob: Record<string, { default: string }> = import.meta.glob(
+    "~/assets/icons/*.svg",
+    { eager: true }
+  );
+  const entries = Object.fromEntries(
     Object.entries(glob).map(([key, value]) => [filename(key), value.default])
   );
+  return entries;
 });
 
 const sortOrder = computed(() => {
@@ -107,7 +136,7 @@ const sortValue = computed(() => {
 });
 
 const filteredItems = computed(() => {
-  return props.data.filter((item: any) => {
+  return props.data.filter((item: CatalogItem | OrderItem | User) => {
     return item.id
       .toString()
       .toLowerCase()
@@ -125,7 +154,7 @@ const sortedItems = computed(() => {
       return [
         ...filteredItems.value.sort((a: CatalogItem, b: CatalogItem) => {
           if (a[val as keyof CatalogItem] === "") return +1;
-          if (b[val as keyof CatalogItem] === "") return -1;
+          else if (b[val as keyof CatalogItem] === "") return -1;
           else
             return a[val as keyof CatalogItem]
               .toString()

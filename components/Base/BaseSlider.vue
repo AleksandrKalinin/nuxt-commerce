@@ -3,12 +3,12 @@
     <input
       ref="slider"
       :value="sliderValue"
-      @input="({ target }) => (sliderValue = parseFloat(target.value))"
       type="range"
       :min="min"
       :max="max"
       :step="step"
       class="slider cursor-pointer"
+      @input="setValue($event)"
     />
     <div class="flex w-full justify-between">
       <span>{{ sliderValue }}</span>
@@ -18,14 +18,24 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps(["min", "max", "step", "modelValue"]);
+const props = defineProps<{
+  min: number;
+  max: number;
+  step: number;
+  modelValue: number;
+}>();
 
 const emit = defineEmits(["update:modelValue"]);
 
 const sliderValue = ref(props.modelValue);
 const slider: Ref<HTMLInputElement | null> = ref(null);
 
-const getProgress = (value: number, min: number, max: number) => {
+const setValue = (e: Event) => {
+  const target = e.target as HTMLInputElement;
+  sliderValue.value = parseFloat(target.value);
+};
+
+const getProgress = (value: number, min: number, max: number): number => {
   return ((value - min) / (max - min)) * 100;
 };
 
