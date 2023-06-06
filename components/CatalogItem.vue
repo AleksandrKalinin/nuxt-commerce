@@ -38,14 +38,16 @@
 import { useCartStore } from "~/store/cart";
 const cartStore = useCartStore();
 
-const props = defineProps(["item"]);
+const props = defineProps<{
+  item: any;
+}>();
 
 const itemRoute = computed(() => {
   return "/catalog/" + props.item.id;
 });
 </script>
 
-<style scoped>
+<style scoped lang="css">
 .catalog__item {
   @apply p-5 border max-w-[300px] mx-auto bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg;
 }

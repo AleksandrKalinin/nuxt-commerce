@@ -13,7 +13,7 @@
         <h2 class="newsletter-description__title">
           Subscribe to our newsletter
         </h2>
-        <form @submit.prevent="subscribeToNews" class="newsletter-form">
+        <form class="newsletter-form" @submit.prevent="subscribeToNews">
           <input
             type="text"
             placeholder="Ваш e-mail"
@@ -34,7 +34,7 @@
 const subscribeToNews = () => {};
 </script>
 
-<style scoped>
+<style scoped lang="css">
 .newsletter {
   @apply w-full h-[350px] flex relative;
 }

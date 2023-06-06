@@ -62,7 +62,7 @@
 
 <script setup lang="ts"></script>
 
-<style scoped>
+<style scoped lang="css">
 .icon {
   color: #222222;
 }

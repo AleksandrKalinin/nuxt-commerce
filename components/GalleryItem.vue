@@ -15,7 +15,10 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps(["item"]);
+const props = defineProps<{
+  item: any;
+}>();
+
 const item = computed(() => {
   return props.item;
 });
@@ -25,7 +28,7 @@ const itemRoute = computed(() => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="css">
 .gallery__item {
   @apply p-5 border max-w-[300px] w-full mx-auto;
 }

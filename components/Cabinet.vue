@@ -3,7 +3,7 @@
     <div class="cabinet__block">
       <h1 class="cabinet__title">
         Аккаунт
-        <button @click="logoutUser()" class="button_regular">
+        <button class="button_regular" @click="logoutUser()">
           <img
             src="~/assets/icons/exit.svg"
             class="button__image"
@@ -53,32 +53,34 @@
     </div>
     <div class="cabinet__block">
       <h1 class="cabinet-block__header">Заказы</h1>
-      <div
-        v-if="data?.length"
-        v-for="(item, index) in data"
-        :key="item.id"
-        class="cabinet-block__orders cabinet-orders"
-      >
-        <span class="text-slate-500 text-lg">{{ dates[index] }}</span>
-        <div class="text-xl mb-5">
-          Заказ <span class="font-semibold">№{{ item.id }}</span
-          >, Товаров: <span class="font-semibold">{{ item.items.length }}</span
-          >, на сумму: <span class="font-semibold">${{ item.total }}</span
-          ><span
-            class="cabinet-orders__status"
-            :class="
-              item.status === 'Cancelled' ? 'text-red-600' : 'text-green-600'
-            "
-            >{{ item.status }}</span
-          >
+      <template v-if="data?.length">
+        <div
+          v-for="(item, index) in data"
+          :key="item.id"
+          class="cabinet-block__orders cabinet-orders"
+        >
+          <span class="text-slate-500 text-lg">{{ dates[index] }}</span>
+          <div class="text-xl mb-5">
+            Заказ <span class="font-semibold">№{{ item.id }}</span
+            >, Товаров:
+            <span class="font-semibold">{{ item.items.length }}</span
+            >, на сумму: <span class="font-semibold">${{ item.total }}</span
+            ><span
+              class="cabinet-orders__status"
+              :class="
+                item.status === 'Cancelled' ? 'text-red-600' : 'text-green-600'
+              "
+              >{{ item.status }}</span
+            >
+          </div>
+          <BaseTable
+            v-if="item.items.length"
+            :header="USER_ORDERS_HEADER"
+            :data="item.items"
+            :shadowed="false"
+          />
         </div>
-        <BaseTable
-          v-if="item.items.length"
-          :header="USER_ORDERS_HEADER"
-          :data="item.items"
-          :shadowed="false"
-        />
-      </div>
+      </template>
       <div v-else-if="data === null" class="preloader-wrapper">
         <img
           class="w-16"
@@ -87,7 +89,7 @@
           loading="eager"
         />
       </div>
-      <div v-else="data.length === 0" class="preloader-wrapper">
+      <div v-else class="preloader-wrapper">
         <p class="preloader-wrapper__text">You don't have any orders</p>
       </div>
     </div>
@@ -126,7 +128,7 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="css">
 .cabinet__title {
   @apply font-semibold text-4xl mb-7 flex justify-between;
 }

@@ -17,10 +17,10 @@
     </div>
     <div class="navigation__search navigation-search">
       <input
+        v-model="store.searchValue"
         type="text"
         placeholder="Искать товары"
         class="navigation-search__input"
-        v-model="store.searchValue"
       />
     </div>
   </div>
@@ -34,13 +34,9 @@ const store = useCatalogStore();
 const sortValue = computed(() => {
   return store.sortValue;
 });
-
-const sortOrder = computed(() => {
-  return store.sortOrder;
-});
 </script>
 
-<style scoped>
+<style scoped lang="css">
 .navigation {
   @apply w-full flex justify-between items-center pb-5 max-md:flex-col max-md:items-start max-sm:px-4;
 }

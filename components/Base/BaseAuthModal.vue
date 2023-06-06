@@ -1,7 +1,7 @@
 <template>
   <button
-    @click="modalOpen = true"
     class="transition duration-200 hover:bg-sky-500 text-lg px-7 py-2 bg-sky-400 text-white rounded-none"
+    @click="modalOpen = true"
   >
     Войти
   </button>
@@ -11,7 +11,7 @@
         v-if="modalOpen"
         class="overlay fixed top-0 left-0 overflow-y-auto z-10 w-full h-screen bg-sky-400/75 flex justify-center items-center"
       >
-        <div class="w-[500px] bg-white p-10 opacity-100" ref="target">
+        <div ref="target" class="w-[500px] bg-white p-10 opacity-100">
           <h1 class="text-xl tracking-wider uppercase mb-4 text-center">
             {{ userExists ? "Log into your account" : "Create account" }}
           </h1>
@@ -20,13 +20,13 @@
             @submit.prevent="userExists ? loginUser() : registerUser()"
           >
             <input
-              type="email"
               v-model="email"
+              type="email"
               class="h-12 bg-white border bg-sky-400 rounded-none mb-4 px-3 text-xl"
             />
             <input
-              type="password"
               v-model="password"
+              type="password"
               class="h-12 bg-white border bg-sky-400 rounded-none mb-4 px-3 text-xl"
             />
             <div v-if="!userExists" class="flex justify-between py-4">
@@ -45,8 +45,8 @@
             />
           </form>
           <p
-            @click="userExists = !userExists"
             class="cursor-pointer py-4 text-xl text-center"
+            @click="userExists = !userExists"
           >
             {{
               !userExists
@@ -84,18 +84,23 @@ const setSubscription = () => {
 };
 
 const loginUser = async () => {
-  const { data, error } = await client.auth.signInWithPassword({
+  const { error } = await client.auth.signInWithPassword({
     email: email.value,
     password: password.value,
   });
+  if (error) throw Error;
 };
 
 const registerUser = async () => {
-  const { data, error } = await client.auth.signUp({
+  const { error } = await client.auth.signUp({
     email: email.value,
     password: password.value,
   });
-  usersStore.addUser(email.value, isSubscribed.value);
+  if (error) {
+    throw Error;
+  } else {
+    usersStore.addUser(email.value, isSubscribed.value);
+  }
 };
 
 onMounted(() => {

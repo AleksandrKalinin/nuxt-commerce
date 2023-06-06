@@ -18,16 +18,15 @@
       </div>
     </template>
   </NuxtErrorBoundary>
-  <BasePagination :items="store.orders" :targetRef="scrollEl" />
+  <BasePagination :items="store.orders" :target-ref="scrollEl" />
 </template>
 
 <script setup lang="ts">
+import { useOrdersStore } from "~/store/orders";
 definePageMeta({
   middleware: ["auth"],
   layout: "admin",
 });
-
-import { useOrdersStore } from "~/store/orders";
 
 const clearError = async (err) => {
   await navigateTo("/admin");

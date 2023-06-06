@@ -21,8 +21,12 @@
       </div>
       <div class="mailing__item mailing-item">
         <h3 class="mailing-item__title">Шаблон</h3>
-        <div class="templates" v-if="templates.length">
-          <div class="mailing-template" v-for="item in templates">
+        <div v-if="templates.length" class="templates">
+          <div
+            v-for="item in templates"
+            :key="item.name"
+            class="mailing-template"
+          >
             <img
               src="~/assets/icons/svg-file.svg"
               class="mailing-template__image"
@@ -38,7 +42,7 @@
           </div>
         </template>
       </div>
-      <button @click="sendMail" class="button_regular">Подтвердить</button>
+      <button class="button_regular" @click="sendMail">Подтвердить</button>
     </div>
   </div>
 </template>
@@ -68,7 +72,7 @@ const sendMail = () => {
 };
 </script>
 
-<style scoped>
+<style scoped lang="css">
 .mailing {
   @apply w-full min-h-[120px] px-[30px] py-5;
 }

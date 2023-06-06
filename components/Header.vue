@@ -21,7 +21,7 @@
           Кабинет
         </div>
       </NuxtLink>
-      <NuxtLink to="/cart" v-if="user">
+      <NuxtLink v-if="user" to="/cart">
         <div class="header-item header__item">
           <div class="header-item__image">
             <img
@@ -41,8 +41,6 @@
 
 <script setup lang="ts">
 const user = useSupabaseUser();
-
-const client = useSupabaseClient();
 </script>
 
 <style scoped>

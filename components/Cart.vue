@@ -108,7 +108,7 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="css">
 .cart-panel {
   @apply flex justify-between items-center py-5 max-lg:flex-col;
 }
