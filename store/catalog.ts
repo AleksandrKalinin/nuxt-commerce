@@ -12,7 +12,7 @@ export const useCatalogStore = defineStore("catalog", () => {
     const { data, error } = await client
       .from("catalog")
       .select(
-        "id, name, price, date, manufacturer, photo, type, battery_type, pixels, max_FPS_video, max_FPS_photo, max_sensitivity, max_resolution, min_sensitivity, wi_fi, card_support, matrix_type, matrix_size, popularity, rating, warranty, in_stock, item_code, is_visible"
+        "id, name, price, date, manufacturer, photo, type, battery_type, pixels, max_FPS_video, max_FPS_photo, max_sensitivity, max_resolution, min_sensitivity, wi_fi, card_support, matrix_type, matrix_size, popularity, rating, warranty, in_stock, item_code, is_visible, reviews"
       );
     if (error) {
       const { toast, message } = toastHandler(error.code);
@@ -80,6 +80,9 @@ export const useCatalogStore = defineStore("catalog", () => {
   const sortedItems = computed(() => {
     const val = sortValue.value;
     const order = sortOrder.value;
+    if (!filteredByPrice.value) {
+      return [];
+    }
     if (val === "default") {
       return filteredByPrice.value;
     } else {

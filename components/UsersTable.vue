@@ -1,6 +1,6 @@
 <template>
   <BaseTable
-    v-if="data.length"
+    v-if="data?.length"
     :header="USERS_HEADER"
     :data="data"
     :shadowed="true"
@@ -18,10 +18,11 @@
 <script setup lang="ts">
 import { useUsersStore } from "~/store/users";
 import { USERS_HEADER } from "~/constants";
+
 const store = useUsersStore();
 
 const data = computed(() => {
-  return [...store.users];
+  return store.users;
 });
 
 onMounted(() => {

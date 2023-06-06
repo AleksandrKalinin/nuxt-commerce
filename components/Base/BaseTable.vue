@@ -21,9 +21,11 @@
             {{ item[option.value] }}
           </td>
           <td v-else-if="option.type === 'image'" class="py-4">
-            <div class="w-16 h-12 overflow-hidden">
+            <div
+              class="w-16 h-12 overflow-hidden flex justify-center items-center"
+            >
               <img
-                class="object-cover"
+                class="h-full object-cover object-center"
                 :src="item[option.value]"
                 :alt="option.value"
                 loading="eager"
@@ -41,7 +43,7 @@
               v-model.number="item[option.value]"
               min="1"
               type="number"
-              @input="option.action($event, item.id)"
+              @input="option.action ? option.action(item.id, $event) : ''"
             />
           </td>
           <td v-else-if="option.type === 'icon'" class="py-4">
@@ -50,16 +52,18 @@
               class="w-[25px] h-[25px] cursor-pointer"
               :alt="images[option.value]"
               loading="eager"
-              @click="option.action(item.id)"
+              @click="option.action ? option.action(item.id) : ''"
             />
           </td>
           <td v-else-if="option.type === 'select'" class="py-4">
             <select
               :name="item.name"
               class="h-12 bg-white border bg-sky-400 rounded-none mb-4 px-3 text-xl"
-              @change="option.action(item.id, $event)"
+              @change="option.action ? option.action(item.id, $event) : ''"
             >
-              <option :value="item[option]">{{ item[option.value] }}</option>
+              <option :value="item[option.toString()]">
+                {{ item[option.value] }}
+              </option>
               <template v-for="(el, elId) in option.options" :key="elId">
                 <option v-if="el !== item[option.value]" :value="el">
                   {{ el }}
@@ -88,21 +92,35 @@ import { filename } from "pathe/utils";
 import { useFilterStore } from "~/store/filter";
 import { useAdminStore } from "~/store/admin";
 
-const props = defineProps<{
-  header: any;
-  data: any;
-  shadowed: any;
-  originalItems: any;
-}>();
+interface BaseTableHeader {
+  label: string;
+  value: string;
+  type: string;
+  action?: (id: string, event?: Event) => {};
+  options?: string[];
+}
+
+interface BaseTableProps {
+  header: BaseTableHeader[];
+  shadowed: boolean;
+  data: Array<CatalogItem> | Array<OrderItem> | Array<User>;
+  originalItems?: CatalogItem[];
+}
+
+const props = defineProps<BaseTableProps>();
 
 const store = useFilterStore();
 const adminStore = useAdminStore();
 
 const images = computed(() => {
-  const glob = import.meta.glob("~/assets/icons/*.svg", { eager: true });
-  return Object.fromEntries(
+  const glob: Record<string, { default: string }> = import.meta.glob(
+    "~/assets/icons/*.svg",
+    { eager: true }
+  );
+  const entries = Object.fromEntries(
     Object.entries(glob).map(([key, value]) => [filename(key), value.default])
   );
+  return entries;
 });
 
 const sortOrder = computed(() => {
@@ -118,7 +136,7 @@ const sortValue = computed(() => {
 });
 
 const filteredItems = computed(() => {
-  return props.data.filter((item: any) => {
+  return props.data.filter((item: CatalogItem | OrderItem | User) => {
     return item.id
       .toString()
       .toLowerCase()

@@ -100,4 +100,54 @@ declare global {
     total?: number;
     amount?: number;
   }
+
+  interface EditorObject {
+    [key: string]: undefined | number | string | boolean | EditorObject;
+  }
+
+  interface EditorDesign {
+    body: EditorObject;
+    counters: {
+      u_rows: number;
+      u_columns: number;
+    };
+    schemaVersion: number;
+  }
+
+  interface EditorIframe {
+    callbackId: number;
+    callbacks: any;
+    destroy: () => {};
+    id: number;
+    iframe: HTMLIFrameElement;
+    onWindowMessage: (e: Event) => {};
+    ready: boolean;
+  }
+
+  interface EmailEditor {
+    editor: {
+      frame: EditorIframe;
+      saveDesign: (e: (e: EditorDesign) => void) => void;
+      loadDesign: (e: EditorDesign | null) => void;
+      exportHtml: (html: any) => {};
+    };
+    appearance: undefined | string;
+    editorId: undefined | string;
+    projectId: undefined | string;
+    id: undefined | string;
+    exportHtml: () => {};
+    loadDesign: () => {};
+    loadEditor: () => {};
+    saveDesign: () => {};
+    locale: undefined | string;
+    minHeight: undefined | string;
+    tools: undefined | string;
+  }
+
+  interface EmailEditorData {
+    amp: EditorObject;
+    chunks: EditorObject;
+    design: EditorObject;
+    html: string;
+  }
 }

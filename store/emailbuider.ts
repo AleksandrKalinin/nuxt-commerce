@@ -7,8 +7,8 @@ export const useEmailStore = defineStore("email", () => {
   }
 
   const client = useSupabaseClient();
-  const emailTemplate = ref(null);
-  const emailTemplatePreset = ref(null);
+  const emailTemplate: Ref<EmailEditorData | null> = ref(null);
+  const emailTemplatePreset: Ref<EditorDesign | null> = ref(null);
   const templates: Ref<EmailTemplate[]> = ref([]);
 
   const fetchTemplates = async () => {

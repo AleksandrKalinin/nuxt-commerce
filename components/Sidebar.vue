@@ -31,7 +31,7 @@
               v-model="option.selected"
               type="checkbox"
               class="mr-2 w-7 h-7"
-              @change="store.selectItem(option.label, item.category)"
+              @change="store.selectItem(option.label.toString(), item.category)"
             />{{ option.label }}</label
           >
         </div>
@@ -43,6 +43,7 @@
 <script setup lang="ts">
 import { watchDebounced } from "@vueuse/core";
 import { useCatalogStore } from "~/store/catalog";
+
 const store = useCatalogStore();
 
 const slider1 = ref(0);

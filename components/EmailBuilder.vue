@@ -12,25 +12,29 @@
 import { EmailEditor } from "vue-email-editor";
 import { useEmailStore } from "~/store/emailbuider";
 
-const emailEditor = ref(null);
+const emailEditor: Ref<EmailEditor | null> = ref(null);
 const emailStore = useEmailStore();
 
 const editorLoaded = () => {
-  if (emailStore.emailTemplate) {
-    emailEditor.value.editor.loadDesign(emailStore.emailTemplatePreset);
+  if (emailStore.emailTemplatePreset) {
+    emailEditor.value?.editor.loadDesign(emailStore.emailTemplatePreset);
   }
 };
 
 const saveDesign = () => {
-  emailEditor.value.editor.saveDesign((design) => {
-    emailStore.emailTemplatePreset = design;
-  });
+  if (emailEditor.value) {
+    emailEditor.value.editor.saveDesign((design: EditorDesign) => {
+      emailStore.emailTemplatePreset = design;
+    });
+  }
 };
 
 const exportHtml = () => {
-  emailEditor.value.editor.exportHtml((data) => {
-    emailStore.emailTemplate = data;
-  });
+  if (emailEditor.value) {
+    emailEditor.value.editor.exportHtml((data: EmailEditorData) => {
+      emailStore.emailTemplate = data;
+    });
+  }
 };
 
 onMounted(() => {
