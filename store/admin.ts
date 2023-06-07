@@ -17,12 +17,6 @@ export const useAdminStore = defineStore("admin", () => {
     }
   };
 
-  interface FormValues extends CatalogItem {
-    date: Date | string;
-    popularity: 0;
-    rating: 0;
-  }
-
   const activeItem = ref(false);
 
   const addItem = async (values: HTMLFormElement) => {
@@ -30,7 +24,12 @@ export const useAdminStore = defineStore("admin", () => {
       date: new Date().toISOString(),
       popularity: 0,
       rating: 0,
-    } as FormValues;
+    } as CatalogItem;
+
+    const valuesObject = Array.from(values).reduce(
+      (obj, item) => Object.assign(obj, { [item.name]: item.value }),
+      {}
+    ) as CatalogItem;
 
     if (values) {
       for (let i = 0; i < values.length; i++) {
@@ -51,17 +50,19 @@ export const useAdminStore = defineStore("admin", () => {
               const path = client.storage
                 .from("catalog")
                 .getPublicUrl(data?.path).data.publicUrl;
-              formValues[key as keyof BaseAddModalForm] = path;
+              formValues[key as keyof typeof valuesObject] = path;
+
               if (error) throw error;
             }
           } else {
-            formValues[key as keyof BaseAddModalForm] = curVal.value;
+            formValues[key as keyof typeof valuesObject] = curVal.value;
           }
         }
       }
     }
 
     const { error } = await client.from("catalog").insert([formValues]);
+
     if (error) {
       const { toast, message } = toastHandler(error.code);
       toastsStore.showErrorToast(toast, message);
@@ -83,11 +84,16 @@ export const useAdminStore = defineStore("admin", () => {
   };
 
   const editItem = async (values: HTMLFormElement, id: number) => {
-    const formValues: FormValues = {
+    const formValues = {
       date: new Date().toISOString(),
       popularity: 0,
       rating: 0,
-    };
+    } as CatalogItem;
+
+    const valuesObject = Array.from(values).reduce(
+      (obj, item) => Object.assign(obj, { [item.name]: item.value }),
+      {}
+    ) as CatalogItem;
 
     if (values) {
       for (let i = 0; i < values.length; i++) {
@@ -107,11 +113,11 @@ export const useAdminStore = defineStore("admin", () => {
               const path = client.storage
                 .from("catalog")
                 .getPublicUrl(data.path).data.publicUrl;
-              formValues[key as keyof BaseAddModalForm] = path;
+              formValues[key as keyof typeof valuesObject] = path;
               if (error) throw error;
             }
           } else {
-            formValues[key as keyof BaseAddModalForm] = curVal.value;
+            formValues[key as keyof typeof valuesObject] = curVal.value;
           }
         }
       }
