@@ -11,9 +11,9 @@ export const useCatalogStore = defineStore("catalog", () => {
   const pagesStore = usePaginationStore();
 
   const { currentPage } = storeToRefs(pagesStore);
-  const { showErrorToast, showSuccessToast } = toastsStore;
+  const { showErrorToast } = toastsStore;
 
-  async function fetchCatalogItems() {
+  const fetchCatalogItems = async () => {
     const { data, error } = await client
       .from("catalog")
       .select(
@@ -26,7 +26,7 @@ export const useCatalogStore = defineStore("catalog", () => {
       catalogItems.value = data;
       loaded.value = true;
     }
-  }
+  };
 
   const selectedItem: Ref<CatalogItem | null> = ref(null);
 

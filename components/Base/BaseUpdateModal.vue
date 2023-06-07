@@ -15,7 +15,7 @@
           <form
             ref="form"
             class="w-full flex flex-col mb-4"
-            @submit.prevent="callFunction"
+            @submit.prevent="updateItem"
           >
             <template v-for="el in INPUT_FIELDS" :key="el">
               <input
@@ -81,7 +81,7 @@ onClickOutside(target, () => {
   modalOpen.value = false;
 });
 
-const callFunction = () => {
+const updateItem = () => {
   const values = form.value;
   if (values) {
     editItem(values, props.item.id);

@@ -1,4 +1,4 @@
-import { defineStore, storeToRefs } from "pinia";
+import { defineStore } from "pinia";
 import { v4 as uuidv4 } from "uuid";
 import { useToastsStore } from "./toasts";
 import { toastHandler } from "~/utils/toastHandler";
@@ -8,7 +8,7 @@ export const useAdminStore = defineStore("admin", () => {
   const client = useSupabaseClient();
 
   const toastsStore = useToastsStore();
-  const { showErrorToast, showSuccessToast } = storeToRefs(toastsStore);
+  const { showErrorToast, showSuccessToast } = toastsStore;
 
   const selectedImage: Ref<File | null> = ref(null);
 

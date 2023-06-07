@@ -58,7 +58,7 @@
           <td v-else-if="option.type === 'select'" class="py-4">
             <select
               :name="item.name"
-              class="h-12 bg-white border bg-sky-400 rounded-none mb-4 px-3 text-xl"
+              class="h-12 bg-white border bg-sky-400 rounded-none px-3 text-normal"
               @change="option.action ? option.action(item.id, $event) : ''"
             >
               <option :value="item[option.toString()]">
