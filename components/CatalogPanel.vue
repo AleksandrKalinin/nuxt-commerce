@@ -5,19 +5,19 @@
       <span
         class="navigation-sorting__option sorting-option"
         :class="sortValue === 'date' ? 'sorting-option_active' : ''"
-        @click="store.updateSort('date')"
+        @click="updateSort('date')"
         >By date</span
       >
       <span
         class="navigation-sorting__option sorting-option"
         :class="sortValue === 'price' ? 'sorting-option_active' : ''"
-        @click="store.updateSort('price')"
+        @click="updateSort('price')"
         >By price</span
       >
     </div>
     <div class="navigation__search navigation-search">
       <input
-        v-model="store.searchValue"
+        v-model="searchValue"
         type="text"
         placeholder="Search"
         class="navigation-search__input"
@@ -27,13 +27,12 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { useCatalogStore } from "~/store/catalog";
 
 const store = useCatalogStore();
-
-const sortValue = computed(() => {
-  return store.sortValue;
-});
+const { sortValue, searchValue } = storeToRefs(store);
+const { updateSort } = store;
 </script>
 
 <style scoped lang="css">

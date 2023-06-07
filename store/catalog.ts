@@ -1,12 +1,17 @@
-import { defineStore } from "pinia";
+import { defineStore, storeToRefs } from "pinia";
 import { usePaginationStore } from "./pagination";
 import { useToastsStore } from "./toasts";
 
 export const useCatalogStore = defineStore("catalog", () => {
   const client = useSupabaseClient();
-  const toastsStore = useToastsStore();
   const catalogItems: Ref<CatalogItem[] | null> = ref([]);
   const loaded: Ref<boolean> = ref(false);
+
+  const toastsStore = useToastsStore();
+  const pagesStore = usePaginationStore();
+
+  const { currentPage } = storeToRefs(pagesStore);
+  const { showErrorToast, showSuccessToast } = toastsStore;
 
   async function fetchCatalogItems() {
     const { data, error } = await client
@@ -16,7 +21,7 @@ export const useCatalogStore = defineStore("catalog", () => {
       );
     if (error) {
       const { toast, message } = toastHandler(error.code);
-      toastsStore.showErrorToast(toast, message);
+      showErrorToast(toast, message);
     } else {
       catalogItems.value = data;
       loaded.value = true;
@@ -38,13 +43,13 @@ export const useCatalogStore = defineStore("catalog", () => {
       .eq("id", Number(id));
     if (error) {
       const { toast, message } = toastHandler(error.code);
-      toastsStore.showErrorToast(toast, message);
+      showErrorToast(toast, message);
     }
     if (data?.length) {
       selectedItem.value = data[0];
     } else {
       const { toast, message } = toastHandler("item-not-found");
-      toastsStore.showErrorToast(toast, message);
+      showErrorToast(toast, message);
     }
   };
 
@@ -234,10 +239,8 @@ export const useCatalogStore = defineStore("catalog", () => {
     });
   });
 
-  const pagesStore = usePaginationStore();
-
   const selectItem = (value: string, category: string) => {
-    pagesStore.currentPage = 0;
+    currentPage.value = 0;
     if (selectedOptions[category as keyof SelectedOptions].includes(value)) {
       selectedOptions[category as keyof SelectedOptions] = selectedOptions[
         category as keyof SelectedOptions

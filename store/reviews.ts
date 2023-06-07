@@ -4,6 +4,7 @@ import { useToastsStore } from "./toasts";
 export const useReviewsStore = defineStore("reviews", () => {
   const client = useSupabaseClient();
   const toastsStore = useToastsStore();
+  const { showErrorToast, showSuccessToast } = toastsStore;
 
   const updateReviews = async (id: number, reviews: Review[]) => {
     const { error } = await client
@@ -12,10 +13,10 @@ export const useReviewsStore = defineStore("reviews", () => {
       .eq("id", id);
     if (error) {
       const { toast, message } = toastHandler("add-review-error");
-      toastsStore.showErrorToast(toast, message);
+      showErrorToast(toast, message);
     } else {
       const { toast, message } = toastHandler("add-review-success");
-      toastsStore.showSuccessToast(toast, message);
+      showSuccessToast(toast, message);
     }
   };
 

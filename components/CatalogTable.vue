@@ -18,6 +18,7 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { useAdminStore } from "~/store/admin";
 import { useCatalogStore } from "~/store/catalog";
 import { usePaginationStore } from "~/store/pagination";
@@ -25,6 +26,12 @@ import { usePaginationStore } from "~/store/pagination";
 const store = useCatalogStore();
 const adminStore = useAdminStore();
 const pagesStore = usePaginationStore();
+
+const { currentPage } = storeToRefs(pagesStore);
+const { catalogItems } = storeToRefs(store);
+
+const { toggleVisibility, deleteItem } = adminStore;
+const { fetchCatalogItems } = store;
 
 const CATALOG_HEADER = [
   {
@@ -61,7 +68,7 @@ const CATALOG_HEADER = [
     label: "Visibility",
     value: "is_visible",
     type: "toggle",
-    action: adminStore.toggleVisibility,
+    action: toggleVisibility,
   },
   {
     label: "",
@@ -72,24 +79,24 @@ const CATALOG_HEADER = [
     label: "",
     value: "delete",
     type: "icon",
-    action: adminStore.deleteItem,
+    action: deleteItem,
   },
 ];
 
 const start = computed(() => {
-  return pagesStore.currentPage * 12;
+  return currentPage.value * 12;
 });
 
 const end = computed(() => {
-  return (pagesStore.currentPage + 1) * 12;
+  return (currentPage.value + 1) * 12;
 });
 
 const originalItems = computed(() => {
-  return store.catalogItems?.slice(start.value, end.value);
+  return catalogItems.value?.slice(start.value, end.value);
 });
 
 const data = computed(() => {
-  return store.catalogItems?.slice(start.value, end.value).map((item) => {
+  return catalogItems.value?.slice(start.value, end.value).map((item) => {
     return {
       id: item.id,
       name: item.name,
@@ -103,7 +110,7 @@ const data = computed(() => {
 });
 
 onMounted(() => {
-  store.fetchCatalogItems();
+  fetchCatalogItems();
 });
 </script>
 

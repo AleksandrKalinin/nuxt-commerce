@@ -84,18 +84,7 @@
 <script setup lang="ts">
 import { BarChart, LineChart, PieChart } from "vue-chart-3";
 
-interface DataSet {
-  backgroundColor: string[];
-  data: number[];
-  label?: string;
-}
-
-interface ChartData {
-  labels: Array<string>;
-  datasets: Array<DataSet>;
-}
-
-const props = defineProps<{
+interface DashboardProps {
   revenue: ChartData;
   users: ChartData;
   orders: ChartData;
@@ -104,9 +93,11 @@ const props = defineProps<{
   totalRevenue: number;
   totalUsers: number;
   totalOrders: number;
-}>();
+}
 
-const options = ref({
+const props = defineProps<DashboardProps>();
+
+const options = {
   responsive: true,
   plugins: {
     legend: {
@@ -116,7 +107,7 @@ const options = ref({
       display: false,
     },
   },
-});
+};
 </script>
 
 <style scoped lang="css">

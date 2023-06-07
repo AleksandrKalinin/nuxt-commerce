@@ -83,6 +83,7 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { useCatalogStore } from "~/store/catalog";
 
 defineProps<{
@@ -90,6 +91,10 @@ defineProps<{
 }>();
 
 const catalogStore = useCatalogStore();
+
+const { selectedItem, visibleItems } = storeToRefs(catalogStore);
+const { fetchSelectedItem } = catalogStore;
+
 const id = useRoute().params.id;
 
 const tabs = {
@@ -167,22 +172,16 @@ const selectedProperties = [
   },
 ];
 
-const selectedItem = computed<CatalogItem>((): CatalogItem => {
-  return catalogStore.selectedItem as unknown as CatalogItem;
-});
-
 const galleryItems = computed(() => {
   let random = 0;
-  if (catalogStore.visibleItems) {
-    random = Math.floor(
-      Math.random() * (catalogStore.visibleItems.length - 6) + 1
-    );
-    return catalogStore.visibleItems?.slice(random, random + 7);
+  if (visibleItems.value) {
+    random = Math.floor(Math.random() * (visibleItems.value.length - 6) + 1);
+    return visibleItems.value.slice(random, random + 7);
   } else return [];
 });
 
 onMounted(() => {
-  catalogStore.fetchSelectedItem(id);
+  fetchSelectedItem(id);
 });
 </script>
 

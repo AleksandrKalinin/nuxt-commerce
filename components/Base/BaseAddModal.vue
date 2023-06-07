@@ -17,7 +17,7 @@
             class="w-full flex flex-col mb-4"
             @submit.prevent="callFunction"
           >
-            <template v-for="item in store.INPUT_FIELDS" :key="item">
+            <template v-for="item in INPUT_FIELDS" :key="item">
               <input
                 v-if="item.elType === 'input'"
                 v-model="item.default"
@@ -31,7 +31,7 @@
                 :name="item.name"
                 :placeholder="item.placeholder"
                 class="file:mr-4 file:py-2 file:px-4 file:rounded-none file:border-0 file:text-xl file:bg-sky-400 file:text-white hover:file:bg-sky-500 cursor-pointer mb-4"
-                @change="store.selectImage"
+                @change="selectImage"
               />
               <select
                 v-else-if="item.elType === 'select'"
@@ -51,7 +51,7 @@
             <input
               type="submit"
               class="bg-sky-400 text-white px-8 py-4 block text-xl cursor-pointer tracking-wider"
-              :value="store.activeItem ? 'Edit item' : 'Create item'"
+              :value="activeItem ? 'Edit item' : 'Create item'"
             />
           </form>
         </div>
@@ -61,24 +61,29 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { useAdminStore } from "~/store/admin";
 
 const store = useAdminStore();
+
+const { INPUT_FIELDS, activeItem } = storeToRefs(store);
+const { addItem, selectImage } = store;
+
 const modalOpen = ref(false);
-const target = ref(null);
-
-onClickOutside(target, () => {
-  modalOpen.value = false;
-});
-
 const form = ref(null);
 
 const callFunction = () => {
   const values = form.value;
   if (values) {
-    store.addItem(values);
+    addItem(values);
   }
 };
+
+const target = ref(null);
+
+onClickOutside(target, () => {
+  modalOpen.value = false;
+});
 </script>
 
 <style scoped></style>

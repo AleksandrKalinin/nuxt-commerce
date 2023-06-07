@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+import { defineStore, storeToRefs } from "pinia";
 import { v4 as uuidv4 } from "uuid";
 import { useToastsStore } from "./toasts";
 import { toastHandler } from "~/utils/toastHandler";
@@ -6,7 +6,9 @@ import { INPUT_FIELDS } from "~/constants";
 
 export const useAdminStore = defineStore("admin", () => {
   const client = useSupabaseClient();
+
   const toastsStore = useToastsStore();
+  const { showErrorToast, showSuccessToast } = storeToRefs(toastsStore);
 
   const selectedImage: Ref<File | null> = ref(null);
 
@@ -65,10 +67,10 @@ export const useAdminStore = defineStore("admin", () => {
 
     if (error) {
       const { toast, message } = toastHandler(error.code);
-      toastsStore.showErrorToast(toast, message);
+      showErrorToast(toast, message);
     } else {
       const { toast, message } = toastHandler("add-to-database");
-      toastsStore.showSuccessToast(toast, message);
+      showSuccessToast(toast, message);
     }
   };
 
@@ -76,10 +78,10 @@ export const useAdminStore = defineStore("admin", () => {
     const { error } = await client.from("catalog").delete().eq("id", id);
     if (error) {
       const { toast, message } = toastHandler("item-delete-error");
-      toastsStore.showErrorToast(toast, message);
+      showErrorToast(toast, message);
     } else {
       const { toast, message } = toastHandler("item-delete-success");
-      toastsStore.showSuccessToast(toast, message);
+      showSuccessToast(toast, message);
     }
   };
 
@@ -128,10 +130,10 @@ export const useAdminStore = defineStore("admin", () => {
       .eq("id", id);
     if (error) {
       const { toast, message } = toastHandler("item-update-error");
-      toastsStore.showErrorToast(toast, message);
+      showErrorToast(toast, message);
     } else {
       const { toast, message } = toastHandler("item-update-success");
-      toastsStore.showSuccessToast(toast, message);
+      showSuccessToast(toast, message);
     }
   };
 
@@ -144,12 +146,12 @@ export const useAdminStore = defineStore("admin", () => {
       .eq("id", id);
     if (error) {
       const { toast, message } = toastHandler(error.code);
-      toastsStore.showErrorToast(toast, message);
+      showErrorToast(toast, message);
     } else {
       const { toast, message } = toastHandler(
         checked ? "item-visible" : "item-hidden"
       );
-      toastsStore.showSuccessToast(toast, message);
+      showSuccessToast(toast, message);
     }
   };
 

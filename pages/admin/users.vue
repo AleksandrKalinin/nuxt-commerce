@@ -18,10 +18,11 @@
       </div>
     </template>
   </NuxtErrorBoundary>
-  <BasePagination :items="store.users" :target-ref="scrollEl" />
+  <BasePagination :items="users" :target-ref="scrollEl" />
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { useUsersStore } from "~/store/users";
 
 definePageMeta({
@@ -35,6 +36,8 @@ const clearError = async (err) => {
 };
 
 const store = useUsersStore();
+const { users } = storeToRefs(store);
+
 const scrollEl = ref(null);
 </script>
 

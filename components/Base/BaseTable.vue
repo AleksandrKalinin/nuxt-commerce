@@ -8,7 +8,7 @@
         <th
           v-for="(item, index) in header"
           :key="index"
-          @click="store.updateSort(item.value)"
+          @click="updateSort(item.value)"
         >
           {{ item.label }}
         </th>
@@ -35,7 +35,7 @@
           <td v-else-if="option.type === 'toggle'" class="py-4">
             <BaseToggleInput
               :state="item[option.value]"
-              @change="adminStore.toggleVisibility($event, item.id)"
+              @change="toggleVisibility($event, item.id)"
             />
           </td>
           <td v-else-if="option.type === 'number'" class="py-4">
@@ -49,7 +49,7 @@
           <td v-else-if="option.type === 'icon'" class="py-4">
             <img
               :src="images[option.value]"
-              class="w-[25px] h-[25px] cursor-pointer"
+              class="w-[25px] h-[25px] cursor-pointer duration-100 hover:scale-[1.1]"
               :alt="images[option.value]"
               loading="eager"
               @click="option.action ? option.action(item.id) : ''"
@@ -88,17 +88,10 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { filename } from "pathe/utils";
 import { useFilterStore } from "~/store/filter";
 import { useAdminStore } from "~/store/admin";
-
-interface BaseTableHeader {
-  label: string;
-  value: string;
-  type: string;
-  action?: (id: string, event?: Event) => {};
-  options?: string[];
-}
 
 interface BaseTableProps {
   header: BaseTableHeader[];
@@ -112,6 +105,10 @@ const props = defineProps<BaseTableProps>();
 const store = useFilterStore();
 const adminStore = useAdminStore();
 
+const { sortOrder, searchValue, sortValue } = storeToRefs(store);
+const { updateSort } = store;
+const { toggleVisibility } = adminStore;
+
 const images = computed(() => {
   const glob: Record<string, { default: string }> = import.meta.glob(
     "~/assets/icons/*.svg",
@@ -121,18 +118,6 @@ const images = computed(() => {
     Object.entries(glob).map(([key, value]) => [filename(key), value.default])
   );
   return entries;
-});
-
-const sortOrder = computed(() => {
-  return store.sortOrder;
-});
-
-const searchValue = computed(() => {
-  return store.searchValue;
-});
-
-const sortValue = computed(() => {
-  return store.sortValue;
 });
 
 const filteredItems = computed(() => {

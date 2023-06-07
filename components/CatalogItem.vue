@@ -25,7 +25,7 @@
         </p>
         <button
           class="button_regular button_centered"
-          @click="cartStore.addToCart(item.id)"
+          @click="addToCart(item.id)"
         >
           Add to cart
         </button>
@@ -37,6 +37,7 @@
 <script setup lang="ts">
 import { useCartStore } from "~/store/cart";
 const cartStore = useCartStore();
+const { addToCart } = cartStore;
 
 const props = defineProps<{
   item: CatalogItem;

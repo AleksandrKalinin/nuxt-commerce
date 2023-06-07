@@ -150,4 +150,23 @@ declare global {
     minHeight: undefined | string;
     tools: undefined | string;
   }
+
+  interface DataSet {
+    backgroundColor: string[];
+    data: number[];
+    label?: string;
+  }
+
+  interface ChartData {
+    labels: Array<string>;
+    datasets: Array<DataSet>;
+  }
+
+  export interface BaseTableHeader {
+    label: string;
+    value: string;
+    type: string;
+    action?: (id: string, event?: Event) => {};
+    options?: string[];
+  }
 }

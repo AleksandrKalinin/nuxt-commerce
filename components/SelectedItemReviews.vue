@@ -47,7 +47,9 @@ import { formatDate } from "~/utils/formatDate";
 const props = defineProps<{ selectedItem: CatalogItem }>();
 
 const store = useReviewsStore();
+const { updateReviews } = store;
 const user = useSupabaseUser();
+const reviewTxt = ref("");
 
 const reviews = computed(() => {
   return props.selectedItem.reviews;
@@ -56,8 +58,6 @@ const reviews = computed(() => {
 const id = computed(() => {
   return props.selectedItem.id;
 });
-
-const reviewTxt = ref("");
 
 const sendReview = () => {
   const review = {} as Review;
@@ -68,7 +68,7 @@ const sendReview = () => {
   const updatedReviews = reviews.value;
   updatedReviews.push(review);
   reviewTxt.value = "";
-  store.updateReviews(id.value, updatedReviews);
+  updateReviews(id.value, updatedReviews);
 };
 </script>
 

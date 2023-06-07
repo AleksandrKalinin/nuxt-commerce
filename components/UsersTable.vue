@@ -16,17 +16,16 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { useUsersStore } from "~/store/users";
 import { USERS_HEADER } from "~/constants";
 
 const store = useUsersStore();
-
-const data = computed(() => {
-  return store.users;
-});
+const { users: data } = storeToRefs(store);
+const { fetchUsers } = store;
 
 onMounted(() => {
-  store.fetchUsers();
+  fetchUsers();
 });
 </script>
 

@@ -3,7 +3,7 @@
     class="transition duration-200 hover:bg-sky-500 text-lg px-7 py-2 bg-sky-400 text-white rounded-none"
     @click="modalOpen = true"
   >
-    Войти
+    Log in
   </button>
   <Teleport to="body">
     <Transition>
@@ -30,9 +30,7 @@
               class="h-12 bg-white border bg-sky-400 rounded-none mb-4 px-3 text-xl"
             />
             <div v-if="!userExists" class="flex justify-between py-4">
-              <p class="text-lg max-w-[320px]">
-                Я хочу получать новости на электронную почту
-              </p>
+              <p class="text-lg max-w-[320px]">Subscribe to newsletter</p>
               <BaseToggleInput
                 :state="isSubscribed"
                 @change="setSubscription"
@@ -64,6 +62,13 @@
 import { useUsersStore } from "~/store/users";
 
 const usersStore = useUsersStore();
+const { addUser } = usersStore;
+
+const user = useSupabaseUser();
+const client = useSupabaseClient();
+const password = ref("");
+const email = ref("");
+const isSubscribed = ref(true);
 const modalOpen = ref(false);
 const userExists = ref(true);
 const target = ref(null);
@@ -71,13 +76,6 @@ const target = ref(null);
 onClickOutside(target, () => {
   modalOpen.value = false;
 });
-
-const user = useSupabaseUser();
-
-const client = useSupabaseClient();
-const password = ref("");
-const email = ref("");
-const isSubscribed = ref(true);
 
 const setSubscription = () => {
   isSubscribed.value = !isSubscribed.value;
@@ -99,7 +97,7 @@ const registerUser = async () => {
   if (error) {
     throw Error;
   } else {
-    usersStore.addUser(email.value, isSubscribed.value);
+    addUser(email.value, isSubscribed.value);
   }
 };
 

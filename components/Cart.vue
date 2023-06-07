@@ -17,11 +17,11 @@
       </div>
       <div class="cart-panel__item panel-item">
         <span class="panel-item__category">Total</span>
-        <span class="panel-item__sum">${{ cartStore.totalSum }}</span>
+        <span class="panel-item__sum">${{ totalSum }}</span>
       </div>
     </div>
     <div class="cart-controls">
-      <button class="button_regular" @click="cartStore.placeOrder()">
+      <button class="button_regular" @click="placeOrder()">
         <img
           src="~/assets/icons/bag.svg"
           class="button__image"
@@ -50,22 +50,18 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { useCartStore } from "~/store/cart";
 
 const cartStore = useCartStore();
 
-const cartItems = computed(() => {
-  return cartStore.cartItems;
-});
+const { cartItems, totalSum } = storeToRefs(cartStore);
+const { updateAmount, deleteItem, getCartItems, placeOrder } = cartStore;
 
-const setAmount = (e: Event, id: number) => {
+const setAmount = (id: number, e: Event) => {
   const target = e.target as HTMLInputElement;
   const val = Number(target.value);
-  cartStore.updateAmount(val, id);
-};
-
-const deleteItem = (id: number) => {
-  cartStore.deleteItem(id);
+  updateAmount(val, id);
 };
 
 const header = [
@@ -104,7 +100,7 @@ const header = [
 ];
 
 onMounted(() => {
-  cartStore.getCartItems();
+  getCartItems();
 });
 </script>
 

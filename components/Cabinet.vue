@@ -96,6 +96,7 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { useOrdersStore } from "~/store/orders";
 import { USER_ORDERS_HEADER } from "~/constants";
 import { formatDate } from "~/utils/formatDate";
@@ -105,13 +106,11 @@ const user = useSupabaseUser();
 const client = useSupabaseClient();
 
 const store = useOrdersStore();
-
-const data = computed(() => {
-  return store.orders;
-});
+const { orders: data } = storeToRefs(store);
+const { fetchUserOrders } = store;
 
 const dates = computed(() => {
-  return store.orders?.map((item) => {
+  return data.value?.map((item) => {
     const created = new Date(item.created_at);
     return formatDate(created);
   });
@@ -123,7 +122,7 @@ const logoutUser = () => {
 };
 
 onMounted(() => {
-  store.fetchUserOrders();
+  fetchUserOrders();
 });
 </script>
 

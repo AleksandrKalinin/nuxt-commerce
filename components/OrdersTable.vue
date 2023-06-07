@@ -16,9 +16,12 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { useOrdersStore } from "~/store/orders";
 
 const store = useOrdersStore();
+const { orders: data } = storeToRefs(store);
+const { fetchOrders, updateOrderStatus } = store;
 
 const ORDERS_HEADER = [
   {
@@ -41,16 +44,12 @@ const ORDERS_HEADER = [
     value: "status",
     type: "select",
     options: ["Pending", "Completed", "Cancelled"],
-    action: store.updateOrderStatus,
+    action: updateOrderStatus,
   },
 ];
 
-const data = computed(() => {
-  return store.orders;
-});
-
 onMounted(() => {
-  store.fetchOrders();
+  fetchOrders();
 });
 </script>
 

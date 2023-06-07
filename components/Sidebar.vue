@@ -14,7 +14,7 @@
       </div>
     </div>
     <div
-      v-for="item in store.filteringOptions"
+      v-for="item in filteringOptions"
       :key="item.label"
       class="sidebar__block"
     >
@@ -31,7 +31,7 @@
               v-model="option.selected"
               type="checkbox"
               class="mr-2 w-7 h-7"
-              @change="store.selectItem(option.label.toString(), item.category)"
+              @change="selectItem(option.label.toString(), item.category)"
             />{{ option.label }}</label
           >
         </div>
@@ -42,15 +42,18 @@
 
 <script setup lang="ts">
 import { watchDebounced } from "@vueuse/core";
+import { storeToRefs } from "pinia";
 import { useCatalogStore } from "~/store/catalog";
 
 const store = useCatalogStore();
+const { visibleItems, initialPrice, filteringOptions } = storeToRefs(store);
+const { selectItem } = store;
 
 const slider1 = ref(0);
 
 const maxPrice = computed(() => {
-  if (store.visibleItems?.length) {
-    return store.visibleItems!.reduce((prev, cur) => {
+  if (visibleItems.value?.length) {
+    return visibleItems.value.reduce((prev, cur) => {
       return prev > cur.price ? prev : cur.price;
     }, 0);
   } else return 0;
@@ -59,7 +62,7 @@ const maxPrice = computed(() => {
 watchDebounced(
   slider1,
   () => {
-    store.initialPrice = slider1.value;
+    initialPrice.value = slider1.value;
   },
   { debounce: 500, maxWait: 1000 }
 );

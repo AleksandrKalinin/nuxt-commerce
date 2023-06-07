@@ -9,22 +9,26 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { EmailEditor } from "vue-email-editor";
 import { useEmailStore } from "~/store/emailbuider";
 
 const emailEditor: Ref<EmailEditor | null> = ref(null);
+
 const emailStore = useEmailStore();
+const { emailTemplate, emailTemplatePreset } = storeToRefs(emailStore);
+const { fetchTemplates } = emailStore;
 
 const editorLoaded = () => {
-  if (emailStore.emailTemplatePreset) {
-    emailEditor.value?.editor.loadDesign(emailStore.emailTemplatePreset);
+  if (emailTemplatePreset.value) {
+    emailEditor.value?.editor.loadDesign(emailTemplatePreset.value);
   }
 };
 
 const saveDesign = () => {
   if (emailEditor.value) {
     emailEditor.value.editor.saveDesign((design: EditorDesign) => {
-      emailStore.emailTemplatePreset = design;
+      emailTemplatePreset.value = design;
     });
   }
 };
@@ -32,13 +36,13 @@ const saveDesign = () => {
 const exportHtml = () => {
   if (emailEditor.value) {
     emailEditor.value.editor.exportHtml((data: EmailEditorData) => {
-      emailStore.emailTemplate = data;
+      emailTemplate.value = data;
     });
   }
 };
 
 onMounted(() => {
-  emailStore.fetchTemplates();
+  fetchTemplates();
 });
 </script>
 

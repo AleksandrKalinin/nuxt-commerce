@@ -13,7 +13,7 @@
           <NuxtLink to="/catalog">
             <button
               class="transition duration-200 hover:bg-sky-500 text-lg px-7 mx-auto py-2 bg-sky-400 text-white"
-              @click="store.closePopup"
+              @click="closePopup"
             >
               {{ btnText }}
             </button>
@@ -25,25 +25,17 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { usePopupStore } from "~/store/popup";
 
 const target = ref(null);
+
 const store = usePopupStore();
-
-const isOpen = computed(() => {
-  return store.popupState;
-});
-
-const text = computed(() => {
-  return store.popupContent;
-});
-
-const btnText = computed(() => {
-  return store.btnText;
-});
+const { popupState: isOpen, popupContent: text, btnText } = storeToRefs(store);
+const { closePopup } = store;
 
 onClickOutside(target, () => {
-  store.closePopup();
+  closePopup();
 });
 </script>
 

@@ -48,19 +48,16 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { useEmailStore } from "~/store/emailbuider";
 
 const emailStore = useEmailStore();
-
-const templates = computed(() => {
-  return emailStore.templates;
-});
+const { templates } = storeToRefs(emailStore);
+const { fetchTemplates } = emailStore;
 
 onMounted(() => {
-  emailStore.fetchTemplates();
+  fetchTemplates();
 });
-
-const mail = useMail();
 
 const sendMail = () => {};
 </script>
