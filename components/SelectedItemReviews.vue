@@ -17,7 +17,7 @@
         </tr>
       </template>
       <tr v-else>
-        <td><div class="py-8">Отзывов пока нет</div></td>
+        <td><div class="py-8">No reviews yet</div></td>
       </tr>
       <tr>
         <td>
@@ -25,7 +25,7 @@
             class="selected-reviews__form reviews-form"
             @submit.prevent="sendReview()"
           >
-            <h3 class="reviews-form__title">Оставить отзыв</h3>
+            <h3 class="reviews-form__title">Leave review</h3>
             <textarea v-model="reviewTxt" class="reviews-form__text" />
             <input
               type="submit"

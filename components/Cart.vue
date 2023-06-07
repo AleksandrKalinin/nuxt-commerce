@@ -28,7 +28,7 @@
           alt="Order"
           loading="eager"
         />
-        Оформить заказ
+        Confirm order
       </button>
     </div>
   </template>
@@ -70,28 +70,28 @@ const deleteItem = (id: number) => {
 
 const header = [
   {
-    label: "Фото",
+    label: "Photo",
     value: "photo",
     type: "image",
   },
   {
-    label: "Товар",
+    label: "Item",
     value: "name",
     type: "plain",
   },
   {
-    label: "Цена",
+    label: "Price",
     value: "price",
     type: "plain",
   },
   {
-    label: "Кол-во",
+    label: "Amount",
     value: "amount",
     type: "number",
     action: setAmount,
   },
   {
-    label: "Всего",
+    label: "Total",
     value: "total",
     type: "plain",
   },

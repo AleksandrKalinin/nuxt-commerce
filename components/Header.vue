@@ -18,7 +18,7 @@
               loading="eager"
             />
           </div>
-          Кабинет
+          Account
         </div>
       </NuxtLink>
       <NuxtLink v-if="user" to="/cart">
@@ -31,7 +31,7 @@
               class="header-item__icon"
             />
           </div>
-          Корзина
+          Cart
         </div>
       </NuxtLink>
     </div>

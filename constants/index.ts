@@ -173,32 +173,32 @@ export const USER_ORDERS_HEADER = [
     type: "plain",
   },
   {
-    label: "Название",
+    label: "Name",
     value: "name",
     type: "plain",
   },
   {
-    label: "Фото",
+    label: "Photo",
     value: "photo",
     type: "image",
   },
   {
-    label: "Артикул",
+    label: "Item code",
     value: "item_code",
     type: "plain",
   },
   {
-    label: "Цена",
+    label: "Price",
     value: "price",
     type: "plain",
   },
   {
-    label: "Кол-во",
+    label: "Amount",
     value: "amount",
     type: "plain",
   },
   {
-    label: "Общая цена",
+    label: "Total price",
     value: "total",
     type: "plain",
   },

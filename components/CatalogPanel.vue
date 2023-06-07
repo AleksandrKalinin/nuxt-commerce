@@ -1,25 +1,25 @@
 <template>
   <div class="navigation">
     <div class="navigation__sorting navigation-sorting">
-      <span class="navigation-sorting__title"> Сортировать: </span>
+      <span class="navigation-sorting__title"> Sort: </span>
       <span
         class="navigation-sorting__option sorting-option"
         :class="sortValue === 'date' ? 'sorting-option_active' : ''"
         @click="store.updateSort('date')"
-        >По дате добавления</span
+        >By date</span
       >
       <span
         class="navigation-sorting__option sorting-option"
         :class="sortValue === 'price' ? 'sorting-option_active' : ''"
         @click="store.updateSort('price')"
-        >По цене</span
+        >By price</span
       >
     </div>
     <div class="navigation__search navigation-search">
       <input
         v-model="store.searchValue"
         type="text"
-        placeholder="Искать товары"
+        placeholder="Search"
         class="navigation-search__input"
       />
     </div>

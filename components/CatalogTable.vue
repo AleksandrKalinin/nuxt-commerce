@@ -33,32 +33,32 @@ const CATALOG_HEADER = [
     type: "plain",
   },
   {
-    label: "Название",
+    label: "Name",
     value: "name",
     type: "plain",
   },
   {
-    label: "Фото",
+    label: "Photo",
     value: "photo",
     type: "image",
   },
   {
-    label: "Артикул",
+    label: "Item code",
     value: "item_code",
     type: "plain",
   },
   {
-    label: "Дата",
+    label: "Date",
     value: "date",
     type: "plain",
   },
   {
-    label: "Остаток",
+    label: "Residue",
     value: "in_stock",
     type: "plain",
   },
   {
-    label: "Видимость",
+    label: "Visibility",
     value: "is_visible",
     type: "toggle",
     action: adminStore.toggleVisibility,

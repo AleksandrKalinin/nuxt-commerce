@@ -2,7 +2,7 @@
   <section class="w-full cabinet">
     <div class="cabinet__block">
       <h1 class="cabinet__title">
-        Аккаунт
+        Account
         <button class="button_regular" @click="logoutUser()">
           <img
             src="~/assets/icons/exit.svg"
@@ -10,7 +10,7 @@
             alt="Exit"
             loading="eager"
           />
-          Выйти
+          Log out
         </button>
       </h1>
       <div class="cabinet-block__info">
@@ -30,7 +30,7 @@
         </div>
         <div class="cabinet-info__item info-item">
           <div class="">
-            <h3 class="info-item__title">Дата регистрации</h3>
+            <h3 class="info-item__title">Registration date</h3>
             <h4 class="text-lg">
               {{ formatDate(new Date(user?.created_at)) }}
             </h4>
@@ -39,20 +39,20 @@
       </div>
     </div>
     <div class="cabinet__block cabinet-block">
-      <h1 class="cabinet-block__header">Настройка уведомлений</h1>
+      <h1 class="cabinet-block__header">Notification settings</h1>
       <div class="cabinet-block__content">
         <p class="flex items-center text-xl mb-3">
-          Получать новостную рассылку
+          I want to receive news and promotions by email
           <input class="ml-3 w-[20px] h-[20px]" type="checkbox" />
         </p>
         <p class="flex items-center text-xl mb-3">
-          Получать уведомления об изменении статуса заказов
+          Send me notifications about my orders status
           <input class="ml-3 w-[20px] h-[20px]" type="checkbox" />
         </p>
       </div>
     </div>
     <div class="cabinet__block">
-      <h1 class="cabinet-block__header">Заказы</h1>
+      <h1 class="cabinet-block__header">Orders</h1>
       <template v-if="data?.length">
         <div
           v-for="(item, index) in data"
@@ -61,10 +61,9 @@
         >
           <span class="text-slate-500 text-lg">{{ dates[index] }}</span>
           <div class="text-xl mb-5">
-            Заказ <span class="font-semibold">№{{ item.id }}</span
-            >, Товаров:
-            <span class="font-semibold">{{ item.items.length }}</span
-            >, на сумму: <span class="font-semibold">${{ item.total }}</span
+            Order <span class="font-semibold">№{{ item.id }}</span
+            >, Items: <span class="font-semibold">{{ item.items.length }}</span
+            >, Total: <span class="font-semibold">${{ item.total }}</span
             ><span
               class="cabinet-orders__status"
               :class="

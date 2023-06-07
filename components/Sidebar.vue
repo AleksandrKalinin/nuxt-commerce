@@ -1,9 +1,9 @@
 <template>
   <aside class="sidebar">
-    <h3 class="sidebar__title sidebar-title">Фильтры</h3>
+    <h3 class="sidebar__title sidebar-title">Filters</h3>
 
     <div class="sidebar-block sidebar__block">
-      <h3 class="sidebar-block__title">Цена</h3>
+      <h3 class="sidebar-block__title">Price</h3>
       <div class="sidebar-block__list filter-list">
         <BaseSlider
           v-model="slider1"

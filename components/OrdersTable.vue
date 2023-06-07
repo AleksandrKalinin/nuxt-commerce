@@ -27,17 +27,17 @@ const ORDERS_HEADER = [
     type: "plain",
   },
   {
-    label: "Дата заказа",
+    label: "Date",
     value: "created_at",
     type: "plain",
   },
   {
-    label: "Сумма",
+    label: "Total",
     value: "total",
     type: "plain",
   },
   {
-    label: "Статус",
+    label: "Status",
     value: "status",
     type: "select",
     options: ["Pending", "Completed", "Cancelled"],

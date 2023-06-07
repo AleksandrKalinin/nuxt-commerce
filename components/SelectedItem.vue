@@ -110,43 +110,43 @@ const setTab = (e: Event) => {
 
 const selectedProperties = [
   {
-    label: "Наименование",
+    label: "Name",
     value: "name",
   },
   {
-    label: "Цена",
+    label: "Price",
     value: "price",
   },
   {
-    label: "Дата",
+    label: "Date",
     value: "date",
   },
   {
-    label: "Производитель",
+    label: "Manufacturer",
     value: "manufacturer",
   },
   {
-    label: "Тип устройства",
+    label: "Type",
     value: "type",
   },
   {
-    label: "Тип батареи",
+    label: "Battery type",
     value: "battery_type",
   },
   {
-    label: "Кол-во пикселей",
+    label: "Pixels number",
     value: "pixels",
   },
   {
-    label: "Кол-во кадров в секунду",
+    label: "FPS",
     value: "max_FPS_video",
   },
   {
-    label: "Максимальная чувствительность",
+    label: "Max sensitivity",
     value: "max_sensitivity",
   },
   {
-    label: "Минимальная чувствительность",
+    label: "Min sensitivity",
     value: "min_sensitivity",
   },
   {
@@ -154,15 +154,15 @@ const selectedProperties = [
     value: "wi_fi",
   },
   {
-    label: "Поддержка карт памяти",
+    label: "Card support",
     value: "card_support",
   },
   {
-    label: "Тип матрицы",
+    label: "Matrix type",
     value: "matrix_type",
   },
   {
-    label: "Размер матрицы",
+    label: "Matrix size",
     value: "matrix_size",
   },
 ];

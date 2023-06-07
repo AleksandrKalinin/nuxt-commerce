@@ -9,7 +9,7 @@
             alt="Каталог"
             loading="eager"
           />
-          Каталог</NuxtLink
+          Catalog</NuxtLink
         >
       </div>
       <div>
@@ -20,7 +20,7 @@
             alt="Корзина"
             loading="eager"
           />
-          Заказы</NuxtLink
+          Orders</NuxtLink
         >
       </div>
       <div>
@@ -31,7 +31,7 @@
             alt="Пользователи"
             loading="eager"
           />
-          Пользователи</NuxtLink
+          Users</NuxtLink
         >
       </div>
       <div>
@@ -42,7 +42,7 @@
             alt="Статистика"
             loading="eager"
           />
-          Статистика</NuxtLink
+          Statistics</NuxtLink
         >
       </div>
       <div>
@@ -53,7 +53,7 @@
             alt="Рассылка"
             loading="eager"
           />
-          Рассылка</NuxtLink
+          Mailing</NuxtLink
         >
       </div>
     </div>

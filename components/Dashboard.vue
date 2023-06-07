@@ -66,7 +66,7 @@
         />
       </div>
       <div class="dashboard-statistics__item statistics-item">
-        <h2 class="statistics-item__title">Orders infoistics</h2>
+        <h2 class="statistics-item__title">Orders statistics</h2>
         <PieChart :height="250" :chart-data="props.orders" :options="options" />
       </div>
       <div class="dashboard-statistics__item statistics-item">

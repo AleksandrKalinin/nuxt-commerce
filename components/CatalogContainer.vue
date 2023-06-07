@@ -1,6 +1,6 @@
 <template>
   <section ref="scrollEl" class="catalog">
-    <h1 class="catalog__title">Каталог</h1>
+    <h1 class="catalog__title">Catalog</h1>
     <CatalogPanel />
     <template v-if="catalogItems?.length">
       <div v-if="catalogItems?.length && isLoaded" class="catalog__wrapper">

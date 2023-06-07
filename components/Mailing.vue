@@ -1,6 +1,6 @@
 <template>
   <div class="mailing">
-    <h2 class="mailing__title">Настройки</h2>
+    <h2 class="mailing__title">Settings</h2>
     <div>
       <div class="mailing__item mailing-item">
         <h3 class="mailing-item__title">Время:</h3>
@@ -12,15 +12,15 @@
         </select>
       </div>
       <div class="mailing__item mailing-item">
-        <h3 class="mailing-item__title">Периодичность:</h3>
+        <h3 class="mailing-item__title">Timeline:</h3>
         <select class="text-lg bg-transparent">
-          <option value="9">Каждые 24 часа</option>
-          <option value="12">Каждую неделю</option>
-          <option value="15">Каждый месяц</option>
+          <option value="9">Every 24 hours</option>
+          <option value="12">Every week</option>
+          <option value="15">Every month</option>
         </select>
       </div>
       <div class="mailing__item mailing-item">
-        <h3 class="mailing-item__title">Шаблон</h3>
+        <h3 class="mailing-item__title">Template</h3>
         <div v-if="templates.length" class="templates">
           <div
             v-for="item in templates"
@@ -38,11 +38,11 @@
         </div>
         <template v-else>
           <div class="mailing-template__placeholder">
-            У вас нет готовых шаблонов
+            You don't have any templates
           </div>
         </template>
       </div>
-      <button class="button_regular" @click="sendMail">Подтвердить</button>
+      <button class="button_regular" @click="sendMail">Confirm</button>
     </div>
   </div>
 </template>
@@ -62,14 +62,7 @@ onMounted(() => {
 
 const mail = useMail();
 
-const sendMail = () => {
-  mail.send({
-    from: "John Doe",
-    subject: "Incredible",
-    text: "This is an incredible test message",
-    to: "1995kalininaleksandr@gmail.com",
-  });
-};
+const sendMail = () => {};
 </script>
 
 <style scoped lang="css">

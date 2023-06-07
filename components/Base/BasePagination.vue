@@ -31,7 +31,7 @@ import { usePaginationStore } from "~/store/pagination";
 
 const props = defineProps<{
   items: CatalogItem[] | OrderItem[] | User[];
-  targetRef: null;
+  targetRef: Element | null;
 }>();
 
 const store = usePaginationStore();
@@ -45,8 +45,9 @@ const pageNumbers = computed(() => {
 });
 
 const scrollToTarget = () => {
-  if (props.targetRef) {
-    props.targetRef.scrollIntoView({ behavior: "smooth" });
+  const target: Element | null = props.targetRef;
+  if (target) {
+    target.scrollIntoView({ behavior: "smooth" });
   }
 };
 

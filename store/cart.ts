@@ -120,7 +120,7 @@ export const useCartStore = defineStore("cart", () => {
     }
     popupStore.openPopup(
       "You order was succesfully placed!",
-      "В личный кабинет"
+      "Proceed to account"
     );
   };
 
