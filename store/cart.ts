@@ -8,7 +8,7 @@ export const useCartStore = defineStore("cart", () => {
   const client = useSupabaseClient();
   const userId: Ref<string | undefined> = ref("");
   const userEmail: Ref<string | undefined> = ref("");
-  const dbItems: any = ref([]);
+  const dbItems: Ref<Array<CartItem> | []> = ref([]);
   const toastsStore = useToastsStore();
   const popupStore = usePopupStore();
   const catalogStore = useCatalogStore();
@@ -29,14 +29,18 @@ export const useCartStore = defineStore("cart", () => {
   };
 
   const cartItems = computed(() => {
-    return dbItems.value.map((item: any) => {
+    return dbItems.value.map((item: CartItem) => {
       return item;
     });
   });
 
   const totalSum = computed(() => {
     return cartItems.value.reduce((acc: number, item: CartItem) => {
-      return (acc += item.price * item.amount);
+      if (item.amount) {
+        return (acc += item.price * item.amount);
+      } else {
+        return (acc += item.price);
+      }
     }, 0);
   });
 

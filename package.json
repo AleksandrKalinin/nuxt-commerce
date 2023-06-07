@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.10",
+    "@supabase/supabase-js": "^2.24.0",
     "@typescript-eslint/parser": "^5.59.8",
     "nuxt-mail": "^4.0.1",
     "vue-email-editor": "^2.0.0",

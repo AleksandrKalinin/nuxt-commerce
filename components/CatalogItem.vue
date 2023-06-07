@@ -39,7 +39,7 @@ import { useCartStore } from "~/store/cart";
 const cartStore = useCartStore();
 
 const props = defineProps<{
-  item: any;
+  item: CatalogItem;
 }>();
 
 const itemRoute = computed(() => {

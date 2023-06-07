@@ -86,7 +86,7 @@
 import { useCatalogStore } from "~/store/catalog";
 
 defineProps<{
-  item: any;
+  item: CatalogItem;
 }>();
 
 const catalogStore = useCatalogStore();
@@ -177,8 +177,8 @@ const galleryItems = computed(() => {
     random = Math.floor(
       Math.random() * (catalogStore.visibleItems.length - 6) + 1
     );
-  }
-  return catalogStore.visibleItems?.slice(random, random + 7);
+    return catalogStore.visibleItems?.slice(random, random + 7);
+  } else return [];
 });
 
 onMounted(() => {

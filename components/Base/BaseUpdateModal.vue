@@ -64,8 +64,8 @@
 import { useAdminStore } from "~/store/admin";
 
 const props = defineProps<{
-  item: any;
-  originalItems: any;
+  item: CatalogItem;
+  originalItems: CatalogItem[];
 }>();
 
 const store = useAdminStore();

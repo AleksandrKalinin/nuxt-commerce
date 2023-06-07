@@ -30,8 +30,8 @@
 import { usePaginationStore } from "~/store/pagination";
 
 const props = defineProps<{
-  items: any;
-  targetRef: any;
+  items: CatalogItem[] | OrderItem[] | User[];
+  targetRef: null;
 }>();
 
 const store = usePaginationStore();
@@ -44,21 +44,21 @@ const pageNumbers = computed(() => {
   return numbers;
 });
 
-const scroolToTarget = () => {
+const scrollToTarget = () => {
   if (props.targetRef) {
     props.targetRef.scrollIntoView({ behavior: "smooth" });
   }
 };
 
 const firstPage = () => {
-  scroolToTarget();
+  scrollToTarget();
   setTimeout(() => {
     store.currentPage = 0;
   }, 500);
 };
 
 const lastPage = () => {
-  scroolToTarget();
+  scrollToTarget();
   setTimeout(() => {
     const maxLength = Math.ceil(props.items.length / 12);
     store.currentPage = maxLength - 1;
@@ -66,7 +66,7 @@ const lastPage = () => {
 };
 
 const setPage = (num: number) => {
-  scroolToTarget();
+  scrollToTarget();
   setTimeout(() => {
     store.currentPage = num - 1;
   }, 500);

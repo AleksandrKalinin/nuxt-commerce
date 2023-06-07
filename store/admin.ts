@@ -8,11 +8,20 @@ export const useAdminStore = defineStore("admin", () => {
   const client = useSupabaseClient();
   const toastsStore = useToastsStore();
 
-  const selectedImage = ref(null);
+  const selectedImage: Ref<File | null> = ref(null);
 
-  const selectImage = (e: any) => {
-    selectedImage.value = e.target.files[0];
+  const selectImage = (e: Event) => {
+    const target = e.target as HTMLInputElement;
+    if (target.files) {
+      selectedImage.value = target.files[0];
+    }
   };
+
+  interface FormValues extends CatalogItem {
+    date: Date | string;
+    popularity: 0;
+    rating: 0;
+  }
 
   const activeItem = ref(false);
 
@@ -21,7 +30,7 @@ export const useAdminStore = defineStore("admin", () => {
       date: new Date().toISOString(),
       popularity: 0,
       rating: 0,
-    } as any;
+    } as FormValues;
 
     if (values) {
       for (let i = 0; i < values.length; i++) {
@@ -74,11 +83,11 @@ export const useAdminStore = defineStore("admin", () => {
   };
 
   const editItem = async (values: HTMLFormElement, id: number) => {
-    const formValues = {
+    const formValues: FormValues = {
       date: new Date().toISOString(),
       popularity: 0,
       rating: 0,
-    } as any;
+    };
 
     if (values) {
       for (let i = 0; i < values.length; i++) {

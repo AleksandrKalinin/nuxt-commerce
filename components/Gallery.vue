@@ -18,7 +18,7 @@
 import { Carousel, Slide, Navigation } from "vue3-carousel";
 
 defineProps<{
-  items: any;
+  items: CatalogItem[];
 }>();
 
 const { type } = useBreakpoints();

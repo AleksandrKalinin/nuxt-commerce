@@ -84,15 +84,26 @@
 <script setup lang="ts">
 import { BarChart, LineChart, PieChart } from "vue-chart-3";
 
+interface DataSet {
+  backgroundColor: string[];
+  data: number[];
+  label?: string;
+}
+
+interface ChartData {
+  labels: Array<string>;
+  datasets: Array<DataSet>;
+}
+
 const props = defineProps<{
-  revenue: any;
-  users: any;
-  orders: any;
-  balance: any;
-  totalItems: any;
-  totalRevenue: any;
-  totalUsers: any;
-  totalOrders: any;
+  revenue: ChartData;
+  users: ChartData;
+  orders: ChartData;
+  balance: ChartData;
+  totalItems: number;
+  totalRevenue: number;
+  totalUsers: number;
+  totalOrders: number;
 }>();
 
 const options = ref({

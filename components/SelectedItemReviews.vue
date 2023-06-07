@@ -44,7 +44,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useReviewsStore } from "~/store/reviews";
 import { formatDate } from "~/utils/formatDate";
 
-const props = defineProps<{ selectedItem: any }>();
+const props = defineProps<{ selectedItem: CatalogItem }>();
 
 const store = useReviewsStore();
 const user = useSupabaseUser();

@@ -18,9 +18,14 @@
 </template>
 
 <script setup lang="ts">
+interface ItemProperties {
+  label: string;
+  value: string;
+}
+
 defineProps<{
-  selectedProperties: any;
-  selectedItem: any;
+  selectedProperties: ItemProperties[];
+  selectedItem: CatalogItem;
 }>();
 </script>
 
