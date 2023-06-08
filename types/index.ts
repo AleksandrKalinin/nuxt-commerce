@@ -20,10 +20,12 @@ declare global {
   }
 
   interface Review {
-    id: string;
+    item_id: number;
+    user_id: number;
     author: string | undefined;
     date: Date;
-    text: string;
+    description: string;
+    rating: number;
   }
 
   interface CatalogItem {
@@ -162,7 +164,7 @@ declare global {
     datasets: Array<DataSet>;
   }
 
-  export interface BaseTableHeader {
+  interface BaseTableHeader {
     label: string;
     value: string;
     type: string;

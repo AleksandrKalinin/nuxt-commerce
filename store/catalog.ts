@@ -186,27 +186,27 @@ export const useCatalogStore = defineStore("catalog", () => {
   const filteringOptions = computed(() => {
     return [
       {
-        label: "Производитель",
+        label: "Manufacturer",
         value: manufacturers.value,
         category: "manufacturer",
       },
       {
-        label: "Тип камеры",
+        label: "Camera type",
         value: types.value,
         category: "type",
       },
       {
-        label: "Тип матрицы",
+        label: "Matrix type",
         value: matrixTypes.value,
         category: "matrix_type",
       },
       {
-        label: "Размер матрицы",
+        label: "Matrix size",
         value: matrixSizes.value,
         category: "matrix_size",
       },
       {
-        label: "Кол-в точек матрицы",
+        label: "Pixels",
         value: matrixPixels.value,
         category: "pixels",
       },

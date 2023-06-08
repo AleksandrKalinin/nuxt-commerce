@@ -4,17 +4,11 @@
   </div>
   <Teleport to="body">
     <Transition>
-      <div
-        v-if="modalOpen"
-        class="overlay fixed top-0 left-0 overflow-y-auto z-999 w-full h-screen bg-sky-400/75 flex justify-center items-center"
-      >
-        <div
-          ref="target"
-          class="w-[700px] h-[calc(100vh_-_100px)] overflow-y-auto bg-white p-10 opacity-100"
-        >
+      <div v-if="modalOpen" class="overlay">
+        <div ref="target" class="modal">
           <form
             ref="form"
-            class="w-full flex flex-col mb-4"
+            class="modal__form modal-form"
             @submit.prevent="callFunction"
           >
             <template v-for="item in INPUT_FIELDS" :key="item">
@@ -23,20 +17,20 @@
                 v-model="item.default"
                 :name="item.name"
                 :placeholder="item.placeholder"
-                class="h-12 bg-white border bg-sky-400 rounded-none mb-4 px-3 text-xl"
+                class="modal-form__input"
               />
               <input
                 v-else-if="item.elType === 'file'"
                 type="file"
                 :name="item.name"
                 :placeholder="item.placeholder"
-                class="file:mr-4 file:py-2 file:px-4 file:rounded-none file:border-0 file:text-xl file:bg-sky-400 file:text-white hover:file:bg-sky-500 cursor-pointer mb-4"
+                class="modal-form__file"
                 @change="selectImage"
               />
               <select
                 v-else-if="item.elType === 'select'"
                 :name="item.name"
-                class="h-12 bg-white border bg-sky-400 rounded-none mb-4 px-3 text-xl"
+                class="modal-form__select"
               >
                 <option disabled selected>{{ item.placeholder }}</option>
                 <option
@@ -50,7 +44,7 @@
             </template>
             <input
               type="submit"
-              class="bg-sky-400 text-white px-8 py-4 block text-xl cursor-pointer tracking-wider"
+              class="modal-form__submit"
               :value="activeItem ? 'Edit item' : 'Create item'"
             />
           </form>
@@ -86,4 +80,32 @@ onClickOutside(target, () => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.overlay {
+  @apply fixed top-0 left-0 overflow-y-auto z-999 w-full h-screen bg-sky-400/75 flex justify-center items-center;
+}
+
+.modal {
+  @apply w-[700px] h-[calc(100vh_-_100px)] overflow-y-auto bg-white p-10 opacity-100;
+}
+
+.modal__form {
+  @apply w-full flex flex-col mb-4;
+}
+
+.modal-form__input {
+  @apply h-12 bg-white border bg-sky-400 rounded-none mb-4 px-3 text-xl;
+}
+
+.modal-form__file {
+  @apply file:mr-4 file:py-2 file:px-4 file:rounded-none file:border-0 file:text-xl file:bg-sky-400 file:text-white hover:file:bg-sky-500 cursor-pointer mb-4;
+}
+
+.modal-form__select {
+  @apply h-12 bg-white border bg-sky-400 rounded-none mb-4 px-3 text-xl;
+}
+
+.modal-form__submit {
+  @apply bg-sky-400 text-white px-8 py-4 block text-xl cursor-pointer tracking-wider;
+}
+</style>

@@ -6,7 +6,7 @@
           <img
             class="sidebar-link__image"
             src="~/assets/icons/shopping-bag.svg"
-            alt="Каталог"
+            alt="Catalog"
             loading="eager"
           />
           Catalog</NuxtLink
@@ -17,7 +17,7 @@
           ><img
             class="sidebar-link__image"
             src="~/assets/icons/cart.svg"
-            alt="Корзина"
+            alt="Cart"
             loading="eager"
           />
           Orders</NuxtLink
@@ -28,7 +28,7 @@
           ><img
             class="sidebar-link__image"
             src="~/assets/icons/users.svg"
-            alt="Пользователи"
+            alt="Users"
             loading="eager"
           />
           Users</NuxtLink
@@ -39,10 +39,23 @@
           ><img
             class="sidebar-link__image"
             src="~/assets/icons/chart.svg"
-            alt="Статистика"
+            alt="Statistics"
             loading="eager"
           />
           Statistics</NuxtLink
+        >
+      </div>
+      <div>
+        <NuxtLink
+          class="admin-sidebar__link sidebar-link"
+          to="/admin/emailbuilder"
+          ><img
+            class="sidebar-link__image"
+            src="~/assets/icons/edit-square.svg"
+            alt="Editor"
+            loading="eager"
+          />
+          Email editor</NuxtLink
         >
       </div>
       <div>
@@ -50,7 +63,7 @@
           ><img
             class="sidebar-link__image"
             src="~/assets/icons/mail.svg"
-            alt="Рассылка"
+            alt="Newsletter"
             loading="eager"
           />
           Mailing</NuxtLink

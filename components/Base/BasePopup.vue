@@ -1,20 +1,11 @@
 <template>
   <Teleport to="body">
     <Transition>
-      <div
-        v-if="isOpen"
-        class="overlay fixed overflow-y-auto z-10 w-full h-screen bg-sky-400/75 flex justify-center items-center"
-      >
-        <div
-          ref="target"
-          class="w-[500px] max-md:w-[calc(100w-100px)] h-[300px] border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg overflow-y-auto bg-white p-10 opacity-100 flex flex-col justify-center items-center"
-        >
-          <p class="text-2xl text-center mb-10">{{ text }}</p>
+      <div v-if="isOpen" class="overlay">
+        <div ref="target" class="popup">
+          <p class="popup__content">{{ text }}</p>
           <NuxtLink to="/catalog">
-            <button
-              class="transition duration-200 hover:bg-sky-500 text-lg px-7 mx-auto py-2 bg-sky-400 text-white"
-              @click="closePopup"
-            >
+            <button class="button_regular" @click="closePopup">
               {{ btnText }}
             </button>
           </NuxtLink>
@@ -39,4 +30,16 @@ onClickOutside(target, () => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.overlay {
+  @apply fixed overflow-y-auto z-10 w-full h-screen bg-sky-400/75 flex justify-center items-center;
+}
+
+.popup {
+  @apply w-[500px] max-md:w-[calc(100w-100px)] h-[300px] border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg overflow-y-auto bg-white p-10 opacity-100 flex flex-col justify-center items-center;
+}
+
+.popup__content {
+  @apply text-2xl text-center mb-10;
+}
+</style>

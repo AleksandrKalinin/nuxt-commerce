@@ -127,7 +127,7 @@ export const useCartStore = defineStore("cart", () => {
     if (updateError) {
       throw updateError;
     }
-    openPopup("You order was succesfully placed!", "Proceed to account");
+    openPopup("You order was succesfully placed!", "Go to account");
   };
 
   return {

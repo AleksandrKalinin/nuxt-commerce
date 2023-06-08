@@ -21,7 +21,7 @@
             src="~/assets/icons/time.svg"
             alt="In stock"
             loading="eager"
-          />{{ item.in_stock > 0 ? "В наличии" : "Нет в наличии" }}
+          />{{ item.in_stock > 0 ? "In stock" : "Not available" }}
         </p>
         <button
           class="button_regular button_centered"

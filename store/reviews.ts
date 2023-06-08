@@ -6,7 +6,16 @@ export const useReviewsStore = defineStore("reviews", () => {
   const toastsStore = useToastsStore();
   const { showErrorToast, showSuccessToast } = toastsStore;
 
-  const updateReviews = async (id: number, reviews: Review[]) => {
+  const updateReviews = async (review: Review) => {
+    const { error } = await client.from("ratings").insert([review]);
+    if (error) {
+      const { toast, message } = toastHandler("add-review-error");
+      showErrorToast(toast, message);
+    } else {
+      const { toast, message } = toastHandler("add-review-success");
+      showSuccessToast(toast, message);
+    }
+    /*
     const { error } = await client
       .from("catalog")
       .update({ reviews })
@@ -17,7 +26,7 @@ export const useReviewsStore = defineStore("reviews", () => {
     } else {
       const { toast, message } = toastHandler("add-review-success");
       showSuccessToast(toast, message);
-    }
+    } */
   };
 
   return {

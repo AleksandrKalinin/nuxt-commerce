@@ -1,33 +1,21 @@
 <template>
-  <button
-    class="transition duration-200 hover:bg-sky-500 text-lg px-7 py-2 bg-sky-400 text-white rounded-none"
-    @click="modalOpen = true"
-  >
-    Log in
-  </button>
+  <button class="button_regular" @click="modalOpen = true">Log in</button>
   <Teleport to="body">
     <Transition>
-      <div
-        v-if="modalOpen"
-        class="overlay fixed top-0 left-0 overflow-y-auto z-10 w-full h-screen bg-sky-400/75 flex justify-center items-center"
-      >
-        <div ref="target" class="w-[500px] bg-white p-10 opacity-100">
-          <h1 class="text-xl tracking-wider uppercase mb-4 text-center">
+      <div v-if="modalOpen" class="overlay">
+        <div ref="target" class="overlay__wrapper">
+          <h1 class="modal__header">
             {{ userExists ? "Log into your account" : "Create account" }}
           </h1>
           <form
-            class="w-full flex flex-col mb-4"
+            class="modal__form modal-form"
             @submit.prevent="userExists ? loginUser() : registerUser()"
           >
-            <input
-              v-model="email"
-              type="email"
-              class="h-12 bg-white border bg-sky-400 rounded-none mb-4 px-3 text-xl"
-            />
+            <input v-model="email" type="email" class="modal-form__input" />
             <input
               v-model="password"
               type="password"
-              class="h-12 bg-white border bg-sky-400 rounded-none mb-4 px-3 text-xl"
+              class="modal-form__input"
             />
             <div v-if="!userExists" class="flex justify-between py-4">
               <p class="text-lg max-w-[320px]">Subscribe to newsletter</p>
@@ -38,14 +26,11 @@
             </div>
             <input
               type="submit"
-              class="transition duration-200 hover:bg-sky-500 bg-sky-400 text-white px-8 py-4 block text-xl cursor-pointer tracking-wider"
+              class="modal-form__submit"
               :value="userExists ? 'Log in' : 'Register now'"
             />
           </form>
-          <p
-            class="cursor-pointer py-4 text-xl text-center"
-            @click="userExists = !userExists"
-          >
+          <p class="modal-form__redirect" @click="userExists = !userExists">
             {{
               !userExists
                 ? "I already have an account"
@@ -111,6 +96,34 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.overlay {
+  @apply fixed top-0 left-0 overflow-y-auto z-10 w-full h-screen bg-sky-400/75 flex justify-center items-center;
+}
+
+.overlay__wrapper {
+  @apply w-[500px] bg-white p-10 opacity-100;
+}
+
+.modal__header {
+  @apply text-xl tracking-wider uppercase mb-4 text-center;
+}
+
+.modal__form {
+  @apply w-full flex flex-col mb-4;
+}
+
+.modal-form__input {
+  @apply h-12 bg-white border rounded-none mb-4 px-3 text-xl;
+}
+
+.modal-form__submit {
+  @apply transition duration-200 hover:bg-sky-500 bg-sky-400 text-white px-8 py-4 block text-xl cursor-pointer tracking-wider;
+}
+
+.modal-form__redirect {
+  @apply cursor-pointer py-4 text-xl text-center;
+}
+
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.2s ease;

@@ -11,27 +11,46 @@
       </div>
       <div class="w-full p-5">
         <h1 class="selected-item__name">{{ selectedItem.name }}</h1>
+        <p class="mb-3 flex items-center">
+          <span class="pr-2 font-semibold text-lg">{{ averageRating }}</span>
+          <star-rating
+            v-model:rating="averageRating"
+            read-only
+            star-size="20"
+            show-rating="false"
+          />
+          <span class="text-lg pl-4">
+            {{ ratings?.length ? ratings.length : "No" }} <span>ratings</span>
+          </span>
+        </p>
         <p class="mb-3">
-          <span class="text-xl font-semibold">Производитель:</span>
+          <span class="text-xl font-semibold">Manufacturer:</span>
           {{ selectedItem.manufacturer }}
         </p>
         <p class="mb-3">
-          <span class="text-xl font-semibold">Гарантия:</span>
-          {{ selectedItem.warranty }} месяцев
+          <span class="text-xl font-semibold">Warranty:</span>
+          {{ selectedItem.warranty }} month
         </p>
-        <p class="mb-3">
-          <span class="text-xl font-semibold">{{
-            selectedItem.in_stock ? "Есть в наличии" : "Нет в наличии"
+        <p class="mb-3 flex items-center">
+          <span class="text-lg">{{
+            selectedItem.in_stock ? "In stock" : "Not available"
           }}</span>
+          <span class="ml-5 text-2xl font-semibold"
+            >${{ selectedItem.price }}</span
+          >
         </p>
-        <button class="button_regular">
+        <button
+          class="button_regular disabled:bg-gray-200"
+          :disabled="selectedItem.in_stock < 0 ? true : false"
+          show-rating="false"
+        >
           <img
             class="button__image icon"
             src="~/assets/icons/bag.svg"
             alt="Корзина"
             loading="eager"
           />
-          Добавить в корзину
+          Add to cart
         </button>
       </div>
     </div>
@@ -45,10 +64,10 @@
         <img
           class="w-8 mr-2"
           src="~/assets/icons/data.svg"
-          alt="Характеристики"
+          alt="Description"
           loading="eager"
         />
-        Характеристики
+        Description
       </div>
       <div
         class="tabs-item"
@@ -59,14 +78,10 @@
         <img
           class="w-8 mr-2"
           src="~/assets/icons/chat.svg"
-          alt="Отзывы"
+          alt="Reviews"
           loading="eager"
-        />Отзывы
-        <span class="pl-1"
-          >({{
-            selectedItem.reviews?.length ? selectedItem.reviews?.length : 0
-          }})</span
-        >
+        />Reviews
+        <span class="pl-1">({{ reviews?.length ? reviews?.length : 0 }})</span>
       </div>
     </div>
     <KeepAlive>
@@ -75,6 +90,7 @@
           :is="currentTabComponent"
           :selected-item="selectedItem"
           :selected-properties="selectedProperties"
+          :reviews="reviews"
         />
       </Transition>
     </KeepAlive>
@@ -84,16 +100,22 @@
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
+import StarRating from "vue-star-rating";
 import { useCatalogStore } from "~/store/catalog";
+import { useRatingsStore } from "~/store/ratings";
 
 defineProps<{
   item: CatalogItem;
 }>();
 
 const catalogStore = useCatalogStore();
+const ratingsStore = useRatingsStore();
 
 const { selectedItem, visibleItems } = storeToRefs(catalogStore);
+const { ratings } = storeToRefs(ratingsStore);
+
 const { fetchSelectedItem } = catalogStore;
+const { fetchRating } = ratingsStore;
 
 const id = useRoute().params.id;
 
@@ -180,12 +202,43 @@ const galleryItems = computed(() => {
   } else return [];
 });
 
+watch(selectedItem, () => {
+  fetchRating(selectedItem.value?.id);
+});
+
+const averageRating = computed(() => {
+  if (ratings.value?.length) {
+    return (
+      ratings.value?.reduce((sum, item) => {
+        return (sum += item.rating);
+      }, 0) / ratings.value?.length
+    ).toFixed(1);
+  } else {
+    return 0;
+  }
+});
+
+const reviews = computed(() => {
+  if (ratings.value) {
+    return ratings.value?.map((item) => {
+      const review = {};
+      review.id = item.id;
+      review.text = item.description;
+      review.author = item.author;
+      review.date = item.date;
+      return review;
+    });
+  } else {
+    return [];
+  }
+});
+
 onMounted(() => {
   fetchSelectedItem(id);
 });
 </script>
 
-<style scoped lang="css">
+<style lang="css">
 .selected-item {
   @apply lg:ml-10 lg:w-[calc(100%-300px)] bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg;
 }
@@ -208,6 +261,25 @@ onMounted(() => {
 
 .tabs-item {
   @apply min-w-[180px] h-16 px-4 flex items-center justify-center cursor-pointer text-center text-lg bg-slate-200 text-slate-400 transition duration-100;
+}
+
+.vue-star-rating .vue-star-rating-star {
+  display: flex;
+  align-items: center;
+}
+
+.vue-star-rating-star[data-v-f675a548] {
+  display: flex;
+}
+
+.vue-star-rating-star,
+.vue-star-rating {
+  line-height: 28px;
+  max-height: 28px;
+}
+
+.vue-star-rating-rating-text {
+  display: none;
 }
 
 .tab_active {
