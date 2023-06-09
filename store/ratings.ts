@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 export const useRatingsStore = defineStore("ratings", () => {
   const client = useSupabaseClient();
 
-  const ratings = ref(null);
+  const ratings: Ref<Review[] | null> = ref(null);
 
   const fetchRating = async (id: number) => {
     const { data, error } = await client

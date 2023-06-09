@@ -203,7 +203,9 @@ const galleryItems = computed(() => {
 });
 
 watch(selectedItem, () => {
-  fetchRating(selectedItem.value?.id);
+  if (selectedItem.value) {
+    fetchRating(selectedItem.value?.id);
+  }
 });
 
 const averageRating = computed(() => {
@@ -220,12 +222,13 @@ const averageRating = computed(() => {
 
 const reviews = computed(() => {
   if (ratings.value) {
-    return ratings.value?.map((item) => {
-      const review = {};
+    return ratings.value?.map((item: Review) => {
+      const review = {} as FormattedReview;
       review.id = item.id;
-      review.text = item.description;
+      review.description = item.description;
       review.author = item.author;
       review.date = item.date;
+      review.rating = item.rating;
       return review;
     });
   } else {
@@ -268,7 +271,7 @@ onMounted(() => {
   align-items: center;
 }
 
-.vue-star-rating-star[data-v-f675a548] {
+.vue-star-rating .vue-star-rating-star[data-v-f675a548] {
   display: flex;
 }
 

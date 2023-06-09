@@ -20,6 +20,17 @@ declare global {
   }
 
   interface Review {
+    id: number;
+    item_id: number;
+    user_id: number;
+    author: string | undefined;
+    date: Date;
+    description: string;
+    rating: number;
+  }
+
+  interface FormattedReview {
+    id: number;
     item_id: number;
     user_id: number;
     author: string | undefined;

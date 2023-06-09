@@ -5,12 +5,20 @@
         <tr v-for="item in reviews" :key="item.id">
           <td>
             <div class="review py-3">
-              <div class="flex justify-between">
-                <h6 class="text-lg font-semibold">{{ item.author }}</h6>
+              <div class="flex justify-between mb-2">
+                <div>
+                  <h6 class="text-lg font-semibold">{{ item.author }}</h6>
+                  <star-rating
+                    v-model:rating="item.rating"
+                    star-size="15"
+                    read-only
+                    :show-rating="false"
+                  />
+                </div>
                 <span>{{ formatDate(item.date) }}</span>
               </div>
               <div class="text-lg py-2">
-                {{ item.text }}
+                {{ item.description }}
               </div>
             </div>
           </td>
@@ -61,7 +69,6 @@
 </template>
 
 <script setup lang="ts">
-import { v4 as uuidv4 } from "uuid";
 import StarRating from "vue-star-rating";
 import { useReviewsStore } from "~/store/reviews";
 import { formatDate } from "~/utils/formatDate";
@@ -86,10 +93,6 @@ const isRated = computed(() => {
       return el.author === user.value?.email;
     });
   } else return -1;
-});
-
-const id = computed(() => {
-  return props.selectedItem.id;
 });
 
 const sendReview = () => {
