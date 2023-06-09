@@ -1,7 +1,14 @@
 <template>
   <BasePopup />
   <template v-if="cartItems.length">
-    <BaseTable :header="header" :data="cartItems" :shadowed="true" />
+    <BaseTable
+      :header="CART_HEADER"
+      :data="cartItems"
+      :shadowed="true"
+      :emit-options="emitOptions"
+      @delete-item="deleteItem"
+      @set-amount="setAmount"
+    />
     <div class="cart-panel">
       <div class="cart-panel__item panel-item">
         <span class="panel-item__category">Discount</span>
@@ -52,52 +59,20 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useCartStore } from "~/store/cart";
+import { CART_HEADER } from "~/constants/cart";
 
 const cartStore = useCartStore();
 
 const { cartItems, totalSum } = storeToRefs(cartStore);
 const { updateAmount, deleteItem, getCartItems, placeOrder } = cartStore;
 
-const setAmount = (id: number, e: Event) => {
-  const target = e.target as HTMLInputElement;
+const emitOptions = ["deleteItem", "setAmount"];
+
+const setAmount = ({ id, event }: { id: number; event: Event }) => {
+  const target = event.target as HTMLInputElement;
   const val = Number(target.value);
   updateAmount(val, id);
 };
-
-const header = [
-  {
-    label: "Photo",
-    value: "photo",
-    type: "image",
-  },
-  {
-    label: "Item",
-    value: "name",
-    type: "plain",
-  },
-  {
-    label: "Price",
-    value: "price",
-    type: "plain",
-  },
-  {
-    label: "Amount",
-    value: "amount",
-    type: "number",
-    action: setAmount,
-  },
-  {
-    label: "Total",
-    value: "total",
-    type: "plain",
-  },
-  {
-    label: "",
-    value: "delete",
-    type: "icon",
-    action: deleteItem,
-  },
-];
 
 onMounted(() => {
   getCartItems();

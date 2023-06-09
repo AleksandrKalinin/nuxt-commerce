@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import { useAdminStore } from "~/store/admin";
-import { INPUT_FIELDS } from "~/constants";
+import { INPUT_FIELDS } from "~/constants/catalog";
 
 const props = defineProps<{
   item: CatalogItem;

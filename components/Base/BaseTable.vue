@@ -1,8 +1,5 @@
 <template>
-  <table
-    :class="shadowed ? 'shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)]' : ''"
-    class="w-full min-w-full border-separate border-spacing-2 border sky-blue-400 py-5 px-3 bg-white border border-white rounded-lg"
-  >
+  <table :class="shadowed ? 'table_shadowed' : ''" class="table">
     <thead>
       <tr class="text-left cursor-pointer">
         <th
@@ -21,9 +18,7 @@
             {{ item[option.value] }}
           </td>
           <td v-else-if="option.type === 'image'" class="py-4">
-            <div
-              class="w-16 h-12 overflow-hidden flex justify-center items-center"
-            >
+            <div class="table__image">
               <img
                 class="h-full object-cover object-center"
                 :src="item[option.value]"
@@ -43,23 +38,31 @@
               v-model.number="item[option.value]"
               min="1"
               type="number"
-              @input="option.action ? option.action(item.id, $event) : ''"
+              @input="
+                option.action
+                  ? $emit(option.action, { id: item.id, event: $event })
+                  : ''
+              "
             />
           </td>
           <td v-else-if="option.type === 'icon'" class="py-4">
             <img
               :src="images[option.value]"
-              class="w-[25px] h-[25px] cursor-pointer duration-100 hover:scale-[1.1]"
+              class="table__icon"
               :alt="images[option.value]"
               loading="eager"
-              @click="option.action ? option.action(item.id) : ''"
+              @click="option.action ? $emit(option.action, item.id) : ''"
             />
           </td>
           <td v-else-if="option.type === 'select'" class="py-4">
             <select
               :name="item.name"
-              class="h-12 bg-white border bg-sky-400 rounded-none px-3 text-normal"
-              @change="option.action ? option.action(item.id, $event) : ''"
+              class="table__select"
+              @change="
+                option.action
+                  ? $emit(option.action, { id: item.id, event: $event })
+                  : ''
+              "
             >
               <option :value="item[option.toString()]">
                 {{ item[option.value] }}
@@ -104,9 +107,12 @@ interface BaseTableProps {
   shadowed: boolean;
   data: Array<CatalogItem> | Array<OrderItem> | Array<User>;
   originalItems?: CatalogItem[];
+  emitOptions?: string[];
 }
 
 const props = defineProps<BaseTableProps>();
+
+const defineEmits = props.emitOptions;
 
 const store = useFilterStore();
 const adminStore = useAdminStore();
@@ -172,5 +178,25 @@ const sortedItems = computed(() => {
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   opacity: 1;
+}
+
+.table {
+  @apply w-full min-w-full border-separate border-spacing-2 border py-5 px-3 bg-white border border-white rounded-lg;
+}
+
+.table_shadowed {
+  @apply shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)];
+}
+
+.table__image {
+  @apply w-16 h-12 overflow-hidden flex justify-center items-center;
+}
+
+.table__icon {
+  @apply w-[25px] h-[25px] cursor-pointer duration-100 hover:scale-[1.1];
+}
+
+.table__select {
+  @apply h-12 bg-white border rounded-none px-3;
 }
 </style>

@@ -5,6 +5,9 @@
     :data="data"
     :shadowed="true"
     :original-items="originalItems"
+    :emit-options="emitOptions"
+    @delete-item="deleteItem"
+    @toggle-visibility="toggleVisibility"
   >
   </BaseTable>
   <div v-else class="preloader-wrapper">
@@ -22,6 +25,7 @@ import { storeToRefs } from "pinia";
 import { useAdminStore } from "~/store/admin";
 import { useCatalogStore } from "~/store/catalog";
 import { usePaginationStore } from "~/store/pagination";
+import { CATALOG_HEADER } from "~/constants/catalog";
 
 const store = useCatalogStore();
 const adminStore = useAdminStore();
@@ -33,55 +37,7 @@ const { catalogItems } = storeToRefs(store);
 const { toggleVisibility, deleteItem } = adminStore;
 const { fetchCatalogItems } = store;
 
-const CATALOG_HEADER = [
-  {
-    label: "ID",
-    value: "id",
-    type: "plain",
-  },
-  {
-    label: "Name",
-    value: "name",
-    type: "plain",
-  },
-  {
-    label: "Photo",
-    value: "photo",
-    type: "image",
-  },
-  {
-    label: "Item code",
-    value: "item_code",
-    type: "plain",
-  },
-  {
-    label: "Date",
-    value: "date",
-    type: "plain",
-  },
-  {
-    label: "Residue",
-    value: "in_stock",
-    type: "plain",
-  },
-  {
-    label: "Visibility",
-    value: "is_visible",
-    type: "toggle",
-    action: toggleVisibility,
-  },
-  {
-    label: "",
-    value: "edit",
-    type: "markup",
-  },
-  {
-    label: "",
-    value: "delete",
-    type: "icon",
-    action: deleteItem,
-  },
-];
+const emitOptions = ["deleteItem", "toggleVisibility"];
 
 const start = computed(() => {
   return currentPage.value * 12;

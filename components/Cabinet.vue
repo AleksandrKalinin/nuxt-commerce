@@ -98,7 +98,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useOrdersStore } from "~/store/orders";
-import { USER_ORDERS_HEADER } from "~/constants";
+import { USER_ORDERS_HEADER } from "~/constants/cabinet";
 import { formatDate } from "~/utils/formatDate";
 
 const router = useRouter();

@@ -4,6 +4,8 @@
     :header="ORDERS_HEADER"
     :data="data"
     :shadowed="true"
+    :emit-options="emitOptions"
+    @update-order-status="updateOrderStatus"
   ></BaseTable>
   <div v-else class="preloader-wrapper">
     <img
@@ -18,35 +20,13 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useOrdersStore } from "~/store/orders";
+import { ORDERS_HEADER } from "~/constants/orders";
 
 const store = useOrdersStore();
 const { orders: data } = storeToRefs(store);
 const { fetchOrders, updateOrderStatus } = store;
 
-const ORDERS_HEADER = [
-  {
-    label: "№",
-    value: "id",
-    type: "plain",
-  },
-  {
-    label: "Date",
-    value: "created_at",
-    type: "plain",
-  },
-  {
-    label: "Total",
-    value: "total",
-    type: "plain",
-  },
-  {
-    label: "Status",
-    value: "status",
-    type: "select",
-    options: ["Pending", "Completed", "Cancelled"],
-    action: updateOrderStatus,
-  },
-];
+const emitOptions = ["updateOrderStatus"];
 
 onMounted(() => {
   fetchOrders();

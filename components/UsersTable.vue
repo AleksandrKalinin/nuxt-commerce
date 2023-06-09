@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useUsersStore } from "~/store/users";
-import { USERS_HEADER } from "~/constants";
+import { USERS_HEADER } from "~/constants/users";
 
 const store = useUsersStore();
 const { users: data } = storeToRefs(store);

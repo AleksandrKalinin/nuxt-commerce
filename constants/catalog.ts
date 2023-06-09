@@ -143,30 +143,7 @@ export const INPUT_FIELDS = [
   },
 ];
 
-export const USERS_HEADER = [
-  {
-    label: "ID",
-    value: "id",
-    type: "plain",
-  },
-  {
-    label: "E-mail",
-    value: "email",
-    type: "plain",
-  },
-  {
-    label: "Registered on",
-    value: "registration_date",
-    type: "plain",
-  },
-  {
-    label: "Role",
-    value: "role",
-    type: "plain",
-  },
-];
-
-export const USER_ORDERS_HEADER = [
+export const CATALOG_HEADER = [
   {
     label: "ID",
     value: "id",
@@ -188,18 +165,30 @@ export const USER_ORDERS_HEADER = [
     type: "plain",
   },
   {
-    label: "Price",
-    value: "price",
+    label: "Date",
+    value: "date",
     type: "plain",
   },
   {
-    label: "Amount",
-    value: "amount",
+    label: "Residue",
+    value: "in_stock",
     type: "plain",
   },
   {
-    label: "Total price",
-    value: "total",
-    type: "plain",
+    label: "Visibility",
+    value: "is_visible",
+    type: "toggle",
+    action: "toggleVisibility",
+  },
+  {
+    label: "",
+    value: "edit",
+    type: "markup",
+  },
+  {
+    label: "",
+    value: "delete",
+    type: "icon",
+    action: "deleteItem",
   },
 ];

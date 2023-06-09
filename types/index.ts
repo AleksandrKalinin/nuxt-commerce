@@ -179,7 +179,8 @@ declare global {
     label: string;
     value: string;
     type: string;
-    action?: (id: string, event?: Event) => {};
+    action?: string;
+    // action?: (id: string, event?: Event) => {};
     options?: string[];
   }
 }

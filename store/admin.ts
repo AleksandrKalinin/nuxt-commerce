@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 import { v4 as uuidv4 } from "uuid";
 import { useToastsStore } from "./toasts";
 import { toastHandler } from "~/utils/toastHandler";
-import { INPUT_FIELDS } from "~/constants";
 
 export const useAdminStore = defineStore("admin", () => {
   const client = useSupabaseClient();
@@ -159,7 +158,6 @@ export const useAdminStore = defineStore("admin", () => {
     addItem,
     editItem,
     deleteItem,
-    INPUT_FIELDS,
     selectImage,
     activeItem,
     toggleVisibility,

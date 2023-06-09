@@ -28,8 +28,14 @@ export const useOrdersStore = defineStore("orders", () => {
     if (error) throw error;
   };
 
-  const updateOrderStatus = async (id: number, e: Event) => {
-    const target = e.target as HTMLInputElement;
+  const updateOrderStatus = async ({
+    id,
+    event,
+  }: {
+    id: number;
+    event: Event;
+  }) => {
+    const target = event.target as HTMLInputElement;
     const status = target.value;
     const { error } = await client
       .from("orders")
