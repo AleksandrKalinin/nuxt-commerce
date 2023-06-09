@@ -11,27 +11,55 @@
       </div>
       <div class="w-full p-5">
         <h1 class="selected-item__name">{{ selectedItem.name }}</h1>
-        <p class="mb-3">
-          <span class="text-xl font-semibold">Производитель:</span>
+        <p class="mb-1 flex items-center">
+          <span class="pr-2 font-semibold text-lg">{{ averageRating }}</span>
+          <star-rating
+            v-model:rating="averageRating"
+            read-only
+            star-size="20"
+            show-rating="false"
+          />
+          <span class="text-base pl-4">
+            {{ ratings?.length ? ratings.length : "No" }} <span>ratings</span>
+          </span>
+        </p>
+        <p class="mb-1">
+          <span class="text-lg font-semibold">Manufacturer:</span>
           {{ selectedItem.manufacturer }}
         </p>
-        <p class="mb-3">
-          <span class="text-xl font-semibold">Гарантия:</span>
-          {{ selectedItem.warranty }} месяцев
+        <p class="mb-1">
+          <span class="text-lg font-semibold">Warranty:</span>
+          {{ selectedItem.warranty }} month
         </p>
-        <p class="mb-3">
-          <span class="text-xl font-semibold">{{
-            selectedItem.in_stock ? "Есть в наличии" : "Нет в наличии"
+        <p class="mb-1 mt-4 flex items-center">
+          <span class="text-2xl font-semibold"
+            >{{ selectedItem.price }}
+            <span class="uppercase font-normal text-base">Usd</span>
+          </span>
+        </p>
+        <p class="mb-2 flex items-center text-base text-zinc-400">
+          <img
+            class="w-5 h-5 mr-2"
+            src="~/assets/icons/check.svg"
+            alt="In stock"
+            loading="eager"
+          />
+          <span>{{
+            selectedItem.in_stock ? "In stock" : "Not available"
           }}</span>
         </p>
-        <button class="button_regular">
+        <button
+          class="button_regular disabled:bg-gray-200"
+          :disabled="selectedItem.in_stock < 0 ? true : false"
+          show-rating="false"
+        >
           <img
             class="button__image icon"
             src="~/assets/icons/bag.svg"
             alt="Корзина"
             loading="eager"
           />
-          Добавить в корзину
+          Add to cart
         </button>
       </div>
     </div>
@@ -45,10 +73,10 @@
         <img
           class="w-8 mr-2"
           src="~/assets/icons/data.svg"
-          alt="Характеристики"
+          alt="Description"
           loading="eager"
         />
-        Характеристики
+        Description
       </div>
       <div
         class="tabs-item"
@@ -59,14 +87,10 @@
         <img
           class="w-8 mr-2"
           src="~/assets/icons/chat.svg"
-          alt="Отзывы"
+          alt="Reviews"
           loading="eager"
-        />Отзывы
-        <span class="pl-1"
-          >({{
-            selectedItem.reviews?.length ? selectedItem.reviews?.length : 0
-          }})</span
-        >
+        />Reviews
+        <span class="pl-1">({{ reviews?.length ? reviews?.length : 0 }})</span>
       </div>
     </div>
     <KeepAlive>
@@ -75,6 +99,7 @@
           :is="currentTabComponent"
           :selected-item="selectedItem"
           :selected-properties="selectedProperties"
+          :reviews="reviews"
         />
       </Transition>
     </KeepAlive>
@@ -83,13 +108,24 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
+import StarRating from "vue-star-rating";
 import { useCatalogStore } from "~/store/catalog";
+import { useRatingsStore } from "~/store/ratings";
 
 defineProps<{
-  item: any;
+  item: CatalogItem;
 }>();
 
 const catalogStore = useCatalogStore();
+const ratingsStore = useRatingsStore();
+
+const { selectedItem, visibleItems } = storeToRefs(catalogStore);
+const { ratings } = storeToRefs(ratingsStore);
+
+const { fetchSelectedItem } = catalogStore;
+const { fetchRating } = ratingsStore;
+
 const id = useRoute().params.id;
 
 const tabs = {
@@ -110,43 +146,43 @@ const setTab = (e: Event) => {
 
 const selectedProperties = [
   {
-    label: "Наименование",
+    label: "Name",
     value: "name",
   },
   {
-    label: "Цена",
+    label: "Price",
     value: "price",
   },
   {
-    label: "Дата",
+    label: "Date",
     value: "date",
   },
   {
-    label: "Производитель",
+    label: "Manufacturer",
     value: "manufacturer",
   },
   {
-    label: "Тип устройства",
+    label: "Type",
     value: "type",
   },
   {
-    label: "Тип батареи",
+    label: "Battery type",
     value: "battery_type",
   },
   {
-    label: "Кол-во пикселей",
+    label: "Pixels number",
     value: "pixels",
   },
   {
-    label: "Кол-во кадров в секунду",
+    label: "FPS",
     value: "max_FPS_video",
   },
   {
-    label: "Максимальная чувствительность",
+    label: "Max sensitivity",
     value: "max_sensitivity",
   },
   {
-    label: "Минимальная чувствительность",
+    label: "Min sensitivity",
     value: "min_sensitivity",
   },
   {
@@ -154,39 +190,67 @@ const selectedProperties = [
     value: "wi_fi",
   },
   {
-    label: "Поддержка карт памяти",
+    label: "Card support",
     value: "card_support",
   },
   {
-    label: "Тип матрицы",
+    label: "Matrix type",
     value: "matrix_type",
   },
   {
-    label: "Размер матрицы",
+    label: "Matrix size",
     value: "matrix_size",
   },
 ];
 
-const selectedItem = computed<CatalogItem>((): CatalogItem => {
-  return catalogStore.selectedItem as unknown as CatalogItem;
-});
-
 const galleryItems = computed(() => {
   let random = 0;
-  if (catalogStore.visibleItems) {
-    random = Math.floor(
-      Math.random() * (catalogStore.visibleItems.length - 6) + 1
-    );
+  if (visibleItems.value) {
+    random = Math.floor(Math.random() * (visibleItems.value.length - 6) + 1);
+    return visibleItems.value.slice(random, random + 7);
+  } else return [];
+});
+
+watch(selectedItem, () => {
+  if (selectedItem.value) {
+    fetchRating(selectedItem.value?.id);
   }
-  return catalogStore.visibleItems?.slice(random, random + 7);
+});
+
+const averageRating = computed(() => {
+  if (ratings.value?.length) {
+    return (
+      ratings.value?.reduce((sum, item) => {
+        return (sum += item.rating);
+      }, 0) / ratings.value?.length
+    ).toFixed(1);
+  } else {
+    return 0;
+  }
+});
+
+const reviews = computed(() => {
+  if (ratings.value) {
+    return ratings.value?.map((item: Review) => {
+      const review = {} as FormattedReview;
+      review.id = item.id;
+      review.description = item.description;
+      review.author = item.author;
+      review.date = item.date;
+      review.rating = item.rating;
+      return review;
+    });
+  } else {
+    return [];
+  }
 });
 
 onMounted(() => {
-  catalogStore.fetchSelectedItem(id);
+  fetchSelectedItem(id);
 });
 </script>
 
-<style scoped lang="css">
+<style lang="css">
 .selected-item {
   @apply lg:ml-10 lg:w-[calc(100%-300px)] bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg;
 }
@@ -209,6 +273,25 @@ onMounted(() => {
 
 .tabs-item {
   @apply min-w-[180px] h-16 px-4 flex items-center justify-center cursor-pointer text-center text-lg bg-slate-200 text-slate-400 transition duration-100;
+}
+
+.vue-star-rating .vue-star-rating-star {
+  display: flex;
+  align-items: center;
+}
+
+.vue-star-rating .vue-star-rating-star[data-v-f675a548] {
+  display: flex;
+}
+
+.vue-star-rating-star,
+.vue-star-rating {
+  line-height: 28px;
+  max-height: 28px;
+}
+
+.vue-star-rating-rating-text {
+  display: none;
 }
 
 .tab_active {

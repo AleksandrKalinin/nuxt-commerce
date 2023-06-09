@@ -2,16 +2,20 @@ import { defineStore } from "pinia";
 import { v4 as uuidv4 } from "uuid";
 import { useToastsStore } from "./toasts";
 import { toastHandler } from "~/utils/toastHandler";
-import { INPUT_FIELDS } from "~/constants";
 
 export const useAdminStore = defineStore("admin", () => {
   const client = useSupabaseClient();
+
   const toastsStore = useToastsStore();
+  const { showErrorToast, showSuccessToast } = toastsStore;
 
-  const selectedImage = ref(null);
+  const selectedImage: Ref<File | null> = ref(null);
 
-  const selectImage = (e: any) => {
-    selectedImage.value = e.target.files[0];
+  const selectImage = (e: Event) => {
+    const target = e.target as HTMLInputElement;
+    if (target.files) {
+      selectedImage.value = target.files[0];
+    }
   };
 
   const activeItem = ref(false);
@@ -21,7 +25,12 @@ export const useAdminStore = defineStore("admin", () => {
       date: new Date().toISOString(),
       popularity: 0,
       rating: 0,
-    } as any;
+    } as CatalogItem;
+
+    const valuesObject = Array.from(values).reduce(
+      (obj, item) => Object.assign(obj, { [item.name]: item.value }),
+      {}
+    ) as CatalogItem;
 
     if (values) {
       for (let i = 0; i < values.length; i++) {
@@ -42,23 +51,25 @@ export const useAdminStore = defineStore("admin", () => {
               const path = client.storage
                 .from("catalog")
                 .getPublicUrl(data?.path).data.publicUrl;
-              formValues[key as keyof BaseAddModalForm] = path;
+              formValues[key as keyof typeof valuesObject] = path;
+
               if (error) throw error;
             }
           } else {
-            formValues[key as keyof BaseAddModalForm] = curVal.value;
+            formValues[key as keyof typeof valuesObject] = curVal.value;
           }
         }
       }
     }
 
     const { error } = await client.from("catalog").insert([formValues]);
+
     if (error) {
       const { toast, message } = toastHandler(error.code);
-      toastsStore.showErrorToast(toast, message);
+      showErrorToast(toast, message);
     } else {
       const { toast, message } = toastHandler("add-to-database");
-      toastsStore.showSuccessToast(toast, message);
+      showSuccessToast(toast, message);
     }
   };
 
@@ -66,10 +77,10 @@ export const useAdminStore = defineStore("admin", () => {
     const { error } = await client.from("catalog").delete().eq("id", id);
     if (error) {
       const { toast, message } = toastHandler("item-delete-error");
-      toastsStore.showErrorToast(toast, message);
+      showErrorToast(toast, message);
     } else {
       const { toast, message } = toastHandler("item-delete-success");
-      toastsStore.showSuccessToast(toast, message);
+      showSuccessToast(toast, message);
     }
   };
 
@@ -78,7 +89,12 @@ export const useAdminStore = defineStore("admin", () => {
       date: new Date().toISOString(),
       popularity: 0,
       rating: 0,
-    } as any;
+    } as CatalogItem;
+
+    const valuesObject = Array.from(values).reduce(
+      (obj, item) => Object.assign(obj, { [item.name]: item.value }),
+      {}
+    ) as CatalogItem;
 
     if (values) {
       for (let i = 0; i < values.length; i++) {
@@ -98,11 +114,11 @@ export const useAdminStore = defineStore("admin", () => {
               const path = client.storage
                 .from("catalog")
                 .getPublicUrl(data.path).data.publicUrl;
-              formValues[key as keyof BaseAddModalForm] = path;
+              formValues[key as keyof typeof valuesObject] = path;
               if (error) throw error;
             }
           } else {
-            formValues[key as keyof BaseAddModalForm] = curVal.value;
+            formValues[key as keyof typeof valuesObject] = curVal.value;
           }
         }
       }
@@ -113,10 +129,10 @@ export const useAdminStore = defineStore("admin", () => {
       .eq("id", id);
     if (error) {
       const { toast, message } = toastHandler("item-update-error");
-      toastsStore.showErrorToast(toast, message);
+      showErrorToast(toast, message);
     } else {
       const { toast, message } = toastHandler("item-update-success");
-      toastsStore.showSuccessToast(toast, message);
+      showSuccessToast(toast, message);
     }
   };
 
@@ -129,12 +145,12 @@ export const useAdminStore = defineStore("admin", () => {
       .eq("id", id);
     if (error) {
       const { toast, message } = toastHandler(error.code);
-      toastsStore.showErrorToast(toast, message);
+      showErrorToast(toast, message);
     } else {
       const { toast, message } = toastHandler(
         checked ? "item-visible" : "item-hidden"
       );
-      toastsStore.showSuccessToast(toast, message);
+      showSuccessToast(toast, message);
     }
   };
 
@@ -142,7 +158,6 @@ export const useAdminStore = defineStore("admin", () => {
     addItem,
     editItem,
     deleteItem,
-    INPUT_FIELDS,
     selectImage,
     activeItem,
     toggleVisibility,

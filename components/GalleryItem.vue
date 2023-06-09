@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  item: any;
+  item: CatalogItem;
 }>();
 
 const item = computed(() => {

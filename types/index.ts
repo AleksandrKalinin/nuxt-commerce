@@ -19,28 +19,31 @@ declare global {
     Cancelled = "Cancelled",
   }
 
-  interface Order {
-    id?: number;
-    created_at: Date;
-    items: OrderItem[];
-    userId: string;
-    user: string;
-    total: number;
-    status: OrderStatus;
-  }
-
   interface Review {
-    id: string;
+    id: number;
+    item_id: number;
+    user_id: number;
     author: string | undefined;
     date: Date;
-    text: string;
+    description: string;
+    rating: number;
+  }
+
+  interface FormattedReview {
+    id: number;
+    item_id: number;
+    user_id: number;
+    author: string | undefined;
+    date: Date;
+    description: string;
+    rating: number;
   }
 
   interface CatalogItem {
     name: string;
     id: number;
     price: number;
-    date: Date;
+    date: Date | string;
     manufacturer: string;
     photo: string;
     type: string;
@@ -62,6 +65,16 @@ declare global {
     item_code: number;
     is_visible: boolean;
     reviews: Review[];
+  }
+
+  interface Order {
+    id?: number;
+    created_at: Date;
+    items: CatalogItem[];
+    userId: string;
+    user: string;
+    total: number;
+    status: OrderStatus;
   }
 
   interface SelectOption {
@@ -116,7 +129,7 @@ declare global {
 
   interface EditorIframe {
     callbackId: number;
-    callbacks: any;
+    callbacks: () => {}[];
     destroy: () => {};
     id: number;
     iframe: HTMLIFrameElement;
@@ -124,12 +137,19 @@ declare global {
     ready: boolean;
   }
 
+  interface EmailEditorData {
+    amp: EditorObject;
+    chunks: EditorObject;
+    design: EditorObject;
+    html: string;
+  }
+
   interface EmailEditor {
     editor: {
       frame: EditorIframe;
       saveDesign: (e: (e: EditorDesign) => void) => void;
       loadDesign: (e: EditorDesign | null) => void;
-      exportHtml: (html: any) => {};
+      exportHtml: (html: (e: EmailEditorData) => void) => void;
     };
     appearance: undefined | string;
     editorId: undefined | string;
@@ -144,10 +164,23 @@ declare global {
     tools: undefined | string;
   }
 
-  interface EmailEditorData {
-    amp: EditorObject;
-    chunks: EditorObject;
-    design: EditorObject;
-    html: string;
+  interface DataSet {
+    backgroundColor: string[];
+    data: number[];
+    label?: string;
+  }
+
+  interface ChartData {
+    labels: Array<string>;
+    datasets: Array<DataSet>;
+  }
+
+  interface BaseTableHeader {
+    label: string;
+    value: string;
+    type: string;
+    action?: string;
+    // action?: (id: string, event?: Event) => {};
+    options?: string[];
   }
 }

@@ -39,6 +39,7 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { useCatalogStore } from "~/store/catalog";
 import { useOrdersStore } from "~/store/orders";
 import { useUsersStore } from "~/store/users";
@@ -56,17 +57,13 @@ const ordersStore = useOrdersStore();
 const usersStore = useUsersStore();
 const catalogStore = useCatalogStore();
 
-const orders = computed(() => {
-  return ordersStore.orders;
-});
+const { orders } = storeToRefs(ordersStore);
+const { users } = storeToRefs(usersStore);
+const { catalogItems: items } = storeToRefs(catalogStore);
 
-const users = computed(() => {
-  return usersStore.users;
-});
-
-const items = computed(() => {
-  return catalogStore.catalogItems;
-});
+const { fetchCatalogItems } = catalogStore;
+const { fetchUsers } = usersStore;
+const { fetchOrders } = ordersStore;
 
 const totalRevenue = computed(() => {
   return orders.value?.reduce((acc, item) => {
@@ -197,9 +194,9 @@ const ordersOverview = computed(() => {
 });
 
 onMounted(() => {
-  ordersStore.fetchOrders();
-  usersStore.fetchUsers();
-  catalogStore.fetchCatalogItems();
+  fetchOrders();
+  fetchUsers();
+  fetchCatalogItems();
 });
 </script>
 

@@ -6,10 +6,10 @@
           <img
             class="sidebar-link__image"
             src="~/assets/icons/shopping-bag.svg"
-            alt="Каталог"
+            alt="Catalog"
             loading="eager"
           />
-          Каталог</NuxtLink
+          Catalog</NuxtLink
         >
       </div>
       <div>
@@ -17,10 +17,10 @@
           ><img
             class="sidebar-link__image"
             src="~/assets/icons/cart.svg"
-            alt="Корзина"
+            alt="Cart"
             loading="eager"
           />
-          Заказы</NuxtLink
+          Orders</NuxtLink
         >
       </div>
       <div>
@@ -28,10 +28,10 @@
           ><img
             class="sidebar-link__image"
             src="~/assets/icons/users.svg"
-            alt="Пользователи"
+            alt="Users"
             loading="eager"
           />
-          Пользователи</NuxtLink
+          Users</NuxtLink
         >
       </div>
       <div>
@@ -39,10 +39,23 @@
           ><img
             class="sidebar-link__image"
             src="~/assets/icons/chart.svg"
-            alt="Статистика"
+            alt="Statistics"
             loading="eager"
           />
-          Статистика</NuxtLink
+          Statistics</NuxtLink
+        >
+      </div>
+      <div>
+        <NuxtLink
+          class="admin-sidebar__link sidebar-link"
+          to="/admin/emailbuilder"
+          ><img
+            class="sidebar-link__image"
+            src="~/assets/icons/edit-square.svg"
+            alt="Editor"
+            loading="eager"
+          />
+          Email editor</NuxtLink
         >
       </div>
       <div>
@@ -50,10 +63,10 @@
           ><img
             class="sidebar-link__image"
             src="~/assets/icons/mail.svg"
-            alt="Рассылка"
+            alt="Newsletter"
             loading="eager"
           />
-          Рассылка</NuxtLink
+          Mailing</NuxtLink
         >
       </div>
     </div>
@@ -72,7 +85,7 @@ a.router-link-active {
 }
 
 .admin-sidebar {
-  @apply w-96 max-lg:w-full max-lg:mb-5 border p-4 bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg;
+  @apply w-96 max-h-full max-lg:w-full max-lg:mb-5 border p-4 bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg;
 }
 
 .admin-sidebar__link {

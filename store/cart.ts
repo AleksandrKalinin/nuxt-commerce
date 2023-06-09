@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+import { defineStore, storeToRefs } from "pinia";
 import { useCatalogStore } from "./catalog";
 import { useToastsStore } from "./toasts";
 import { usePopupStore } from "./popup";
@@ -8,11 +8,20 @@ export const useCartStore = defineStore("cart", () => {
   const client = useSupabaseClient();
   const userId: Ref<string | undefined> = ref("");
   const userEmail: Ref<string | undefined> = ref("");
-  const dbItems: any = ref([]);
+  const dbItems: Ref<Array<CartItem> | []> = ref([]);
+
   const toastsStore = useToastsStore();
   const popupStore = usePopupStore();
   const catalogStore = useCatalogStore();
-  catalogStore.fetchCatalogItems();
+
+  const { catalogItems } = storeToRefs(catalogStore);
+
+  const { fetchCatalogItems } = catalogStore;
+  const { openPopup } = popupStore;
+
+  const { showErrorToast, showSuccessToast } = toastsStore;
+
+  fetchCatalogItems();
 
   const getCartItems = async () => {
     const {
@@ -29,14 +38,18 @@ export const useCartStore = defineStore("cart", () => {
   };
 
   const cartItems = computed(() => {
-    return dbItems.value.map((item: any) => {
+    return dbItems.value.map((item: CartItem) => {
       return item;
     });
   });
 
   const totalSum = computed(() => {
     return cartItems.value.reduce((acc: number, item: CartItem) => {
-      return (acc += item.price * item.amount);
+      if (item.amount) {
+        return (acc += item.price * item.amount);
+      } else {
+        return (acc += item.price);
+      }
     }, 0);
   });
 
@@ -47,7 +60,7 @@ export const useCartStore = defineStore("cart", () => {
     if (user) {
       const present = dbItems.value.findIndex((el: CartItem) => el.id === id);
       if (present === -1) {
-        const item = catalogStore.catalogItems?.find(
+        const item = catalogItems.value?.find(
           (el: CatalogItem) => el.id === id
         ) as unknown as CartItem;
         item.amount = 1;
@@ -67,11 +80,11 @@ export const useCartStore = defineStore("cart", () => {
         throw error;
       } else {
         const { toast, message } = toastHandler("add-to-cart");
-        toastsStore.showSuccessToast(toast, message);
+        showSuccessToast(toast, message);
       }
     } else {
       const { toast, message } = toastHandler("not-authorized");
-      toastsStore.showErrorToast(toast, message);
+      showErrorToast(toast, message);
     }
   };
 
@@ -114,10 +127,7 @@ export const useCartStore = defineStore("cart", () => {
     if (updateError) {
       throw updateError;
     }
-    popupStore.openPopup(
-      "You order was succesfully placed!",
-      "В личный кабинет"
-    );
+    openPopup("You order was succesfully placed!", "Go to account");
   };
 
   return {
