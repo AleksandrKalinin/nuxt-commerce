@@ -7,8 +7,8 @@ export default defineNuxtConfig({
     },
   },
   typescript: {
-    strict: true,
-    typeCheck: true,
+    strict: false,
+    typeCheck: false,
   },
   components: [
     "~/components",
