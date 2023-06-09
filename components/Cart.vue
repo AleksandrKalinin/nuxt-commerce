@@ -1,7 +1,14 @@
 <template>
   <BasePopup />
   <template v-if="cartItems.length">
-    <BaseTable :header="header" :data="cartItems" :shadowed="true" />
+    <BaseTable
+      :header="CART_HEADER"
+      :data="cartItems"
+      :shadowed="true"
+      :emit-options="emitOptions"
+      @delete-item="deleteItem"
+      @set-amount="setAmount"
+    />
     <div class="cart-panel">
       <div class="cart-panel__item panel-item">
         <span class="panel-item__category">Discount</span>
@@ -17,18 +24,18 @@
       </div>
       <div class="cart-panel__item panel-item">
         <span class="panel-item__category">Total</span>
-        <span class="panel-item__sum">${{ cartStore.totalSum }}</span>
+        <span class="panel-item__sum">${{ totalSum }}</span>
       </div>
     </div>
     <div class="cart-controls">
-      <button class="button_regular" @click="cartStore.placeOrder()">
+      <button class="button_regular" @click="placeOrder()">
         <img
           src="~/assets/icons/bag.svg"
           class="button__image"
           alt="Order"
           loading="eager"
         />
-        Оформить заказ
+        Confirm order
       </button>
     </div>
   </template>
@@ -50,61 +57,25 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { useCartStore } from "~/store/cart";
+import { CART_HEADER } from "~/constants/cart";
 
 const cartStore = useCartStore();
 
-const cartItems = computed(() => {
-  return cartStore.cartItems;
-});
+const { cartItems, totalSum } = storeToRefs(cartStore);
+const { updateAmount, deleteItem, getCartItems, placeOrder } = cartStore;
 
-const setAmount = (e: Event, id: number) => {
-  const target = e.target as HTMLInputElement;
+const emitOptions = ["deleteItem", "setAmount"];
+
+const setAmount = ({ id, event }: { id: number; event: Event }) => {
+  const target = event.target as HTMLInputElement;
   const val = Number(target.value);
-  cartStore.updateAmount(val, id);
+  updateAmount(val, id);
 };
-
-const deleteItem = (id: number) => {
-  cartStore.deleteItem(id);
-};
-
-const header = [
-  {
-    label: "Фото",
-    value: "photo",
-    type: "image",
-  },
-  {
-    label: "Товар",
-    value: "name",
-    type: "plain",
-  },
-  {
-    label: "Цена",
-    value: "price",
-    type: "plain",
-  },
-  {
-    label: "Кол-во",
-    value: "amount",
-    type: "number",
-    action: setAmount,
-  },
-  {
-    label: "Всего",
-    value: "total",
-    type: "plain",
-  },
-  {
-    label: "",
-    value: "delete",
-    type: "icon",
-    action: deleteItem,
-  },
-];
 
 onMounted(() => {
-  cartStore.getCartItems();
+  getCartItems();
 });
 </script>
 

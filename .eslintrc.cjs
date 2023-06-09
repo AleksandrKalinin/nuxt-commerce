@@ -14,5 +14,12 @@ module.exports = {
     "vue/no-multiple-template-root": 0,
     "vue/multi-word-component-names": 0,
     "no-lonely-if": 0,
+    endOfLine: "off",
+    "prettier/prettier": [
+      "error",
+      {
+        endOfLine: "auto",
+      },
+    ],
   },
 };

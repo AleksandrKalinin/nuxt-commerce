@@ -18,7 +18,7 @@
               loading="eager"
             />
           </div>
-          Кабинет
+          Account
         </div>
       </NuxtLink>
       <NuxtLink v-if="user" to="/cart">
@@ -31,11 +31,22 @@
               class="header-item__icon"
             />
           </div>
-          Корзина
+          Cart
         </div>
       </NuxtLink>
     </div>
-    <BaseAuthModal v-else />
+    <template v-else>
+      <BaseModal>
+        <template #trigger>
+          <button class="button_regular" @click="modalOpen = true">
+            Log in
+          </button>
+        </template>
+        <template #content>
+          <BaseAuthForm />
+        </template>
+      </BaseModal>
+    </template>
   </header>
 </template>
 

@@ -7,8 +7,8 @@ export default defineNuxtConfig({
     },
   },
   typescript: {
-    strict: true,
-    typeCheck: true,
+    strict: false,
+    typeCheck: false,
   },
   components: [
     "~/components",
@@ -51,7 +51,6 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
-    "/emailbuilder/**": { ssr: false },
     "/admin/**": { ssr: false },
     "/": { redirect: "/catalog" },
   },

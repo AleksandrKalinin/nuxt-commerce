@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  state: any;
+  state: boolean;
 }>();
 </script>
 

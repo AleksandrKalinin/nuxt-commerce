@@ -66,7 +66,7 @@
         />
       </div>
       <div class="dashboard-statistics__item statistics-item">
-        <h2 class="statistics-item__title">Orders infoistics</h2>
+        <h2 class="statistics-item__title">Orders statistics</h2>
         <PieChart :height="250" :chart-data="props.orders" :options="options" />
       </div>
       <div class="dashboard-statistics__item statistics-item">
@@ -84,18 +84,20 @@
 <script setup lang="ts">
 import { BarChart, LineChart, PieChart } from "vue-chart-3";
 
-const props = defineProps<{
-  revenue: any;
-  users: any;
-  orders: any;
-  balance: any;
-  totalItems: any;
-  totalRevenue: any;
-  totalUsers: any;
-  totalOrders: any;
-}>();
+interface DashboardProps {
+  revenue: ChartData;
+  users: ChartData;
+  orders: ChartData;
+  balance: ChartData;
+  totalItems: number;
+  totalRevenue: number;
+  totalUsers: number;
+  totalOrders: number;
+}
 
-const options = ref({
+const props = defineProps<DashboardProps>();
+
+const options = {
   responsive: true,
   plugins: {
     legend: {
@@ -105,7 +107,7 @@ const options = ref({
       display: false,
     },
   },
-});
+};
 </script>
 
 <style scoped lang="css">

@@ -5,6 +5,9 @@
     :data="data"
     :shadowed="true"
     :original-items="originalItems"
+    :emit-options="emitOptions"
+    @delete-item="deleteItem"
+    @toggle-visibility="toggleVisibility"
   >
   </BaseTable>
   <div v-else class="preloader-wrapper">
@@ -18,78 +21,38 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { useAdminStore } from "~/store/admin";
 import { useCatalogStore } from "~/store/catalog";
 import { usePaginationStore } from "~/store/pagination";
+import { CATALOG_HEADER } from "~/constants/catalog";
 
 const store = useCatalogStore();
 const adminStore = useAdminStore();
 const pagesStore = usePaginationStore();
 
-const CATALOG_HEADER = [
-  {
-    label: "ID",
-    value: "id",
-    type: "plain",
-  },
-  {
-    label: "Название",
-    value: "name",
-    type: "plain",
-  },
-  {
-    label: "Фото",
-    value: "photo",
-    type: "image",
-  },
-  {
-    label: "Артикул",
-    value: "item_code",
-    type: "plain",
-  },
-  {
-    label: "Дата",
-    value: "date",
-    type: "plain",
-  },
-  {
-    label: "Остаток",
-    value: "in_stock",
-    type: "plain",
-  },
-  {
-    label: "Видимость",
-    value: "is_visible",
-    type: "toggle",
-    action: adminStore.toggleVisibility,
-  },
-  {
-    label: "",
-    value: "edit",
-    type: "markup",
-  },
-  {
-    label: "",
-    value: "delete",
-    type: "icon",
-    action: adminStore.deleteItem,
-  },
-];
+const { currentPage } = storeToRefs(pagesStore);
+const { catalogItems } = storeToRefs(store);
+
+const { toggleVisibility, deleteItem } = adminStore;
+const { fetchCatalogItems } = store;
+
+const emitOptions = ["deleteItem", "toggleVisibility"];
 
 const start = computed(() => {
-  return pagesStore.currentPage * 12;
+  return currentPage.value * 12;
 });
 
 const end = computed(() => {
-  return (pagesStore.currentPage + 1) * 12;
+  return (currentPage.value + 1) * 12;
 });
 
 const originalItems = computed(() => {
-  return store.catalogItems?.slice(start.value, end.value);
+  return catalogItems.value?.slice(start.value, end.value);
 });
 
 const data = computed(() => {
-  return store.catalogItems?.slice(start.value, end.value).map((item) => {
+  return catalogItems.value?.slice(start.value, end.value).map((item) => {
     return {
       id: item.id,
       name: item.name,
@@ -103,7 +66,7 @@ const data = computed(() => {
 });
 
 onMounted(() => {
-  store.fetchCatalogItems();
+  fetchCatalogItems();
 });
 </script>
 

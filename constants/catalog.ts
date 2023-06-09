@@ -143,63 +143,52 @@ export const INPUT_FIELDS = [
   },
 ];
 
-export const USERS_HEADER = [
+export const CATALOG_HEADER = [
   {
     label: "ID",
     value: "id",
     type: "plain",
   },
   {
-    label: "E-mail",
-    value: "email",
-    type: "plain",
-  },
-  {
-    label: "Registered on",
-    value: "registration_date",
-    type: "plain",
-  },
-  {
-    label: "Role",
-    value: "role",
-    type: "plain",
-  },
-];
-
-export const USER_ORDERS_HEADER = [
-  {
-    label: "ID",
-    value: "id",
-    type: "plain",
-  },
-  {
-    label: "Название",
+    label: "Name",
     value: "name",
     type: "plain",
   },
   {
-    label: "Фото",
+    label: "Photo",
     value: "photo",
     type: "image",
   },
   {
-    label: "Артикул",
+    label: "Item code",
     value: "item_code",
     type: "plain",
   },
   {
-    label: "Цена",
-    value: "price",
+    label: "Date",
+    value: "date",
     type: "plain",
   },
   {
-    label: "Кол-во",
-    value: "amount",
+    label: "Residue",
+    value: "in_stock",
     type: "plain",
   },
   {
-    label: "Общая цена",
-    value: "total",
-    type: "plain",
+    label: "Visibility",
+    value: "is_visible",
+    type: "toggle",
+    action: "toggleVisibility",
+  },
+  {
+    label: "",
+    value: "edit",
+    type: "markup",
+  },
+  {
+    label: "",
+    value: "delete",
+    type: "icon",
+    action: "deleteItem",
   },
 ];

@@ -10,7 +10,7 @@
       <div
         v-for="num in pageNumbers"
         :key="num"
-        :class="{ 'pagination-item_active': num === store.currentPage + 1 }"
+        :class="{ 'pagination-item_active': num === currentPage + 1 }"
         class="pagination-item flex justify-center items-center border sky-blue-400 w-[50px] h-[50px] font-lg font-semibold"
         @click="setPage(num)"
       >
@@ -27,14 +27,16 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { usePaginationStore } from "~/store/pagination";
 
 const props = defineProps<{
-  items: any;
-  targetRef: any;
+  items: CatalogItem[] | OrderItem[] | User[];
+  targetRef: Element | null;
 }>();
 
 const store = usePaginationStore();
+const { currentPage } = storeToRefs(store);
 
 const pageNumbers = computed(() => {
   const numbers = [];
@@ -44,31 +46,32 @@ const pageNumbers = computed(() => {
   return numbers;
 });
 
-const scroolToTarget = () => {
-  if (props.targetRef) {
-    props.targetRef.scrollIntoView({ behavior: "smooth" });
+const scrollToTarget = () => {
+  const target: Element | null = props.targetRef;
+  if (target) {
+    target.scrollIntoView({ behavior: "smooth" });
   }
 };
 
 const firstPage = () => {
-  scroolToTarget();
+  scrollToTarget();
   setTimeout(() => {
-    store.currentPage = 0;
+    currentPage.value = 0;
   }, 500);
 };
 
 const lastPage = () => {
-  scroolToTarget();
+  scrollToTarget();
   setTimeout(() => {
     const maxLength = Math.ceil(props.items.length / 12);
-    store.currentPage = maxLength - 1;
+    currentPage.value = maxLength - 1;
   }, 500);
 };
 
 const setPage = (num: number) => {
-  scroolToTarget();
+  scrollToTarget();
   setTimeout(() => {
-    store.currentPage = num - 1;
+    currentPage.value = num - 1;
   }, 500);
 };
 </script>

@@ -5,28 +5,57 @@
         <tr v-for="item in reviews" :key="item.id">
           <td>
             <div class="review py-3">
-              <div class="flex justify-between">
-                <h6 class="text-lg font-semibold">{{ item.author }}</h6>
+              <div class="flex justify-between mb-2">
+                <div>
+                  <h6 class="text-lg font-semibold">{{ item.author }}</h6>
+                  <star-rating
+                    v-model:rating="item.rating"
+                    star-size="15"
+                    read-only
+                    :show-rating="false"
+                  />
+                </div>
                 <span>{{ formatDate(item.date) }}</span>
               </div>
               <div class="text-lg py-2">
-                {{ item.text }}
+                {{ item.description }}
               </div>
             </div>
           </td>
         </tr>
       </template>
       <tr v-else>
-        <td><div class="py-8">Отзывов пока нет</div></td>
+        <td><div class="py-8">No reviews yet</div></td>
       </tr>
-      <tr>
+      <tr v-if="isRated === -1">
         <td>
           <form
             class="selected-reviews__form reviews-form"
             @submit.prevent="sendReview()"
           >
-            <h3 class="reviews-form__title">Оставить отзыв</h3>
-            <textarea v-model="reviewTxt" class="reviews-form__text" />
+            <h3 class="reviews-form__title mb-3 font-semibold text-lg">
+              Leave review
+            </h3>
+            <div class="reviews-form__block flex mb-2">
+              <h4 class="font-semibold text-normal min-w-[130px]">
+                Your rating
+              </h4>
+              <star-rating
+                v-model:rating="reviewRating"
+                star-size="20"
+                show-rating="false"
+              />
+            </div>
+            <div class="reviews-form__block flex mb-2">
+              <h4 class="font-semibold text-normal min-w-[130px]">
+                Your review
+              </h4>
+              <textarea
+                v-model="reviewTxt"
+                class="reviews-form__text"
+                placeholder="Your review"
+              />
+            </div>
             <input
               type="submit"
               value="Отправить"
@@ -40,35 +69,41 @@
 </template>
 
 <script setup lang="ts">
-import { v4 as uuidv4 } from "uuid";
+import StarRating from "vue-star-rating";
 import { useReviewsStore } from "~/store/reviews";
 import { formatDate } from "~/utils/formatDate";
 
-const props = defineProps<{ selectedItem: any }>();
+const props = defineProps<{ selectedItem: CatalogItem; reviews: Review[] }>();
 
 const store = useReviewsStore();
+const { updateReviews } = store;
+
 const user = useSupabaseUser();
 
-const reviews = computed(() => {
-  return props.selectedItem.reviews;
-});
-
-const id = computed(() => {
-  return props.selectedItem.id;
-});
-
 const reviewTxt = ref("");
+const reviewRating = ref(0);
+
+const reviews = computed(() => {
+  return props.reviews;
+});
+
+const isRated = computed(() => {
+  if (reviews.value) {
+    return reviews.value.findIndex((el) => {
+      return el.author === user.value?.email;
+    });
+  } else return -1;
+});
 
 const sendReview = () => {
   const review = {} as Review;
-  review.id = uuidv4();
-  review.author = user.value?.email;
   review.date = new Date();
-  review.text = reviewTxt.value;
-  const updatedReviews = reviews.value;
-  updatedReviews.push(review);
-  reviewTxt.value = "";
-  store.updateReviews(id.value, updatedReviews);
+  review.item_id = props.selectedItem.id;
+  review.user_id = 3;
+  review.rating = reviewRating.value;
+  review.description = reviewTxt.value;
+  review.author = user.value?.email;
+  updateReviews(review);
 };
 </script>
 

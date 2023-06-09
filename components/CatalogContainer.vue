@@ -1,6 +1,6 @@
 <template>
   <section ref="scrollEl" class="catalog">
-    <h1 class="catalog__title">Каталог</h1>
+    <h1 class="catalog__title">Catalog</h1>
     <CatalogPanel />
     <template v-if="catalogItems?.length">
       <div v-if="catalogItems?.length && isLoaded" class="catalog__wrapper">
@@ -37,38 +37,39 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { fetchAdress } from "~/utils/fetchAdress";
 import { useCartStore } from "~/store/cart";
 import { useCatalogStore } from "~/store/catalog";
 import { usePaginationStore } from "~/store/pagination";
 
 const user = useSupabaseUser();
+const scrollEl = ref(null);
+
 const store = useCatalogStore();
 const pagesStore = usePaginationStore();
 const cartStore = useCartStore();
-const scrollEl = ref(null);
 
-const isLoaded = computed(() => {
-  return store.loaded;
-});
+const { loaded: isLoaded } = storeToRefs(store);
+const { selectedItems: catalogItems } = storeToRefs(store);
+const { currentPage } = storeToRefs(pagesStore);
 
-const catalogItems = computed(() => {
-  return store.selectedItems;
-});
+const { fetchCatalogItems } = store;
+const { getCartItems } = cartStore;
 
 const start = computed(() => {
-  return pagesStore.currentPage * 12;
+  return currentPage.value * 12;
 });
 
 const end = computed(() => {
-  return (pagesStore.currentPage + 1) * 12;
+  return (currentPage.value + 1) * 12;
 });
 
 onMounted(() => {
   fetchAdress();
-  store.fetchCatalogItems();
+  fetchCatalogItems();
   if (user.value) {
-    cartStore.getCartItems();
+    getCartItems();
   }
 });
 </script>

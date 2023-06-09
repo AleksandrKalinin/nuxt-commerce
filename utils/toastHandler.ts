@@ -21,13 +21,13 @@ export function toastHandler(error: string) {
     case "add-review-success":
       return {
         toast: "showSuccessToast",
-        message: "Succesfully added review",
+        message: "You review was submitted!",
       };
       break;
     case "add-review-error":
       return {
         toast: "showErrorToast",
-        message: "Error! Unable to add your review",
+        message: "Error! Unable to submit your review",
       };
       break;
     case "order-confirmed":
