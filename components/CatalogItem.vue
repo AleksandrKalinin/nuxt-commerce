@@ -11,14 +11,16 @@
       </div>
       <div class="py-5">
         <h2 class="catalog-item__title">
-          <NuxtLink :to="itemRoute">{{ item.name }} </NuxtLink
-          ><span class="text-xl">{{ item.price }}$</span>
+          <NuxtLink :to="itemRoute">{{ item.name }} </NuxtLink>
         </h2>
         <p class="text-base mb-1">{{ item.type }}</p>
+        <p class="text-2xl mb-1 font-bold">
+          {{ item.price }} <span class="text-base font-normal">USD</span>
+        </p>
         <p class="catalog-item__orders catalog-orders">
           <img
             class="catalog-orders__icon"
-            src="~/assets/icons/time.svg"
+            src="~/assets/icons/check.svg"
             alt="In stock"
             loading="eager"
           />{{ item.in_stock > 0 ? "In stock" : "Not available" }}
@@ -62,15 +64,19 @@ const itemRoute = computed(() => {
 }
 
 .catalog-item__title {
-  @apply text-lg flex justify-between items-center font-semibold py-2;
+  @apply flex justify-between items-center text-lg font-normal;
 }
 
 .catalog-item__orders {
-  @apply text-base mb-4 flex items-center;
+  @apply text-base mb-4 flex items-center text-zinc-400;
 }
 
 .catalog-orders__icon {
-  @apply w-5 h-5 mr-2;
+  @apply w-5 h-5 mr-1 text-zinc-400;
+}
+
+.catalog-orders__icon svg {
+  @apply text-zinc-400;
 }
 
 .v-enter-active,

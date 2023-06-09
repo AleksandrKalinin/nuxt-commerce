@@ -6,14 +6,31 @@
         class="navigation-sorting__option sorting-option"
         :class="sortValue === 'date' ? 'sorting-option_active' : ''"
         @click="updateSort('date')"
-        >By date</span
-      >
+        >Date
+        <img
+          class="sorting-option__icon"
+          src="~/assets/icons/chevron-down.svg"
+          :class="
+            sortOrder && sortValue === 'date' ? '' : 'sorting-icon_rotated'
+          "
+          alt="Sort option"
+          loading="eager"
+        />
+      </span>
       <span
         class="navigation-sorting__option sorting-option"
         :class="sortValue === 'price' ? 'sorting-option_active' : ''"
         @click="updateSort('price')"
-        >By price</span
-      >
+        >Price
+        <img
+          class="sorting-option__icon"
+          src="~/assets/icons/chevron-down.svg"
+          :class="
+            sortOrder && sortValue === 'price' ? '' : 'sorting-icon_rotated'
+          "
+          alt="Sort option"
+          loading="eager"
+      /></span>
     </div>
     <div class="navigation__search navigation-search">
       <input
@@ -31,7 +48,7 @@ import { storeToRefs } from "pinia";
 import { useCatalogStore } from "~/store/catalog";
 
 const store = useCatalogStore();
-const { sortValue, searchValue } = storeToRefs(store);
+const { sortValue, searchValue, sortOrder } = storeToRefs(store);
 const { updateSort } = store;
 </script>
 
@@ -51,7 +68,7 @@ const { updateSort } = store;
   @apply mr-3 font-semibold max-[400px]:mb-2;
 }
 .navigation-sorting__option {
-  @apply mr-3 cursor-pointer max-[400px]:mb-2;
+  @apply px-4 cursor-pointer max-[400px]:mb-2;
 }
 
 .navigation-search__input {
@@ -59,10 +76,18 @@ const { updateSort } = store;
 }
 
 .sorting-option {
-  @apply transition duration-200 hover:text-sky-500;
+  @apply transition duration-200 hover:text-sky-500 flex items-center;
 }
 
 .sorting-option_active {
   @apply text-sky-500;
+}
+
+.sorting-option__icon {
+  @apply w-3 h-3 ml-1 mt-1 transition duration-200;
+}
+
+.sorting-icon_rotated {
+  @apply rotate-180;
 }
 </style>

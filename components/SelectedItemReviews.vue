@@ -73,7 +73,7 @@ import StarRating from "vue-star-rating";
 import { useReviewsStore } from "~/store/reviews";
 import { formatDate } from "~/utils/formatDate";
 
-const props = defineProps<{ selectedItem: CatalogItem; reviews: any }>();
+const props = defineProps<{ selectedItem: CatalogItem; reviews: Review[] }>();
 
 const store = useReviewsStore();
 const { updateReviews } = store;

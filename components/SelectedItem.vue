@@ -11,7 +11,7 @@
       </div>
       <div class="w-full p-5">
         <h1 class="selected-item__name">{{ selectedItem.name }}</h1>
-        <p class="mb-3 flex items-center">
+        <p class="mb-1 flex items-center">
           <span class="pr-2 font-semibold text-lg">{{ averageRating }}</span>
           <star-rating
             v-model:rating="averageRating"
@@ -19,25 +19,34 @@
             star-size="20"
             show-rating="false"
           />
-          <span class="text-lg pl-4">
+          <span class="text-base pl-4">
             {{ ratings?.length ? ratings.length : "No" }} <span>ratings</span>
           </span>
         </p>
-        <p class="mb-3">
-          <span class="text-xl font-semibold">Manufacturer:</span>
+        <p class="mb-1">
+          <span class="text-lg font-semibold">Manufacturer:</span>
           {{ selectedItem.manufacturer }}
         </p>
-        <p class="mb-3">
-          <span class="text-xl font-semibold">Warranty:</span>
+        <p class="mb-1">
+          <span class="text-lg font-semibold">Warranty:</span>
           {{ selectedItem.warranty }} month
         </p>
-        <p class="mb-3 flex items-center">
-          <span class="text-lg">{{
+        <p class="mb-1 mt-4 flex items-center">
+          <span class="text-2xl font-semibold"
+            >{{ selectedItem.price }}
+            <span class="uppercase font-normal text-base">Usd</span>
+          </span>
+        </p>
+        <p class="mb-2 flex items-center text-base text-zinc-400">
+          <img
+            class="w-5 h-5 mr-2"
+            src="~/assets/icons/check.svg"
+            alt="In stock"
+            loading="eager"
+          />
+          <span>{{
             selectedItem.in_stock ? "In stock" : "Not available"
           }}</span>
-          <span class="ml-5 text-2xl font-semibold"
-            >${{ selectedItem.price }}</span
-          >
         </p>
         <button
           class="button_regular disabled:bg-gray-200"
