@@ -85,7 +85,7 @@ a.router-link-active {
 }
 
 .admin-sidebar {
-  @apply w-96 max-lg:w-full max-lg:mb-5 border p-4 bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg;
+  @apply w-96 max-h-full max-lg:w-full max-lg:mb-5 border p-4 bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg;
 }
 
 .admin-sidebar__link {

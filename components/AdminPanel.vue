@@ -3,9 +3,14 @@
     <h2 class="admin-panel__title">Catalog</h2>
     <div class="flex">
       <input type="text" placeholder="Search" class="admin-panel__search" />
-      <BaseAddModal>
-        <button class="button_regular">Add item</button>
-      </BaseAddModal>
+      <BaseModal>
+        <template #trigger>
+          <button class="button_regular">Add new item</button>
+        </template>
+        <template #content>
+          <BaseAddForm />
+        </template>
+      </BaseModal>
     </div>
   </div>
 </template>

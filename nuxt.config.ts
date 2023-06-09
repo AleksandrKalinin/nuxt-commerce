@@ -51,7 +51,6 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
-    "/emailbuilder/**": { ssr: false },
     "/admin/**": { ssr: false },
     "/": { redirect: "/catalog" },
   },

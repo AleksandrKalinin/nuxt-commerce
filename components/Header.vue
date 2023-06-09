@@ -35,7 +35,18 @@
         </div>
       </NuxtLink>
     </div>
-    <BaseAuthModal v-else />
+    <template v-else>
+      <BaseModal>
+        <template #trigger>
+          <button class="button_regular" @click="modalOpen = true">
+            Log in
+          </button>
+        </template>
+        <template #content>
+          <BaseAuthForm />
+        </template>
+      </BaseModal>
+    </template>
   </header>
 </template>
 

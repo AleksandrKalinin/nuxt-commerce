@@ -72,14 +72,20 @@
             </select>
           </td>
           <td v-else-if="option.type === 'markup'" class="py-4">
-            <BaseUpdateModal :item="item" :original-items="originalItems">
-              <img
-                :src="images[option.value]"
-                :alt="images[option.value]"
-                class="w-[25px] h-[25px] cursor-pointer"
-                loading="eager"
-              />
-            </BaseUpdateModal>
+            <BaseModal>
+              <template #trigger>
+                <img
+                  :src="images[option.value]"
+                  :alt="images[option.value]"
+                  class="w-[25px] h-[25px] cursor-pointer"
+                  loading="eager"
+                />
+              </template>
+              <template #content>
+                <BaseUpdateForm :item="item" :original-items="originalItems">
+                </BaseUpdateForm>
+              </template>
+            </BaseModal>
           </td>
         </template>
       </tr>
