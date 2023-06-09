@@ -42,6 +42,7 @@
     "@supabase/supabase-js": "^2.24.0",
     "@typescript-eslint/parser": "^5.59.8",
     "nuxt-mail": "^4.0.1",
+    "vee-validate": "^4.9.6",
     "vue-email-editor": "^2.0.0",
     "vue-toastification": "^2.0.0-rc.5"
   }

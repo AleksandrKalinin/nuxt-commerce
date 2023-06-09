@@ -4,7 +4,11 @@
   </h1>
   <form
     class="modal__form modal-form"
-    @submit.prevent="userExists ? loginUser() : registerUser()"
+    @submit.prevent="
+      userExists
+        ? loginUser(email, password)
+        : registerUser(email, password, isSubscribed)
+    "
   >
     <input v-model="email" type="email" class="modal-form__input" />
     <input v-model="password" type="password" class="modal-form__input" />
@@ -15,6 +19,7 @@
     <input
       type="submit"
       class="modal-form__submit"
+      :disabled="!ifFormFilled"
       :value="userExists ? 'Log in' : 'Register now'"
     />
   </form>
@@ -24,19 +29,23 @@
 </template>
 
 <script setup lang="ts">
-import { useUsersStore } from "~/store/users";
+import { useAuthStore } from "~/store/auth";
 
-const usersStore = useUsersStore();
-const { addUser } = usersStore;
+const store = useAuthStore();
+
+const { loginUser, registerUser } = store;
 
 const user = useSupabaseUser();
-const client = useSupabaseClient();
 const password = ref("");
 const email = ref("");
 const isSubscribed = ref(true);
 const modalOpen = ref(false);
 const userExists = ref(true);
 const target = ref(null);
+
+const ifFormFilled = computed(() => {
+  return password.value && email.value;
+});
 
 onClickOutside(target, () => {
   modalOpen.value = false;
@@ -46,30 +55,10 @@ const setSubscription = () => {
   isSubscribed.value = !isSubscribed.value;
 };
 
-const loginUser = async () => {
-  const { error } = await client.auth.signInWithPassword({
-    email: email.value,
-    password: password.value,
-  });
-  if (error) throw Error;
-};
-
-const registerUser = async () => {
-  const { error } = await client.auth.signUp({
-    email: email.value,
-    password: password.value,
-  });
-  if (error) {
-    throw Error;
-  } else {
-    addUser(email.value, isSubscribed.value);
-  }
-};
-
 onMounted(() => {
   watchEffect(() => {
     if (user.value) {
-      navigateTo("/admin/users");
+      navigateTo("/admin");
     }
   });
 });
@@ -89,7 +78,7 @@ onMounted(() => {
 }
 
 .modal-form__submit {
-  @apply transition duration-200 hover:bg-sky-500 bg-sky-400 text-white px-8 py-4 block text-xl cursor-pointer tracking-wider;
+  @apply disabled:bg-zinc-300 transition duration-200 hover:bg-sky-500 bg-sky-400 text-white px-8 py-4 block text-xl cursor-pointer tracking-wider;
 }
 
 .modal-form__redirect {
