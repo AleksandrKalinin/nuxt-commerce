@@ -11,8 +11,8 @@ export const USERS_HEADER = [
   },
   {
     label: "Registered on",
-    value: "registration_date",
-    type: "plain",
+    value: "date",
+    type: "date",
   },
   {
     label: "Role",

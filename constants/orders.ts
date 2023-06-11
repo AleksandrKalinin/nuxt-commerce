@@ -7,7 +7,7 @@ export const ORDERS_HEADER = [
   {
     label: "Date",
     value: "created_at",
-    type: "plain",
+    type: "date",
   },
   {
     label: "Total",

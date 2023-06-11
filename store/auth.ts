@@ -26,7 +26,9 @@ export const useAuthStore = defineStore("auth", () => {
   const registerUser = async (
     email: string,
     password: string,
-    isSubscribed: boolean
+    isSubscribed: boolean,
+    userId: string,
+    role: string
   ) => {
     const { error } = await client.auth.signUp({
       email,
@@ -36,7 +38,7 @@ export const useAuthStore = defineStore("auth", () => {
       const { toast, message } = toastHandler("registration-failed");
       showErrorToast(toast, message);
     } else {
-      addUser(email, isSubscribed);
+      addUser(email, isSubscribed, userId, role);
       const { toast, message } = toastHandler("registration-successfull");
       showSuccessToast(toast, message);
     }

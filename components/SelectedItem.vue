@@ -63,6 +63,13 @@
         </button>
       </div>
     </div>
+    <RatingsSummary
+      :average-rating="averageRating"
+      :description-rating="descriptionRating"
+      :quality-rating="qualityRating"
+      :price-rating="valueRating"
+      :reviews="reviews"
+    />
     <div class="tabs">
       <div
         class="tabs-item"
@@ -71,7 +78,7 @@
         @click="setTab($event)"
       >
         <img
-          class="w-8 mr-2"
+          class="w-8 mr-2 max-sm:hidden"
           src="~/assets/icons/data.svg"
           alt="Description"
           loading="eager"
@@ -85,12 +92,14 @@
         @click="setTab($event)"
       >
         <img
-          class="w-8 mr-2"
+          class="w-8 mr-2 max-sm:hidden"
           src="~/assets/icons/chat.svg"
           alt="Reviews"
           loading="eager"
         />Reviews
-        <span class="pl-1">({{ reviews?.length ? reviews?.length : 0 }})</span>
+        <span class="pl-1 max-sm:font-base"
+          >({{ reviews?.length ? reviews?.length : 0 }})</span
+        >
       </div>
     </div>
     <KeepAlive>
@@ -98,7 +107,7 @@
         <component
           :is="currentTabComponent"
           :selected-item="selectedItem"
-          :selected-properties="selectedProperties"
+          :selected-properties="SELECTED_ITEM_PROPERTIES"
           :reviews="reviews"
         />
       </Transition>
@@ -112,6 +121,7 @@ import { storeToRefs } from "pinia";
 import StarRating from "vue-star-rating";
 import { useCatalogStore } from "~/store/catalog";
 import { useRatingsStore } from "~/store/ratings";
+import { SELECTED_ITEM_PROPERTIES } from "~/constants/selectedItem";
 
 defineProps<{
   item: CatalogItem;
@@ -144,65 +154,6 @@ const setTab = (e: Event) => {
   currentTab.value = target.getAttribute("value");
 };
 
-const selectedProperties = [
-  {
-    label: "Name",
-    value: "name",
-  },
-  {
-    label: "Price",
-    value: "price",
-  },
-  {
-    label: "Date",
-    value: "date",
-  },
-  {
-    label: "Manufacturer",
-    value: "manufacturer",
-  },
-  {
-    label: "Type",
-    value: "type",
-  },
-  {
-    label: "Battery type",
-    value: "battery_type",
-  },
-  {
-    label: "Pixels number",
-    value: "pixels",
-  },
-  {
-    label: "FPS",
-    value: "max_FPS_video",
-  },
-  {
-    label: "Max sensitivity",
-    value: "max_sensitivity",
-  },
-  {
-    label: "Min sensitivity",
-    value: "min_sensitivity",
-  },
-  {
-    label: "Wi-fi",
-    value: "wi_fi",
-  },
-  {
-    label: "Card support",
-    value: "card_support",
-  },
-  {
-    label: "Matrix type",
-    value: "matrix_type",
-  },
-  {
-    label: "Matrix size",
-    value: "matrix_size",
-  },
-];
-
 const galleryItems = computed(() => {
   let random = 0;
   if (visibleItems.value) {
@@ -221,8 +172,50 @@ const averageRating = computed(() => {
   if (ratings.value?.length) {
     return (
       ratings.value?.reduce((sum, item) => {
-        return (sum += item.rating);
+        return (sum += JSON.parse(item.rating).overall);
       }, 0) / ratings.value?.length
+    ).toFixed(1);
+  } else {
+    return 0;
+  }
+});
+
+const valueRating = computed(() => {
+  if (ratings.value?.length) {
+    return (
+      (ratings.value?.reduce((sum, item) => {
+        return (sum += JSON.parse(item.rating).value);
+      }, 0) /
+        ratings.value?.length) *
+      20
+    ).toFixed(1);
+  } else {
+    return 0;
+  }
+});
+
+const qualityRating = computed(() => {
+  if (ratings.value?.length) {
+    return (
+      (ratings.value?.reduce((sum, item) => {
+        return (sum += JSON.parse(item.rating).quality);
+      }, 0) /
+        ratings.value?.length) *
+      20
+    ).toFixed(1);
+  } else {
+    return 0;
+  }
+});
+
+const descriptionRating = computed(() => {
+  if (ratings.value?.length) {
+    return (
+      (ratings.value?.reduce((sum, item) => {
+        return (sum += JSON.parse(item.rating).description);
+      }, 0) /
+        ratings.value?.length) *
+      20
     ).toFixed(1);
   } else {
     return 0;
@@ -237,7 +230,7 @@ const reviews = computed(() => {
       review.description = item.description;
       review.author = item.author;
       review.date = item.date;
-      review.rating = item.rating;
+      review.rating = JSON.parse(item.rating);
       return review;
     });
   } else {
@@ -256,11 +249,11 @@ onMounted(() => {
 }
 
 .selected-item__info {
-  @apply w-full flex justify-between mb-5 bg-white;
+  @apply w-full flex justify-between mb-5 bg-white max-sm:flex-col border-b-2 border-zinc-200;
 }
 
 .selected-item__image {
-  @apply min-w-[300px] w-[300px] h-auto object-cover;
+  @apply min-w-[300px] w-[300px] h-auto object-cover max-md:min-w-[200px] max-md:w-[200px];
 }
 
 .selected-item__name {
@@ -272,7 +265,7 @@ onMounted(() => {
 }
 
 .tabs-item {
-  @apply min-w-[180px] h-16 px-4 flex items-center justify-center cursor-pointer text-center text-lg bg-slate-200 text-slate-400 transition duration-100;
+  @apply min-w-[180px] h-16 px-4 flex max-sm:min-w-[130px] max-sm:px-2 items-center justify-center cursor-pointer text-center text-lg bg-slate-200 text-slate-400 transition duration-100;
 }
 
 .vue-star-rating .vue-star-rating-star {
