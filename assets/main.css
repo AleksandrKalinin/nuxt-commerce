@@ -27,7 +27,7 @@ body {
 }
 
 .skeleton-bg {
-  animation: skeletonBg 1.5s infinite;
+  animation: skeletonBg 1s infinite;
 }
 
 .button-skeleton {
@@ -39,7 +39,7 @@ body {
     background-color: #eeeeee;
   }
   50% {
-    background-color: #eaeaef;
+    background-color: #e5e5ea;
   }
   100% {
     background-color: #eeeeee;
