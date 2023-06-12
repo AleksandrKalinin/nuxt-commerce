@@ -119,7 +119,7 @@
   <SelectedItemSkeleton v-else />
 </template>
 
-<script async setup lang="ts">
+<script setup lang="ts">
 import { storeToRefs } from "pinia";
 import StarRating from "vue-star-rating";
 import { useCatalogStore } from "~/store/catalog";

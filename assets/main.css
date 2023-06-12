@@ -25,3 +25,23 @@ body {
 .preloader-wrapper__text {
   @apply text-2xl text-center;
 }
+
+.skeleton-bg {
+  animation: skeletonBg 1.5s infinite;
+}
+
+.button-skeleton {
+  @apply flex items-center transition duration-200 text-lg px-7 py-2 text-white border min-w-[130px];
+}
+
+@keyframes skeletonBg {
+  0% {
+    background-color: #eeeeee;
+  }
+  50% {
+    background-color: #eaeaef;
+  }
+  100% {
+    background-color: #eeeeee;
+  }
+}

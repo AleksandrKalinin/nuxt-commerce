@@ -2,38 +2,48 @@
   <section class="selected-item">
     <div class="selected-item__info">
       <div class="p-5">
-        <div class="selected-item__image skeleton-bg"></div>
+        <div class="selected-item__image skeleton-bg rounded-md"></div>
       </div>
 
       <div class="w-full p-5">
-        <h1 class="selected-item__name skeleton-bg w-full h-[36px]"></h1>
-        <p class="mb-1 flex items-center w-1/2 skeleton-bg h-[28px]"></p>
-        <p class="mb-1 w-1/2 skeleton-bg h-[28px]"></p>
-        <p class="mb-1 w-1/2 skeleton-bg h-[28px]"></p>
-        <p class="mb-1 mt-4 flex items-center w-1/2 skeleton-bg h-[32px]"></p>
+        <h1
+          class="selected-item__name skeleton-bg w-full h-[36px] rounded-md"
+        ></h1>
+        <p
+          class="mb-1 flex items-center w-1/2 skeleton-bg h-[28px] rounded-md"
+        ></p>
+        <p class="mb-1 w-1/2 skeleton-bg h-[28px] rounded-md"></p>
+        <p class="mb-1 w-1/2 skeleton-bg h-[28px] rounded-md"></p>
+        <p
+          class="mb-1 mt-4 flex items-center w-1/2 skeleton-bg h-[32px] rounded-md"
+        ></p>
         <div class="button-skeleton skeleton-bg h-[46px] w-[150px]"></div>
       </div>
     </div>
     <section class="rating-section px-5 py-10">
-      <h2 class="mb-7 text-2xl font-semibold skeleton-bg h-[32px] w-1/3"></h2>
-      <div class="summary flex max-xl:flex-col skeleton-bg h-[124px]">
+      <h2
+        class="mb-7 text-2xl font-semibold skeleton-bg h-[32px] w-1/3 rounded-md"
+      ></h2>
+      <div
+        class="summary flex max-xl:flex-col skeleton-bg h-[124px] rounded-md"
+      >
         <div
-          class="flex max-xl:mb-5 max-xl:mx-auto max-[500px]:flex-col max-[500px]:items-start max-[500px]:mx-0 skeleton-bg"
+          class="flex max-xl:mb-5 max-xl:mx-auto max-[500px]:flex-col max-[500px]:items-start max-[500px]:mx-0 skeleton-bg rounded-md"
         ></div>
       </div>
     </section>
     <div class="px-5">
-      <div class="skeleton-bg my-4 h-[24px] w-full"></div>
-      <div class="skeleton-bg my-4 h-[24px] w-full"></div>
-      <div class="skeleton-bg my-4 h-[24px] w-full"></div>
-      <div class="skeleton-bg my-4 h-[24px] w-full"></div>
-      <div class="skeleton-bg my-4 h-[24px] w-full"></div>
-      <div class="skeleton-bg my-4 h-[24px] w-full"></div>
-      <div class="skeleton-bg my-4 h-[24px] w-full"></div>
+      <div class="skeleton-bg my-4 h-[24px] w-full rounded-md"></div>
+      <div class="skeleton-bg my-4 h-[24px] w-full rounded-md"></div>
+      <div class="skeleton-bg my-4 h-[24px] w-full rounded-md"></div>
+      <div class="skeleton-bg my-4 h-[24px] w-full rounded-md"></div>
+      <div class="skeleton-bg my-4 h-[24px] w-full rounded-md"></div>
+      <div class="skeleton-bg my-4 h-[24px] w-full rounded-md"></div>
+      <div class="skeleton-bg my-4 h-[24px] w-full rounded-md"></div>
     </div>
     <div class="px-5">
       <section
-        class="gallery max-w-full w-full skeleton-bg h-[350px]"
+        class="gallery max-w-full w-full skeleton-bg h-[350px] rounded-md"
       ></section>
     </div>
   </section>
@@ -107,25 +117,5 @@
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-}
-
-.skeleton-bg {
-  animation: skeletonBg 1.5s infinite;
-}
-
-.button-skeleton {
-  @apply flex items-center transition duration-200 text-lg px-7 py-2 text-white border min-w-[130px];
-}
-
-@keyframes skeletonBg {
-  0% {
-    background-color: #eeeeee;
-  }
-  50% {
-    background-color: #eaeaef;
-  }
-  100% {
-    background-color: #eeeeee;
-  }
 }
 </style>
