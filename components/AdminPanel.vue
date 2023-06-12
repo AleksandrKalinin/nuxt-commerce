@@ -1,21 +1,28 @@
 <template>
   <div class="admin-panel">
-    <h2 class="admin-panel__title">Catalog</h2>
+    <h2 class="admin-panel__title">{{ title }}</h2>
     <div class="flex">
       <input type="text" placeholder="Search" class="admin-panel__search" />
       <BaseModal>
         <template #trigger>
-          <button class="button_regular">Add new item</button>
+          <button class="button_regular">{{ button }}</button>
         </template>
         <template #content>
-          <BaseAddForm />
+          <BaseAddForm :fields="fields" :current-page="currentPage" />
         </template>
       </BaseModal>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+defineProps<{
+  title: string;
+  button: string;
+  fields: any;
+  currentPage: string;
+}>();
+</script>
 
 <style scoped lang="css">
 .admin-panel {

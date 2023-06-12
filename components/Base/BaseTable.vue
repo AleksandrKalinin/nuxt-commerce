@@ -17,6 +17,9 @@
           <td v-if="option.type === 'plain'" class="py-4">
             {{ item[option.value] }}
           </td>
+          <td v-if="option.type === 'date'" class="py-4">
+            {{ formatDate(new Date(item[option.value])) }}
+          </td>
           <td v-else-if="option.type === 'image'" class="py-4">
             <div class="table__image">
               <img

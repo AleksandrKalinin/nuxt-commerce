@@ -20,6 +20,7 @@
         </div>
       </Transition>
     </template>
+    <!--
     <template v-else>
       <Transition>
         <div class="preloader-wrapper">
@@ -31,7 +32,12 @@
           />
         </div>
       </Transition>
-    </template>
+    </template> -->
+    <div v-else class="catalog__wrapper">
+      <TransitionGroup name="catalog">
+        <CatalogItemSkeleton v-for="item in 12" :key="item" />
+      </TransitionGroup>
+    </div>
     <BasePagination :items="catalogItems" :target-ref="scrollEl" />
   </section>
 </template>

@@ -4,7 +4,7 @@
     class="modal__form modal-form"
     @submit.prevent="callFunction"
   >
-    <template v-for="item in INPUT_FIELDS" :key="item">
+    <template v-for="item in fields" :key="item">
       <input
         v-if="item.elType === 'input'"
         v-model="item.default"
@@ -46,20 +46,44 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useAdminStore } from "~/store/admin";
-import { INPUT_FIELDS } from "~/constants/catalog";
 
 const store = useAdminStore();
 
 const { activeItem } = storeToRefs(store);
 const { addItem, selectImage } = store;
 
+const props = defineProps<{
+  fields: any;
+  currentPage: string;
+}>();
+
 const modalOpen = ref(false);
 const form = ref(null);
+
+const userFunction = (values) => {
+  const obj = {};
+  for (let i = 0; i < values.length; i++) {
+    const curVal = values[i] as HTMLInputElement;
+    if (curVal.type !== "submit") {
+      const key = curVal.name;
+      obj[key] = curVal.value;
+    }
+  }
+};
 
 const callFunction = () => {
   const values = form.value;
   if (values) {
-    addItem(values);
+    switch (props.currentPage) {
+      case "catalog":
+        addItem(values);
+      case "orders":
+        addOrder(values);
+      case "users":
+        userFunction(values);
+      //addUser(values);
+    }
+    //addItem(values);
   }
 };
 

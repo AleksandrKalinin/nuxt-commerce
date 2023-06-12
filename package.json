@@ -35,13 +35,15 @@
     "vue-eslint-parser": "^9.3.0",
     "vue-star-rating": "^2.1.0",
     "vue-tsc": "^1.6.5",
-    "vue3-carousel": "^0.3.1"
+    "vue3-carousel": "^0.3.1",
+    "vue3-circle-progress": "^1.0.7"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.10",
     "@supabase/supabase-js": "^2.24.0",
     "@typescript-eslint/parser": "^5.59.8",
     "nuxt-mail": "^4.0.1",
+    "vee-validate": "^4.9.6",
     "vue-email-editor": "^2.0.0",
     "vue-toastification": "^2.0.0-rc.5"
   }

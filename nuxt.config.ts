@@ -1,5 +1,9 @@
 export default defineNuxtConfig({
-  css: ["vue3-carousel/dist/carousel.css", "~/assets/main.css"],
+  css: [
+    "vue3-carousel/dist/carousel.css",
+    "~/assets/main.css",
+    "vue3-circle-progress/dist/circle-progress.css",
+  ],
   runtimeConfig: {
     public: {
       supabaseUrl: "",
@@ -53,5 +57,6 @@ export default defineNuxtConfig({
   routeRules: {
     "/admin/**": { ssr: false },
     "/": { redirect: "/catalog" },
+    "catalog/**": { ssr: false },
   },
 });

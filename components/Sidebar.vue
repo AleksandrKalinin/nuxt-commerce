@@ -1,5 +1,5 @@
 <template>
-  <aside class="sidebar">
+  <aside class="sidebar" v-if="maxPrice && filteringOptions">
     <h3 class="sidebar__title sidebar-title">Filters</h3>
 
     <div class="sidebar-block sidebar__block">
@@ -38,6 +38,7 @@
       </div>
     </div>
   </aside>
+  <SidebarSkeleton v-else />
 </template>
 
 <script setup lang="ts">

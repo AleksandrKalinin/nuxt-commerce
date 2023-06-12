@@ -8,7 +8,8 @@ export const useCartStore = defineStore("cart", () => {
   const client = useSupabaseClient();
   const userId: Ref<string | undefined> = ref("");
   const userEmail: Ref<string | undefined> = ref("");
-  const dbItems: Ref<Array<CartItem> | []> = ref([]);
+  const cartItems: Ref<Array<CartItem> | []> = ref([]);
+  const cartLoaded = ref(false);
 
   const toastsStore = useToastsStore();
   const popupStore = usePopupStore();
@@ -21,8 +22,6 @@ export const useCartStore = defineStore("cart", () => {
 
   const { showErrorToast, showSuccessToast } = toastsStore;
 
-  fetchCatalogItems();
-
   const getCartItems = async () => {
     const {
       data: { user },
@@ -34,14 +33,9 @@ export const useCartStore = defineStore("cart", () => {
       .select("cart")
       .eq("user_id", user?.id);
     if (error) throw error;
-    dbItems.value = data[0].cart;
+    cartItems.value = data[0].cart;
+    cartLoaded.value = true;
   };
-
-  const cartItems = computed(() => {
-    return dbItems.value.map((item: CartItem) => {
-      return item;
-    });
-  });
 
   const totalSum = computed(() => {
     return cartItems.value.reduce((acc: number, item: CartItem) => {
@@ -54,23 +48,24 @@ export const useCartStore = defineStore("cart", () => {
   });
 
   const addToCart = async (id: number) => {
+    fetchCatalogItems();
     const {
       data: { user },
     } = await client.auth.getUser();
     if (user) {
-      const present = dbItems.value.findIndex((el: CartItem) => el.id === id);
+      const present = cartItems.value.findIndex((el: CartItem) => el.id === id);
       if (present === -1) {
         const item = catalogItems.value?.find(
           (el: CatalogItem) => el.id === id
         ) as unknown as CartItem;
         item.amount = 1;
         item.total = item.amount * item.price;
-        dbItems.value.push(item);
+        cartItems.value.push(item);
       } else {
-        dbItems.value[present].amount =
-          Number(dbItems.value[present].amount) + 1;
-        dbItems.value[present].total =
-          dbItems.value[present].amount * dbItems.value[present].price;
+        cartItems.value[present].amount =
+          Number(cartItems.value[present].amount) + 1;
+        cartItems.value[present].total =
+          cartItems.value[present].amount * cartItems.value[present].price;
       }
       const { error } = await client
         .from("users")
@@ -132,6 +127,7 @@ export const useCartStore = defineStore("cart", () => {
 
   return {
     cartItems,
+    cartLoaded,
     addToCart,
     totalSum,
     updateAmount,

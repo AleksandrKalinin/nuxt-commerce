@@ -1,6 +1,9 @@
 <template>
   <div class="pagination-container w-full flex justify-end mt-10">
-    <div class="pagination flex cursor-pointer bg-white">
+    <div
+      v-if="pageNumbers.length"
+      class="pagination flex cursor-pointer bg-white"
+    >
       <div
         class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5 h-[50px]"
         @click="firstPage"
@@ -23,6 +26,7 @@
         Last
       </div>
     </div>
+    <div v-else class="skeleton-bg h-[50px] w-[300px]"></div>
   </div>
 </template>
 
