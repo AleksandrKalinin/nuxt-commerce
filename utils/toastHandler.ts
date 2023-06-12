@@ -122,6 +122,24 @@ export function toastHandler(error: string) {
         message: "Order status changed!",
       };
       break;
+    case "registration-failed":
+      return {
+        toast: "showErrorToast",
+        message: "Error! Registration failed",
+      };
+      break;
+    case "registration-successful":
+      return {
+        toast: "showSuccessToast",
+        message: "You are registered!",
+      };
+      break;
+    case "login-failed":
+      return {
+        toast: "showErrorToast",
+        message: "Error! Unable to log in",
+      };
+      break;
     default:
       return {
         toast: "showErrorToast",

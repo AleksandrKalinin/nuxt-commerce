@@ -3,7 +3,7 @@ export {};
 declare global {
   interface User {
     id: number;
-    registration_date: Date;
+    date: Date;
     email: string;
     role: string;
   }
@@ -19,6 +19,13 @@ declare global {
     Cancelled = "Cancelled",
   }
 
+  interface RatingBreakdown {
+    overall: number;
+    value: number;
+    quality: number;
+    description: number;
+  }
+
   interface Review {
     id: number;
     item_id: number;
@@ -26,7 +33,7 @@ declare global {
     author: string | undefined;
     date: Date;
     description: string;
-    rating: number;
+    rating: RatingBreakdown;
   }
 
   interface FormattedReview {
@@ -180,7 +187,6 @@ declare global {
     value: string;
     type: string;
     action?: string;
-    // action?: (id: string, event?: Event) => {};
     options?: string[];
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <BasePopup />
-  <template v-if="cartItems.length">
+  <template v-if="cartLoaded && cartItems.length > 0">
     <BaseTable
       :header="CART_HEADER"
       :data="cartItems"
@@ -39,8 +39,10 @@
       </button>
     </div>
   </template>
-
-  <div v-else class="cart-placeholder">
+  <div
+    v-else-if="cartLoaded && cartItems.length === 0"
+    class="cart-placeholder"
+  >
     <div class="cart-placeholder__wrapper">
       <p class="text-2xl">Your cart is empty</p>
       <div class="cart-placeholder__picture">
@@ -54,6 +56,7 @@
     </div>
     <NuxtLink to="/catalog" class="button_regular">Back to catalog</NuxtLink>
   </div>
+  <CartSkeleton v-else />
 </template>
 
 <script setup lang="ts">
@@ -63,7 +66,7 @@ import { CART_HEADER } from "~/constants/cart";
 
 const cartStore = useCartStore();
 
-const { cartItems, totalSum } = storeToRefs(cartStore);
+const { cartItems, cartLoaded, totalSum } = storeToRefs(cartStore);
 const { updateAmount, deleteItem, getCartItems, placeOrder } = cartStore;
 
 const emitOptions = ["deleteItem", "setAmount"];

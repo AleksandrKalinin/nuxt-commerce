@@ -1,6 +1,6 @@
 <template>
   <form ref="form" class="modal__form modal-form" @submit.prevent="updateItem">
-    <template v-for="el in INPUT_FIELDS" :key="el">
+    <template v-for="el in CATALOG_INPUT_FIELDS" :key="el">
       <input
         v-if="el.elType === 'input'"
         v-model="selectedItem[el.name]"
@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import { useAdminStore } from "~/store/admin";
-import { INPUT_FIELDS } from "~/constants/catalog";
+import { CATALOG_INPUT_FIELDS } from "~/constants/form";
 
 const props = defineProps<{
   item: CatalogItem;
