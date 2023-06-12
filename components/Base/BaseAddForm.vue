@@ -69,7 +69,6 @@ const userFunction = (values) => {
       obj[key] = curVal.value;
     }
   }
-  console.log(obj);
 };
 
 const callFunction = () => {

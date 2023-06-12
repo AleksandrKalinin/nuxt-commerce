@@ -4,6 +4,7 @@ import { useToastsStore } from "./toasts";
 export const useOrdersStore = defineStore("orders", () => {
   const client = useSupabaseClient();
   const orders: Ref<Order[] | null> = ref([]);
+  const ordersLoaded = ref(false);
 
   const toastsStore = useToastsStore();
   const { showErrorToast, showSuccessToast } = toastsStore;
@@ -12,8 +13,9 @@ export const useOrdersStore = defineStore("orders", () => {
     const { data, error } = await client
       .from("orders")
       .select("id, created_at, items, userId, user, total, status");
-    orders.value = data;
     if (error) throw error;
+    orders.value = data;
+    ordersLoaded.value = true;
   };
 
   const fetchUserOrders = async () => {
@@ -24,8 +26,9 @@ export const useOrdersStore = defineStore("orders", () => {
       .from("orders")
       .select("id, created_at, items, userId, user, total, status")
       .eq("userId", user?.id);
-    orders.value = data;
     if (error) throw error;
+    orders.value = data;
+    ordersLoaded.value = true;
   };
 
   const updateOrderStatus = async ({
@@ -53,6 +56,7 @@ export const useOrdersStore = defineStore("orders", () => {
 
   return {
     orders,
+    ordersLoaded,
     updateOrderStatus,
     fetchOrders,
     fetchUserOrders,

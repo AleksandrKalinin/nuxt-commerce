@@ -27,7 +27,7 @@ body {
 }
 
 .skeleton-bg {
-  animation: skeletonBg 1s infinite;
+  animation: skeletonBg 1.5s infinite;
 }
 
 .button-skeleton {

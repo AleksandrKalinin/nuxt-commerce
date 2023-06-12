@@ -53,7 +53,7 @@
     </div>
     <div class="cabinet__block">
       <h1 class="cabinet-block__header">Orders</h1>
-      <template v-if="data?.length">
+      <template v-if="data?.length && ordersLoaded">
         <div
           v-for="(item, index) in data"
           :key="item.id"
@@ -80,14 +80,7 @@
           />
         </div>
       </template>
-      <div v-else-if="data === null" class="preloader-wrapper">
-        <img
-          class="w-16"
-          src="~/assets/icons/oval.svg"
-          alt="Preloader"
-          loading="eager"
-        />
-      </div>
+      <TableSkeleton v-else-if="data.length === 0 && !ordersLoaded" />
       <div v-else class="preloader-wrapper">
         <p class="preloader-wrapper__text">You don't have any orders</p>
       </div>
@@ -106,7 +99,7 @@ const user = useSupabaseUser();
 const client = useSupabaseClient();
 
 const store = useOrdersStore();
-const { orders: data } = storeToRefs(store);
+const { orders: data, ordersLoaded } = storeToRefs(store);
 const { fetchUserOrders } = store;
 
 const dates = computed(() => {
