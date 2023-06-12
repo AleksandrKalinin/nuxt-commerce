@@ -57,5 +57,6 @@ export default defineNuxtConfig({
   routeRules: {
     "/admin/**": { ssr: false },
     "/": { redirect: "/catalog" },
+    "catalog/**": { ssr: false },
   },
 });

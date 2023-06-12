@@ -190,6 +190,6 @@ export const USER_INPUT_FIELDS = [
     elType: "select",
     options: [true, false],
     default: "",
-    placeholder: "User role",
+    placeholder: "Subscribed to newsletter",
   },
 ];

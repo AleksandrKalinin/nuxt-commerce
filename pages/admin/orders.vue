@@ -3,6 +3,7 @@
     title="Orders"
     button="Create order"
     :fields="ORDER_INPUT_FIELDS"
+    current-page="orders"
   />
   <div class="columns-1">
     <NuxtErrorBoundary>
@@ -31,6 +32,8 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useOrdersStore } from "~/store/orders";
+import { ORDER_INPUT_FIELDS } from "~/constants/form";
+
 definePageMeta({
   middleware: ["auth"],
   layout: "admin",

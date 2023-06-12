@@ -52,17 +52,39 @@ const store = useAdminStore();
 const { activeItem } = storeToRefs(store);
 const { addItem, selectImage } = store;
 
-defineProps<{
+const props = defineProps<{
   fields: any;
+  currentPage: string;
 }>();
 
 const modalOpen = ref(false);
 const form = ref(null);
 
+const userFunction = (values) => {
+  const obj = {};
+  for (let i = 0; i < values.length; i++) {
+    const curVal = values[i] as HTMLInputElement;
+    if (curVal.type !== "submit") {
+      const key = curVal.name;
+      obj[key] = curVal.value;
+    }
+  }
+  console.log(obj);
+};
+
 const callFunction = () => {
   const values = form.value;
   if (values) {
-    addItem(values);
+    switch (props.currentPage) {
+      case "catalog":
+        addItem(values);
+      case "orders":
+        addOrder(values);
+      case "users":
+        userFunction(values);
+      //addUser(values);
+    }
+    //addItem(values);
   }
 };
 

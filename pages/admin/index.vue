@@ -3,6 +3,7 @@
     title="Catalog"
     button="Add item"
     :fields="CATALOG_INPUT_FIELDS"
+    current-page="catalog"
   />
   <div class="columns-1">
     <NuxtErrorBoundary>

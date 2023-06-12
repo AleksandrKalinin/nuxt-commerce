@@ -7,7 +7,7 @@
     @submit.prevent="
       userExists
         ? loginUser(email, password)
-        : registerUser(email, password, isSubscribed)
+        : registerUser(email, password, isSubscribed, userId, userRole)
     "
   >
     <input v-model="email" type="email" class="modal-form__input" />
@@ -29,6 +29,7 @@
 </template>
 
 <script setup lang="ts">
+import { v4 as uuidv4 } from "uuid";
 import { useAuthStore } from "~/store/auth";
 
 const store = useAuthStore();
@@ -39,6 +40,8 @@ const user = useSupabaseUser();
 const password = ref("");
 const email = ref("");
 const isSubscribed = ref(true);
+const userRole = ref("user");
+const userId = uuidv4();
 const modalOpen = ref(false);
 const userExists = ref(true);
 const target = ref(null);

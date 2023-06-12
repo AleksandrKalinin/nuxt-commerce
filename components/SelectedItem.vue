@@ -9,6 +9,7 @@
           loading="eager"
         />
       </div>
+
       <div class="w-full p-5">
         <h1 class="selected-item__name">{{ selectedItem.name }}</h1>
         <p class="mb-1 flex items-center">
@@ -20,7 +21,8 @@
             show-rating="false"
           />
           <span class="text-base pl-4">
-            {{ ratings?.length ? ratings.length : "No" }} <span>ratings</span>
+            {{ ratings?.length ? ratings.length : "No" }}
+            <span>ratings</span>
           </span>
         </p>
         <p class="mb-1">
@@ -114,9 +116,10 @@
     </KeepAlive>
     <Gallery :items="galleryItems" />
   </section>
+  <SelectedItemSkeleton v-else />
 </template>
 
-<script setup lang="ts">
+<script async setup lang="ts">
 import { storeToRefs } from "pinia";
 import StarRating from "vue-star-rating";
 import { useCatalogStore } from "~/store/catalog";
@@ -133,7 +136,7 @@ const ratingsStore = useRatingsStore();
 const { selectedItem, visibleItems } = storeToRefs(catalogStore);
 const { ratings } = storeToRefs(ratingsStore);
 
-const { fetchSelectedItem } = catalogStore;
+const { fetchSelectedItem, fetchCatalogItems } = catalogStore;
 const { fetchRating } = ratingsStore;
 
 const id = useRoute().params.id;
@@ -154,18 +157,18 @@ const setTab = (e: Event) => {
   currentTab.value = target.getAttribute("value");
 };
 
+watch(selectedItem, () => {
+  if (selectedItem.value) {
+    fetchRating(selectedItem.value?.id);
+  }
+});
+
 const galleryItems = computed(() => {
   let random = 0;
   if (visibleItems.value) {
     random = Math.floor(Math.random() * (visibleItems.value.length - 6) + 1);
     return visibleItems.value.slice(random, random + 7);
   } else return [];
-});
-
-watch(selectedItem, () => {
-  if (selectedItem.value) {
-    fetchRating(selectedItem.value?.id);
-  }
 });
 
 const averageRating = computed(() => {
@@ -239,7 +242,10 @@ const reviews = computed(() => {
 });
 
 onMounted(() => {
-  fetchSelectedItem(id);
+  fetchCatalogItems();
+  if (id) {
+    fetchSelectedItem(id);
+  }
 });
 </script>
 

@@ -25,9 +25,11 @@
         </tr>
       </template>
       <tr v-else>
-        <td><div class="py-8">No reviews yet</div></td>
+        <td>
+          <div class="py-8 font-semibold text-zinc-400">No reviews yet</div>
+        </td>
       </tr>
-      <tr v-if="isRated === -1">
+      <tr v-if="isRated === -1 && user">
         <td>
           <form
             class="selected-reviews__form reviews-form"
@@ -93,6 +95,23 @@
               class="reviews-form__submit"
             />
           </form>
+        </td>
+      </tr>
+      <tr v-else-if="isRated === -1 && !user">
+        <td>
+          <BaseModal>
+            <template #trigger>
+              <span
+                class="cursor-pointer text-lg font-semibold"
+                @click="modalOpen = true"
+              >
+                <span class="text-sky-400">Log in</span> to leave a review
+              </span>
+            </template>
+            <template #content>
+              <BaseAuthForm />
+            </template>
+          </BaseModal>
         </td>
       </tr>
     </tbody>

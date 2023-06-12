@@ -8,7 +8,7 @@
           <button class="button_regular">{{ button }}</button>
         </template>
         <template #content>
-          <BaseAddForm :fields="fields" />
+          <BaseAddForm :fields="fields" :current-page="currentPage" />
         </template>
       </BaseModal>
     </div>
@@ -20,6 +20,7 @@ defineProps<{
   title: string;
   button: string;
   fields: any;
+  currentPage: string;
 }>();
 </script>
 

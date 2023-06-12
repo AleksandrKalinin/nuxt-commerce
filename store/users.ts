@@ -1,9 +1,14 @@
 import { defineStore } from "pinia";
-import { v4 as uuidv4 } from "uuid";
+import { useToastsStore } from "./toasts";
+import { toastHandler } from "~/utils/toastHandler";
 
 export const useUsersStore = defineStore("users", () => {
   const client = useSupabaseClient();
   const users: Ref<User[] | null> = ref([]);
+
+  const toastsStore = useToastsStore();
+
+  const { showErrorToast } = toastsStore;
 
   const fetchUsers = async () => {
     const { data, error } = await client
@@ -29,7 +34,10 @@ export const useUsersStore = defineStore("users", () => {
         subscribed: isSubscribed,
       },
     ]);
-    if (error) throw error;
+    if (error) {
+      const { toast, message } = toastHandler("registration-failed");
+      showErrorToast(toast, message);
+    }
   };
 
   return {

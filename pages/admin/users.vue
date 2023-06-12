@@ -3,7 +3,7 @@
     title="Users"
     button="Create user"
     :fields="USER_INPUT_FIELDS"
-    @modal-action="registerUser()"
+    current-page="users"
   />
   <div class="columns-1">
     <NuxtErrorBoundary>
@@ -33,7 +33,6 @@
 import { storeToRefs } from "pinia";
 import { USER_INPUT_FIELDS } from "~/constants/form";
 import { useUsersStore } from "~/store/users";
-import { useAuthStore } from "~/store/auth";
 
 definePageMeta({
   middleware: ["auth"],
@@ -46,10 +45,8 @@ const clearError = async (err) => {
 };
 
 const store = useUsersStore();
-const authStore = useAuthStore();
 
 const { users } = storeToRefs(store);
-const { registerUser } = authStore;
 
 const scrollEl = ref(null);
 </script>

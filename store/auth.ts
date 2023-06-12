@@ -34,6 +34,7 @@ export const useAuthStore = defineStore("auth", () => {
       email,
       password,
     });
+    console.log(email, password);
     if (error) {
       const { toast, message } = toastHandler("registration-failed");
       showErrorToast(toast, message);
