@@ -80,6 +80,18 @@ export function toastHandler(error: string) {
         message: "Error! Cannot update selected item",
       };
       break;
+    case "upload-to-storage-error":
+      return {
+        toast: "showErrorToast",
+        message: "Error! Unable upload image to storage",
+      };
+      break;
+    case "empty-form-fields":
+      return {
+        toast: "showErrorToast",
+        message: "Error! Please fill all necessary form fields!",
+      };
+      break;
     case "add-to-database":
       return {
         toast: "showSuccessToast",

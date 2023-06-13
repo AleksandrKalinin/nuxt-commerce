@@ -39,6 +39,7 @@
       type="submit"
       class="modal-form__submit"
       :value="activeItem ? 'Edit item' : 'Create item'"
+      :disabled="isFormFilled"
     />
   </form>
 </template>
@@ -69,6 +70,10 @@ const userFunction = (values) => {
       obj[key] = curVal.value;
     }
   }
+};
+
+const addOrder = () => {
+  console.log("fff");
 };
 
 const callFunction = () => {

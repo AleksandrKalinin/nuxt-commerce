@@ -20,6 +20,15 @@ export const useAdminStore = defineStore("admin", () => {
 
   const activeItem = ref(false);
 
+  const checkIfFilled = (values) => {
+    for (const key in values) {
+      if (values[key] === "") {
+        return false;
+      }
+    }
+    return true;
+  };
+
   const addItem = async (values: HTMLFormElement) => {
     const formValues = {
       date: new Date().toISOString(),
@@ -53,7 +62,12 @@ export const useAdminStore = defineStore("admin", () => {
                 .getPublicUrl(data?.path).data.publicUrl;
               formValues[key as keyof typeof valuesObject] = path;
 
-              if (error) throw error;
+              if (error) {
+                const { toast, message } = toastHandler(
+                  "upload-to-storage-error"
+                );
+                showSuccessToast(toast, message);
+              }
             }
           } else {
             formValues[key as keyof typeof valuesObject] = curVal.value;
@@ -61,15 +75,19 @@ export const useAdminStore = defineStore("admin", () => {
         }
       }
     }
+    if (checkIfFilled) {
+      const { error } = await client.from("catalog").insert([formValues]);
 
-    const { error } = await client.from("catalog").insert([formValues]);
-
-    if (error) {
-      const { toast, message } = toastHandler(error.code);
-      showErrorToast(toast, message);
+      if (error) {
+        const { toast, message } = toastHandler(error.code);
+        showErrorToast(toast, message);
+      } else {
+        const { toast, message } = toastHandler("add-to-database");
+        showSuccessToast(toast, message);
+      }
     } else {
-      const { toast, message } = toastHandler("add-to-database");
-      showSuccessToast(toast, message);
+      const { toast, message } = toastHandler("empty-form-fields");
+      showErrorToast(toast, message);
     }
   };
 
