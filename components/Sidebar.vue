@@ -72,7 +72,7 @@ watchDebounced(
 
 <style scoped lang="css">
 .sidebar {
-  @apply min-w-[300px] max-lg:w-full max-lg:mb-10 border bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg;
+  @apply min-w-[300px] h-full max-lg:w-full max-lg:mb-10 border bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg;
 }
 
 .sidebar-title {

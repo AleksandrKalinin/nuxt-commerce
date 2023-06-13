@@ -39,7 +39,6 @@
       type="submit"
       class="modal-form__submit"
       :value="activeItem ? 'Edit item' : 'Create item'"
-      :disabled="isFormFilled"
     />
   </form>
 </template>
@@ -72,7 +71,7 @@ const userFunction = (values) => {
   }
 };
 
-const addOrder = () => {
+const addOrder = (values) => {
   console.log("fff");
 };
 
@@ -82,13 +81,16 @@ const callFunction = () => {
     switch (props.currentPage) {
       case "catalog":
         addItem(values);
+        break;
       case "orders":
         addOrder(values);
+        break;
       case "users":
         userFunction(values);
-      //addUser(values);
+        break;
+      // addUser(values);
     }
-    //addItem(values);
+    // addItem(values);
   }
 };
 

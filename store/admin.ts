@@ -75,7 +75,7 @@ export const useAdminStore = defineStore("admin", () => {
         }
       }
     }
-    if (checkIfFilled) {
+    if (checkIfFilled(formValues)) {
       const { error } = await client.from("catalog").insert([formValues]);
 
       if (error) {
@@ -141,16 +141,21 @@ export const useAdminStore = defineStore("admin", () => {
         }
       }
     }
-    const { error } = await client
-      .from("catalog")
-      .update([formValues])
-      .eq("id", id);
-    if (error) {
-      const { toast, message } = toastHandler("item-update-error");
-      showErrorToast(toast, message);
+    if (checkIfFilled(formValues)) {
+      const { error } = await client
+        .from("catalog")
+        .update([formValues])
+        .eq("id", id);
+      if (error) {
+        const { toast, message } = toastHandler("item-update-error");
+        showErrorToast(toast, message);
+      } else {
+        const { toast, message } = toastHandler("item-update-success");
+        showSuccessToast(toast, message);
+      }
     } else {
-      const { toast, message } = toastHandler("item-update-success");
-      showSuccessToast(toast, message);
+      const { toast, message } = toastHandler("empty-form-fields");
+      showErrorToast(toast, message);
     }
   };
 

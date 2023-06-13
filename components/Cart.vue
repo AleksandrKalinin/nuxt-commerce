@@ -91,7 +91,7 @@ onMounted(() => {
     .on(
       "postgres_changes",
       { event: "*", schema: "public", table: "users" },
-      (payload) => getCartItems()
+      () => getCartItems()
     )
     .subscribe();
 });
