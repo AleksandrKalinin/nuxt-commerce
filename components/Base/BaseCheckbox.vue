@@ -1,69 +1,123 @@
 <template>
-  <label class="container">
-    <input type="checkbox" />
-    <span class="checkmark"></span>
+  <label class="mcui-checkbox">
+    <input
+      type="checkbox"
+      :name="option.label.toString()"
+      :value="option.selected"
+      @change="emit('valueChecked', option.label.toString(), props.category)"
+    />
+    <div>
+      <svg class="mcui-check" viewBox="-2 -2 35 35" aria-hidden="true">
+        <title>checkmark-circle</title>
+        <polyline points="7.57 15.87 12.62 21.07 23.43 9.93" />
+      </svg>
+    </div>
+    <div>{{ option.label }}</div>
   </label>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const emit = defineEmits(["valueChecked"]);
 
-<style scoped>
-.container {
-  display: block;
-  position: relative;
-  padding-left: 35px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  font-size: 22px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+const props = defineProps<{
+  option: any;
+  category: string;
+}>();
+</script>
+
+<style scoped lang="scss">
+.mcui-checkbox,
+.mcui-radio {
+  display: flex;
+  align-items: center;
   user-select: none;
+  padding: 0.6em 0;
+  box-sizing: border-box;
+
+  input[type="checkbox"] {
+    position: absolute !important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+  }
+
+  input[type="checkbox"] + div {
+    border: 2px solid #8d9aa9;
+    height: 30px;
+    width: 30px;
+    box-sizing: border-box;
+    border-radius: 2px;
+    position: relative;
+  }
+
+  input[type="checkbox"] ~ div:last-child {
+    padding-left: 0.5em;
+  }
+
+  input[type="checkbox"]:checked + div {
+    border-color: #0ea5e9;
+    transition: border-color 107ms cubic-bezier(0.65, 0.25, 0.56, 0.96);
+
+    .mcui-check {
+      opacity: 1;
+      transition: opacity 107ms cubic-bezier(0.65, 0.25, 0.56, 0.96);
+
+      polyline {
+        animation: dash-check 107ms cubic-bezier(0.65, 0.25, 0.56, 0.96)
+          forwards;
+      }
+    }
+  }
+
+  input[type="checkbox"]:indeterminate + div::after {
+    content: "";
+    height: 4px;
+    width: 60%;
+    left: 20%;
+    top: calc(50% - 2px);
+    position: absolute;
+    background: #8d9aa9;
+    border-radius: 1px;
+  }
+
+  input[type="checkbox"]:disabled ~ div {
+    color: #8d9aa9;
+    cursor: not-allowed;
+  }
+
+  input[type="checkbox"]:enabled ~ div {
+    cursor: default;
+  }
 }
-.container input {
-  position: absolute;
+
+.mcui-check {
+  height: 100%;
+  width: 100%;
+  transform: scale(1);
+  color: #0ea5e9;
   opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
+
+  polyline {
+    fill: none;
+    transform-origin: 50% 50%;
+    stroke-width: 5px;
+    stroke-dasharray: 22.771367900227325;
+    stroke: currentcolor;
+  }
 }
 
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
-  background-color: #eee;
+@supports (display: grid) {
+  .mcui-check {
+    polyline {
+      stroke-dashoffset: 22.771367900227325;
+    }
+  }
 }
 
-.container:hover input ~ .checkmark {
-  background-color: #ccc;
-}
-
-.container input:checked ~ .checkmark {
-  background-color: #2196f3;
-}
-
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
-.container input:checked ~ .checkmark:after {
-  display: block;
-}
-
-.container .checkmark:after {
-  left: 9px;
-  top: 5px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
+@keyframes dash-check {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 </style>

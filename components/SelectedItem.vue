@@ -54,6 +54,7 @@
           class="button_regular disabled:bg-gray-200"
           :disabled="selectedItem.in_stock < 0 ? true : false"
           show-rating="false"
+          @click="addToCart(selectedItem.id)"
         >
           <img
             class="button__image icon"
@@ -111,6 +112,7 @@
           :selected-item="selectedItem"
           :selected-properties="SELECTED_ITEM_PROPERTIES"
           :reviews="reviews"
+          @update-rating="fetchRating(selectedItem.id)"
         />
       </Transition>
     </KeepAlive>
@@ -122,9 +124,10 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import StarRating from "vue-star-rating";
+import { SELECTED_ITEM_PROPERTIES } from "~/constants/selectedItem";
 import { useCatalogStore } from "~/store/catalog";
 import { useRatingsStore } from "~/store/ratings";
-import { SELECTED_ITEM_PROPERTIES } from "~/constants/selectedItem";
+import { useCartStore } from "~/store/cart";
 
 defineProps<{
   item: CatalogItem;
@@ -132,12 +135,14 @@ defineProps<{
 
 const catalogStore = useCatalogStore();
 const ratingsStore = useRatingsStore();
+const cartStore = useCartStore();
 
 const { selectedItem, visibleItems } = storeToRefs(catalogStore);
 const { ratings } = storeToRefs(ratingsStore);
 
 const { fetchSelectedItem, fetchCatalogItems } = catalogStore;
 const { fetchRating } = ratingsStore;
+const { addToCart } = cartStore;
 
 const id = useRoute().params.id;
 

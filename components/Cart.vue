@@ -6,7 +6,7 @@
       :data="cartItems"
       :shadowed="true"
       :emit-options="emitOptions"
-      @delete-item="deleteItem"
+      @delete-item="deleteItemFromCart"
       @set-amount="setAmount"
     />
     <div class="cart-panel">
@@ -64,6 +64,8 @@ import { storeToRefs } from "pinia";
 import { useCartStore } from "~/store/cart";
 import { CART_HEADER } from "~/constants/cart";
 
+const client = useSupabaseClient();
+
 const cartStore = useCartStore();
 
 const { cartItems, cartLoaded, totalSum } = storeToRefs(cartStore);
@@ -77,8 +79,21 @@ const setAmount = ({ id, event }: { id: number; event: Event }) => {
   updateAmount(val, id);
 };
 
+const deleteItemFromCart = (id: number) => {
+  deleteItem(id);
+  getCartItems();
+};
+
 onMounted(() => {
   getCartItems();
+  client
+    .channel("table-db-changes")
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "users" },
+      () => getCartItems()
+    )
+    .subscribe();
 });
 </script>
 

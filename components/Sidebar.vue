@@ -1,7 +1,6 @@
 <template>
-  <aside class="sidebar" v-if="maxPrice && filteringOptions">
+  <aside v-if="maxPrice && filteringOptions" class="sidebar">
     <h3 class="sidebar__title sidebar-title">Filters</h3>
-
     <div class="sidebar-block sidebar__block">
       <h3 class="sidebar-block__title">Price</h3>
       <div class="sidebar-block__list filter-list">
@@ -23,17 +22,13 @@
       </h3>
       <div class="filter-section__list filter-list">
         <div class="filter-list__option">
-          <label
+          <BaseCheckbox
             v-for="option in item.value"
             :key="option.label"
-            class="flex items-center py-2"
-            ><input
-              v-model="option.selected"
-              type="checkbox"
-              class="mr-2 w-7 h-7"
-              @change="selectItem(option.label.toString(), item.category)"
-            />{{ option.label }}</label
-          >
+            :option="option"
+            :category="item.category"
+            @value-checked="selectItem(option.label.toString(), item.category)"
+          />
         </div>
       </div>
     </div>
@@ -71,7 +66,7 @@ watchDebounced(
 
 <style scoped lang="css">
 .sidebar {
-  @apply min-w-[300px] max-lg:w-full max-lg:mb-10 border bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg;
+  @apply min-w-[300px] h-full max-lg:w-full max-lg:mb-10 border bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg;
 }
 
 .sidebar-title {

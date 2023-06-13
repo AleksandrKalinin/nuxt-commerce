@@ -1,5 +1,5 @@
 <template>
-  <section class="rating-section px-5 py-10">
+  <section class="rating-section px-5 py-[50px]">
     <h2 class="mb-7 text-2xl font-semibold">Ratings and reviews</h2>
     <div class="summary flex max-xl:flex-col">
       <div

@@ -71,19 +71,26 @@ const userFunction = (values) => {
   }
 };
 
+const addOrder = (values) => {
+  console.log("fff");
+};
+
 const callFunction = () => {
   const values = form.value;
   if (values) {
     switch (props.currentPage) {
       case "catalog":
         addItem(values);
+        break;
       case "orders":
         addOrder(values);
+        break;
       case "users":
         userFunction(values);
-      //addUser(values);
+        break;
+      // addUser(values);
     }
-    //addItem(values);
+    // addItem(values);
   }
 };
 
