@@ -20,6 +20,10 @@ export default defineNuxtConfig({
       path: "~/components/base",
       global: true,
     },
+    {
+      path: "~/components/skeleton",
+      global: true,
+    },
   ],
   modules: [
     "@vueuse/nuxt",
