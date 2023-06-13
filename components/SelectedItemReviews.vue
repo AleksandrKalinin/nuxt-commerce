@@ -92,6 +92,7 @@
             <input
               type="submit"
               value="Отправить"
+              :disabled="!isFormFilled"
               class="reviews-form__submit"
             />
           </form>
@@ -120,7 +121,7 @@
 
 <script setup lang="ts">
 import StarRating from "vue-star-rating";
-import { useReviewsStore } from "~/store/reviews";
+import { useRatingsStore } from "~/store/ratings";
 import { formatDate } from "~/utils/formatDate";
 
 const props = defineProps<{
@@ -130,7 +131,7 @@ const props = defineProps<{
 
 const emit = defineEmits(["updateRating"]);
 
-const store = useReviewsStore();
+const store = useRatingsStore();
 
 const { updateReviews } = store;
 
@@ -144,6 +145,16 @@ const descriptionRating = ref(0);
 
 const reviews = computed(() => {
   return props.reviews;
+});
+
+const isFormFilled = computed(() => {
+  return (
+    qualityRating.value !== 0 &&
+    descriptionRating.value !== 0 &&
+    valueRating.value !== 0 &&
+    reviewTxt.value !== "" &&
+    reviewRating.value !== 0
+  );
 });
 
 const isRated = computed(() => {
@@ -187,6 +198,6 @@ const sendReview = async () => {
 }
 
 .reviews-form__submit {
-  @apply self-end bg-sky-400 text-white px-8 max-h-[50px] py-2 text-lg cursor-pointer tracking-wider transition duration-200 hover:bg-sky-500;
+  @apply disabled:bg-gray-200 disabled:cursor-default self-end bg-sky-400 text-white px-8 max-h-[50px] py-2 text-lg cursor-pointer tracking-wider transition duration-200 hover:bg-sky-500;
 }
 </style>
