@@ -1,5 +1,5 @@
 <template>
-  <aside class="sidebar" v-if="maxPrice && filteringOptions">
+  <aside v-if="maxPrice && filteringOptions" class="sidebar">
     <h3 class="sidebar__title sidebar-title">Filters</h3>
 
     <div class="sidebar-block sidebar__block">
@@ -29,6 +29,7 @@
             class="flex items-center py-2"
             ><input
               v-model="option.selected"
+              :name="option.label.toString()"
               type="checkbox"
               class="mr-2 w-7 h-7"
               @change="selectItem(option.label.toString(), item.category)"

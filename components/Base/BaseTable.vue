@@ -12,89 +12,94 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(item, index) in sortedItems" :key="index" class="text-left">
-        <template v-for="(option, optionId) in header" :key="optionId">
-          <td v-if="option.type === 'plain'" class="py-4">
-            {{ item[option.value] }}
-          </td>
-          <td v-if="option.type === 'date'" class="py-4">
-            {{ formatDate(new Date(item[option.value])) }}
-          </td>
-          <td v-else-if="option.type === 'image'" class="py-4">
-            <div class="table__image">
-              <img
-                class="h-full object-cover object-center"
-                :src="item[option.value]"
-                :alt="option.value"
-                loading="eager"
-              />
-            </div>
-          </td>
-          <td v-else-if="option.type === 'toggle'" class="py-4">
-            <BaseToggleInput
-              :state="item[option.value]"
-              @change="toggleVisibility($event, item.id)"
-            />
-          </td>
-          <td v-else-if="option.type === 'number'" class="py-4">
-            <input
-              v-model.number="item[option.value]"
-              min="1"
-              type="number"
-              @input="
-                option.action
-                  ? $emit(option.action, { id: item.id, event: $event })
-                  : ''
-              "
-            />
-          </td>
-          <td v-else-if="option.type === 'icon'" class="py-4">
-            <img
-              :src="images[option.value]"
-              class="table__icon"
-              :alt="images[option.value]"
-              loading="eager"
-              @click="option.action ? $emit(option.action, item.id) : ''"
-            />
-          </td>
-          <td v-else-if="option.type === 'select'" class="py-4">
-            <select
-              :name="item.name"
-              class="table__select"
-              @change="
-                option.action
-                  ? $emit(option.action, { id: item.id, event: $event })
-                  : ''
-              "
+      <TransitionGroup name="table">
+        <tr v-for="(item, index) in sortedItems" :key="index" class="text-left">
+          <template v-for="(option, optionId) in header" :key="optionId">
+            <td
+              v-if="option.type === 'plain'"
+              class="py-4 max-w-[300px] min-w-[40px] w-fit"
             >
-              <option :value="item[option.toString()]">
-                {{ item[option.value] }}
-              </option>
-              <template v-for="(el, elId) in option.options" :key="elId">
-                <option v-if="el !== item[option.value]" :value="el">
-                  {{ el }}
-                </option>
-              </template>
-            </select>
-          </td>
-          <td v-else-if="option.type === 'markup'" class="py-4">
-            <BaseModal>
-              <template #trigger>
+              {{ item[option.value] }}
+            </td>
+            <td v-if="option.type === 'date'" class="py-4">
+              {{ formatDate(new Date(item[option.value])) }}
+            </td>
+            <td v-else-if="option.type === 'image'" class="py-4">
+              <div class="table__image">
                 <img
-                  :src="images[option.value]"
-                  :alt="images[option.value]"
-                  class="w-[25px] h-[25px] cursor-pointer"
+                  class="h-full object-cover object-center"
+                  :src="item[option.value]"
+                  :alt="option.value"
                   loading="eager"
                 />
-              </template>
-              <template #content>
-                <BaseUpdateForm :item="item" :original-items="originalItems">
-                </BaseUpdateForm>
-              </template>
-            </BaseModal>
-          </td>
-        </template>
-      </tr>
+              </div>
+            </td>
+            <td v-else-if="option.type === 'toggle'" class="py-4">
+              <BaseToggleInput
+                :state="item[option.value]"
+                @change="toggleVisibility($event, item.id)"
+              />
+            </td>
+            <td v-else-if="option.type === 'number'" class="py-4">
+              <input
+                v-model.number="item[option.value]"
+                min="1"
+                type="number"
+                @input="
+                  option.action
+                    ? $emit(option.action, { id: item.id, event: $event })
+                    : ''
+                "
+              />
+            </td>
+            <td v-else-if="option.type === 'icon'" class="py-4">
+              <img
+                :src="images[option.value]"
+                class="table__icon"
+                :alt="images[option.value]"
+                loading="eager"
+                @click="option.action ? $emit(option.action, item.id) : ''"
+              />
+            </td>
+            <td v-else-if="option.type === 'select'" class="py-4">
+              <select
+                :name="item.name"
+                class="table__select"
+                @change="
+                  option.action
+                    ? $emit(option.action, { id: item.id, event: $event })
+                    : ''
+                "
+              >
+                <option :value="item[option.toString()]">
+                  {{ item[option.value] }}
+                </option>
+                <template v-for="(el, elId) in option.options" :key="elId">
+                  <option v-if="el !== item[option.value]" :value="el">
+                    {{ el }}
+                  </option>
+                </template>
+              </select>
+            </td>
+            <td v-else-if="option.type === 'markup'" class="py-4">
+              <BaseModal>
+                <template #trigger>
+                  <img
+                    :src="images[option.value]"
+                    :alt="images[option.value]"
+                    class="w-[25px] h-[25px] cursor-pointer"
+                    loading="eager"
+                  />
+                </template>
+                <template #content>
+                  <BaseUpdateForm :item="item" :original-items="originalItems">
+                  </BaseUpdateForm>
+                </template>
+              </BaseModal>
+            </td>
+          </template>
+        </tr>
+      </TransitionGroup>
     </tbody>
   </table>
 </template>
@@ -177,7 +182,7 @@ const sortedItems = computed(() => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="css">
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   opacity: 1;
@@ -201,5 +206,19 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .table__select {
   @apply h-12 bg-white border rounded-none px-3;
+}
+
+.table-enter-active,
+.table-leave-active {
+  transition: opacity 0.1s ease;
+}
+
+.table-enter-active {
+  transition-delay: 0.15s;
+}
+
+.table-enter-from,
+.table-leave-to {
+  opacity: 0.5;
 }
 </style>
