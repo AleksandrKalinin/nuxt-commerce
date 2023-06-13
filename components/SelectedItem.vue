@@ -111,6 +111,7 @@
           :selected-item="selectedItem"
           :selected-properties="SELECTED_ITEM_PROPERTIES"
           :reviews="reviews"
+          @update-rating="fetchRating(selectedItem.id)"
         />
       </Transition>
     </KeepAlive>

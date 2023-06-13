@@ -3,6 +3,8 @@
     class="container mx-auto p-10 flex min-h-[calc(100vh-160px)] max-lg:flex-col"
   >
     <Sidebar />
+    <SelectedItem />
+    <!--
     <NuxtErrorBoundary>
       <SelectedItem />
       <template #error="{ error }">
@@ -21,7 +23,7 @@
           </p>
         </div>
       </template>
-    </NuxtErrorBoundary>
+    </NuxtErrorBoundary> -->
   </div>
 </template>
 

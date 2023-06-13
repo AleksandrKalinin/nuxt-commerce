@@ -128,7 +128,10 @@ const props = defineProps<{
   reviews: Review[];
 }>();
 
+const emit = defineEmits(["updateRating"]);
+
 const store = useReviewsStore();
+
 const { updateReviews } = store;
 
 const user = useSupabaseUser();
@@ -151,7 +154,7 @@ const isRated = computed(() => {
   } else return -1;
 });
 
-const sendReview = () => {
+const sendReview = async () => {
   const review = {} as Review;
   const ratingObj = {} as RatingBreakdown;
   review.date = new Date();
@@ -164,7 +167,8 @@ const sendReview = () => {
   review.rating = ratingObj;
   review.description = reviewTxt.value;
   review.author = user.value?.email;
-  updateReviews(review);
+  await updateReviews(review);
+  emit("updateRating");
 };
 </script>
 
