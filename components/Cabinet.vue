@@ -32,7 +32,7 @@
           <div class="">
             <h3 class="info-item__title">Registration date</h3>
             <h4 class="text-lg">
-              {{ formatDate(new Date(user?.created_at)) }}
+              {{ formatDate(new Date(user!.created_at)) }}
             </h4>
           </div>
         </div>
@@ -42,12 +42,12 @@
       <h1 class="cabinet-block__header">Notification settings</h1>
       <div class="cabinet-block__content">
         <p class="flex items-center text-xl mb-3">
+          <input class="mr-3 w-[20px] h-[20px]" type="checkbox" />
           I want to receive news and promotions by email
-          <input class="ml-3 w-[20px] h-[20px]" type="checkbox" />
         </p>
         <p class="flex items-center text-xl mb-3">
+          <input class="mr-3 w-[20px] h-[20px]" type="checkbox" />
           Send me notifications about my orders status
-          <input class="ml-3 w-[20px] h-[20px]" type="checkbox" />
         </p>
       </div>
     </div>
@@ -64,13 +64,9 @@
             Order <span class="font-semibold">№{{ item.id }}</span
             >, Items: <span class="font-semibold">{{ item.items.length }}</span
             >, Total: <span class="font-semibold">${{ item.total }}</span
-            ><span
-              class="cabinet-orders__status"
-              :class="
-                item.status === 'Cancelled' ? 'text-red-600' : 'text-green-600'
-              "
-              >{{ item.status }}</span
-            >
+            ><span class="cabinet-orders__status" :class="itemsStatus[index]">{{
+              item.status
+            }}</span>
           </div>
           <BaseTable
             v-if="item.items.length"
@@ -80,7 +76,7 @@
           />
         </div>
       </template>
-      <TableSkeleton v-else-if="data.length === 0 && !ordersLoaded" />
+      <TableSkeleton v-else-if="data?.length === 0 && !ordersLoaded" />
       <div v-else class="preloader-wrapper">
         <p class="preloader-wrapper__text">You don't have any orders</p>
       </div>
@@ -103,10 +99,31 @@ const { orders: data, ordersLoaded } = storeToRefs(store);
 const { fetchUserOrders } = store;
 
 const dates = computed(() => {
-  return data.value?.map((item) => {
-    const created = new Date(item.created_at);
-    return formatDate(created);
-  });
+  if (data.value) {
+    return data.value?.map((item) => {
+      const created = new Date(item.created_at);
+      return formatDate(created);
+    });
+  } else return [];
+});
+
+const itemsStatus = computed(() => {
+  if (data.value) {
+    return data.value?.map((item) => {
+      switch (item.status) {
+        case "Cancelled":
+          return "text-red-600";
+        case "Pending":
+          return "text-sky-600";
+        case "Completed":
+          return "text-green-600";
+        default:
+          return "sky-blue-400";
+      }
+    });
+  } else {
+    return [];
+  }
 });
 
 const logoutUser = () => {
@@ -148,14 +165,25 @@ onMounted(() => {
   @apply flex justify-between max-lg:flex-col;
 }
 .cabinet-info__item {
-  @apply mb-5 bg-white h-[120px] lg:min-w-[320px] w-[calc(100%/3-50px)] max-lg:w-full flex justify-between items-center border border-white shadow-[0_-1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg px-4 overflow-hidden;
+  @apply relative mb-5 bg-white h-[120px] lg:min-w-[320px] w-[calc(100%/3-50px)] max-lg:w-full flex justify-between items-center border border-white shadow-[0_-1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg px-4 overflow-hidden;
 }
 
 .cabinet-orders__status {
-  @apply ml-4 text-red-700 font-semibold;
+  @apply ml-4 font-semibold;
 }
 
 .info-item__title {
   @apply text-2xl font-semibold mb-2;
+}
+
+.cabinet-info__item::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #38bdf8;
+  width: 100%;
+  height: 8px;
+  z-index: 999;
 }
 </style>

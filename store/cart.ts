@@ -38,13 +38,16 @@ export const useCartStore = defineStore("cart", () => {
   };
 
   const totalSum = computed(() => {
-    return cartItems.value.reduce((acc: number, item: CartItem) => {
-      if (item.amount) {
-        return (acc += item.price * item.amount);
-      } else {
-        return (acc += item.price);
-      }
-    }, 0);
+    return (cartItems.value as CartItem[]).reduce(
+      (acc: number, item: CartItem) => {
+        if (item.amount) {
+          return (acc += item.price * item.amount);
+        } else {
+          return (acc += item.price);
+        }
+      },
+      0
+    );
   });
 
   const addToCart = async (id: number) => {
@@ -60,12 +63,13 @@ export const useCartStore = defineStore("cart", () => {
         ) as unknown as CartItem;
         item.amount = 1;
         item.total = item.amount * item.price;
-        cartItems.value.push(item);
+        (cartItems.value as CartItem[]).push(item);
       } else {
         cartItems.value[present].amount =
           Number(cartItems.value[present].amount) + 1;
         cartItems.value[present].total =
-          cartItems.value[present].amount * cartItems.value[present].price;
+          Number(cartItems.value[present].amount) *
+          cartItems.value[present].price;
       }
       const { error } = await client
         .from("users")

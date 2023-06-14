@@ -33,7 +33,7 @@ declare global {
     author: string | undefined;
     date: Date;
     description: string;
-    rating: RatingBreakdown;
+    rating: RatingBreakdown | string;
   }
 
   interface FormattedReview {
@@ -43,7 +43,7 @@ declare global {
     author: string | undefined;
     date: Date;
     description: string;
-    rating: number;
+    rating: number | RatingBreakdown;
   }
 
   interface CatalogItem {
@@ -74,8 +74,13 @@ declare global {
     reviews: Review[];
   }
 
+  type CatalogItemTable = Pick<
+    CatalogItem,
+    "id" | "name" | "photo" | "item_code" | "date" | "in_stock" | "is_visible"
+  >;
+
   interface Order {
-    id?: number;
+    id: number;
     created_at: Date;
     items: CatalogItem[];
     userId: string;
@@ -83,6 +88,11 @@ declare global {
     total: number;
     status: OrderStatus;
   }
+
+  type OrderItemTable = Pick<
+    Order,
+    "id" | "created_at" | "user" | "total" | "status"
+  >;
 
   interface SelectOption {
     label: string | number;
@@ -189,4 +199,15 @@ declare global {
     action?: string;
     options?: string[];
   }
+
+  interface ValueElement {
+    name: string;
+    value: string;
+  }
+
+  type KeysOfUnion<T> = T extends T ? keyof T : never;
+
+  type BaseItem = CatalogItemTable | OrderItemTable | User;
+
+  type AvailableKeys = KeysOfUnion<BaseItem>;
 }

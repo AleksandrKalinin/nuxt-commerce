@@ -10,8 +10,18 @@
         : registerUser(email, password, isSubscribed, userId, userRole)
     "
   >
-    <input v-model="email" type="email" class="modal-form__input" />
-    <input v-model="password" type="password" class="modal-form__input" />
+    <input
+      v-model="email"
+      type="email"
+      class="modal-form__input"
+      name="email"
+    />
+    <input
+      v-model="password"
+      type="password"
+      class="modal-form__input"
+      name="password"
+    />
     <div v-if="!userExists" class="flex justify-between py-4">
       <p class="text-lg max-w-[320px]">Subscribe to newsletter</p>
       <BaseToggleInput :state="isSubscribed" @change="setSubscription" />

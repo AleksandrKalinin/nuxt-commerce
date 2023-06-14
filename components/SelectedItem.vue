@@ -54,6 +54,7 @@
           class="button_regular disabled:bg-gray-200"
           :disabled="selectedItem.in_stock < 0 ? true : false"
           show-rating="false"
+          @click="addToCart(selectedItem.id)"
         >
           <img
             class="button__image icon"
@@ -111,6 +112,7 @@
           :selected-item="selectedItem"
           :selected-properties="SELECTED_ITEM_PROPERTIES"
           :reviews="reviews"
+          @update-rating="fetchRating(selectedItem.id)"
         />
       </Transition>
     </KeepAlive>
@@ -122,9 +124,10 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import StarRating from "vue-star-rating";
+import { SELECTED_ITEM_PROPERTIES } from "~/constants/selectedItem";
 import { useCatalogStore } from "~/store/catalog";
 import { useRatingsStore } from "~/store/ratings";
-import { SELECTED_ITEM_PROPERTIES } from "~/constants/selectedItem";
+import { useCartStore } from "~/store/cart";
 
 defineProps<{
   item: CatalogItem;
@@ -132,12 +135,14 @@ defineProps<{
 
 const catalogStore = useCatalogStore();
 const ratingsStore = useRatingsStore();
+const cartStore = useCartStore();
 
 const { selectedItem, visibleItems } = storeToRefs(catalogStore);
 const { ratings } = storeToRefs(ratingsStore);
 
 const { fetchSelectedItem, fetchCatalogItems } = catalogStore;
 const { fetchRating } = ratingsStore;
+const { addToCart } = cartStore;
 
 const id = useRoute().params.id;
 
@@ -175,7 +180,7 @@ const averageRating = computed(() => {
   if (ratings.value?.length) {
     return (
       ratings.value?.reduce((sum, item) => {
-        return (sum += JSON.parse(item.rating).overall);
+        return (sum += JSON.parse(item.rating as string).overall);
       }, 0) / ratings.value?.length
     ).toFixed(1);
   } else {
@@ -187,7 +192,7 @@ const valueRating = computed(() => {
   if (ratings.value?.length) {
     return (
       (ratings.value?.reduce((sum, item) => {
-        return (sum += JSON.parse(item.rating).value);
+        return (sum += JSON.parse(item.rating as string).value);
       }, 0) /
         ratings.value?.length) *
       20
@@ -201,7 +206,7 @@ const qualityRating = computed(() => {
   if (ratings.value?.length) {
     return (
       (ratings.value?.reduce((sum, item) => {
-        return (sum += JSON.parse(item.rating).quality);
+        return (sum += JSON.parse(item.rating as string).quality);
       }, 0) /
         ratings.value?.length) *
       20
@@ -215,7 +220,7 @@ const descriptionRating = computed(() => {
   if (ratings.value?.length) {
     return (
       (ratings.value?.reduce((sum, item) => {
-        return (sum += JSON.parse(item.rating).description);
+        return (sum += JSON.parse(item.rating as string).description);
       }, 0) /
         ratings.value?.length) *
       20
@@ -233,7 +238,7 @@ const reviews = computed(() => {
       review.description = item.description;
       review.author = item.author;
       review.date = item.date;
-      review.rating = JSON.parse(item.rating);
+      review.rating = JSON.parse(item.rating as string);
       return review;
     });
   } else {

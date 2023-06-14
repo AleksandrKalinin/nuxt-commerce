@@ -1,5 +1,5 @@
 <template>
-  <section class="rating-section px-5 py-10">
+  <section class="rating-section px-5 py-[50px]">
     <h2 class="mb-7 text-2xl font-semibold">Ratings and reviews</h2>
     <div class="summary flex max-xl:flex-col">
       <div
@@ -112,7 +112,7 @@ const averageRating = computed(() => {
 });
 
 const scores = computed(() => {
-  const obj = {
+  const obj: Record<number, number> = {
     5: 0,
     4: 0,
     3: 0,
@@ -122,16 +122,15 @@ const scores = computed(() => {
 
   if (props.reviews.length) {
     props.reviews.forEach((item) => {
-      const rating = item.rating.overall;
+      const rating = (item.rating as RatingBreakdown).overall;
       obj[rating] = obj[rating] + 1;
     });
   }
 
   const result = Object.keys(obj).map((key) => ({
     score: Number(key),
-    value: obj[key],
+    value: obj[key as unknown as number],
   }));
-
   return result;
 });
 

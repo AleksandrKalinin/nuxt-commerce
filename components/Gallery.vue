@@ -54,6 +54,15 @@ const maxWidth = computed(() => {
   @apply text-3xl font-semibold;
 }
 
+.carousel {
+  text-align: left;
+}
+
+li.carousel__slide {
+  text-align: inherit;
+  padding: 10px 0;
+}
+
 .carousel__prev {
   margin-left: 0;
 }
