@@ -46,6 +46,16 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useAdminStore } from "~/store/admin";
+import {
+  CATALOG_INPUT_FIELDS,
+  ORDER_INPUT_FIELDS,
+  USER_INPUT_FIELDS,
+} from "~/constants/form";
+
+type INPUT_UNION =
+  | typeof CATALOG_INPUT_FIELDS
+  | typeof ORDER_INPUT_FIELDS
+  | typeof USER_INPUT_FIELDS;
 
 const store = useAdminStore();
 
@@ -53,26 +63,33 @@ const { activeItem } = storeToRefs(store);
 const { addItem, selectImage } = store;
 
 const props = defineProps<{
-  fields: any;
+  fields: INPUT_UNION;
   currentPage: string;
 }>();
 
 const modalOpen = ref(false);
 const form = ref(null);
 
-const userFunction = (values) => {
-  const obj = {};
+const addUser = (values: HTMLInputElement[]) => {
+  const obj = {} as BaseItem;
   for (let i = 0; i < values.length; i++) {
     const curVal = values[i] as HTMLInputElement;
     if (curVal.type !== "submit") {
       const key = curVal.name;
-      obj[key] = curVal.value;
+      (obj[key as keyof BaseItem] as unknown as string) = curVal.value;
     }
   }
 };
 
-const addOrder = (values) => {
-  console.log("fff");
+const addOrder = (values: HTMLInputElement[]) => {
+  const obj = {} as BaseItem;
+  for (let i = 0; i < values.length; i++) {
+    const curVal = values[i] as HTMLInputElement;
+    if (curVal.type !== "submit") {
+      const key = curVal.name;
+      (obj[key as keyof BaseItem] as unknown as string) = curVal.value;
+    }
+  }
 };
 
 const callFunction = () => {
@@ -86,7 +103,7 @@ const callFunction = () => {
         addOrder(values);
         break;
       case "users":
-        userFunction(values);
+        addUser(values);
         break;
       // addUser(values);
     }

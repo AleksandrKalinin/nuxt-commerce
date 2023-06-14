@@ -32,7 +32,7 @@
           <div class="">
             <h3 class="info-item__title">Registration date</h3>
             <h4 class="text-lg">
-              {{ formatDate(new Date(user?.created_at)) }}
+              {{ formatDate(new Date(user!.created_at)) }}
             </h4>
           </div>
         </div>
@@ -76,7 +76,7 @@
           />
         </div>
       </template>
-      <TableSkeleton v-else-if="data.length === 0 && !ordersLoaded" />
+      <TableSkeleton v-else-if="data?.length === 0 && !ordersLoaded" />
       <div v-else class="preloader-wrapper">
         <p class="preloader-wrapper__text">You don't have any orders</p>
       </div>
@@ -99,25 +99,31 @@ const { orders: data, ordersLoaded } = storeToRefs(store);
 const { fetchUserOrders } = store;
 
 const dates = computed(() => {
-  return data.value?.map((item) => {
-    const created = new Date(item.created_at);
-    return formatDate(created);
-  });
+  if (data.value) {
+    return data.value?.map((item) => {
+      const created = new Date(item.created_at);
+      return formatDate(created);
+    });
+  } else return [];
 });
 
 const itemsStatus = computed(() => {
-  return data.value.map((item) => {
-    switch (item.status) {
-      case "Cancelled":
-        return "text-red-600";
-      case "Pending":
-        return "text-sky-600";
-      case "Completed":
-        return "text-green-600";
-      default:
-        return "sky-blue-400";
-    }
-  });
+  if (data.value) {
+    return data.value?.map((item) => {
+      switch (item.status) {
+        case "Cancelled":
+          return "text-red-600";
+        case "Pending":
+          return "text-sky-600";
+        case "Completed":
+          return "text-green-600";
+        default:
+          return "sky-blue-400";
+      }
+    });
+  } else {
+    return [];
+  }
 });
 
 const logoutUser = () => {

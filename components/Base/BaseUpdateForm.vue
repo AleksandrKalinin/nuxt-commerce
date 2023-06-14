@@ -3,7 +3,7 @@
     <template v-for="el in CATALOG_INPUT_FIELDS" :key="el">
       <input
         v-if="el.elType === 'input'"
-        v-model="selectedItem[el.name]"
+        v-model="selectedItem[el.name as keyof typeof selectedItem]"
         :name="el.name"
         :placeholder="el.placeholder"
         class="modal-form__input"
@@ -40,8 +40,8 @@ import { useAdminStore } from "~/store/admin";
 import { CATALOG_INPUT_FIELDS } from "~/constants/form";
 
 const props = defineProps<{
-  item: CatalogItem;
-  originalItems: CatalogItem[];
+  item: CatalogItem | OrderItem | User;
+  originalItems: CatalogItem[] | undefined;
 }>();
 
 const store = useAdminStore();
@@ -64,7 +64,10 @@ const updateItem = () => {
 
 const selectedItem = computed(() => {
   const id = props.item.id;
-  return props.originalItems.find((item) => item.id === id);
+  const el = props.originalItems?.find((item) => item.id === id);
+  if (el) {
+    return el;
+  } else return {};
 });
 </script>
 

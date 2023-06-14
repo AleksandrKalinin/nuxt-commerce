@@ -9,7 +9,7 @@
                 <div>
                   <h6 class="text-lg font-semibold">{{ item.author }}</h6>
                   <star-rating
-                    v-model:rating="item.rating.overall"
+                    v-model:rating="(item.rating as RatingBreakdown).overall"
                     star-size="15"
                     read-only
                     :show-rating="false"

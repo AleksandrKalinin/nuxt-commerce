@@ -112,7 +112,7 @@ const averageRating = computed(() => {
 });
 
 const scores = computed(() => {
-  const obj = {
+  const obj: Record<number, number> = {
     5: 0,
     4: 0,
     3: 0,
@@ -122,16 +122,15 @@ const scores = computed(() => {
 
   if (props.reviews.length) {
     props.reviews.forEach((item) => {
-      const rating = item.rating.overall;
+      const rating = (item.rating as RatingBreakdown).overall;
       obj[rating] = obj[rating] + 1;
     });
   }
 
   const result = Object.keys(obj).map((key) => ({
     score: Number(key),
-    value: obj[key],
+    value: obj[key as unknown as number],
   }));
-
   return result;
 });
 
