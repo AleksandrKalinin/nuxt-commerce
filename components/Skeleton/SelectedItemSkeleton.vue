@@ -4,7 +4,6 @@
       <div class="p-5">
         <div class="selected-item__image skeleton-bg rounded-md"></div>
       </div>
-
       <div class="w-full p-5">
         <h1
           class="selected-item__name skeleton-bg w-full h-[36px] rounded-md"

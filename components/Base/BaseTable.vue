@@ -19,16 +19,16 @@
               v-if="option.type === 'plain'"
               class="py-4 max-w-[300px] min-w-[40px] w-fit"
             >
-              {{ item[option.value] }}
+              {{ item[option.value as keyof BaseItem] }}
             </td>
             <td v-if="option.type === 'date'" class="py-4">
-              {{ formatDate(new Date(item[option.value])) }}
+              {{ formatDate(new Date(item[option.value as keyof BaseItem])) }}
             </td>
             <td v-else-if="option.type === 'image'" class="py-4">
               <div class="table__image">
                 <img
                   class="h-full object-cover object-center"
-                  :src="item[option.value]"
+                  :src="item[option.value as keyof BaseItem].toString()"
                   :alt="option.value"
                   loading="eager"
                 />
@@ -36,13 +36,13 @@
             </td>
             <td v-else-if="option.type === 'toggle'" class="py-4">
               <BaseToggleInput
-                :state="item[option.value]"
+                :state="(item[option.value as keyof BaseItem] as unknown as boolean)"
                 @change="toggleVisibility($event, item.id)"
               />
             </td>
             <td v-else-if="option.type === 'number'" class="py-4">
               <input
-                v-model.number="item[option.value]"
+                v-model.number="item[option.value as keyof BaseItem]"
                 min="1"
                 type="number"
                 @input="
@@ -63,7 +63,6 @@
             </td>
             <td v-else-if="option.type === 'select'" class="py-4">
               <select
-                :name="item.name"
                 class="table__select"
                 @change="
                   option.action
@@ -71,11 +70,14 @@
                     : ''
                 "
               >
-                <option :value="item[option.toString()]">
-                  {{ item[option.value] }}
+                <option :value="item[option.toString() as keyof BaseItem]">
+                  {{ item[option.value as keyof BaseItem] }}
                 </option>
                 <template v-for="(el, elId) in option.options" :key="elId">
-                  <option v-if="el !== item[option.value]" :value="el">
+                  <option
+                    v-if="el !== item[option.value as keyof BaseItem].toString()"
+                    :value="el"
+                  >
                     {{ el }}
                   </option>
                 </template>
@@ -92,7 +94,10 @@
                   />
                 </template>
                 <template #content>
-                  <BaseUpdateForm :item="item" :original-items="originalItems">
+                  <BaseUpdateForm
+                    :item="(item as CatalogItem | OrderItem | User)"
+                    :original-items="originalItems"
+                  >
                   </BaseUpdateForm>
                 </template>
               </BaseModal>
@@ -113,14 +118,14 @@ import { useAdminStore } from "~/store/admin";
 interface BaseTableProps {
   header: BaseTableHeader[];
   shadowed: boolean;
-  data: Array<CatalogItem> | Array<OrderItem> | Array<User>;
+  data: Array<CatalogItemTable> | Array<OrderItemTable> | Array<User>;
   originalItems?: CatalogItem[];
   emitOptions?: string[];
 }
 
 const props = defineProps<BaseTableProps>();
 
-const defineEmits = props.emitOptions;
+// const defineEmits = props.emitOptions;
 
 const store = useFilterStore();
 const adminStore = useAdminStore();
@@ -141,12 +146,17 @@ const images = computed(() => {
 });
 
 const filteredItems = computed(() => {
-  return props.data.filter((item: CatalogItem | OrderItem | User) => {
-    return item.id
-      .toString()
-      .toLowerCase()
-      .includes(searchValue.value.toLowerCase());
-  });
+  if (props.data.length) {
+    const arr: CatalogItemTable[] | OrderItemTable[] | User[] = props.data;
+    return (arr as Array<CatalogItemTable | OrderItemTable | User>).filter(
+      (item) => {
+        return item.id
+          .toString()
+          .toLowerCase()
+          .includes(searchValue.value.toLowerCase());
+      }
+    );
+  } else return [];
 });
 
 const sortedItems = computed(() => {
@@ -157,24 +167,26 @@ const sortedItems = computed(() => {
   } else {
     if (order === true) {
       return [
-        ...filteredItems.value.sort((a: CatalogItem, b: CatalogItem) => {
-          if (a[val as keyof CatalogItem] === "") return +1;
-          else if (b[val as keyof CatalogItem] === "") return -1;
-          else
-            return a[val as keyof CatalogItem]
+        ...filteredItems.value.sort((a: BaseItem, b: BaseItem) => {
+          if ((a[val as keyof BaseItem] as unknown as string) === "") return +1;
+          else if ((b[val as keyof BaseItem] as unknown as string) === "")
+            return -1;
+          else {
+            return a[val as keyof BaseItem]
               .toString()
-              .localeCompare(b[val as keyof CatalogItem].toString());
+              .localeCompare(b[val as keyof BaseItem].toString());
+          }
         }),
       ];
     } else {
       return [
-        ...filteredItems.value.sort((a: CatalogItem, b: CatalogItem) => {
-          if (a[val as keyof CatalogItem] === "") return +1;
-          if (b[val as keyof CatalogItem] === "") return -1;
+        ...filteredItems.value.sort((a: BaseItem, b: BaseItem) => {
+          if ((a[val as keyof BaseItem] as unknown as string) === "") return +1;
+          if ((b[val as keyof BaseItem] as unknown as string) === "") return -1;
           else
-            return b[val as keyof CatalogItem]
+            return b[val as keyof BaseItem]
               .toString()
-              .localeCompare(a[val as keyof CatalogItem].toString());
+              .localeCompare(a[val as keyof BaseItem].toString());
         }),
       ];
     }

@@ -20,7 +20,7 @@ export const useAdminStore = defineStore("admin", () => {
 
   const activeItem = ref(false);
 
-  const checkIfFilled = (values) => {
+  const checkIfFilled = (values: any) => {
     for (const key in values) {
       if (values[key] === "") {
         return false;
@@ -36,10 +36,10 @@ export const useAdminStore = defineStore("admin", () => {
       rating: 0,
     } as CatalogItem;
 
-    const valuesObject = Array.from(values).reduce(
-      (obj, item) => Object.assign(obj, { [item.name]: item.value }),
-      {}
-    ) as CatalogItem;
+    const valuesObject = Array.from(values).reduce((obj, item) => {
+      const convertedItem = item as unknown as ValueElement;
+      return Object.assign(obj, { [convertedItem.name]: convertedItem.value });
+    }, {}) as CatalogItem;
 
     if (values) {
       for (let i = 0; i < values.length; i++) {
@@ -109,10 +109,10 @@ export const useAdminStore = defineStore("admin", () => {
       rating: 0,
     } as CatalogItem;
 
-    const valuesObject = Array.from(values).reduce(
-      (obj, item) => Object.assign(obj, { [item.name]: item.value }),
-      {}
-    ) as CatalogItem;
+    const valuesObject = Array.from(values).reduce((obj, item) => {
+      const convertedItem = item as unknown as ValueElement;
+      return Object.assign(obj, { [convertedItem.name]: convertedItem.value });
+    }, {}) as CatalogItem;
 
     if (values) {
       for (let i = 0; i < values.length; i++) {

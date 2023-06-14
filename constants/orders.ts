@@ -10,6 +10,11 @@ export const ORDERS_HEADER = [
     type: "date",
   },
   {
+    label: "User",
+    value: "user",
+    type: "plain",
+  },
+  {
     label: "Total",
     value: "total",
     type: "plain",

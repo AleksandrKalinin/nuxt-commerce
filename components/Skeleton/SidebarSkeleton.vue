@@ -3,7 +3,6 @@
     <h3
       class="sidebar__title sidebar-title skeleton-bg h-[32px] my-[16px] rounded-md mx-5"
     ></h3>
-
     <div class="sidebar-block sidebar__block">
       <h3 class="sidebar-block__title skeleton-bg h-[28px] rounded-md"></h3>
       <div

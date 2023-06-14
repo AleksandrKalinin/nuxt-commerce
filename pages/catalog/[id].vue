@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-const clearError = async (err) => {
+const clearError = async (err: any) => {
   await navigateTo("/catalog");
   err.value = null;
 };

@@ -180,7 +180,7 @@ const averageRating = computed(() => {
   if (ratings.value?.length) {
     return (
       ratings.value?.reduce((sum, item) => {
-        return (sum += JSON.parse(item.rating).overall);
+        return (sum += JSON.parse(item.rating as string).overall);
       }, 0) / ratings.value?.length
     ).toFixed(1);
   } else {
@@ -192,7 +192,7 @@ const valueRating = computed(() => {
   if (ratings.value?.length) {
     return (
       (ratings.value?.reduce((sum, item) => {
-        return (sum += JSON.parse(item.rating).value);
+        return (sum += JSON.parse(item.rating as string).value);
       }, 0) /
         ratings.value?.length) *
       20
@@ -206,7 +206,7 @@ const qualityRating = computed(() => {
   if (ratings.value?.length) {
     return (
       (ratings.value?.reduce((sum, item) => {
-        return (sum += JSON.parse(item.rating).quality);
+        return (sum += JSON.parse(item.rating as string).quality);
       }, 0) /
         ratings.value?.length) *
       20
@@ -220,7 +220,7 @@ const descriptionRating = computed(() => {
   if (ratings.value?.length) {
     return (
       (ratings.value?.reduce((sum, item) => {
-        return (sum += JSON.parse(item.rating).description);
+        return (sum += JSON.parse(item.rating as string).description);
       }, 0) /
         ratings.value?.length) *
       20
@@ -238,7 +238,7 @@ const reviews = computed(() => {
       review.description = item.description;
       review.author = item.author;
       review.date = item.date;
-      review.rating = JSON.parse(item.rating);
+      review.rating = JSON.parse(item.rating as string);
       return review;
     });
   } else {
