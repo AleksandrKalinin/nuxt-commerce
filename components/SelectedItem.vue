@@ -17,8 +17,8 @@
           <star-rating
             v-model:rating="averageRating"
             read-only
-            star-size="20"
-            show-rating="false"
+            :star-size="20"
+            :show-rating="false"
           />
           <span class="text-base pl-4">
             {{ ratings?.length ? ratings.length : "No" }}
@@ -130,10 +130,6 @@ import { useCatalogStore } from "~/store/catalog";
 import { useRatingsStore } from "~/store/ratings";
 import { useCartStore } from "~/store/cart";
 
-defineProps<{
-  item: CatalogItem;
-}>();
-
 const catalogStore = useCatalogStore();
 const ratingsStore = useRatingsStore();
 const cartStore = useCartStore();
@@ -179,11 +175,13 @@ const galleryItems = computed(() => {
 
 const averageRating = computed(() => {
   if (ratings.value?.length) {
-    return (
-      ratings.value?.reduce((sum, item) => {
-        return (sum += JSON.parse(item.rating as string).overall);
-      }, 0) / ratings.value?.length
-    ).toFixed(1);
+    return Number(
+      (
+        ratings.value?.reduce((sum, item) => {
+          return (sum += JSON.parse(item.rating as string).overall);
+        }, 0) / ratings.value?.length
+      ).toFixed(0)
+    );
   } else {
     return 0;
   }
@@ -191,13 +189,15 @@ const averageRating = computed(() => {
 
 const valueRating = computed(() => {
   if (ratings.value?.length) {
-    return (
-      (ratings.value?.reduce((sum, item) => {
-        return (sum += JSON.parse(item.rating as string).value);
-      }, 0) /
-        ratings.value?.length) *
-      20
-    ).toFixed(1);
+    return Number(
+      (
+        (ratings.value?.reduce((sum, item) => {
+          return (sum += JSON.parse(item.rating as string).value);
+        }, 0) /
+          ratings.value?.length) *
+        20
+      ).toFixed(1)
+    );
   } else {
     return 0;
   }
@@ -205,13 +205,15 @@ const valueRating = computed(() => {
 
 const qualityRating = computed(() => {
   if (ratings.value?.length) {
-    return (
-      (ratings.value?.reduce((sum, item) => {
-        return (sum += JSON.parse(item.rating as string).quality);
-      }, 0) /
-        ratings.value?.length) *
-      20
-    ).toFixed(1);
+    return Number(
+      (
+        (ratings.value?.reduce((sum, item) => {
+          return (sum += JSON.parse(item.rating as string).quality);
+        }, 0) /
+          ratings.value?.length) *
+        20
+      ).toFixed(1)
+    );
   } else {
     return 0;
   }
@@ -219,13 +221,15 @@ const qualityRating = computed(() => {
 
 const descriptionRating = computed(() => {
   if (ratings.value?.length) {
-    return (
-      (ratings.value?.reduce((sum, item) => {
-        return (sum += JSON.parse(item.rating as string).description);
-      }, 0) /
-        ratings.value?.length) *
-      20
-    ).toFixed(1);
+    return Number(
+      (
+        (ratings.value?.reduce((sum, item) => {
+          return (sum += JSON.parse(item.rating as string).description);
+        }, 0) /
+          ratings.value?.length) *
+        20
+      ).toFixed(1)
+    );
   } else {
     return 0;
   }

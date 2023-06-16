@@ -13,8 +13,8 @@
           </h3>
           <star-rating
             v-model:rating="averageRating"
-            star-size="20"
-            show-rating="false"
+            :star-size="20"
+            :show-rating="false"
             read-only
           />
           <p class="mt-2 text-base text-zinc-600">
@@ -56,10 +56,10 @@
             :percent="priceRating"
             fill-color="#52525B"
             empty-color="#E4E4E7"
-            show-percent="true"
-            size="80"
-            border-width="5"
-            border-bg-width="5"
+            :show-percent="true"
+            :size="80"
+            :border-width="5"
+            :border-bg-width="5"
           />
           <h5 class="text-base text-zinc-600 mt-2">Good price</h5>
         </div>
@@ -70,10 +70,10 @@
             :percent="qualityRating"
             fill-color="#52525B"
             empty-color="#E4E4E7"
-            show-percent="true"
-            size="80"
-            border-width="5"
-            border-bg-width="5"
+            :show-percent="true"
+            :size="80"
+            :border-width="5"
+            :border-bg-width="5"
           />
           <h5 class="text-base text-zinc-600 mt-2">Quality</h5>
         </div>
@@ -84,10 +84,10 @@
             :percent="descriptionRating"
             fill-color="#52525B"
             empty-color="#E4E4E7"
-            show-percent="true"
-            size="80"
-            border-width="5"
-            border-bg-width="5"
+            :show-percent="true"
+            :size="80"
+            :border-width="5"
+            :border-bg-width="5"
           />
           <h5 class="text-base text-zinc-600 mt-2">Fit the description</h5>
         </div>
@@ -143,6 +143,12 @@ const progressArray = computed(() => {
   return scores.value.map((item) => {
     return ((item.value / reviews.value.length) * 150).toFixed(0);
   });
+});
+
+onMounted(() => {
+  console.log(typeof props.descriptionRating);
+  console.log(typeof props.qualityRating);
+  console.log(typeof props.priceRating);
 });
 </script>
 

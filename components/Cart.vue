@@ -1,6 +1,7 @@
 <template>
   <BasePopup />
   <template v-if="cartLoaded && cartItems.length > 0">
+    <h2 class="font-semibold text-4xl mb-7">Cart</h2>
     <BaseTable
       :header="CART_HEADER"
       :data="cartItems"

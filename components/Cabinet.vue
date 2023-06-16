@@ -1,10 +1,10 @@
 <template>
   <section class="w-full cabinet">
     <div class="cabinet__block">
-      <h1 class="cabinet__title">
+      <h2 class="cabinet__title">
         Account
         <button class="button_regular" @click="logoutUser()">Log out</button>
-      </h1>
+      </h2>
       <div class="cabinet-block__info">
         <div class="cabinet-info__item info-item">
           <div class="info-item__content">
@@ -48,7 +48,7 @@
       </div>
     </div>
     <div class="cabinet__block cabinet-block">
-      <h1 class="cabinet-block__header">Notification settings</h1>
+      <h2 class="cabinet-block__header">Notification settings</h2>
       <div class="cabinet-block__content">
         <p class="flex items-center text-xl mb-3">
           <input class="mr-3 w-[20px] h-[20px]" type="checkbox" />
@@ -61,7 +61,7 @@
       </div>
     </div>
     <div class="cabinet__block">
-      <h1 class="cabinet-block__header">Orders</h1>
+      <h2 class="cabinet-block__header">Orders</h2>
       <template v-if="data?.length && ordersLoaded">
         <div
           v-for="(item, index) in data"
