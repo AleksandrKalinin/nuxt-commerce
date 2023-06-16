@@ -4,6 +4,7 @@
     :header="CATALOG_HEADER"
     :data="data"
     :shadowed="true"
+    :sortable="true"
     :original-items="originalItems"
     :emit-options="emitOptions"
     @delete-item="deleteItem"

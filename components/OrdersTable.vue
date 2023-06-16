@@ -4,6 +4,7 @@
     :header="ORDERS_HEADER"
     :data="ordersData"
     :shadowed="true"
+    :sortable="true"
     :emit-options="emitOptions"
     @update-order-status="updateOrderStatus"
   ></BaseTable>

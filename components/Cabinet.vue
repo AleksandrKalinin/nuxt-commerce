@@ -82,6 +82,7 @@
             :header="USER_ORDERS_HEADER"
             :data="item.items"
             :shadowed="false"
+            :sortable="true"
           />
         </div>
       </template>

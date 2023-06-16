@@ -5,7 +5,7 @@
         <th
           v-for="(item, index) in header"
           :key="index"
-          @click="updateSort(item.value)"
+          @click="sortable ? updateSort(item.value) : ''"
         >
           {{ item.label }}
         </th>
@@ -113,14 +113,17 @@ import { useAdminStore } from "~/store/admin";
 interface BaseTableProps {
   header: BaseTableHeader[];
   shadowed: boolean;
-  data: Array<CatalogItemTable> | Array<OrderItemTable> | Array<User>;
+  sortable: boolean;
+  data:
+    | Array<CatalogItemTable>
+    | Array<OrderItemTable>
+    | Array<User>
+    | Array<BestSellingItem>;
   originalItems?: CatalogItem[];
   emitOptions?: string[];
 }
 
 const props = defineProps<BaseTableProps>();
-
-// const defineEmits = props.emitOptions;
 
 const store = useFilterStore();
 const adminStore = useAdminStore();
@@ -131,21 +134,26 @@ const { toggleVisibility } = adminStore;
 
 const filteredItems = computed(() => {
   if (props.data.length) {
-    const arr: CatalogItemTable[] | OrderItemTable[] | User[] = props.data;
-    return (arr as Array<CatalogItemTable | OrderItemTable | User>).filter(
-      (item) => {
-        return item.id
-          .toString()
-          .toLowerCase()
-          .includes(searchValue.value.toLowerCase());
-      }
-    );
+    const arr:
+      | CatalogItemTable[]
+      | OrderItemTable[]
+      | User[]
+      | BestSellingItem[] = props.data;
+    return (
+      arr as Array<CatalogItemTable | OrderItemTable | User | BestSellingItem>
+    ).filter((item) => {
+      return item.id
+        .toString()
+        .toLowerCase()
+        .includes(searchValue.value.toLowerCase());
+    });
   } else return [];
 });
 
 const sortedItems = computed(() => {
   const val = sortValue.value;
   const order = sortOrder.value;
+
   if (val === "default") {
     return filteredItems.value;
   } else {
@@ -156,9 +164,23 @@ const sortedItems = computed(() => {
           else if ((b[val as keyof BaseItem] as unknown as string) === "")
             return -1;
           else {
-            return a[val as keyof BaseItem]
-              .toString()
-              .localeCompare(b[val as keyof BaseItem].toString());
+            if (
+              typeof a[val as keyof BaseItem] === "number" &&
+              typeof b[val as keyof BaseItem] === "number"
+            ) {
+              return a[val as keyof BaseItem] - b[val as keyof BaseItem];
+            } else if (
+              typeof a[val as keyof BaseItem] === "object" &&
+              typeof b[val as keyof BaseItem] === "object"
+            ) {
+              const aDate = new Date(a[val as keyof BaseItem]);
+              const bDate = new Date(b[val as keyof BaseItem]);
+              return aDate.getTime() - bDate.getTime();
+            } else {
+              return a[val as keyof BaseItem]
+                .toString()
+                .localeCompare(b[val as keyof BaseItem].toString());
+            }
           }
         }),
       ];
@@ -167,10 +189,25 @@ const sortedItems = computed(() => {
         ...filteredItems.value.sort((a: BaseItem, b: BaseItem) => {
           if ((a[val as keyof BaseItem] as unknown as string) === "") return +1;
           if ((b[val as keyof BaseItem] as unknown as string) === "") return -1;
-          else
-            return b[val as keyof BaseItem]
-              .toString()
-              .localeCompare(a[val as keyof BaseItem].toString());
+          else {
+            if (
+              typeof a[val as keyof BaseItem] === "number" &&
+              typeof b[val as keyof BaseItem] === "number"
+            ) {
+              return b[val as keyof BaseItem] - a[val as keyof BaseItem];
+            } else if (
+              typeof a[val as keyof BaseItem] === "object" &&
+              typeof b[val as keyof BaseItem] === "object"
+            ) {
+              const aDate = new Date(a[val as keyof BaseItem]);
+              const bDate = new Date(b[val as keyof BaseItem]);
+              return bDate.getTime() - aDate.getTime();
+            } else {
+              return b[val as keyof BaseItem]
+                .toString()
+                .localeCompare(a[val as keyof BaseItem].toString());
+            }
+          }
         }),
       ];
     }

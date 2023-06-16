@@ -6,6 +6,7 @@
       :header="CART_HEADER"
       :data="cartItems"
       :shadowed="true"
+      :sortable="false"
       :emit-options="emitOptions"
       @delete-item="deleteItemFromCart"
       @set-amount="setAmount"

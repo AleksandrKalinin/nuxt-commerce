@@ -144,12 +144,6 @@ const progressArray = computed(() => {
     return ((item.value / reviews.value.length) * 150).toFixed(0);
   });
 });
-
-onMounted(() => {
-  console.log(typeof props.descriptionRating);
-  console.log(typeof props.qualityRating);
-  console.log(typeof props.priceRating);
-});
 </script>
 
 <style lang="css">

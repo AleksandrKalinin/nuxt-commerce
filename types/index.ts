@@ -74,6 +74,16 @@ declare global {
     reviews: Review[];
   }
 
+  interface BestSellingItem {
+    id: number;
+    name: string;
+    price: number;
+    photo: string;
+    item_code: number;
+    items_sold: number;
+    total_revenue: number;
+  }
+
   type CatalogItemTable = Pick<
     CatalogItem,
     "id" | "name" | "photo" | "item_code" | "date" | "in_stock" | "is_visible"
