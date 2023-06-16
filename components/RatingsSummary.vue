@@ -27,7 +27,12 @@
             :key="index"
             class="summary-description__block summary-block flex"
           >
-            <img class="w-6 h-6 mr-2" src="~/assets/icons/star.svg" />
+            <Icon
+              name="heroicons:star"
+              color="#444444"
+              size="24px"
+              class="w-6 h-6 mr-2"
+            />
             <div class="summary-block__breakdown flex">
               <span class="text-zinc-600">{{ item.score }}</span>
               <div class="progress">

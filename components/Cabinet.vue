@@ -3,34 +3,43 @@
     <div class="cabinet__block">
       <h1 class="cabinet__title">
         Account
-        <button class="button_regular" @click="logoutUser()">
-          <img
-            src="~/assets/icons/exit.svg"
-            class="button__image"
-            alt="Exit"
-            loading="eager"
-          />
-          Log out
-        </button>
+        <button class="button_regular" @click="logoutUser()">Log out</button>
       </h1>
       <div class="cabinet-block__info">
         <div class="cabinet-info__item info-item">
-          <div>
-            <h3 class="info-item__title">E-mail</h3>
+          <div class="info-item__content">
+            <h3 class="info-item__title">
+              E-mail
+              <Icon name="heroicons:face-frown" color="#444444" size="30px" />
+            </h3>
             <h4 class="text-lg">{{ user?.email }}</h4>
           </div>
         </div>
         <div class="cabinet-info__item info-item">
-          <div class="">
-            <h3 class="info-item__title">Phone</h3>
+          <div class="info-item__content">
+            <h3 class="info-item__title">
+              Phone
+              <Icon
+                name="heroicons:device-phone-mobile-20-solid"
+                color="#444444"
+                size="30px"
+              />
+            </h3>
             <h4 class="text-lg">
               {{ user?.phone ? user?.phone : "+1-202-555-0135" }}
             </h4>
           </div>
         </div>
         <div class="cabinet-info__item info-item">
-          <div class="">
-            <h3 class="info-item__title">Registration date</h3>
+          <div class="info-item__content">
+            <h3 class="info-item__title">
+              Registration date
+              <Icon
+                name="heroicons:calendar-days"
+                color="#444444"
+                size="30px"
+              />
+            </h3>
             <h4 class="text-lg">
               {{ formatDate(new Date(user!.created_at)) }}
             </h4>
@@ -172,8 +181,12 @@ onMounted(() => {
   @apply ml-4 font-semibold;
 }
 
+.info-item__content {
+  @apply w-full;
+}
+
 .info-item__title {
-  @apply text-2xl font-semibold mb-2;
+  @apply text-2xl font-semibold mb-2 flex justify-between;
 }
 
 .cabinet-info__item::before {

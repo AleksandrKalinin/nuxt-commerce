@@ -27,7 +27,7 @@ export const CART_HEADER = [
   },
   {
     label: "",
-    value: "delete",
+    value: "x-mark",
     type: "icon",
     action: "deleteItem",
   },

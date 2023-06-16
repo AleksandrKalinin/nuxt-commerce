@@ -29,12 +29,7 @@
     </div>
     <div class="cart-controls">
       <button class="button_regular" @click="placeOrder()">
-        <img
-          src="~/assets/icons/bag.svg"
-          class="button__image"
-          alt="Order"
-          loading="eager"
-        />
+        <Icon name="heroicons:check" color="white" size="24px" class="mr-2" />
         Confirm order
       </button>
     </div>
@@ -46,12 +41,7 @@
     <div class="cart-placeholder__wrapper">
       <p class="text-2xl">Your cart is empty</p>
       <div class="cart-placeholder__picture">
-        <img
-          src="~/assets/icons/sad.svg"
-          class="cart-placeholder__image"
-          alt="Empty"
-          loading="eager"
-        />
+        <Icon name="heroicons:face-frown" class="cart-placeholder__image" />
       </div>
     </div>
     <NuxtLink to="/catalog" class="button_regular">Back to catalog</NuxtLink>

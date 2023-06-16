@@ -11,12 +11,7 @@
       <NuxtLink to="/cabinet">
         <div class="header-item header__item">
           <div class="header-item__image">
-            <img
-              src="~/assets/icons/account.svg"
-              alt="Account"
-              class="header-item__icon"
-              loading="eager"
-            />
+            <Icon name="heroicons:user-circle" color="#444444" size="36px" />
           </div>
           Account
         </div>
@@ -24,12 +19,7 @@
       <NuxtLink v-if="user" to="/cart">
         <div class="header-item header__item">
           <div class="header-item__image">
-            <img
-              src="~/assets/icons/cart.svg"
-              alt="Корзина"
-              loading="eager"
-              class="header-item__icon"
-            />
+            <Icon name="heroicons:shopping-cart" color="#444444" size="36px" />
           </div>
           Cart
         </div>

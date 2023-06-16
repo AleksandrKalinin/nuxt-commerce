@@ -3,44 +3,42 @@
     <div class="admin-sidebar__categories">
       <div class="">
         <NuxtLink class="admin-sidebar__link sidebar-link" to="/admin">
-          <img
-            class="sidebar-link__image"
-            src="~/assets/icons/shopping-bag.svg"
-            alt="Catalog"
-            loading="eager"
+          <Icon
+            name="heroicons:shopping-bag"
+            color="black"
+            size="24px"
+            class="mr-2"
           />
           Catalog</NuxtLink
         >
       </div>
       <div>
-        <NuxtLink class="admin-sidebar__link sidebar-link" to="/admin/orders"
-          ><img
-            class="sidebar-link__image"
-            src="~/assets/icons/cart.svg"
-            alt="Cart"
-            loading="eager"
+        <NuxtLink class="admin-sidebar__link sidebar-link" to="/admin/orders">
+          <Icon
+            name="heroicons:shopping-cart"
+            color="black"
+            size="24px"
+            class="mr-2"
           />
           Orders</NuxtLink
         >
       </div>
       <div>
-        <NuxtLink class="admin-sidebar__link sidebar-link" to="/admin/users"
-          ><img
-            class="sidebar-link__image"
-            src="~/assets/icons/users.svg"
-            alt="Users"
-            loading="eager"
-          />
+        <NuxtLink class="admin-sidebar__link sidebar-link" to="/admin/users">
+          <Icon name="heroicons:users" color="black" size="24px" class="mr-2" />
           Users</NuxtLink
         >
       </div>
       <div>
-        <NuxtLink class="admin-sidebar__link sidebar-link" to="/admin/dashboard"
-          ><img
-            class="sidebar-link__image"
-            src="~/assets/icons/chart.svg"
-            alt="Statistics"
-            loading="eager"
+        <NuxtLink
+          class="admin-sidebar__link sidebar-link"
+          to="/admin/dashboard"
+        >
+          <Icon
+            name="heroicons:chart-bar-square"
+            color="black"
+            size="24px"
+            class="mr-2"
           />
           Statistics</NuxtLink
         >
@@ -49,22 +47,23 @@
         <NuxtLink
           class="admin-sidebar__link sidebar-link"
           to="/admin/emailbuilder"
-          ><img
-            class="sidebar-link__image"
-            src="~/assets/icons/edit-square.svg"
-            alt="Editor"
-            loading="eager"
+        >
+          <Icon
+            name="heroicons:pencil-square"
+            color="black"
+            size="24px"
+            class="mr-2"
           />
           Email editor</NuxtLink
         >
       </div>
       <div>
-        <NuxtLink class="admin-sidebar__link sidebar-link" to="/admin/mailing"
-          ><img
-            class="sidebar-link__image"
-            src="~/assets/icons/mail.svg"
-            alt="Newsletter"
-            loading="eager"
+        <NuxtLink class="admin-sidebar__link sidebar-link" to="/admin/mailing">
+          <Icon
+            name="heroicons:envelope"
+            color="black"
+            size="24px"
+            class="mr-2"
           />
           Mailing</NuxtLink
         >

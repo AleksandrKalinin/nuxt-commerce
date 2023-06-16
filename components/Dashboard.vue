@@ -7,12 +7,7 @@
           <h4 class="text-2xl font-semibold">{{ props.totalUsers }}</h4>
         </div>
         <div class="info-item__picture">
-          <img
-            class="info-item__image"
-            src="~/assets/icons/users.svg"
-            alt="Users"
-            loading="eager"
-          />
+          <Icon name="heroicons:users" class="info-item__image" size="24px" />
         </div>
       </div>
       <div class="dashboard-info__item info-item">
@@ -21,11 +16,10 @@
           <h4 class="text-2xl font-semibold">{{ props.totalOrders }}</h4>
         </div>
         <div class="info-item__picture">
-          <img
+          <Icon
+            name="heroicons:shopping-cart"
+            color="#444444"
             class="info-item__image"
-            src="~/assets/icons/cart.svg"
-            alt="Корзина"
-            loading="eager"
           />
         </div>
       </div>
@@ -35,10 +29,10 @@
           <h4 class="text-2xl font-semibold">{{ props.totalItems }}</h4>
         </div>
         <div class="info-item__picture">
-          <img
-            class="info-item__image filter"
-            src="~/assets/icons/shopping-bag.svg"
-            loading="eager"
+          <Icon
+            name="heroicons:shopping-bag"
+            color="#444444"
+            class="info-item__image"
           />
         </div>
       </div>
@@ -48,10 +42,10 @@
           <h4 class="text-2xl font-semibold">${{ props.totalRevenue }}</h4>
         </div>
         <div class="info-item__picture">
-          <img
+          <Icon
+            name="heroicons:currency-dollar"
             class="info-item__image"
-            src="~/assets/icons/currency.svg"
-            loading="eager"
+            size="24px"
           />
         </div>
       </div>

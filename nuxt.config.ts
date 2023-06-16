@@ -4,32 +4,37 @@ export default defineNuxtConfig({
     "~/assets/main.css",
     "vue3-circle-progress/dist/circle-progress.css",
   ],
+
   runtimeConfig: {
     public: {
       supabaseUrl: "",
       supabaseKey: "",
     },
   },
+
   typescript: {
     strict: false,
     typeCheck: false,
   },
+
   components: [
     "~/components",
     {
-      path: "~/components/base",
+      path: "~/components/Base",
       global: true,
     },
     {
-      path: "~/components/skeleton",
+      path: "~/components/Skeleton",
       global: true,
     },
   ],
+
   modules: [
     "@vueuse/nuxt",
     "@nuxtjs/supabase",
     "@nuxtjs/tailwindcss",
     "@nuxtjs/google-fonts",
+    "nuxt-icon",
     [
       "nuxt-mail",
       {
@@ -53,14 +58,20 @@ export default defineNuxtConfig({
       },
     ],
   ],
+
   googleFonts: {
     families: {
       Raleway: [400, 500, 600, 700],
     },
   },
+
   routeRules: {
     "/admin/**": { ssr: false },
     "/": { redirect: "/catalog" },
     "catalog/**": { ssr: false },
+  },
+
+  devtools: {
+    enabled: true,
   },
 });

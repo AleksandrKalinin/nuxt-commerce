@@ -53,11 +53,9 @@
               />
             </td>
             <td v-else-if="option.type === 'icon'" class="py-4">
-              <img
-                :src="images[option.value]"
+              <Icon
+                :name="`heroicons:${option.value}`"
                 class="table__icon"
-                :alt="images[option.value]"
-                loading="eager"
                 @click="option.action ? $emit(option.action, item.id) : ''"
               />
             </td>
@@ -86,11 +84,9 @@
             <td v-else-if="option.type === 'markup'" class="py-4">
               <BaseModal>
                 <template #trigger>
-                  <img
-                    :src="images[option.value]"
-                    :alt="images[option.value]"
+                  <Icon
+                    :name="`heroicons:${option.value}`"
                     class="w-[25px] h-[25px] cursor-pointer"
-                    loading="eager"
                   />
                 </template>
                 <template #content>
@@ -111,7 +107,6 @@
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { filename } from "pathe/utils";
 import { useFilterStore } from "~/store/filter";
 import { useAdminStore } from "~/store/admin";
 
@@ -133,17 +128,6 @@ const adminStore = useAdminStore();
 const { sortOrder, searchValue, sortValue } = storeToRefs(store);
 const { updateSort } = store;
 const { toggleVisibility } = adminStore;
-
-const images = computed(() => {
-  const glob: Record<string, { default: string }> = import.meta.glob(
-    "~/assets/icons/*.svg",
-    { eager: true }
-  );
-  const entries = Object.fromEntries(
-    Object.entries(glob).map(([key, value]) => [filename(key), value.default])
-  );
-  return entries;
-});
 
 const filteredItems = computed(() => {
   if (props.data.length) {
