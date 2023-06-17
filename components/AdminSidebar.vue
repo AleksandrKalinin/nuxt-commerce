@@ -32,6 +32,20 @@
       <div>
         <NuxtLink
           class="admin-sidebar__link sidebar-link"
+          to="/admin/discounts"
+        >
+          <Icon
+            name="heroicons:currency-dollar"
+            color="black"
+            size="24px"
+            class="mr-2"
+          />
+          Discounts</NuxtLink
+        >
+      </div>
+      <div>
+        <NuxtLink
+          class="admin-sidebar__link sidebar-link"
           to="/admin/dashboard"
         >
           <Icon

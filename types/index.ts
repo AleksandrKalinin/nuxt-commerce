@@ -84,6 +84,14 @@ declare global {
     total_revenue: number;
   }
 
+  interface Discount {
+    id: number;
+    product_id: number;
+    date_start: string;
+    date_end: number;
+    discount_number: string;
+  }
+
   type CatalogItemTable = Pick<
     CatalogItem,
     "id" | "name" | "photo" | "item_code" | "date" | "in_stock" | "is_visible"

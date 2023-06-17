@@ -154,6 +154,14 @@ export const ORDER_INPUT_FIELDS = [
   {
     name: "is_visible",
     dataType: "boolean",
+    elType: "search",
+    options: ["user1@gmail.com", "user2@mail.ru", "blabla@gamilc.om"],
+    default: "",
+    placeholder: "Select user",
+  },
+  {
+    name: "is_visible",
+    dataType: "boolean",
     elType: "select",
     options: [true, false],
     default: "",
@@ -191,5 +199,37 @@ export const USER_INPUT_FIELDS = [
     options: [true, false],
     default: "",
     placeholder: "Subscribed to newsletter",
+  },
+];
+
+export const DISCOUNT_INPUT_FIELDS = [
+  {
+    name: "product_id",
+    dataType: "select",
+    elType: "input",
+    options: [],
+    default: "",
+    placeholder: "Product id",
+  },
+  {
+    name: "date_start",
+    dataType: "date",
+    elType: "input",
+    default: "",
+    placeholder: "Date of start",
+  },
+  {
+    name: "date_end",
+    dataType: "date",
+    elType: "input",
+    default: "",
+    placeholder: "Date of end",
+  },
+  {
+    name: "discount_number",
+    dataType: "number",
+    elType: "input",
+    default: "",
+    placeholder: "Discount number",
   },
 ];
