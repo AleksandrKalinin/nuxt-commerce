@@ -50,12 +50,14 @@ import {
   CATALOG_INPUT_FIELDS,
   ORDER_INPUT_FIELDS,
   USER_INPUT_FIELDS,
+  DISCOUNT_INPUT_FIELDS,
 } from "~/constants/form";
 
 type INPUT_UNION =
   | typeof CATALOG_INPUT_FIELDS
   | typeof ORDER_INPUT_FIELDS
-  | typeof USER_INPUT_FIELDS;
+  | typeof USER_INPUT_FIELDS
+  | typeof DISCOUNT_INPUT_FIELDS;
 
 const store = useAdminStore();
 
@@ -69,6 +71,17 @@ const props = defineProps<{
 
 const modalOpen = ref(false);
 const form = ref(null);
+
+const addDiscount = (values: HTMLInputElement[]) => {
+  const obj = {} as BaseItem;
+  for (let i = 0; i < values.length; i++) {
+    const curVal = values[i] as HTMLInputElement;
+    if (curVal.type !== "submit") {
+      const key = curVal.name;
+      (obj[key as keyof BaseItem] as unknown as string) = curVal.value;
+    }
+  }
+};
 
 const addUser = (values: HTMLInputElement[]) => {
   const obj = {} as BaseItem;
@@ -104,6 +117,9 @@ const callFunction = () => {
         break;
       case "users":
         addUser(values);
+        break;
+      case "discounts":
+        addDiscount(values);
         break;
       // addUser(values);
     }

@@ -2,7 +2,7 @@
   <AdminPanel
     title="Discount"
     button="Create discount"
-    :fields="USER_INPUT_FIELDS"
+    :fields="DISCOUNT_INPUT_FIELDS"
     current-page="discounts"
   />
   <div class="columns-1">
@@ -25,14 +25,14 @@
         </div>
       </template>
     </NuxtErrorBoundary>
-    <BasePagination :items="users" :target-ref="scrollEl" />
+    <BasePagination :items="discounts" :target-ref="scrollEl" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { USER_INPUT_FIELDS } from "~/constants/form";
-import { useUsersStore } from "~/store/users";
+import { DISCOUNT_INPUT_FIELDS } from "~/constants/form";
+import { useDiscountsStore } from "~/store/discounts";
 
 definePageMeta({
   middleware: ["auth"],
@@ -44,9 +44,9 @@ const clearError = async (err) => {
   err.value = null;
 };
 
-const store = useUsersStore();
+const store = useDiscountsStore();
 
-const { users } = storeToRefs(store);
+const { discounts } = storeToRefs(store);
 
 const scrollEl = ref(null);
 </script>

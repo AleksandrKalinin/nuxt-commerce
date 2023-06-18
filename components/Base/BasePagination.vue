@@ -1,5 +1,10 @@
 <template>
-  <div class="pagination-container w-full flex justify-end mt-10">
+  <div class="pagination-container w-full flex justify-between items-end mt-10">
+    <div class="pagination-container__display">
+      {{ start }}-{{ end }}
+      out of
+      {{ items.length }}
+    </div>
     <div
       v-if="pageNumbers.length"
       class="pagination flex cursor-pointer bg-white"
@@ -41,6 +46,15 @@ const props = defineProps<{
 
 const store = usePaginationStore();
 const { currentPage } = storeToRefs(store);
+
+const start = computed(() => {
+  return currentPage.value === 0 ? 1 : currentPage.value * 12;
+});
+
+const end = computed(() => {
+  const endValue = (currentPage.value + 1) * 12;
+  return endValue > props.items.length ? props.items.length : endValue;
+});
 
 const pageNumbers = computed(() => {
   const numbers = [];
