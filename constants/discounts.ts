@@ -16,12 +16,23 @@ export const DISCOUNTS_HEADER = [
   },
   {
     label: "Discount end",
-    value: "date_start",
+    value: "date_end",
     type: "date",
   },
   {
     label: "Discount number",
     value: "discount_number",
     type: "plain",
+  },
+  {
+    label: "Status",
+    value: "is_active",
+    type: "boolean",
+  },
+  {
+    label: "",
+    value: "x-mark",
+    type: "icon",
+    action: "deleteItem",
   },
 ];

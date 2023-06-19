@@ -145,27 +145,19 @@ export const CATALOG_INPUT_FIELDS = [
 
 export const ORDER_INPUT_FIELDS = [
   {
-    name: "name",
+    name: "email",
     dataType: "string",
     elType: "input",
     default: "",
-    placeholder: "Item name",
+    placeholder: "User email",
   },
   {
-    name: "is_visible",
-    dataType: "boolean",
-    elType: "search",
-    options: ["user1@gmail.com", "user2@mail.ru", "blabla@gamilc.om"],
+    name: "items",
+    dataType: "string",
+    elType: "select-multiple",
+    endPoint: "catalog",
     default: "",
-    placeholder: "Select user",
-  },
-  {
-    name: "is_visible",
-    dataType: "boolean",
-    elType: "select",
-    options: [true, false],
-    default: "",
-    placeholder: "Visible for customers",
+    placeholder: "Select catalog items",
   },
 ];
 
@@ -214,21 +206,23 @@ export const DISCOUNT_INPUT_FIELDS = [
   {
     name: "date_start",
     dataType: "date",
-    elType: "input",
+    elType: "datepicker",
     default: "",
     placeholder: "Date of start",
   },
   {
     name: "date_end",
     dataType: "date",
-    elType: "input",
+    elType: "datepicker",
     default: "",
     placeholder: "Date of end",
   },
   {
     name: "discount_number",
     dataType: "number",
-    elType: "input",
+    elType: "number",
+    min: 0,
+    max: 100,
     default: "",
     placeholder: "Discount number",
   },

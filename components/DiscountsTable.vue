@@ -22,6 +22,8 @@ import { useDiscountsStore } from "~/store/discounts";
 import { usePaginationStore } from "~/store/pagination";
 import { DISCOUNTS_HEADER } from "~/constants/discounts";
 
+const client = useSupabaseClient();
+
 const store = useDiscountsStore();
 const pagesStore = usePaginationStore();
 
@@ -46,6 +48,14 @@ const data = computed(() => {
 
 onMounted(() => {
   fetchDiscounts();
+  client
+    .channel("table-db-changes")
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "users" },
+      () => fetchDiscounts()
+    )
+    .subscribe();
 });
 </script>
 

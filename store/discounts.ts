@@ -14,24 +14,33 @@ export const useDiscountsStore = defineStore("discounts", () => {
     const { data, error } = await client
       .from("discounts")
       .select("id, product_id, date_start, date_end, discount_number");
-    discounts.value = data;
+    discounts.value = formatDiscounts(data);
     if (error) throw error;
   };
 
-  const addDiscount = async (
-    product_id: number,
-    date_start: Date,
-    date_end: Date,
-    discount_number: number
-  ) => {
-    const { error } = await client.from("discount").insert([
-      {
-        product_id,
-        date_start,
-        date_end,
-        discount_number,
-      },
-    ]);
+  const formatDiscounts = (data: Discount[]) => {
+    return data.map((item: Discount) => {
+      item.is_active = ifDateInRange(
+        item.date_start,
+        item.date_end,
+        new Date()
+      );
+      return item;
+    });
+  };
+
+  const ifDateInRange = (a: Date, b: Date, date: Date) => {
+    const start = new Date(a);
+    const end = new Date(b);
+    if (date > start && date < end) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const addDiscount = async (values: FormValues) => {
+    const { error } = await client.from("discounts").insert([values]);
     if (error) {
       const { toast, message } = toastHandler("discount-create-error");
       showErrorToast(toast, message);

@@ -24,6 +24,8 @@ import { useOrdersStore } from "~/store/orders";
 import { usePaginationStore } from "~/store/pagination";
 import { ORDERS_HEADER } from "~/constants/orders";
 
+const client = useSupabaseClient();
+
 const pagesStore = usePaginationStore();
 
 const { currentPage } = storeToRefs(pagesStore);
@@ -60,6 +62,14 @@ const ordersData = computed(() => {
 
 onMounted(() => {
   fetchOrders();
+  client
+    .channel("table-db-changes")
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "orders" },
+      () => fetchOrders()
+    )
+    .subscribe();
 });
 </script>
 

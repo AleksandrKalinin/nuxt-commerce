@@ -28,9 +28,7 @@
     <template v-else>
       <BaseModal>
         <template #trigger>
-          <button class="button_regular" @click="modalOpen = true">
-            Log in
-          </button>
+          <button class="button_regular">Log in</button>
         </template>
         <template #content>
           <BaseAuthForm />

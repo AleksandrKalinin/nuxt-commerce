@@ -21,6 +21,16 @@
             >
               {{ item[option.value as keyof BaseItem] }}
             </td>
+            <td
+              v-if="option.type === 'boolean'"
+              class="py-4 max-w-[300px] min-w-[40px] w-fit"
+            >
+              <span
+                class="px-3 py-1 rounded-lg text-white"
+                :class="item[option.value] ? 'bg-green-600' : 'bg-red-600'"
+                >{{ item[option.value as keyof BaseItem] }}</span
+              >
+            </td>
             <td v-if="option.type === 'date'" class="py-4">
               {{ formatDate(new Date(item[option.value as keyof BaseItem])) }}
             </td>
@@ -108,7 +118,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useFilterStore } from "~/store/filter";
-import { useAdminStore } from "~/store/admin";
+import { useCatalogStore } from "~/store/catalog";
 
 interface BaseTableProps {
   header: BaseTableHeader[];
@@ -126,11 +136,11 @@ interface BaseTableProps {
 const props = defineProps<BaseTableProps>();
 
 const store = useFilterStore();
-const adminStore = useAdminStore();
+const catalogStore = useCatalogStore();
 
 const { sortOrder, searchValue, sortValue } = storeToRefs(store);
 const { updateSort } = store;
-const { toggleVisibility } = adminStore;
+const { toggleVisibility } = catalogStore;
 
 const filteredItems = computed(() => {
   if (props.data.length) {

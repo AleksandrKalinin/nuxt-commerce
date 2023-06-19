@@ -1,9 +1,5 @@
 <template>
-  <form
-    ref="form"
-    class="modal__form modal-form"
-    @submit.prevent="callFunction"
-  >
+  <form ref="form" class="modal__form modal-form" @submit.prevent="submitForm">
     <template v-for="item in fields" :key="item">
       <input
         v-if="item.elType === 'input'"
@@ -19,6 +15,22 @@
         :placeholder="item.placeholder"
         class="modal-form__file"
         @change="selectImage"
+      />
+      <input
+        v-else-if="item.elType === 'number'"
+        type="number"
+        :min="item.min"
+        :max="item.max"
+        :name="item.name"
+        :placeholder="item.placeholder"
+        class="modal-form__input"
+      />
+      <input
+        v-else-if="item.elType === 'datepicker'"
+        type="date"
+        :name="item.name"
+        :placeholder="item.placeholder"
+        class="modal-form__input"
       />
       <select
         v-else-if="item.elType === 'select'"
@@ -45,7 +57,9 @@
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { useAdminStore } from "~/store/admin";
+import { useCatalogStore } from "~/store/catalog";
+import { useFormStore } from "~/store/form";
+
 import {
   CATALOG_INPUT_FIELDS,
   ORDER_INPUT_FIELDS,
@@ -59,82 +73,29 @@ type INPUT_UNION =
   | typeof USER_INPUT_FIELDS
   | typeof DISCOUNT_INPUT_FIELDS;
 
-const store = useAdminStore();
+const catalogStore = useCatalogStore();
+const formStore = useFormStore();
 
-const { activeItem } = storeToRefs(store);
-const { addItem, selectImage } = store;
+const { formatFormValues } = formStore;
+const { activeItem } = storeToRefs(catalogStore);
 
 const props = defineProps<{
   fields: INPUT_UNION;
   currentPage: string;
 }>();
 
-const modalOpen = ref(false);
 const form = ref(null);
 
-const addDiscount = (values: HTMLInputElement[]) => {
-  const obj = {} as BaseItem;
-  for (let i = 0; i < values.length; i++) {
-    const curVal = values[i] as HTMLInputElement;
-    if (curVal.type !== "submit") {
-      const key = curVal.name;
-      (obj[key as keyof BaseItem] as unknown as string) = curVal.value;
-    }
-  }
-};
+const closeModal = inject("closeModal", () => {});
 
-const addUser = (values: HTMLInputElement[]) => {
-  const obj = {} as BaseItem;
-  for (let i = 0; i < values.length; i++) {
-    const curVal = values[i] as HTMLInputElement;
-    if (curVal.type !== "submit") {
-      const key = curVal.name;
-      (obj[key as keyof BaseItem] as unknown as string) = curVal.value;
-    }
-  }
-};
-
-const addOrder = (values: HTMLInputElement[]) => {
-  const obj = {} as BaseItem;
-  for (let i = 0; i < values.length; i++) {
-    const curVal = values[i] as HTMLInputElement;
-    if (curVal.type !== "submit") {
-      const key = curVal.name;
-      (obj[key as keyof BaseItem] as unknown as string) = curVal.value;
-    }
-  }
-};
-
-const callFunction = () => {
+const submitForm = () => {
   const values = form.value;
-  if (values) {
-    switch (props.currentPage) {
-      case "catalog":
-        addItem(values);
-        break;
-      case "orders":
-        addOrder(values);
-        break;
-      case "users":
-        addUser(values);
-        break;
-      case "discounts":
-        addDiscount(values);
-        break;
-      // addUser(values);
-    }
-    // addItem(values);
-  }
+  formatFormValues(values, props.currentPage);
+  closeModal();
 };
-
-const target = ref(null);
-
-onClickOutside(target, () => {
-  modalOpen.value = false;
-});
 </script>
 
-<style scoped>
+<style>
 .modal__form {
   @apply w-full flex flex-col mb-4;
 }
@@ -152,6 +113,6 @@ onClickOutside(target, () => {
 }
 
 .modal-form__submit {
-  @apply bg-sky-400 text-white px-8 py-4 block text-xl cursor-pointer tracking-wider;
+  @apply transition duration-200 hover:bg-sky-500 bg-sky-400 text-white px-8 py-4 block text-xl cursor-pointer tracking-wider;
 }
 </style>

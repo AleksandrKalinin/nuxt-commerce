@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { useAdminStore } from "~/store/admin";
+import { useCatalogStore } from "~/store/catalog";
 import { CATALOG_INPUT_FIELDS } from "~/constants/form";
 
 const props = defineProps<{
@@ -44,7 +44,7 @@ const props = defineProps<{
   originalItems: CatalogItem[] | undefined;
 }>();
 
-const store = useAdminStore();
+const store = useCatalogStore();
 const { selectImage, editItem } = store;
 
 const modalOpen = ref(false);

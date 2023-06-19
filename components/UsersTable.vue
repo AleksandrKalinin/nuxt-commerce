@@ -22,6 +22,8 @@ import { useUsersStore } from "~/store/users";
 import { usePaginationStore } from "~/store/pagination";
 import { USERS_HEADER } from "~/constants/users";
 
+const client = useSupabaseClient();
+
 const store = useUsersStore();
 const pagesStore = usePaginationStore();
 
@@ -46,6 +48,14 @@ const data = computed(() => {
 
 onMounted(() => {
   fetchUsers();
+  client
+    .channel("table-db-changes")
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "users" },
+      () => fetchUsers()
+    )
+    .subscribe();
 });
 </script>
 

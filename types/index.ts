@@ -87,9 +87,10 @@ declare global {
   interface Discount {
     id: number;
     product_id: number;
-    date_start: string;
-    date_end: number;
+    date_start: Date;
+    date_end: Date;
     discount_number: string;
+    is_active?: boolean;
   }
 
   type CatalogItemTable = Pick<
@@ -106,6 +107,8 @@ declare global {
     total: number;
     status: OrderStatus;
   }
+
+  type FormValues = Discount | CatalogItem | User | Order;
 
   type OrderItemTable = Pick<
     Order,
@@ -132,6 +135,7 @@ declare global {
     default: string;
     placeholder: string;
     options?: Boolean[];
+    endpoint?: string;
   }
 
   interface SelectedItemTabs {

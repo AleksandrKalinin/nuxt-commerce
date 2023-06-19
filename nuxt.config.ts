@@ -2,6 +2,7 @@ export default defineNuxtConfig({
   css: [
     "vue3-carousel/dist/carousel.css",
     "~/assets/main.css",
+    "~/assets/checkbox.scss",
     "vue3-circle-progress/dist/circle-progress.css",
   ],
 

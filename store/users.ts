@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { v4 as uuidv4 } from "uuid";
 import { useToastsStore } from "./toasts";
 import { toastHandler } from "~/utils/toastHandler";
 
@@ -18,22 +19,21 @@ export const useUsersStore = defineStore("users", () => {
     if (error) throw error;
   };
 
-  const addUser = async (
-    email: string,
-    isSubscribed: boolean,
-    userId: string,
-    role: string
-  ) => {
-    const { error } = await client.from("users").insert([
-      {
-        date: new Date(),
-        email,
-        role,
-        user_id: userId,
-        cart: [],
-        subscribed: isSubscribed,
-      },
-    ]);
+  const addUser = async (values) => {
+    const initialValues = {
+      date: new Date(),
+      cart: [],
+      user_ud: uuidv4(),
+    };
+
+    delete values.password;
+
+    const formValues = {
+      ...initialValues,
+      ...values,
+    };
+
+    const { error } = await client.from("users").insert([formValues]);
     if (error) {
       const { toast, message } = toastHandler("registration-failed");
       showErrorToast(toast, message);
