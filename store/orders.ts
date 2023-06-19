@@ -31,6 +31,32 @@ export const useOrdersStore = defineStore("orders", () => {
     ordersLoaded.value = true;
   };
 
+  const getUserId = async (values) => {
+    const { data, error } = await client
+      .from("users")
+      .select("user_id")
+      .eq("email", values.user);
+    if (error) {
+      const { toast, message } = toastHandler("user-not-found");
+      showErrorToast(toast, message);
+    } else {
+      return data[0];
+    }
+  };
+
+  const addOrder = async (values) => {
+    const selected = await getUserId(values);
+    const formValues = {
+      userId: selected.user_id,
+      ...values,
+    };
+    const { error } = await client.from("orders").insert([formValues]);
+    if (error) {
+      const { toast, message } = toastHandler("registration-failed");
+      showErrorToast(toast, message);
+    }
+  };
+
   const updateOrderStatus = async ({
     id,
     event,
@@ -60,5 +86,6 @@ export const useOrdersStore = defineStore("orders", () => {
     updateOrderStatus,
     fetchOrders,
     fetchUserOrders,
+    addOrder,
   };
 });

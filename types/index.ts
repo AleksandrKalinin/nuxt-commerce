@@ -74,6 +74,25 @@ declare global {
     reviews: Review[];
   }
 
+  interface BestSellingItem {
+    id: number;
+    name: string;
+    price: number;
+    photo: string;
+    item_code: number;
+    items_sold: number;
+    total_revenue: number;
+  }
+
+  interface Discount {
+    id: number;
+    product_id: number;
+    date_start: Date;
+    date_end: Date;
+    discount_number: string;
+    is_active?: boolean;
+  }
+
   type CatalogItemTable = Pick<
     CatalogItem,
     "id" | "name" | "photo" | "item_code" | "date" | "in_stock" | "is_visible"
@@ -88,6 +107,8 @@ declare global {
     total: number;
     status: OrderStatus;
   }
+
+  type FormValues = Discount | CatalogItem | User | Order;
 
   type OrderItemTable = Pick<
     Order,
@@ -114,6 +135,7 @@ declare global {
     default: string;
     placeholder: string;
     options?: Boolean[];
+    endpoint?: string;
   }
 
   interface SelectedItemTabs {

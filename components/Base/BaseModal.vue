@@ -20,8 +20,14 @@ const modalOpen = ref(false);
 const target = ref(null);
 
 onClickOutside(target, () => {
-  modalOpen.value = false;
+  closeModal();
 });
+
+const closeModal = () => {
+  modalOpen.value = false;
+};
+
+provide("closeModal", closeModal);
 </script>
 
 <style scoped>

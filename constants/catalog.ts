@@ -37,12 +37,12 @@ export const CATALOG_HEADER = [
   },
   {
     label: "",
-    value: "edit",
+    value: "pencil",
     type: "markup",
   },
   {
     label: "",
-    value: "delete",
+    value: "x-mark",
     type: "icon",
     action: "deleteItem",
   },

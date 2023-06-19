@@ -13,6 +13,7 @@
     "lintfix": "prettier --write --list-different . && npm run lint:js --fix"
   },
   "devDependencies": {
+    "@nuxt/devtools": "^0.6.0",
     "@nuxt/image": "^0.7.1",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@nuxtjs/google-fonts": "^3.0.1",
@@ -27,6 +28,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "netlify-cli": "^15.2.0",
     "nuxt": "^3.4.3",
+    "nuxt-icon": "^0.4.1",
     "pinia": "^2.0.36",
     "prettier": "^2.8.8",
     "sass": "^1.63.3",

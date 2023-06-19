@@ -13,8 +13,8 @@
           </h3>
           <star-rating
             v-model:rating="averageRating"
-            star-size="20"
-            show-rating="false"
+            :star-size="20"
+            :show-rating="false"
             read-only
           />
           <p class="mt-2 text-base text-zinc-600">
@@ -27,7 +27,12 @@
             :key="index"
             class="summary-description__block summary-block flex"
           >
-            <img class="w-6 h-6 mr-2" src="~/assets/icons/star.svg" />
+            <Icon
+              name="heroicons:star"
+              color="#444444"
+              size="24px"
+              class="w-6 h-6 mr-2"
+            />
             <div class="summary-block__breakdown flex">
               <span class="text-zinc-600">{{ item.score }}</span>
               <div class="progress">
@@ -51,10 +56,10 @@
             :percent="priceRating"
             fill-color="#52525B"
             empty-color="#E4E4E7"
-            show-percent="true"
-            size="80"
-            border-width="5"
-            border-bg-width="5"
+            :show-percent="true"
+            :size="80"
+            :border-width="5"
+            :border-bg-width="5"
           />
           <h5 class="text-base text-zinc-600 mt-2">Good price</h5>
         </div>
@@ -65,10 +70,10 @@
             :percent="qualityRating"
             fill-color="#52525B"
             empty-color="#E4E4E7"
-            show-percent="true"
-            size="80"
-            border-width="5"
-            border-bg-width="5"
+            :show-percent="true"
+            :size="80"
+            :border-width="5"
+            :border-bg-width="5"
           />
           <h5 class="text-base text-zinc-600 mt-2">Quality</h5>
         </div>
@@ -79,10 +84,10 @@
             :percent="descriptionRating"
             fill-color="#52525B"
             empty-color="#E4E4E7"
-            show-percent="true"
-            size="80"
-            border-width="5"
-            border-bg-width="5"
+            :show-percent="true"
+            :size="80"
+            :border-width="5"
+            :border-bg-width="5"
           />
           <h5 class="text-base text-zinc-600 mt-2">Fit the description</h5>
         </div>

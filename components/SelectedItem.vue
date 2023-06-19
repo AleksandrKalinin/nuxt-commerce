@@ -17,8 +17,8 @@
           <star-rating
             v-model:rating="averageRating"
             read-only
-            star-size="20"
-            show-rating="false"
+            :star-size="20"
+            :show-rating="false"
           />
           <span class="text-base pl-4">
             {{ ratings?.length ? ratings.length : "No" }}
@@ -40,11 +40,11 @@
           </span>
         </p>
         <p class="mb-2 flex items-center text-base text-zinc-400">
-          <img
-            class="w-5 h-5 mr-2"
-            src="~/assets/icons/check.svg"
-            alt="In stock"
-            loading="eager"
+          <Icon
+            name="heroicons:check-circle"
+            color="#444444"
+            size="24px"
+            class="mr-2"
           />
           <span>{{
             selectedItem.in_stock ? "In stock" : "Not available"
@@ -56,11 +56,11 @@
           show-rating="false"
           @click="addToCart(selectedItem.id)"
         >
-          <img
-            class="button__image icon"
-            src="~/assets/icons/bag.svg"
-            alt="Корзина"
-            loading="eager"
+          <Icon
+            name="heroicons:shopping-cart"
+            color="white"
+            size="24px"
+            class="mr-2"
           />
           Add to cart
         </button>
@@ -80,11 +80,11 @@
         value="description"
         @click="setTab($event)"
       >
-        <img
+        <Icon
+          name="heroicons:document-chart-bar"
+          size="24px"
+          color="#444444"
           class="w-8 mr-2 max-sm:hidden"
-          src="~/assets/icons/data.svg"
-          alt="Description"
-          loading="eager"
         />
         Description
       </div>
@@ -94,12 +94,13 @@
         value="reviews"
         @click="setTab($event)"
       >
-        <img
+        <Icon
+          name="heroicons:chat-bubble-bottom-center-text"
+          color="#444444"
+          size="24px"
           class="w-8 mr-2 max-sm:hidden"
-          src="~/assets/icons/chat.svg"
-          alt="Reviews"
-          loading="eager"
-        />Reviews
+        />
+        Reviews
         <span class="pl-1 max-sm:font-base"
           >({{ reviews?.length ? reviews?.length : 0 }})</span
         >
@@ -128,10 +129,6 @@ import { SELECTED_ITEM_PROPERTIES } from "~/constants/selectedItem";
 import { useCatalogStore } from "~/store/catalog";
 import { useRatingsStore } from "~/store/ratings";
 import { useCartStore } from "~/store/cart";
-
-defineProps<{
-  item: CatalogItem;
-}>();
 
 const catalogStore = useCatalogStore();
 const ratingsStore = useRatingsStore();
@@ -178,11 +175,13 @@ const galleryItems = computed(() => {
 
 const averageRating = computed(() => {
   if (ratings.value?.length) {
-    return (
-      ratings.value?.reduce((sum, item) => {
-        return (sum += JSON.parse(item.rating as string).overall);
-      }, 0) / ratings.value?.length
-    ).toFixed(1);
+    return Number(
+      (
+        ratings.value?.reduce((sum, item) => {
+          return (sum += JSON.parse(item.rating as string).overall);
+        }, 0) / ratings.value?.length
+      ).toFixed(0)
+    );
   } else {
     return 0;
   }
@@ -190,13 +189,15 @@ const averageRating = computed(() => {
 
 const valueRating = computed(() => {
   if (ratings.value?.length) {
-    return (
-      (ratings.value?.reduce((sum, item) => {
-        return (sum += JSON.parse(item.rating as string).value);
-      }, 0) /
-        ratings.value?.length) *
-      20
-    ).toFixed(1);
+    return Number(
+      (
+        (ratings.value?.reduce((sum, item) => {
+          return (sum += JSON.parse(item.rating as string).value);
+        }, 0) /
+          ratings.value?.length) *
+        20
+      ).toFixed(1)
+    );
   } else {
     return 0;
   }
@@ -204,13 +205,15 @@ const valueRating = computed(() => {
 
 const qualityRating = computed(() => {
   if (ratings.value?.length) {
-    return (
-      (ratings.value?.reduce((sum, item) => {
-        return (sum += JSON.parse(item.rating as string).quality);
-      }, 0) /
-        ratings.value?.length) *
-      20
-    ).toFixed(1);
+    return Number(
+      (
+        (ratings.value?.reduce((sum, item) => {
+          return (sum += JSON.parse(item.rating as string).quality);
+        }, 0) /
+          ratings.value?.length) *
+        20
+      ).toFixed(1)
+    );
   } else {
     return 0;
   }
@@ -218,13 +221,15 @@ const qualityRating = computed(() => {
 
 const descriptionRating = computed(() => {
   if (ratings.value?.length) {
-    return (
-      (ratings.value?.reduce((sum, item) => {
-        return (sum += JSON.parse(item.rating as string).description);
-      }, 0) /
-        ratings.value?.length) *
-      20
-    ).toFixed(1);
+    return Number(
+      (
+        (ratings.value?.reduce((sum, item) => {
+          return (sum += JSON.parse(item.rating as string).description);
+        }, 0) /
+          ratings.value?.length) *
+        20
+      ).toFixed(1)
+    );
   } else {
     return 0;
   }
@@ -303,7 +308,7 @@ onMounted(() => {
   color: #000000;
 }
 
-.tab_active img {
+.tab_active svg {
   -webkit-filter: invert(0.1);
   filter: invert(0.1);
 }

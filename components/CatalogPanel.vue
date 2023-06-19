@@ -7,30 +7,36 @@
         :class="sortValue === 'date' ? 'sorting-option_active' : ''"
         @click="updateSort('date')"
         >Date
-        <img
+        <Icon
+          name="heroicons:chevron-down"
           class="sorting-option__icon"
-          src="~/assets/icons/chevron-down.svg"
+          color="black"
           :class="
-            sortOrder && sortValue === 'date' ? '' : 'sorting-icon_rotated'
+            (sortOrder && sortValue === 'date') ||
+            (sortOrder && sortValue === 'default')
+              ? ''
+              : 'sorting-icon_rotated'
           "
-          alt="Sort option"
-          loading="eager"
         />
       </span>
       <span
         class="navigation-sorting__option sorting-option"
         :class="sortValue === 'price' ? 'sorting-option_active' : ''"
         @click="updateSort('price')"
-        >Price
-        <img
+      >
+        Price
+        <Icon
+          name="heroicons:chevron-down"
           class="sorting-option__icon"
-          src="~/assets/icons/chevron-down.svg"
           :class="
-            sortOrder && sortValue === 'price' ? '' : 'sorting-icon_rotated'
+            (sortOrder && sortValue === 'price') ||
+            (sortOrder && sortValue === 'default')
+              ? ''
+              : 'sorting-icon_rotated'
           "
-          alt="Sort option"
-          loading="eager"
-      /></span>
+          color="black"
+        />
+      </span>
     </div>
     <div class="navigation__search navigation-search">
       <input

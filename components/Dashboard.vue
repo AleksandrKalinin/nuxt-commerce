@@ -7,12 +7,7 @@
           <h4 class="text-2xl font-semibold">{{ props.totalUsers }}</h4>
         </div>
         <div class="info-item__picture">
-          <img
-            class="info-item__image"
-            src="~/assets/icons/users.svg"
-            alt="Users"
-            loading="eager"
-          />
+          <Icon name="heroicons:users" class="info-item__image" size="24px" />
         </div>
       </div>
       <div class="dashboard-info__item info-item">
@@ -21,11 +16,10 @@
           <h4 class="text-2xl font-semibold">{{ props.totalOrders }}</h4>
         </div>
         <div class="info-item__picture">
-          <img
+          <Icon
+            name="heroicons:shopping-cart"
+            color="#444444"
             class="info-item__image"
-            src="~/assets/icons/cart.svg"
-            alt="Корзина"
-            loading="eager"
           />
         </div>
       </div>
@@ -35,10 +29,10 @@
           <h4 class="text-2xl font-semibold">{{ props.totalItems }}</h4>
         </div>
         <div class="info-item__picture">
-          <img
-            class="info-item__image filter"
-            src="~/assets/icons/shopping-bag.svg"
-            loading="eager"
+          <Icon
+            name="heroicons:shopping-bag"
+            color="#444444"
+            class="info-item__image"
           />
         </div>
       </div>
@@ -48,10 +42,10 @@
           <h4 class="text-2xl font-semibold">${{ props.totalRevenue }}</h4>
         </div>
         <div class="info-item__picture">
-          <img
+          <Icon
+            name="heroicons:currency-dollar"
             class="info-item__image"
-            src="~/assets/icons/currency.svg"
-            loading="eager"
+            size="24px"
           />
         </div>
       </div>
@@ -78,11 +72,125 @@
         <LineChart :height="250" :chart-data="balance" :options="options" />
       </div>
     </div>
+    <div>
+      <div class="flex justify-between items-end mb-7">
+        <h2 class="font-semibold text-4xl">Top products</h2>
+        <select
+          class="bg-transparent align-self-end text-lg cursor-pointer"
+          @change="selectionOption = $event.target.value"
+        >
+          <option class="cursor-pointer" value="month">This month</option>
+          <option class="cursor-pointer" value="year">This year</option>
+          <option class="cursor-pointer" value="all">All time</option>
+        </select>
+      </div>
+      <BaseTable
+        v-if="data?.length"
+        :header="TOP_SELLING_HEADER"
+        :data="data"
+        :shadowed="true"
+        :sortable="false"
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { BarChart, LineChart, PieChart } from "vue-chart-3";
+import { useCatalogStore } from "~/store/catalog";
+import { useOrdersStore } from "~/store/orders";
+import { TOP_SELLING_HEADER } from "~/constants/dashboard";
+
+const ordersStore = useOrdersStore();
+const catalogStore = useCatalogStore();
+
+const { orders: ordersInfo } = storeToRefs(ordersStore);
+
+const { fetchOrders } = ordersStore;
+const { fetchCatalogItems } = catalogStore;
+
+const selectionOption = ref("month");
+
+interface SoldItem {
+  id: number;
+  name: string;
+  photo: string;
+  item_code: number;
+  price: number;
+  items_sold: number;
+  total_revenue: number;
+}
+
+const data = computed(() => {
+  const bestSelling = [];
+  ordersInfo.value
+    .filter((order) => {
+      switch (selectionOption.value) {
+        case "month":
+          return (
+            new Date(order.created_at).getMonth() === new Date().getMonth()
+          );
+        case "year":
+          return (
+            new Date(order.created_at).getFullYear() ===
+            new Date().getFullYear()
+          );
+        case "all":
+          return order;
+        default:
+          return order;
+      }
+    })
+    .forEach((order) => {
+      order.items.forEach((item) => {
+        const soldItem = {} as SoldItem;
+        const index = bestSelling.findIndex((x) => x.id === item.id);
+
+        if (index !== -1) {
+          bestSelling[index].items_sold += item.amount;
+          bestSelling[index].total_revenue += item.amount * item.price;
+        } else {
+          soldItem.id = item.id;
+          soldItem.name = item.name;
+          soldItem.photo = item.photo;
+          soldItem.price = item.price;
+          soldItem.item_code = item.item_code;
+          soldItem.items_sold = item.amount;
+          soldItem.total_revenue = item.amount * item.price;
+          bestSelling.push(soldItem);
+        }
+      });
+    });
+
+  return bestSelling.sort((a, b) => b.items_sold - a.items_sold).slice(0, 5);
+});
+
+const getCurrentMonth = () => {
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  const startDate = new Date(year, month, 1);
+  const endDate = new Date(year, month, 1);
+
+  while (endDate.getMonth() === month) {
+    endDate.setDate(endDate.getDate() + 1);
+  }
+  return { startDate, endDate };
+};
+
+const getCurrentYear = () => {
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  const startDate = new Date(year, month, 1);
+  const endDate = new Date(year, month, 1);
+
+  while (endDate.getMonth() === month) {
+    endDate.setDate(endDate.getDate() + 1);
+  }
+  return { startDate, endDate };
+};
 
 interface DashboardProps {
   revenue: ChartData;
@@ -108,6 +216,12 @@ const options = {
     },
   },
 };
+
+onMounted(() => {
+  fetchCatalogItems();
+  fetchOrders();
+  getCurrentMonth();
+});
 </script>
 
 <style scoped lang="css">

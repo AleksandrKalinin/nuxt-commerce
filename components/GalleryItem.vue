@@ -17,12 +17,13 @@
         {{ item.price }} <span class="text-base font-normal">USD</span>
       </p>
       <p class="gallery-item__orders gallery-orders">
-        <img
+        <Icon
+          name="heroicons:check"
           class="gallery-orders__icon"
-          src="~/assets/icons/check.svg"
-          alt="In stock"
-          loading="eager"
-        />{{ item.in_stock > 0 ? "In stock" : "Not available" }}
+          size="24px"
+          color="green"
+        />
+        {{ item.in_stock > 0 ? "In stock" : "Not available" }}
       </p>
       <button
         class="button_regular button_centered"
