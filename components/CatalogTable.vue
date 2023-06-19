@@ -4,6 +4,7 @@
     :header="CATALOG_HEADER"
     :data="data"
     :shadowed="true"
+    :sortable="true"
     :original-items="originalItems"
     :emit-options="emitOptions"
     @delete-item="deleteItem"
@@ -22,20 +23,19 @@
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { useAdminStore } from "~/store/admin";
 import { useCatalogStore } from "~/store/catalog";
 import { usePaginationStore } from "~/store/pagination";
 import { CATALOG_HEADER } from "~/constants/catalog";
 
+const client = useSupabaseClient();
+
 const store = useCatalogStore();
-const adminStore = useAdminStore();
 const pagesStore = usePaginationStore();
 
 const { currentPage } = storeToRefs(pagesStore);
 const { catalogItems } = storeToRefs(store);
 
-const { toggleVisibility, deleteItem } = adminStore;
-const { fetchCatalogItems } = store;
+const { fetchCatalogItems, toggleVisibility, deleteItem } = store;
 
 const emitOptions = ["deleteItem", "toggleVisibility"];
 
@@ -67,6 +67,14 @@ const data = computed(() => {
 
 onMounted(() => {
   fetchCatalogItems();
+  client
+    .channel("table-db-changes")
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "catalog" },
+      () => fetchCatalogItems()
+    )
+    .subscribe();
 });
 </script>
 

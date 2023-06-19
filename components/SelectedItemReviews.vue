@@ -102,10 +102,7 @@
         <td>
           <BaseModal>
             <template #trigger>
-              <span
-                class="cursor-pointer text-lg font-semibold"
-                @click="modalOpen = true"
-              >
+              <span class="cursor-pointer text-lg font-semibold">
                 <span class="text-sky-400">Log in</span> to leave a review
               </span>
             </template>

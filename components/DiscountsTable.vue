@@ -1,7 +1,7 @@
 <template>
   <BaseTable
     v-if="data?.length"
-    :header="USERS_HEADER"
+    :header="DISCOUNTS_HEADER"
     :data="data"
     :shadowed="true"
     :sortable="true"
@@ -18,19 +18,19 @@
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { useUsersStore } from "~/store/users";
+import { useDiscountsStore } from "~/store/discounts";
 import { usePaginationStore } from "~/store/pagination";
-import { USERS_HEADER } from "~/constants/users";
+import { DISCOUNTS_HEADER } from "~/constants/discounts";
 
 const client = useSupabaseClient();
 
-const store = useUsersStore();
+const store = useDiscountsStore();
 const pagesStore = usePaginationStore();
 
 const { currentPage } = storeToRefs(pagesStore);
-const { users } = storeToRefs(store);
+const { discounts } = storeToRefs(store);
 
-const { fetchUsers } = store;
+const { fetchDiscounts } = store;
 
 const start = computed(() => {
   return currentPage.value * 12;
@@ -41,19 +41,19 @@ const end = computed(() => {
 });
 
 const data = computed(() => {
-  return users.value?.slice(start.value, end.value).map((item) => {
+  return discounts.value?.slice(start.value, end.value).map((item) => {
     return item;
   });
 });
 
 onMounted(() => {
-  fetchUsers();
+  fetchDiscounts();
   client
     .channel("table-db-changes")
     .on(
       "postgres_changes",
       { event: "*", schema: "public", table: "users" },
-      () => fetchUsers()
+      () => fetchDiscounts()
     )
     .subscribe();
 });

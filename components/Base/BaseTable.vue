@@ -5,7 +5,7 @@
         <th
           v-for="(item, index) in header"
           :key="index"
-          @click="updateSort(item.value)"
+          @click="sortable ? updateSort(item.value) : ''"
         >
           {{ item.label }}
         </th>
@@ -20,6 +20,16 @@
               class="py-4 max-w-[300px] min-w-[40px] w-fit"
             >
               {{ item[option.value as keyof BaseItem] }}
+            </td>
+            <td
+              v-if="option.type === 'boolean'"
+              class="py-4 max-w-[300px] min-w-[40px] w-fit"
+            >
+              <span
+                class="px-3 py-1 rounded-lg text-white"
+                :class="item[option.value] ? 'bg-green-600' : 'bg-red-600'"
+                >{{ item[option.value as keyof BaseItem] }}</span
+              >
             </td>
             <td v-if="option.type === 'date'" class="py-4">
               {{ formatDate(new Date(item[option.value as keyof BaseItem])) }}
@@ -53,11 +63,9 @@
               />
             </td>
             <td v-else-if="option.type === 'icon'" class="py-4">
-              <img
-                :src="images[option.value]"
+              <Icon
+                :name="`heroicons:${option.value}`"
                 class="table__icon"
-                :alt="images[option.value]"
-                loading="eager"
                 @click="option.action ? $emit(option.action, item.id) : ''"
               />
             </td>
@@ -86,11 +94,9 @@
             <td v-else-if="option.type === 'markup'" class="py-4">
               <BaseModal>
                 <template #trigger>
-                  <img
-                    :src="images[option.value]"
-                    :alt="images[option.value]"
+                  <Icon
+                    :name="`heroicons:${option.value}`"
                     class="w-[25px] h-[25px] cursor-pointer"
-                    loading="eager"
                   />
                 </template>
                 <template #content>
@@ -111,57 +117,53 @@
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { filename } from "pathe/utils";
 import { useFilterStore } from "~/store/filter";
-import { useAdminStore } from "~/store/admin";
+import { useCatalogStore } from "~/store/catalog";
 
 interface BaseTableProps {
   header: BaseTableHeader[];
   shadowed: boolean;
-  data: Array<CatalogItemTable> | Array<OrderItemTable> | Array<User>;
+  sortable: boolean;
+  data:
+    | Array<CatalogItemTable>
+    | Array<OrderItemTable>
+    | Array<User>
+    | Array<BestSellingItem>;
   originalItems?: CatalogItem[];
   emitOptions?: string[];
 }
 
 const props = defineProps<BaseTableProps>();
 
-// const defineEmits = props.emitOptions;
-
 const store = useFilterStore();
-const adminStore = useAdminStore();
+const catalogStore = useCatalogStore();
 
 const { sortOrder, searchValue, sortValue } = storeToRefs(store);
 const { updateSort } = store;
-const { toggleVisibility } = adminStore;
-
-const images = computed(() => {
-  const glob: Record<string, { default: string }> = import.meta.glob(
-    "~/assets/icons/*.svg",
-    { eager: true }
-  );
-  const entries = Object.fromEntries(
-    Object.entries(glob).map(([key, value]) => [filename(key), value.default])
-  );
-  return entries;
-});
+const { toggleVisibility } = catalogStore;
 
 const filteredItems = computed(() => {
   if (props.data.length) {
-    const arr: CatalogItemTable[] | OrderItemTable[] | User[] = props.data;
-    return (arr as Array<CatalogItemTable | OrderItemTable | User>).filter(
-      (item) => {
-        return item.id
-          .toString()
-          .toLowerCase()
-          .includes(searchValue.value.toLowerCase());
-      }
-    );
+    const arr:
+      | CatalogItemTable[]
+      | OrderItemTable[]
+      | User[]
+      | BestSellingItem[] = props.data;
+    return (
+      arr as Array<CatalogItemTable | OrderItemTable | User | BestSellingItem>
+    ).filter((item) => {
+      return item.id
+        .toString()
+        .toLowerCase()
+        .includes(searchValue.value.toLowerCase());
+    });
   } else return [];
 });
 
 const sortedItems = computed(() => {
   const val = sortValue.value;
   const order = sortOrder.value;
+
   if (val === "default") {
     return filteredItems.value;
   } else {
@@ -172,9 +174,23 @@ const sortedItems = computed(() => {
           else if ((b[val as keyof BaseItem] as unknown as string) === "")
             return -1;
           else {
-            return a[val as keyof BaseItem]
-              .toString()
-              .localeCompare(b[val as keyof BaseItem].toString());
+            if (
+              typeof a[val as keyof BaseItem] === "number" &&
+              typeof b[val as keyof BaseItem] === "number"
+            ) {
+              return a[val as keyof BaseItem] - b[val as keyof BaseItem];
+            } else if (
+              typeof a[val as keyof BaseItem] === "object" &&
+              typeof b[val as keyof BaseItem] === "object"
+            ) {
+              const aDate = new Date(a[val as keyof BaseItem]);
+              const bDate = new Date(b[val as keyof BaseItem]);
+              return aDate.getTime() - bDate.getTime();
+            } else {
+              return a[val as keyof BaseItem]
+                .toString()
+                .localeCompare(b[val as keyof BaseItem].toString());
+            }
           }
         }),
       ];
@@ -183,10 +199,25 @@ const sortedItems = computed(() => {
         ...filteredItems.value.sort((a: BaseItem, b: BaseItem) => {
           if ((a[val as keyof BaseItem] as unknown as string) === "") return +1;
           if ((b[val as keyof BaseItem] as unknown as string) === "") return -1;
-          else
-            return b[val as keyof BaseItem]
-              .toString()
-              .localeCompare(a[val as keyof BaseItem].toString());
+          else {
+            if (
+              typeof a[val as keyof BaseItem] === "number" &&
+              typeof b[val as keyof BaseItem] === "number"
+            ) {
+              return b[val as keyof BaseItem] - a[val as keyof BaseItem];
+            } else if (
+              typeof a[val as keyof BaseItem] === "object" &&
+              typeof b[val as keyof BaseItem] === "object"
+            ) {
+              const aDate = new Date(a[val as keyof BaseItem]);
+              const bDate = new Date(b[val as keyof BaseItem]);
+              return bDate.getTime() - aDate.getTime();
+            } else {
+              return b[val as keyof BaseItem]
+                .toString()
+                .localeCompare(a[val as keyof BaseItem].toString());
+            }
+          }
         }),
       ];
     }

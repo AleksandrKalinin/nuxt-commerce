@@ -4,6 +4,7 @@
     :header="ORDERS_HEADER"
     :data="ordersData"
     :shadowed="true"
+    :sortable="true"
     :emit-options="emitOptions"
     @update-order-status="updateOrderStatus"
   ></BaseTable>
@@ -22,6 +23,8 @@ import { storeToRefs } from "pinia";
 import { useOrdersStore } from "~/store/orders";
 import { usePaginationStore } from "~/store/pagination";
 import { ORDERS_HEADER } from "~/constants/orders";
+
+const client = useSupabaseClient();
 
 const pagesStore = usePaginationStore();
 
@@ -59,6 +62,14 @@ const ordersData = computed(() => {
 
 onMounted(() => {
   fetchOrders();
+  client
+    .channel("table-db-changes")
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "orders" },
+      () => fetchOrders()
+    )
+    .subscribe();
 });
 </script>
 
