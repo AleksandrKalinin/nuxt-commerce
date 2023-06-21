@@ -1,35 +1,22 @@
 <template>
-  <div class="pagination-container w-full flex justify-between items-end mt-10">
+  <div class="pagination-container">
     <div class="pagination-container__display">
       {{ start }}-{{ end }}
       out of
       {{ items.length }}
     </div>
-    <div
-      v-if="pageNumbers.length"
-      class="pagination flex cursor-pointer bg-white"
-    >
-      <div
-        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5 h-[50px]"
-        @click="firstPage"
-      >
-        First
-      </div>
+    <div v-if="pageNumbers.length" class="pagination">
+      <div class="pagination__nav" @click="firstPage">First</div>
       <div
         v-for="num in pageNumbers"
         :key="num"
         :class="{ 'pagination-item_active': num === currentPage + 1 }"
-        class="pagination-item flex justify-center items-center border sky-blue-400 w-[50px] h-[50px] font-lg font-semibold"
+        class="pagination-item"
         @click="setPage(num)"
       >
         {{ num }}
       </div>
-      <div
-        class="flex justify-center items-center border sky-blue-400 font-lg font-semibold px-5 h-[50px]"
-        @click="lastPage"
-      >
-        Last
-      </div>
+      <div class="pagination__nav" @click="lastPage">Last</div>
     </div>
     <div v-else class="skeleton-bg h-[50px] w-[300px]"></div>
   </div>
@@ -75,7 +62,7 @@ const firstPage = () => {
   scrollToTarget();
   setTimeout(() => {
     currentPage.value = 0;
-  }, 500);
+  }, 100);
 };
 
 const lastPage = () => {
@@ -83,25 +70,35 @@ const lastPage = () => {
   setTimeout(() => {
     const maxLength = Math.ceil(props.items.length / 12);
     currentPage.value = maxLength - 1;
-  }, 500);
+  }, 100);
 };
 
 const setPage = (num: number) => {
   scrollToTarget();
   setTimeout(() => {
     currentPage.value = num - 1;
-  }, 500);
+  }, 100);
 };
 </script>
 
 <style scoped>
+.pagination {
+  @apply flex cursor-pointer bg-white;
+}
+
+.pagination-container {
+  @apply w-full flex justify-between items-end mt-10;
+}
+
+.pagination__nav {
+  @apply flex justify-center items-center border font-semibold px-5 h-[50px];
+}
+
 .pagination-item {
-  transition: 0.5s all;
+  @apply hover:bg-sky-400 hover:text-white hover:border-sky-400 transition duration-200 flex justify-center items-center border w-[50px] h-[50px]  font-semibold;
 }
 
 .pagination-item_active {
-  background-color: #38bdf8;
-  border: 1px solid #38bdf8;
-  color: #ffffff;
+  @apply bg-sky-400 text-white border-sky-400;
 }
 </style>
