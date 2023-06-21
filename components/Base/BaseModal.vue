@@ -32,7 +32,7 @@ provide("closeModal", closeModal);
 
 <style scoped>
 .overlay {
-  @apply fixed top-0 left-0 overflow-y-auto z-10 w-full h-screen bg-sky-400/75 flex justify-center items-center;
+  @apply fixed top-0 left-0 z-10 w-full h-screen bg-sky-400/75 flex justify-center items-center;
 }
 
 .modal-wrap {

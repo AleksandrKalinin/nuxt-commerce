@@ -1,8 +1,8 @@
 export const CATALOG_INPUT_FIELDS = [
   {
     name: "photo",
-    dataType: "string",
-    elType: "file",
+    dataType: "file",
+    elType: "input",
     default: "",
     placeholder: "Drop a photo or select it manually",
   },
@@ -154,7 +154,7 @@ export const ORDER_INPUT_FIELDS = [
   {
     name: "items",
     dataType: "string",
-    elType: "select-multiple",
+    elType: "select",
     endPoint: "catalog",
     default: "",
     placeholder: "Select catalog items",
@@ -178,7 +178,7 @@ export const USER_INPUT_FIELDS = [
   },
   {
     name: "role",
-    dataType: "boolean",
+    dataType: "string",
     elType: "select",
     options: ["user", "admin"],
     default: "",
@@ -197,30 +197,29 @@ export const USER_INPUT_FIELDS = [
 export const DISCOUNT_INPUT_FIELDS = [
   {
     name: "product_id",
-    dataType: "select",
+    dataType: "string",
     elType: "input",
-    options: [],
     default: "",
     placeholder: "Product id",
   },
   {
     name: "date_start",
     dataType: "date",
-    elType: "datepicker",
+    elType: "input",
     default: "",
     placeholder: "Date of start",
   },
   {
     name: "date_end",
     dataType: "date",
-    elType: "datepicker",
+    elType: "input",
     default: "",
     placeholder: "Date of end",
   },
   {
     name: "discount_number",
     dataType: "number",
-    elType: "number",
+    elType: "input",
     min: 0,
     max: 100,
     default: "",

@@ -4,33 +4,12 @@
       <input
         v-if="item.elType === 'input'"
         v-model="item.default"
+        :type="item.dataType"
         :name="item.name"
         :placeholder="item.placeholder"
-        class="modal-form__input"
-      />
-      <input
-        v-else-if="item.elType === 'file'"
-        type="file"
-        :name="item.name"
-        :placeholder="item.placeholder"
-        class="modal-form__file"
-        @change="selectImage"
-      />
-      <input
-        v-else-if="item.elType === 'number'"
-        type="number"
-        :min="item.min"
-        :max="item.max"
-        :name="item.name"
-        :placeholder="item.placeholder"
-        class="modal-form__input"
-      />
-      <input
-        v-else-if="item.elType === 'datepicker'"
-        type="date"
-        :name="item.name"
-        :placeholder="item.placeholder"
-        class="modal-form__input"
+        :class="
+          item.dataType === 'file' ? 'modal-form__file' : 'modal-form__input'
+        "
       />
       <select
         v-else-if="item.elType === 'select'"

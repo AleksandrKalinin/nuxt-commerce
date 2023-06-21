@@ -1,7 +1,12 @@
 <template>
   <div class="toggle">
     <label class="switch">
-      <input type="checkbox" :checked="state" :value="state" />
+      <input
+        type="checkbox"
+        :checked="state"
+        :value="state"
+        :name="'toggle' + id"
+      />
       <span class="slider round"></span>
     </label>
   </div>
@@ -10,6 +15,7 @@
 <script setup lang="ts">
 defineProps<{
   state: boolean;
+  id: string;
 }>();
 </script>
 
