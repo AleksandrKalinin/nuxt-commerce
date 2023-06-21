@@ -46,7 +46,7 @@
             </td>
             <td v-else-if="option.type === 'toggle'" class="py-4">
               <BaseToggleInput
-                :id="item.id"
+                :id="item.id.toString()"
                 :state="(item[option.value as keyof BaseItem] as unknown as boolean)"
                 @change="toggleVisibility($event, item.id)"
               />
