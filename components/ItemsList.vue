@@ -1,10 +1,10 @@
 <template>
-  <div class="list h-[300px] overflow-hidden mb-5">
+  <div class="list">
     <h3 class="mb-2 text-xl">Select items</h3>
     <div class="list-wrapper pb-5">
       <template v-for="(item, index) in itemsToRender" :key="item.id">
         <div
-          class="list-wrapper__item flex items-center justify-between mb-2"
+          class="list-wrapper__item"
           :class="isDisabled(item.id) ? 'list-item_disabled' : ''"
         >
           <label class="mcui-checkbox mr-5">
@@ -108,8 +108,16 @@ const updateQuantity = (e, id) => {
 </script>
 
 <style scoped>
+.list {
+  @apply h-[300px] overflow-hidden mb-5;
+}
+
 .list-wrapper {
   @apply h-[300px] w-full overflow-y-auto;
+}
+
+.list-wrapper__item {
+  @apply flex items-center justify-between mb-2;
 }
 
 .modal-form__input.bottom-0 {
