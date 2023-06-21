@@ -1,13 +1,9 @@
 <template>
   <section class="rating-section px-5 py-[50px]">
-    <h2 class="mb-7 text-2xl font-semibold">Ratings and reviews</h2>
-    <div class="summary flex max-xl:flex-col">
-      <div
-        class="flex max-xl:mb-5 max-xl:mx-auto max-[500px]:flex-col max-[500px]:items-start max-[500px]:mx-0"
-      >
-        <div
-          class="summary__score summary-score pr-10 flex flex-col items-center max-[500px]:mb-4"
-        >
+    <h2 class="rating-section__title">Ratings and reviews</h2>
+    <div class="summary">
+      <div class="summary-wrapper">
+        <div class="summary__score summary-score">
           <h3 class="summary-score__rating text-6xl mb-3">
             {{ averageRating }}
           </h3>
@@ -17,9 +13,7 @@
             :show-rating="false"
             read-only
           />
-          <p class="mt-2 text-base text-zinc-600">
-            {{ reviews.length }} product ratings
-          </p>
+          <p class="summary-text">{{ reviews.length }} product ratings</p>
         </div>
         <ul class="summary__description summary-description pr-10">
           <li
@@ -46,12 +40,8 @@
           </li>
         </ul>
       </div>
-      <div
-        class="summary__percentage summary-percentage flex max-xl:mx-auto max-[500px]:flex-wrap"
-      >
-        <div
-          class="summary-percentage__item w-[130px] flex flex-col items-center max-[500px]:mb-3"
-        >
+      <div class="summary__percentage summary-percentage">
+        <div class="summary-percentage__item percentage-item">
           <circle-progress
             :percent="priceRating"
             fill-color="#52525B"
@@ -61,11 +51,9 @@
             :border-width="5"
             :border-bg-width="5"
           />
-          <h5 class="text-base text-zinc-600 mt-2">Good price</h5>
+          <h5 class="summary-text">Good price</h5>
         </div>
-        <div
-          class="summary-percentage__item w-[130px] flex flex-col items-center max-[500px]:mb-3"
-        >
+        <div class="summary-percentage__item">
           <circle-progress
             :percent="qualityRating"
             fill-color="#52525B"
@@ -75,11 +63,9 @@
             :border-width="5"
             :border-bg-width="5"
           />
-          <h5 class="text-base text-zinc-600 mt-2">Quality</h5>
+          <h5 class="summary-text">Quality</h5>
         </div>
-        <div
-          class="summary-percentage__item w-[130px] flex flex-col items-center max-[500px]:mb-3"
-        >
+        <div class="summary-percentage__item">
           <circle-progress
             :percent="descriptionRating"
             fill-color="#52525B"
@@ -89,7 +75,7 @@
             :border-width="5"
             :border-bg-width="5"
           />
-          <h5 class="text-base text-zinc-600 mt-2">Fit the description</h5>
+          <h5 class="summary-text">Fit the description</h5>
         </div>
       </div>
     </div>
@@ -147,6 +133,22 @@ const progressArray = computed(() => {
 </script>
 
 <style lang="css">
+.rating-section__title {
+  @apply mb-7 text-2xl font-semibold;
+}
+
+.summary {
+  @apply flex max-xl:flex-col;
+}
+
+.summary-wrapper {
+  @apply flex max-xl:mb-5 max-xl:mx-auto max-[500px]:flex-col max-[500px]:items-start max-[500px]:mx-0;
+}
+
+.summary-score {
+  @apply pr-10 flex flex-col items-center max-[500px]:mb-4;
+}
+
 .summary-block {
   @apply flex items-center;
 }
@@ -154,6 +156,19 @@ const progressArray = computed(() => {
 .summary-block__breakdown {
   @apply flex items-center;
 }
+
+.summary-percentage {
+  @apply flex max-xl:mx-auto max-[500px]:flex-wrap;
+}
+
+.summary-percentage__item {
+  @apply w-[130px] flex flex-col items-center max-[500px]:mb-3;
+}
+
+.summary-text {
+  @apply text-base text-zinc-600 mt-2;
+}
+
 .progress {
   @apply w-[150px] h-[10px] bg-zinc-200 mx-2 relative overflow-hidden rounded-full;
 }

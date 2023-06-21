@@ -5,7 +5,7 @@
         <tr v-for="item in reviews" :key="item.id">
           <td>
             <div class="review py-3">
-              <div class="flex justify-between mb-2 max-md:flex-col-reverse">
+              <div class="review__wrapper">
                 <div>
                   <h6 class="text-lg font-semibold">{{ item.author }}</h6>
                   <star-rating
@@ -35,9 +35,7 @@
             class="selected-reviews__form reviews-form"
             @submit.prevent="sendReview()"
           >
-            <h3 class="reviews-form__title mb-3 font-semibold text-xl">
-              Leave review
-            </h3>
+            <h3 class="reviews-form__title">Leave review</h3>
             <div class="reviews-form__block flex mb-2">
               <h4 class="font-semibold text-base min-w-[150px]">Your score</h4>
               <star-rating
@@ -46,16 +44,16 @@
                 show-rating="false"
               />
             </div>
-            <div class="reviews-form__block flex mb-2">
-              <h4 class="font-semibold text-base min-w-[150px]">Your review</h4>
+            <div class="reviews-form__block review-block flex mb-2">
+              <h4 class="review-block__title">Your review</h4>
               <textarea
                 v-model="reviewTxt"
                 class="reviews-form__text"
                 placeholder="Your review"
               />
             </div>
-            <div class="reviews-form__block flex mb-2">
-              <h4 class="font-semibold text-base min-w-[150px]">Good value</h4>
+            <div class="reviews-form__block review-block flex mb-2">
+              <h4 class="review-block__title">Good value</h4>
               <div class="reviews-form__details flex flex-col">
                 <star-rating
                   v-model:rating="valueRating"
@@ -65,8 +63,8 @@
                 />
               </div>
             </div>
-            <div class="reviews-form__block flex mb-2">
-              <h4 class="font-semibold text-base min-w-[150px]">Quality</h4>
+            <div class="reviews-form__block review-block flex mb-2">
+              <h4 class="review-block__title">Quality</h4>
               <div class="reviews-form__details flex flex-col">
                 <star-rating
                   v-model:rating="qualityRating"
@@ -76,10 +74,8 @@
                 />
               </div>
             </div>
-            <div class="reviews-form__block flex mb-2">
-              <h4 class="font-semibold text-base min-w-[150px]">
-                Fit the description
-              </h4>
+            <div class="reviews-form__block review-block flex mb-2">
+              <h4 class="review-block__title">Fit the description</h4>
               <div class="reviews-form__details flex flex-col">
                 <star-rating
                   v-model:rating="descriptionRating"
@@ -102,7 +98,7 @@
         <td>
           <BaseModal>
             <template #trigger>
-              <span class="cursor-pointer text-lg font-semibold">
+              <span class="login-link">
                 <span class="text-sky-400">Log in</span> to leave a review
               </span>
             </template>
@@ -181,20 +177,39 @@ const sendReview = async () => {
 </script>
 
 <style scoped lang="css">
+.review__wrapper {
+  @apply flex justify-between mb-2 max-md:flex-col-reverse;
+}
+
 .selected-item__reviews {
   @apply w-full border-separate border-spacing-2 py-5 px-3 mb-5 bg-white;
 }
+
 .selected-reviews__form {
   @apply flex flex-col justify-end;
 }
+
 .reviews-title {
   @apply text-2xl font-semibold mb-4;
 }
+
+.review-block__title {
+  @apply font-semibold text-base min-w-[150px];
+}
+
+.reviews-form__title {
+  @apply mb-3 font-semibold text-xl;
+}
+
 .reviews-form__text {
   @apply w-full resize-none p-3 bg-white border min-h-[120px] rounded-none mb-4 p-3 text-lg py-2;
 }
 
 .reviews-form__submit {
   @apply disabled:bg-gray-200 disabled:cursor-default self-end bg-sky-400 text-white px-8 max-h-[50px] py-2 text-lg cursor-pointer tracking-wider transition duration-200 hover:bg-sky-500;
+}
+
+.login-link {
+  @apply cursor-pointer text-lg font-semibold;
 }
 </style>

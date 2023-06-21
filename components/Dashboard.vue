@@ -179,19 +179,6 @@ const getCurrentMonth = () => {
   return { startDate, endDate };
 };
 
-const getCurrentYear = () => {
-  const currentDate = new Date();
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
-  const startDate = new Date(year, month, 1);
-  const endDate = new Date(year, month, 1);
-
-  while (endDate.getMonth() === month) {
-    endDate.setDate(endDate.getDate() + 1);
-  }
-  return { startDate, endDate };
-};
-
 interface DashboardProps {
   revenue: ChartData;
   users: ChartData;
