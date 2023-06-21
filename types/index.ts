@@ -72,6 +72,7 @@ declare global {
     item_code: number;
     is_visible: boolean;
     reviews: Review[];
+    amount?: number;
   }
 
   interface BestSellingItem {

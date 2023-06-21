@@ -10,7 +10,7 @@
           <div class="info-item__content">
             <h3 class="info-item__title">
               E-mail
-              <Icon name="heroicons:face-frown" color="#444444" size="30px" />
+              <Icon name="heroicons:user-circle" color="#444444" size="30px" />
             </h3>
             <h4 class="text-lg">{{ user?.email }}</h4>
           </div>
@@ -51,12 +51,32 @@
       <h2 class="cabinet-block__header">Notification settings</h2>
       <div class="cabinet-block__content">
         <p class="flex items-center text-xl mb-3">
-          <input class="mr-3 w-[20px] h-[20px]" type="checkbox" />
-          I want to receive news and promotions by email
+          <label class="mcui-checkbox mr-5">
+            <input type="checkbox" :name="promotions" />
+            <div>
+              <svg class="mcui-check" viewBox="-2 -2 35 35" aria-hidden="true">
+                <title>checkmark-circle</title>
+                <polyline points="7.57 15.87 12.62 21.07 23.43 9.93" />
+              </svg>
+            </div>
+            <div class="text-xl">
+              I want to receive news and promotions by email
+            </div>
+          </label>
         </p>
         <p class="flex items-center text-xl mb-3">
-          <input class="mr-3 w-[20px] h-[20px]" type="checkbox" />
-          Send me notifications about my orders status
+          <label class="mcui-checkbox mr-5">
+            <input type="checkbox" :name="promotions" />
+            <div>
+              <svg class="mcui-check" viewBox="-2 -2 35 35" aria-hidden="true">
+                <title>checkmark-circle</title>
+                <polyline points="7.57 15.87 12.62 21.07 23.43 9.93" />
+              </svg>
+            </div>
+            <div class="text-xl">
+              Send me notifications about my orders status
+            </div>
+          </label>
         </p>
       </div>
     </div>
@@ -82,7 +102,7 @@
             :header="USER_ORDERS_HEADER"
             :data="item.items"
             :shadowed="false"
-            :sortable="true"
+            :sortable="false"
           />
         </div>
       </template>

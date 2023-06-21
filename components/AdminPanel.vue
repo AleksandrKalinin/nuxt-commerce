@@ -2,7 +2,12 @@
   <div class="admin-panel">
     <h2 class="admin-panel__title">{{ title }}</h2>
     <div class="flex">
-      <input type="text" placeholder="Search" class="admin-panel__search" />
+      <input
+        type="text"
+        placeholder="Search"
+        class="admin-panel__search"
+        name="search"
+      />
       <BaseModal>
         <template #trigger>
           <button class="button_regular">{{ button }}</button>
