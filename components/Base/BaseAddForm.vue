@@ -61,6 +61,7 @@ const { activeItem } = storeToRefs(catalogStore);
 const props = defineProps<{
   fields: INPUT_UNION;
   currentPage: string;
+  title?: string;
 }>();
 
 const form = ref(null);
@@ -72,6 +73,10 @@ const submitForm = () => {
   formatFormValues(values, props.currentPage);
   closeModal();
 };
+
+onMounted(() => {
+  console.log(props);
+});
 </script>
 
 <style>
