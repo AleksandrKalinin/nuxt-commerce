@@ -1,6 +1,18 @@
 <template>
   <Transition>
     <div class="catalog__item catalog-item relative">
+      <div v-if="item.discounts !== null" class="discount-bar">
+        <span
+          class="discount-bar__text"
+        >
+          Limited offer
+        </span>
+        <span
+          class="discount-bar__percentage"
+        >
+          -{{item.discounts.discount_number}}%
+        </span>        
+      </div>      
       <div class="catalog-item__image">
         <img
           class="catalog-item__picture"
@@ -14,12 +26,6 @@
           <NuxtLink :to="itemRoute">{{ item.name }} </NuxtLink>
         </h2>
         <p class="text-base mb-3">{{ item.type }}</p>
-        <span
-          v-if="item.discounts !== null"
-          class="catalog-item__discount limited-offer"
-        >
-          Limited offer
-        </span>
         <p class="mb-1 mt-3 flex justify-start items-end">
           <div class="mr-3">
             <span class="text-2xl font-bold pr-1">{{ currentPrice }}</span>
@@ -85,7 +91,7 @@ const currentPrice = computed(() => {
 }
 
 .catalog-item__title {
-  @apply flex justify-between items-center text-lg font-normal;
+  @apply flex justify-between items-center text-xl font-normal;
 }
 
 .catalog-item__orders {

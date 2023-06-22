@@ -1,12 +1,18 @@
 <template>
   <section v-if="selectedItem" class="selected-item">
     <div class="selected-item__info">
-      <span
-          v-if="selectedItem.discounts !== null"
-          class="catalog-item__discount limited-offer"
+      <div v-if="selectedItem.discounts !== null" class="discount-bar">
+        <span
+          class="discount-bar__text"
         >
           Limited offer
         </span>
+        <span
+          class="discount-bar__percentage"
+        >
+          -{{selectedItem.discounts.discount_number}}%
+        </span>        
+      </div>
       <div class="p-5">
         <img
           class="selected-item__image"

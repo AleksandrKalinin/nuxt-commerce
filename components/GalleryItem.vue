@@ -1,11 +1,17 @@
 <template>
   <div class="gallery__item gallery-item">
-    <span
-      v-if="item.discounts !== null"
-      class="catalog-item__discount limited-offer"
-    >
-      Limited offer
-    </span>
+    <div v-if="item.discounts !== null" class="discount-bar">
+      <span
+        class="discount-bar__text"
+      >
+        Limited offer
+      </span>
+      <span
+          class="discount-bar__percentage"
+        >
+          -{{item.discounts.discount_number}}%
+        </span>         
+    </div>
     <div class="gallery-item__image">
       <img
         class="gallery-item__picture"
