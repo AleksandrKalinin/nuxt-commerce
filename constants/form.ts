@@ -196,13 +196,6 @@ export const USER_INPUT_FIELDS = [
 
 export const DISCOUNT_INPUT_FIELDS = [
   {
-    name: "product_id",
-    dataType: "string",
-    elType: "input",
-    default: "",
-    placeholder: "Product id",
-  },
-  {
     name: "date_start",
     dataType: "date",
     elType: "input",

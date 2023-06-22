@@ -17,6 +17,7 @@
             v-if="currentPage !== 'orders'"
             :fields="fields"
             :current-page="currentPage"
+            :title="title"
             @close-modal="closeModal"
           />
           <OrdersForm v-else fields="fields" :current-page="currentPage" />

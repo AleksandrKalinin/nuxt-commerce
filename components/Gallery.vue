@@ -1,7 +1,7 @@
 <template>
   <section class="gallery" :class="`max-w-[${380 * itemsNumber}px]`">
     <div class="gallery__header gallery-header">
-      <h2 class="gallery-header__text">Popular products</h2>
+      <h2 class="gallery-header__text">{{ title }}</h2>
     </div>
     <carousel :items-to-show="itemsNumber" :style="maxWidth" class="mx-auto">
       <slide v-for="item in items" :key="item.id">
@@ -19,6 +19,7 @@ import { Carousel, Slide, Navigation } from "vue3-carousel";
 
 defineProps<{
   items: CatalogItem[];
+  title: string;
 }>();
 
 const { type } = useBreakpoints();

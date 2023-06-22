@@ -30,10 +30,16 @@ export function toastHandler(error: string) {
         message: "Error! Unable to submit your review",
       };
       break;
-    case "order-confirmed":
+    case "order-confirmation-success":
       return {
         toast: "showSuccessToast",
         message: "Order confirmed!",
+      };
+      break;
+    case "order-confirmation-error":
+      return {
+        toast: "showSuccessToast",
+        message: "Error! Unable to confirm your order!",
       };
       break;
     case "invalid-email":

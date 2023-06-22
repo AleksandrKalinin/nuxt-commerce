@@ -5,11 +5,6 @@ export const DISCOUNTS_HEADER = [
     type: "plain",
   },
   {
-    label: "Product id",
-    value: "product_id",
-    type: "plain",
-  },
-  {
     label: "Discount start",
     value: "date_start",
     type: "date",

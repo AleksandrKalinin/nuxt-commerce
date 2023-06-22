@@ -5,6 +5,7 @@
         <th
           v-for="(item, index) in header"
           :key="index"
+          class="px-3 py-4"
           @click="sortable ? updateSort(item.value) : ''"
         >
           {{ item.label }}
@@ -13,17 +14,21 @@
     </thead>
     <tbody>
       <TransitionGroup name="table">
-        <tr v-for="(item, index) in sortedItems" :key="index" class="text-left">
+        <tr
+          v-for="(item, index) in sortedItems"
+          :key="index"
+          class="table-row text-left hover:bg-slate-100 cursor-pointer"
+        >
           <template v-for="(option, optionId) in header" :key="optionId">
             <td
               v-if="option.type === 'plain'"
-              class="py-4 max-w-[300px] min-w-[40px] w-fit"
+              class="py-4 px-3 max-w-[300px] min-w-[40px] w-fit"
             >
               {{ item[option.value as keyof BaseItem] }}
             </td>
             <td
               v-if="option.type === 'boolean'"
-              class="py-4 max-w-[300px] min-w-[40px] w-fit"
+              class="py-4 px-3 max-w-[300px] min-w-[40px] w-fit"
             >
               <span
                 class="px-3 py-1 rounded-lg text-white"
@@ -31,10 +36,10 @@
                 >{{ item[option.value as keyof BaseItem] }}</span
               >
             </td>
-            <td v-if="option.type === 'date'" class="py-4">
+            <td v-if="option.type === 'date'" class="py-4 px-3">
               {{ formatDate(new Date(item[option.value as keyof BaseItem])) }}
             </td>
-            <td v-else-if="option.type === 'image'" class="py-4">
+            <td v-else-if="option.type === 'image'" class="py-4 px-3">
               <div class="table__image">
                 <img
                   class="h-full object-cover object-center"
@@ -44,14 +49,14 @@
                 />
               </div>
             </td>
-            <td v-else-if="option.type === 'toggle'" class="py-4">
+            <td v-else-if="option.type === 'toggle'" class="py-4 px-3">
               <BaseToggleInput
                 :id="item.id.toString()"
                 :state="(item[option.value as keyof BaseItem] as unknown as boolean)"
                 @change="toggleVisibility($event, item.id)"
               />
             </td>
-            <td v-else-if="option.type === 'number'" class="py-4">
+            <td v-else-if="option.type === 'number'" class="py-4 px-3">
               <input
                 v-model.number="item[option.value as keyof BaseItem]"
                 min="1"
@@ -59,25 +64,31 @@
                 :name="'number' + item.id"
                 @input="
                   option.action
-                    ? $emit(option.action, { id: item.id, event: $event })
+                    ? $emit(option.action, {
+                        id: item.id,
+                        event: $event,
+                      })
                     : ''
                 "
               />
             </td>
-            <td v-else-if="option.type === 'icon'" class="py-4">
+            <td v-else-if="option.type === 'icon'" class="py-4 px-3">
               <Icon
                 :name="`heroicons:${option.value}`"
                 class="table__icon"
                 @click="option.action ? $emit(option.action, item.id) : ''"
               />
             </td>
-            <td v-else-if="option.type === 'select'" class="py-4">
+            <td v-else-if="option.type === 'select'" class="py-4 px-3">
               <select
                 class="table__select"
                 :name="'select' + item.id"
                 @change="
                   option.action
-                    ? $emit(option.action, { id: item.id, event: $event })
+                    ? $emit(option.action, {
+                        id: item.id,
+                        event: $event,
+                      })
                     : ''
                 "
               >
@@ -94,7 +105,7 @@
                 </template>
               </select>
             </td>
-            <td v-else-if="option.type === 'markup'" class="py-4">
+            <td v-else-if="option.type === 'markup'" class="py-4 px-3">
               <BaseModal>
                 <template #trigger>
                   <Icon
@@ -235,7 +246,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .table {
-  @apply w-full min-w-full border-separate border-spacing-2 border py-5 px-3 bg-white border border-white rounded-lg;
+  @apply w-full min-w-full border-collapse border-spacing-2 border py-5 px-3 bg-white border border-white rounded-lg;
 }
 
 .table_shadowed {

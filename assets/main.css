@@ -34,6 +34,15 @@ body {
   @apply flex items-center transition duration-200 text-lg px-7 py-2 text-white border min-w-[130px];
 }
 
+.discount-bar {
+  @apply absolute top-[5px] left-[5px] flex justify-between w-[calc(100%-10px)];
+}
+
+.discount-bar__text,
+.discount-bar__percentage {
+  @apply px-2 py-1 bg-red-500 text-white rounded-md;
+}
+
 @keyframes skeletonBg {
   0% {
     background-color: #eeeeee;

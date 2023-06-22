@@ -1,6 +1,18 @@
 <template>
   <Transition>
-    <div class="catalog__item catalog-item">
+    <div class="catalog__item catalog-item relative">
+      <div v-if="item.discounts !== null" class="discount-bar">
+        <span
+          class="discount-bar__text"
+        >
+          Limited offer
+        </span>
+        <span
+          class="discount-bar__percentage"
+        >
+          -{{item.discounts.discount_number}}%
+        </span>        
+      </div>      
       <div class="catalog-item__image">
         <img
           class="catalog-item__picture"
@@ -13,9 +25,16 @@
         <h2 class="catalog-item__title">
           <NuxtLink :to="itemRoute">{{ item.name }} </NuxtLink>
         </h2>
-        <p class="text-base mb-1">{{ item.type }}</p>
-        <p class="text-2xl mb-1 font-bold">
-          {{ item.price }} <span class="text-base font-normal">USD</span>
+        <p class="text-base mb-3">{{ item.type }}</p>
+        <p class="mb-1 mt-3 flex justify-start items-end">
+          <div class="mr-3">
+            <span class="text-2xl font-bold pr-1">{{ currentPrice }}</span>
+            <span class="text-base font-normal">USD</span>
+          </div>
+          <div v-if="item.discounts !== null" class="price_crossed line-through tracking-wide">
+            <span class="text-normal">{{ item.price }}</span>
+            <span class="text-normal">USD</span>
+          </div>          
         </p>
         <p class="catalog-item__orders catalog-orders">
           <Icon
@@ -27,7 +46,7 @@
         </p>
         <button
           class="button_regular button_centered"
-          @click="addToCart(item.id)"
+          @click="addToCart(item.id, currentPrice)"
         >
           Add to cart
         </button>
@@ -48,6 +67,14 @@ const props = defineProps<{
 const itemRoute = computed(() => {
   return "/catalog/" + props.item.id;
 });
+
+const currentPrice = computed(() => {
+  return props.item.discounts !== null
+    ? Math.floor(
+        props.item.price * ((100 - props.item.discounts.discount_number) / 100)
+      )
+    : props.item.price;
+});
 </script>
 
 <style scoped lang="css">
@@ -64,7 +91,7 @@ const itemRoute = computed(() => {
 }
 
 .catalog-item__title {
-  @apply flex justify-between items-center text-lg font-normal;
+  @apply flex justify-between items-center text-xl font-normal;
 }
 
 .catalog-item__orders {

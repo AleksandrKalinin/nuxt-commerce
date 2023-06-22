@@ -1,6 +1,18 @@
 <template>
   <section v-if="selectedItem" class="selected-item">
     <div class="selected-item__info">
+      <div v-if="selectedItem.discounts !== null" class="discount-bar">
+        <span
+          class="discount-bar__text"
+        >
+          Limited offer
+        </span>
+        <span
+          class="discount-bar__percentage"
+        >
+          -{{selectedItem.discounts.discount_number}}%
+        </span>        
+      </div>
       <div class="p-5">
         <img
           class="selected-item__image"
@@ -12,7 +24,7 @@
 
       <div class="w-full p-5">
         <h1 class="selected-item__name">{{ selectedItem.name }}</h1>
-        <p class="mb-1 flex items-center">
+        <p class="mb-3 flex items-center">
           <span class="pr-2 font-semibold text-lg">{{ averageRating }}</span>
           <star-rating
             v-model:rating="averageRating"
@@ -25,21 +37,25 @@
             <span>ratings</span>
           </span>
         </p>
-        <p class="mb-1">
+        <p class="mb-2">
           <span class="text-lg font-semibold">Manufacturer:</span>
           {{ selectedItem.manufacturer }}
         </p>
-        <p class="mb-1">
+        <p class="mb-2">
           <span class="text-lg font-semibold">Warranty:</span>
           {{ selectedItem.warranty }} month
         </p>
-        <p class="mb-1 mt-4 flex items-center">
-          <span class="text-2xl font-semibold"
-            >{{ selectedItem.price }}
-            <span class="uppercase font-normal text-base">Usd</span>
-          </span>
+        <p class="mb-2 mt-2 flex items-end">
+          <div class="mr-3">
+            <span class="text-2xl font-bold pr-1">{{ currentPrice }}</span>
+            <span class="text-base font-normal">USD</span>
+          </div>
+          <div v-if="selectedItem.price !== null" class="price_crossed line-through tracking-wide">
+            <span class="text-normal">{{ selectedItem.price }}</span>
+            <span class="text-normal">USD</span>
+          </div>          
         </p>
-        <p class="mb-2 flex items-center text-base text-zinc-400">
+        <p class="selected-item__stock">
           <Icon
             name="heroicons:check-circle"
             color="#444444"
@@ -54,7 +70,7 @@
           class="button_regular disabled:bg-gray-200"
           :disabled="selectedItem.in_stock < 0 ? true : false"
           show-rating="false"
-          @click="addToCart(selectedItem.id)"
+          @click="addToCart(selectedItem.id, currentPrice)"
         >
           <Icon
             name="heroicons:shopping-cart"
@@ -117,7 +133,8 @@
         />
       </Transition>
     </KeepAlive>
-    <Gallery :items="galleryItems" />
+    <Gallery :items="popularItems" title="Popular products" />
+    <Gallery :items="discountItems" title="Limited-time offer" />
   </section>
   <SelectedItemSkeleton v-else />
 </template>
@@ -129,17 +146,21 @@ import { SELECTED_ITEM_PROPERTIES } from "~/constants/selectedItem";
 import { useCatalogStore } from "~/store/catalog";
 import { useRatingsStore } from "~/store/ratings";
 import { useCartStore } from "~/store/cart";
+import { useOrdersStore } from "~/store/orders"
 
 const catalogStore = useCatalogStore();
 const ratingsStore = useRatingsStore();
 const cartStore = useCartStore();
+const ordersStore = useOrdersStore();
 
 const { selectedItem, visibleItems } = storeToRefs(catalogStore);
 const { ratings } = storeToRefs(ratingsStore);
+const { orders} = storeToRefs(ordersStore);
 
 const { fetchSelectedItem, fetchCatalogItems } = catalogStore;
 const { fetchRating } = ratingsStore;
 const { addToCart } = cartStore;
+const { fetchOrders } = ordersStore;
 
 const id = useRoute().params.id;
 
@@ -165,13 +186,35 @@ watch(selectedItem, () => {
   }
 });
 
-const galleryItems = computed(() => {
-  let random = 0;
-  if (visibleItems.value) {
-    random = Math.floor(Math.random() * (visibleItems.value.length - 6) + 1);
-    return visibleItems.value.slice(random, random + 7);
-  } else return [];
+const currentPrice = computed(() => {
+  return selectedItem.value.discounts !== null ? Math.floor(selectedItem.value.price * ( (100 - selectedItem.value.discounts.discount_number)/100 )): selectedItem.value.price
+})
+
+const discountItems = computed(() => {
+  return visibleItems.value.filter((item) => {
+    return item.discounts !== null
+  })
 });
+
+const popularItems = computed(() => {
+  const bestSelling = [];
+  orders.value
+    .forEach((order) => {
+      order.items.forEach((item) => {
+        const index = bestSelling.findIndex((x) => x.id === item.id);
+
+        if (index !== -1) {
+          bestSelling[index].items_sold += item.amount;
+        } else {
+          item.items_sold = item.amount
+          item.discounts = item.discounts ? item.discounts : null
+          bestSelling.push(item);
+        }
+      });
+    });
+  return bestSelling.sort((a, b) => b.items_sold - a.items_sold).slice(0, 6);
+});
+
 
 const averageRating = computed(() => {
   if (ratings.value?.length) {
@@ -253,6 +296,7 @@ const reviews = computed(() => {
 
 onMounted(() => {
   fetchCatalogItems();
+  fetchOrders()
   if (id) {
     fetchSelectedItem(id);
   }
@@ -265,7 +309,7 @@ onMounted(() => {
 }
 
 .selected-item__info {
-  @apply w-full flex justify-between mb-5 bg-white max-sm:flex-col border-b-2 border-zinc-200;
+  @apply relative w-full flex justify-between mb-5 bg-white max-sm:flex-col border-b-2 border-zinc-200;
 }
 
 .selected-item__image {
@@ -273,7 +317,11 @@ onMounted(() => {
 }
 
 .selected-item__name {
-  @apply text-3xl font-semibold mb-2;
+  @apply text-3xl font-semibold mb-1;
+}
+
+.selected-item__stock {
+  @apply mb-2 flex items-center text-base text-zinc-400;
 }
 
 .tabs {

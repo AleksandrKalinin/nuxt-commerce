@@ -4,7 +4,7 @@
     <h2 class="font-semibold text-4xl mb-7">Cart</h2>
     <BaseTable
       :header="CART_HEADER"
-      :data="cartItems"
+      :data="data"
       :shadowed="true"
       :sortable="false"
       :emit-options="emitOptions"
@@ -70,6 +70,19 @@ const setAmount = ({ id, event }: { id: number; event: Event }) => {
   const val = Number(target.value);
   updateAmount(val, id);
 };
+
+const data = computed(() => {
+  return cartItems.value.map((item) => {
+    const price =
+      item.discounts !== null
+        ? Math.floor(
+            item.price * ((100 - item.discounts.discount_number) / 100)
+          )
+        : item.price;
+    item.price = price;
+    return item;
+  });
+});
 
 const deleteItemFromCart = (id: number) => {
   deleteItem(id);

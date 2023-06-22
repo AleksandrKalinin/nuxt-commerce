@@ -16,7 +16,7 @@
         {{ item.email }}
       </option>
     </select>
-    <ItemsList :items="catalogItems" @select-items="selectItems" />
+    <OrdersFormList :items="catalogItems" @select-items="selectItems" />
     <input
       class="button_regular"
       type="submit"
