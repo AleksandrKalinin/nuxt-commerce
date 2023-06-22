@@ -33,7 +33,7 @@
 }
 
 .catalog-item__title {
-  @apply flex justify-between items-center text-lg font-normal;
+  @apply flex justify-between items-center text-xl font-normal;
 }
 
 .catalog-item__orders {

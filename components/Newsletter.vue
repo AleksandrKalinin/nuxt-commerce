@@ -16,7 +16,7 @@
         <form class="newsletter-form" @submit.prevent="subscribeToNews">
           <input
             type="text"
-            placeholder="Ваш e-mail"
+            placeholder="Your e-mail"
             class="newsletter-form__input"
           />
           <input

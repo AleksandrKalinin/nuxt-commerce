@@ -13,7 +13,7 @@ export const useDiscountsStore = defineStore("discounts", () => {
   const fetchDiscounts = async () => {
     const { data, error } = await client
       .from("discounts")
-      .select("id, product_id, date_start, date_end, discount_number");
+      .select("id, date_start, date_end, discount_number");
     discounts.value = formatDiscounts(data);
     if (error) throw error;
   };
