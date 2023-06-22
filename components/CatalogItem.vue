@@ -1,6 +1,6 @@
 <template>
   <Transition>
-    <div class="catalog__item catalog-item">
+    <div class="catalog__item catalog-item relative">
       <div class="catalog-item__image">
         <img
           class="catalog-item__picture"
@@ -13,9 +13,22 @@
         <h2 class="catalog-item__title">
           <NuxtLink :to="itemRoute">{{ item.name }} </NuxtLink>
         </h2>
-        <p class="text-base mb-1">{{ item.type }}</p>
-        <p class="text-2xl mb-1 font-bold">
-          {{ item.price }} <span class="text-base font-normal">USD</span>
+        <p class="text-base mb-3">{{ item.type }}</p>
+        <span
+          v-if="item.discounts !== null"
+          class="absolute top-[3px] left-[3px] catalog-item__discount px-2 py-1 bg-red-500 text-white rounded-md self-start"
+        >
+          Limited offer
+        </span>
+        <p class="mb-1 mt-3 flex justify-start items-end">
+          <div class="mr-3">
+            <span class="text-2xl font-bold pr-1">{{ currentPrice }}</span>
+            <span class="text-base font-normal">USD</span>
+          </div>
+          <div v-if="item.discounts !== null" class="price_crossed line-through tracking-wide">
+            <span class="text-normal">{{ item.price }}</span>
+            <span class="text-normal">USD</span>
+          </div>
         </p>
         <p class="catalog-item__orders catalog-orders">
           <Icon
@@ -27,7 +40,7 @@
         </p>
         <button
           class="button_regular button_centered"
-          @click="addToCart(item.id)"
+          @click="addToCart(item.id, currentPrice)"
         >
           Add to cart
         </button>
@@ -48,6 +61,11 @@ const props = defineProps<{
 const itemRoute = computed(() => {
   return "/catalog/" + props.item.id;
 });
+
+
+const currentPrice = computed(() => {
+  return props.item.discounts !== null ? Math.floor(props.item.price * ( (100 - props.item.discounts.discount_number)/100 )): props.item.price
+})
 </script>
 
 <style scoped lang="css">

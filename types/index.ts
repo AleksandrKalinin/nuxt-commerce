@@ -73,6 +73,9 @@ declare global {
     is_visible: boolean;
     reviews: Review[];
     amount?: number;
+    discounts: null | {
+      discount_number: number;
+    };
   }
 
   interface BestSellingItem {

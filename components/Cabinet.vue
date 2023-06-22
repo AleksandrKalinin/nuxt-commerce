@@ -50,34 +50,28 @@
     <div class="cabinet__block cabinet-block">
       <h2 class="cabinet-block__header">Notification settings</h2>
       <div class="cabinet-block__content">
-        <p class="flex items-center text-xl mb-3">
-          <label class="mcui-checkbox mr-5">
-            <input type="checkbox" :name="promotions" />
-            <div>
-              <svg class="mcui-check" viewBox="-2 -2 35 35" aria-hidden="true">
-                <title>checkmark-circle</title>
-                <polyline points="7.57 15.87 12.62 21.07 23.43 9.93" />
-              </svg>
-            </div>
-            <div class="text-xl">
-              I want to receive news and promotions by email
-            </div>
-          </label>
-        </p>
-        <p class="flex items-center text-xl mb-3">
-          <label class="mcui-checkbox mr-5">
-            <input type="checkbox" :name="promotions" />
-            <div>
-              <svg class="mcui-check" viewBox="-2 -2 35 35" aria-hidden="true">
-                <title>checkmark-circle</title>
-                <polyline points="7.57 15.87 12.62 21.07 23.43 9.93" />
-              </svg>
-            </div>
-            <div class="text-xl">
-              Send me notifications about my orders status
-            </div>
-          </label>
-        </p>
+        <label class="mcui-checkbox mb-2">
+          <input type="checkbox" />
+          <div>
+            <svg class="mcui-check" viewBox="-2 -2 35 35" aria-hidden="true">
+              <title>checkmark-circle</title>
+              <polyline points="7.57 15.87 12.62 21.07 23.43 9.93" />
+            </svg>
+          </div>
+          <div class="text-xl">I want to receive news and promototions</div>
+        </label>
+        <label class="mcui-checkbox mr-5 mb-2">
+          <input type="checkbox" name="order-status" />
+          <div>
+            <svg class="mcui-check" viewBox="-2 -2 35 35" aria-hidden="true">
+              <title>checkmark-circle</title>
+              <polyline points="7.57 15.87 12.62 21.07 23.43 9.93" />
+            </svg>
+          </div>
+          <div class="text-xl">
+            Send me notifications about my orders status
+          </div>
+        </label>
       </div>
     </div>
     <div class="cabinet__block">

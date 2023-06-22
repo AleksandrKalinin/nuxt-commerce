@@ -25,7 +25,7 @@ export const CATALOG_HEADER = [
     type: "plain",
   },
   {
-    label: "Residue",
+    label: "In stock",
     value: "in_stock",
     type: "plain",
   },

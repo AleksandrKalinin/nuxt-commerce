@@ -40,6 +40,13 @@ export const useCartStore = defineStore("cart", () => {
   const totalSum = computed(() => {
     return (cartItems.value as CartItem[]).reduce(
       (acc: number, item: CartItem) => {
+        const itemPrice =
+          item.discounts !== null
+            ? Math.floor(
+                item.price * ((100 - item.discounts.discount_number) / 100)
+              )
+            : item.price;
+        console.log(itemPrice);
         if (item.amount) {
           return (acc += item.price * item.amount);
         } else {
@@ -50,7 +57,7 @@ export const useCartStore = defineStore("cart", () => {
     );
   });
 
-  const addToCart = async (id: number) => {
+  const addToCart = async (id: number, price: number) => {
     fetchCatalogItems();
     const {
       data: { user },
@@ -62,14 +69,14 @@ export const useCartStore = defineStore("cart", () => {
           (el: CatalogItem) => el.id === id
         ) as unknown as CartItem;
         item.amount = 1;
-        item.total = item.amount * item.price;
+        console.log(item.amount, price);
+        item.total = item.amount * price;
         (cartItems.value as CartItem[]).push(item);
       } else {
         cartItems.value[present].amount =
           Number(cartItems.value[present].amount) + 1;
         cartItems.value[present].total =
-          Number(cartItems.value[present].amount) *
-          cartItems.value[present].price;
+          Number(cartItems.value[present].amount) * price;
       }
       const { error } = await client
         .from("users")
@@ -124,7 +131,11 @@ export const useCartStore = defineStore("cart", () => {
       .update({ cart: [] })
       .eq("user_id", userId.value);
     if (updateError) {
-      throw updateError;
+      const { toast, message } = toastHandler("order-confirmation-error");
+      showErrorToast(toast, message);
+    } else {
+      const { toast, message } = toastHandler("order-confirmation-success");
+      showSuccessToast(toast, message);
     }
     openPopup("You order was succesfully placed!", "Go to account");
   };
