@@ -40,13 +40,6 @@ export const useCartStore = defineStore("cart", () => {
   const totalSum = computed(() => {
     return (cartItems.value as CartItem[]).reduce(
       (acc: number, item: CartItem) => {
-        const itemPrice =
-          item.discounts !== null
-            ? Math.floor(
-                item.price * ((100 - item.discounts.discount_number) / 100)
-              )
-            : item.price;
-        console.log(itemPrice);
         if (item.amount) {
           return (acc += item.price * item.amount);
         } else {
@@ -69,7 +62,6 @@ export const useCartStore = defineStore("cart", () => {
           (el: CatalogItem) => el.id === id
         ) as unknown as CartItem;
         item.amount = 1;
-        console.log(item.amount, price);
         item.total = item.amount * price;
         (cartItems.value as CartItem[]).push(item);
       } else {

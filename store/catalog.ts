@@ -24,7 +24,6 @@ export const useCatalogStore = defineStore("catalog", () => {
       showErrorToast(toast, message);
     } else {
       catalogItems.value = data;
-      console.log(catalogItems.value);
       loaded.value = true;
     }
   };
@@ -39,7 +38,7 @@ export const useCatalogStore = defineStore("catalog", () => {
     const { data, error } = await client
       .from("catalog")
       .select(
-        "id, name, price, date, manufacturer, photo, type, battery_type, pixels, max_FPS_video, max_FPS_photo, max_sensitivity, max_resolution, min_sensitivity, wi_fi, card_support, matrix_type, matrix_size, popularity, rating, warranty, in_stock, item_code, is_visible, reviews"
+        "id, name, price, date, manufacturer, photo, type, battery_type, pixels, max_FPS_video, max_FPS_photo, max_sensitivity, max_resolution, min_sensitivity, wi_fi, card_support, matrix_type, matrix_size, popularity, rating, warranty, in_stock, item_code, is_visible, reviews, discounts (discount_number)"
       )
       .eq("id", Number(id));
     if (error) {

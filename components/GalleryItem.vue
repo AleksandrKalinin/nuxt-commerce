@@ -1,5 +1,11 @@
 <template>
   <div class="gallery__item gallery-item">
+    <span
+      v-if="item.discounts !== null"
+      class="catalog-item__discount limited-offer"
+    >
+      Limited offer
+    </span>
     <div class="gallery-item__image">
       <img
         class="gallery-item__picture"
@@ -13,9 +19,16 @@
         <NuxtLink :to="itemRoute">{{ item.name }} </NuxtLink>
       </h2>
       <p class="text-base mb-1">{{ item.type }}</p>
-      <p class="text-2xl mb-1 font-bold">
-        {{ item.price }} <span class="text-base font-normal">USD</span>
-      </p>
+      <p class="mb-1 mt-3 flex justify-start items-end">
+          <div class="mr-3">
+            <span class="text-2xl font-bold pr-1">{{ currentPrice }}</span>
+            <span class="text-base font-normal">USD</span>
+          </div>
+          <div v-if="item.discounts !== null" class="price_crossed line-through tracking-wide">
+            <span class="text-normal">{{ item.price }}</span>
+            <span class="text-normal">USD</span>
+          </div>          
+        </p>
       <p class="gallery-item__orders gallery-orders">
         <Icon
           name="heroicons:check"
@@ -27,7 +40,7 @@
       </p>
       <button
         class="button_regular button_centered"
-        @click="addToCart(item.id)"
+        @click="addToCart(item.id, currentPrice)"
       >
         Add to cart
       </button>
@@ -51,11 +64,20 @@ const item = computed(() => {
 const itemRoute = computed(() => {
   return "/catalog/" + props.item.id;
 });
+
+const currentPrice = computed(() => {
+  return props.item.discounts !== null
+    ? Math.floor(
+        props.item.price * ((100 - props.item.discounts.discount_number) / 100)
+      )
+    : props.item.price;  
+})
+
 </script>
 
 <style scoped lang="css">
 .gallery__item {
-  @apply px-5 py-2 border max-w-[300px] mx-auto bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg;
+  @apply relative px-5 py-2 border max-w-[300px] mx-auto bg-white border border-white shadow-[0_1px_5px_1px_rgba(0,0,0,0.1)] rounded-lg;
 }
 
 .gallery-item__image {

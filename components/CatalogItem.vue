@@ -16,7 +16,7 @@
         <p class="text-base mb-3">{{ item.type }}</p>
         <span
           v-if="item.discounts !== null"
-          class="absolute top-[3px] left-[3px] catalog-item__discount px-2 py-1 bg-red-500 text-white rounded-md self-start"
+          class="catalog-item__discount limited-offer"
         >
           Limited offer
         </span>
@@ -28,7 +28,7 @@
           <div v-if="item.discounts !== null" class="price_crossed line-through tracking-wide">
             <span class="text-normal">{{ item.price }}</span>
             <span class="text-normal">USD</span>
-          </div>
+          </div>          
         </p>
         <p class="catalog-item__orders catalog-orders">
           <Icon
@@ -62,10 +62,13 @@ const itemRoute = computed(() => {
   return "/catalog/" + props.item.id;
 });
 
-
 const currentPrice = computed(() => {
-  return props.item.discounts !== null ? Math.floor(props.item.price * ( (100 - props.item.discounts.discount_number)/100 )): props.item.price
-})
+  return props.item.discounts !== null
+    ? Math.floor(
+        props.item.price * ((100 - props.item.discounts.discount_number) / 100)
+      )
+    : props.item.price;
+});
 </script>
 
 <style scoped lang="css">
