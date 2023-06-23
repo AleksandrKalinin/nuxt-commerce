@@ -77,9 +77,7 @@
             color="white"
             size="24px"
             class="mr-2"
-          />
-          Add to cart
-        </button>
+          />Add to cart</button>
       </div>
     </div>
     <RatingsSummary

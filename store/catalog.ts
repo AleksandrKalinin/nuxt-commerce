@@ -48,6 +48,7 @@ export const useCatalogStore = defineStore("catalog", () => {
     if (data?.length) {
       selectedItem.value = data[0];
     } else {
+      navigateTo("/catalog");
       const { toast, message } = toastHandler("item-not-found");
       showErrorToast(toast, message);
     }
@@ -267,6 +268,7 @@ export const useCatalogStore = defineStore("catalog", () => {
       popularity: 0,
       rating: 0,
       reviews: [],
+      discount: null,
     } as CatalogItem;
 
     const formValues = {
@@ -277,8 +279,10 @@ export const useCatalogStore = defineStore("catalog", () => {
     const { error } = await client.from("catalog").insert([formValues]);
 
     if (error) {
+      // console.log(error);
       const { toast, message } = toastHandler(error.code);
-      showErrorToast(toast, message);
+      // showErrorToast(toast, message);
+      showErrorToast(toast, error.message);
     } else {
       const { toast, message } = toastHandler("add-to-database");
       showSuccessToast(toast, message);

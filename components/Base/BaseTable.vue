@@ -73,11 +73,12 @@
               />
             </td>
             <td v-else-if="option.type === 'icon'" class="py-4 px-3">
-              <Icon
-                :name="`heroicons:${option.value}`"
-                class="table__icon"
+              <span
+                class="p-2 table-icon__wrap"
                 @click="option.action ? $emit(option.action, item.id) : ''"
-              />
+              >
+                <Icon :name="`heroicons:${option.value}`" class="table__icon" />
+              </span>
             </td>
             <td v-else-if="option.type === 'select'" class="py-4 px-3">
               <select
@@ -258,7 +259,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .table__icon {
-  @apply w-[25px] h-[25px] cursor-pointer duration-100 hover:scale-[1.1];
+  @apply text-neutral-900 w-[25px] h-[25px] cursor-pointer duration-100 hover:scale-[1.1];
 }
 
 .table__select {

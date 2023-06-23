@@ -5,6 +5,7 @@ import { usePopupStore } from "./popup";
 import { toastHandler } from "~/utils/toastHandler";
 
 export const useCartStore = defineStore("cart", () => {
+  const user = useSupabaseUser();
   const client = useSupabaseClient();
   const userId: Ref<string | undefined> = ref("");
   const userEmail: Ref<string | undefined> = ref("");
@@ -23,18 +24,20 @@ export const useCartStore = defineStore("cart", () => {
   const { showErrorToast, showSuccessToast } = toastsStore;
 
   const getCartItems = async () => {
-    const {
-      data: { user },
-    } = await client.auth.getUser();
-    userEmail.value = user?.email;
-    userId.value = user?.id;
-    const { data, error } = await client
-      .from("users")
-      .select("cart")
-      .eq("user_id", user?.id);
-    if (error) throw error;
-    cartItems.value = data[0].cart;
-    cartLoaded.value = true;
+    if (user.value) {
+      userEmail.value = user.value.email;
+      userId.value = user.value.id;
+      const { data, error } = await client
+        .from("users")
+        .select("cart")
+        .eq("user_id", user.value.id);
+      if (error) throw error;
+      cartItems.value = data[0].cart;
+      cartLoaded.value = true;
+    } else {
+      const { toast, message } = toastHandler("not-authorized");
+      showErrorToast(toast, message);
+    }
   };
 
   const totalSum = computed(() => {
@@ -52,10 +55,7 @@ export const useCartStore = defineStore("cart", () => {
 
   const addToCart = async (id: number, price: number) => {
     fetchCatalogItems();
-    const {
-      data: { user },
-    } = await client.auth.getUser();
-    if (user) {
+    if (user.value) {
       const present = cartItems.value.findIndex((el: CartItem) => el.id === id);
       if (present === -1) {
         const item = catalogItems.value?.find(

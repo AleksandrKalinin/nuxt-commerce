@@ -27,10 +27,18 @@
 </template>
 
 <script setup lang="ts">
+const user = useSupabaseUser();
+
 const clearError = async (err) => {
   await navigateTo("/catalog");
   err.value = null;
 };
+
+onBeforeMount(() => {
+  if (!user.value) {
+    navigateTo("/catalog");
+  }
+});
 </script>
 
 <style scoped></style>

@@ -18,7 +18,7 @@ export const useFormStore = defineStore("form", () => {
   const authStore = useAuthStore();
   const toastsStore = useToastsStore();
 
-  const { showErrorToast, showSuccessToast } = toastsStore;
+  const { showErrorToast } = toastsStore;
   const { addItem, fetchCatalogItems } = catalogStore;
   const { addOrder, fetchOrders } = ordersStore;
   const { fetchUsers } = usersStore;
@@ -81,12 +81,14 @@ export const useFormStore = defineStore("form", () => {
         }
       }
     }
+    callFunction(formValues, currentPage);
+    /*
     if (checkIfFilled(formValues)) {
       callFunction(formValues, currentPage);
     } else {
       const { toast, message } = toastHandler("empty-form-fields");
       showErrorToast(toast, message);
-    }
+    } */
   };
 
   const callFunction = (values: FormValues, currentPage: string) => {
