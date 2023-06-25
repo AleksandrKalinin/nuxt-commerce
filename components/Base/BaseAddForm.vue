@@ -10,6 +10,7 @@
         :class="
           item.dataType === 'file' ? 'modal-form__file' : 'modal-form__input'
         "
+        @change="item.dataType === 'file' ? selectImage($event) : ''"
       />
       <select
         v-else-if="item.elType === 'select'"
@@ -55,7 +56,7 @@ type INPUT_UNION =
 const catalogStore = useCatalogStore();
 const formStore = useFormStore();
 
-const { formatFormValues } = formStore;
+const { formatFormValues, selectImage } = formStore;
 const { activeItem } = storeToRefs(catalogStore);
 
 const props = defineProps<{
@@ -73,10 +74,6 @@ const submitForm = () => {
   formatFormValues(values, props.currentPage);
   closeModal();
 };
-
-onMounted(() => {
-  console.log(props);
-});
 </script>
 
 <style>

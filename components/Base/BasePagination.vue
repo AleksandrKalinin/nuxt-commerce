@@ -79,6 +79,10 @@ const setPage = (num: number) => {
     currentPage.value = num - 1;
   }, 100);
 };
+
+onUnmounted(() => {
+  currentPage.value = 0;
+});
 </script>
 
 <style scoped>

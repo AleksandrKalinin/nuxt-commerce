@@ -27,15 +27,19 @@ import { useCatalogStore } from "~/store/catalog";
 import { usePaginationStore } from "~/store/pagination";
 import { CATALOG_HEADER } from "~/constants/catalog";
 
-const client = useSupabaseClient();
-
 const store = useCatalogStore();
 const pagesStore = usePaginationStore();
 
 const { currentPage } = storeToRefs(pagesStore);
 const { catalogItems } = storeToRefs(store);
 
-const { fetchCatalogItems, toggleVisibility, deleteItem } = store;
+const {
+  fetchCatalogItems,
+  subscribeToUpdates,
+  unsubscribeFromUpdates,
+  toggleVisibility,
+  deleteItem,
+} = store;
 
 const emitOptions = ["deleteItem", "toggleVisibility"];
 
@@ -67,14 +71,11 @@ const data = computed(() => {
 
 onMounted(() => {
   fetchCatalogItems();
-  client
-    .channel("table-db-changes")
-    .on(
-      "postgres_changes",
-      { event: "*", schema: "public", table: "catalog" },
-      () => fetchCatalogItems()
-    )
-    .subscribe();
+  subscribeToUpdates();
+});
+
+onUnmounted(() => {
+  unsubscribeFromUpdates();
 });
 </script>
 

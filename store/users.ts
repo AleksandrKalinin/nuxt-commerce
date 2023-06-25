@@ -1,10 +1,12 @@
 import { defineStore } from "pinia";
+import type { RealtimeChannel } from "@supabase/supabase-js";
 import { v4 as uuidv4 } from "uuid";
 import { useToastsStore } from "./toasts";
 import { toastHandler } from "~/utils/toastHandler";
 
 export const useUsersStore = defineStore("users", () => {
   const client = useSupabaseClient();
+  let realtimeChannel: RealtimeChannel;
   const users: Ref<User[] | null> = ref([]);
 
   const toastsStore = useToastsStore();
@@ -19,11 +21,26 @@ export const useUsersStore = defineStore("users", () => {
     if (error) throw error;
   };
 
+  const subscribeToUpdates = () => {
+    realtimeChannel = client
+      .channel("table-db-changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "users" },
+        () => fetchUsers()
+      );
+    realtimeChannel.subscribe();
+  };
+
+  const unsubscribeFromUpdates = () => {
+    client.removeChannel(realtimeChannel);
+  };
+
   const addUser = async (values) => {
     const initialValues = {
       date: new Date(),
       cart: [],
-      user_ud: uuidv4(),
+      user_id: uuidv4(),
     };
 
     delete values.password;
@@ -44,5 +61,7 @@ export const useUsersStore = defineStore("users", () => {
     users,
     fetchUsers,
     addUser,
+    subscribeToUpdates,
+    unsubscribeFromUpdates,
   };
 });

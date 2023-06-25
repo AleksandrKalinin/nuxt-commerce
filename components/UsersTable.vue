@@ -22,15 +22,13 @@ import { useUsersStore } from "~/store/users";
 import { usePaginationStore } from "~/store/pagination";
 import { USERS_HEADER } from "~/constants/users";
 
-const client = useSupabaseClient();
-
 const store = useUsersStore();
 const pagesStore = usePaginationStore();
 
 const { currentPage } = storeToRefs(pagesStore);
 const { users } = storeToRefs(store);
 
-const { fetchUsers } = store;
+const { fetchUsers, subscribeToUpdates, unsubscribeFromUpdates } = store;
 
 const start = computed(() => {
   return currentPage.value * 12;
@@ -41,21 +39,16 @@ const end = computed(() => {
 });
 
 const data = computed(() => {
-  return users.value?.slice(start.value, end.value).map((item) => {
-    return item;
-  });
+  return users.value?.slice(start.value, end.value);
 });
 
 onMounted(() => {
   fetchUsers();
-  client
-    .channel("table-db-changes")
-    .on(
-      "postgres_changes",
-      { event: "*", schema: "public", table: "users" },
-      () => fetchUsers()
-    )
-    .subscribe();
+  subscribeToUpdates();
+});
+
+onUnmounted(() => {
+  unsubscribeFromUpdates();
 });
 </script>
 

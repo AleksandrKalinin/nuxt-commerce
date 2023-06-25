@@ -1,9 +1,11 @@
 import { defineStore, storeToRefs } from "pinia";
+import type { RealtimeChannel } from "@supabase/supabase-js";
 import { usePaginationStore } from "./pagination";
 import { useToastsStore } from "./toasts";
 
 export const useCatalogStore = defineStore("catalog", () => {
   const client = useSupabaseClient();
+  let realtimeChannel: RealtimeChannel;
   const catalogItems: Ref<CatalogItem[] | null> = ref([]);
   const loaded: Ref<boolean> = ref(false);
 
@@ -26,6 +28,21 @@ export const useCatalogStore = defineStore("catalog", () => {
       catalogItems.value = data;
       loaded.value = true;
     }
+  };
+
+  const subscribeToUpdates = () => {
+    realtimeChannel = client
+      .channel("table-db-changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "catalog" },
+        () => fetchCatalogItems()
+      );
+    realtimeChannel.subscribe();
+  };
+
+  const unsubscribeFromUpdates = () => {
+    client.removeChannel(realtimeChannel);
   };
 
   const selectedItem: Ref<CatalogItem | null> = ref(null);
@@ -279,10 +296,9 @@ export const useCatalogStore = defineStore("catalog", () => {
     const { error } = await client.from("catalog").insert([formValues]);
 
     if (error) {
-      // console.log(error);
       const { toast, message } = toastHandler(error.code);
-      // showErrorToast(toast, message);
-      showErrorToast(toast, error.message);
+      showErrorToast(toast, message);
+      // showErrorToast(toast, error.message);
     } else {
       const { toast, message } = toastHandler("add-to-database");
       showSuccessToast(toast, message);
@@ -399,5 +415,7 @@ export const useCatalogStore = defineStore("catalog", () => {
     selectImage,
     activeItem,
     toggleVisibility,
+    subscribeToUpdates,
+    unsubscribeFromUpdates,
   };
 });

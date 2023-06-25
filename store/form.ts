@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import { v4 as uuidv4 } from "uuid";
 import { useToastsStore } from "./toasts";
-import { useUsersStore } from "./users";
 import { useOrdersStore } from "./orders";
 import { useDiscountsStore } from "./discounts";
 import { useCatalogStore } from "./catalog";
@@ -12,20 +11,25 @@ export const useFormStore = defineStore("form", () => {
   const client = useSupabaseClient();
 
   const catalogStore = useCatalogStore();
-  const usersStore = useUsersStore();
   const ordersStore = useOrdersStore();
   const discountsStore = useDiscountsStore();
   const authStore = useAuthStore();
   const toastsStore = useToastsStore();
 
   const { showErrorToast } = toastsStore;
-  const { addItem, fetchCatalogItems } = catalogStore;
-  const { addOrder, fetchOrders } = ordersStore;
-  const { fetchUsers } = usersStore;
-  const { addDiscount, fetchDiscounts } = discountsStore;
+  const { addItem } = catalogStore;
+  const { addOrder } = ordersStore;
+  const { addDiscount } = discountsStore;
   const { registerUser } = authStore;
 
   const selectedImage: Ref<File | null> = ref(null);
+
+  const selectImage = (e: Event) => {
+    const target = e.target as HTMLInputElement;
+    if (target.files) {
+      selectedImage.value = target.files[0];
+    }
+  };
 
   const checkIfFilled = (values: any) => {
     for (const key in values) {
@@ -81,38 +85,33 @@ export const useFormStore = defineStore("form", () => {
         }
       }
     }
-    callFunction(formValues, currentPage);
-    /*
     if (checkIfFilled(formValues)) {
       callFunction(formValues, currentPage);
     } else {
       const { toast, message } = toastHandler("empty-form-fields");
       showErrorToast(toast, message);
-    } */
+    }
   };
 
   const callFunction = (values: FormValues, currentPage: string) => {
     switch (currentPage) {
       case "catalog":
         addItem(values);
-        fetchCatalogItems();
         break;
       case "orders":
         addOrder(values);
-        fetchOrders();
         break;
       case "users":
         registerUser(values);
-        fetchUsers();
         break;
       case "discounts":
         addDiscount(values);
-        fetchDiscounts();
         break;
     }
   };
 
   return {
     formatFormValues,
+    selectImage,
   };
 });

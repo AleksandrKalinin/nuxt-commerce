@@ -1,9 +1,12 @@
 import { defineStore } from "pinia";
+import type { RealtimeChannel } from "@supabase/supabase-js";
 import { useToastsStore } from "./toasts";
 import { toastHandler } from "~/utils/toastHandler";
 
 export const useDiscountsStore = defineStore("discounts", () => {
   const client = useSupabaseClient();
+  let realtimeChannel: RealtimeChannel;
+
   const discounts: Ref<Discount[] | null> = ref([]);
 
   const toastsStore = useToastsStore();
@@ -16,6 +19,21 @@ export const useDiscountsStore = defineStore("discounts", () => {
       .select("id, date_start, date_end, discount_number");
     discounts.value = formatDiscounts(data);
     if (error) throw error;
+  };
+
+  const subscribeToUpdates = () => {
+    realtimeChannel = client
+      .channel("table-db-changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "discounts" },
+        () => fetchDiscounts()
+      );
+    realtimeChannel.subscribe();
+  };
+
+  const unsubscribeFromUpdates = () => {
+    client.removeChannel(realtimeChannel);
   };
 
   const formatDiscounts = (data: Discount[]) => {
@@ -51,5 +69,7 @@ export const useDiscountsStore = defineStore("discounts", () => {
     addDiscount,
     fetchDiscounts,
     discounts,
+    subscribeToUpdates,
+    unsubscribeFromUpdates,
   };
 });

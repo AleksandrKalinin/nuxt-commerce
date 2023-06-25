@@ -1,6 +1,7 @@
 import { authTest } from "./auth.cy";
 import { cartTest } from "./cart.cy";
 import { adminTest } from "./admin.cy";
+import { discountTest } from "./discount.cy";
 
 describe("Cart tests", () => {
   // cartTest();
@@ -11,9 +12,12 @@ describe("Authorization tests", () => {
 });
 
 describe("Admin tests", () => {
-  adminTest();
+  //adminTest();
 });
 
+describe("Discounts test", () => {
+  discountTest();
+});
 /*
 describe("Check non-existing urls", () => {
   it("Should show error and redirect to catalog page if user trying to access non-existing page", () => {

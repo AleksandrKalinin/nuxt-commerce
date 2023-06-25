@@ -27,11 +27,9 @@ export function adminTest() {
         .get(".admin-panel button")
         .click();
       cy.get(".modal-form").within(() => {
-        cy.get("input[name='photo']").selectFile({
-          contents: Cypress.Buffer.from("file contents"),
-          fileName: "camera_image.png",
-          lastModified: Date.now(),
-        });
+        cy.get("input[name='photo']").selectFile(
+          "cypress/e2e/images/camera_image.png"
+        );
         cy.get("input[name='name']").type("New catalog Item");
         cy.get("input[name='name']").should("have.value", "New catalog Item");
         cy.get("input[name='price']").type("2000");
