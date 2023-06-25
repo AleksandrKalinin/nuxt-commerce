@@ -6,6 +6,7 @@ import { useDiscountsStore } from "./discounts";
 import { useCatalogStore } from "./catalog";
 import { useAuthStore } from "./auth";
 import { toastHandler } from "~/utils/toastHandler";
+import formService from "~/services/formService";
 
 export const useFormStore = defineStore("form", () => {
   const client = useSupabaseClient();
@@ -56,20 +57,16 @@ export const useFormStore = defineStore("form", () => {
         const curVal = values[i] as HTMLInputElement;
         if (curVal.type !== "submit") {
           const key = curVal.name;
-          if (curVal.type === "file") {
+          if (curVal.type === "file" && selectedImage.value) {
             const filename: string = uuidv4();
 
-            const { data, error } = await client.storage
-              .from("catalog")
-              .upload(`${filename}.png`, selectedImage.value!, {
-                cacheControl: "3600",
-                upsert: false,
-                contentType: "image/png",
-              });
+            const { data, error } = await formService.uploadImage(
+              filename,
+              selectedImage.value
+            );
+
             if (data?.path) {
-              const path = client.storage
-                .from("catalog")
-                .getPublicUrl(data?.path).data.publicUrl;
+              const path = formService.getImageUrl(data?.path);
               if (error) {
                 const { toast, message } = toastHandler(
                   "upload-to-storage-error"

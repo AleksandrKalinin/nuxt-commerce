@@ -23,6 +23,7 @@ import { storeToRefs } from "pinia";
 import { useOrdersStore } from "~/store/orders";
 import { usePaginationStore } from "~/store/pagination";
 import { ORDERS_HEADER } from "~/constants/orders";
+import ordersService from "~/services/ordersService";
 
 const pagesStore = usePaginationStore();
 
@@ -30,12 +31,7 @@ const { currentPage } = storeToRefs(pagesStore);
 const store = useOrdersStore();
 
 const { orders } = storeToRefs(store);
-const {
-  fetchOrders,
-  updateOrderStatus,
-  subscribeToUpdates,
-  unsubscribeFromUpdates,
-} = store;
+const { fetchOrders, updateOrderStatus, subscribeToUpdates } = store;
 
 const emitOptions = ["updateOrderStatus"];
 
@@ -65,7 +61,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  unsubscribeFromUpdates();
+  ordersService.unsubscribeFromOrdersUpdates();
 });
 </script>
 

@@ -2,6 +2,7 @@ import { defineStore, storeToRefs } from "pinia";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 import { usePaginationStore } from "./pagination";
 import { useToastsStore } from "./toasts";
+import catalogService from "~/services/catalogService";
 
 export const useCatalogStore = defineStore("catalog", () => {
   const client = useSupabaseClient();
@@ -16,11 +17,7 @@ export const useCatalogStore = defineStore("catalog", () => {
   const { showErrorToast, showSuccessToast } = toastsStore;
 
   const fetchCatalogItems = async () => {
-    const { data, error } = await client
-      .from("catalog")
-      .select(
-        "id, name, price, date, manufacturer, photo, type, battery_type, pixels, max_FPS_video, max_FPS_photo, max_sensitivity, max_resolution, min_sensitivity, wi_fi, card_support, matrix_type, matrix_size, popularity, rating, warranty, in_stock, item_code, is_visible, reviews,  discounts (discount_number)"
-      );
+    const { data, error } = await catalogService.fetchCatalogItems();
     if (error) {
       const { toast, message } = toastHandler(error.code);
       showErrorToast(toast, message);
@@ -52,12 +49,8 @@ export const useCatalogStore = defineStore("catalog", () => {
       fetchCatalogItems();
     }
 
-    const { data, error } = await client
-      .from("catalog")
-      .select(
-        "id, name, price, date, manufacturer, photo, type, battery_type, pixels, max_FPS_video, max_FPS_photo, max_sensitivity, max_resolution, min_sensitivity, wi_fi, card_support, matrix_type, matrix_size, popularity, rating, warranty, in_stock, item_code, is_visible, reviews, discounts (discount_number)"
-      )
-      .eq("id", Number(id));
+    const { data, error } = await catalogService.fetchSelectedItem(Number(id));
+
     if (error) {
       const { toast, message } = toastHandler(error.code);
       showErrorToast(toast, message);
@@ -280,25 +273,10 @@ export const useCatalogStore = defineStore("catalog", () => {
   const activeItem = ref(false);
 
   const addItem = async (values: FormValues) => {
-    const initialValues = {
-      date: new Date().toISOString(),
-      popularity: 0,
-      rating: 0,
-      reviews: [],
-      discount: null,
-    } as CatalogItem;
-
-    const formValues = {
-      ...initialValues,
-      ...values,
-    };
-
-    const { error } = await client.from("catalog").insert([formValues]);
-
+    const error = await catalogService.addItem(values);
     if (error) {
       const { toast, message } = toastHandler(error.code);
       showErrorToast(toast, message);
-      // showErrorToast(toast, error.message);
     } else {
       const { toast, message } = toastHandler("add-to-database");
       showSuccessToast(toast, message);
@@ -306,7 +284,7 @@ export const useCatalogStore = defineStore("catalog", () => {
   };
 
   const deleteItem = async (id: number) => {
-    const { error } = await client.from("catalog").delete().eq("id", id);
+    const error = await catalogService.deleteItem(id);
     if (error) {
       const { toast, message } = toastHandler("item-delete-error");
       showErrorToast(toast, message);
@@ -375,17 +353,14 @@ export const useCatalogStore = defineStore("catalog", () => {
 
   const toggleVisibility = async (event: Event, id: number) => {
     const target = event.target as HTMLInputElement;
-    const checked = target?.checked;
-    const { error } = await client
-      .from("catalog")
-      .update({ is_visible: checked })
-      .eq("id", id);
+    const isChecked = target?.checked;
+    const error = await catalogService.toggleVisibility(isChecked, id);
     if (error) {
       const { toast, message } = toastHandler(error.code);
       showErrorToast(toast, message);
     } else {
       const { toast, message } = toastHandler(
-        checked ? "item-visible" : "item-hidden"
+        isChecked ? "item-visible" : "item-hidden"
       );
       showSuccessToast(toast, message);
     }

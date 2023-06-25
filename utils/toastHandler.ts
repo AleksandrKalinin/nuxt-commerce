@@ -158,6 +158,12 @@ export function toastHandler(error: string) {
         message: "Error! Unable to log in",
       };
       break;
+    case "cart-empty":
+      return {
+        toast: "showErrorToast",
+        message: "Error! Unable to fetch cart items",
+      };
+      break;
     default:
       return {
         toast: "showErrorToast",

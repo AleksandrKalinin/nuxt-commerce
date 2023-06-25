@@ -3,6 +3,7 @@ import type { RealtimeChannel } from "@supabase/supabase-js";
 import { v4 as uuidv4 } from "uuid";
 import { useToastsStore } from "./toasts";
 import { toastHandler } from "~/utils/toastHandler";
+import userService from "~/services/userService";
 
 export const useUsersStore = defineStore("users", () => {
   const client = useSupabaseClient();
@@ -14,11 +15,12 @@ export const useUsersStore = defineStore("users", () => {
   const { showErrorToast } = toastsStore;
 
   const fetchUsers = async () => {
-    const { data, error } = await client
-      .from("users")
-      .select("id, date, email, role");
-    users.value = data;
-    if (error) throw error;
+    const { data, error } = await userService.fetchUsers();
+    if (error) {
+      throw error;
+    } else {
+      users.value = data;
+    }
   };
 
   const subscribeToUpdates = () => {
@@ -36,21 +38,19 @@ export const useUsersStore = defineStore("users", () => {
     client.removeChannel(realtimeChannel);
   };
 
-  const addUser = async (values) => {
+  const addUser = async (values: User) => {
     const initialValues = {
       date: new Date(),
       cart: [],
       user_id: uuidv4(),
     };
-
-    delete values.password;
-
-    const formValues = {
+    const formValues: UserInput = {
       ...initialValues,
       ...values,
     };
+    delete formValues.password;
 
-    const { error } = await client.from("users").insert([formValues]);
+    const error = await userService.addUser(formValues);
     if (error) {
       const { toast, message } = toastHandler("registration-failed");
       showErrorToast(toast, message);

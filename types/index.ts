@@ -6,6 +6,17 @@ declare global {
     date: Date;
     email: string;
     role: string;
+    password: string;
+  }
+
+  interface UserInput {
+    id: number;
+    date: Date;
+    email: string;
+    role: string;
+    cart: never[];
+    user_id: string;
+    password?: string;
   }
 
   interface OrderItem {
@@ -90,12 +101,16 @@ declare global {
 
   interface Discount {
     id: number;
-    product_id: number;
     date_start: Date;
     date_end: Date;
     discount_number: string;
     is_active?: boolean;
   }
+
+  type DiscountInput = Pick<
+    Discount,
+    "date_start" | "date_end" | "discount_number"
+  >;
 
   type CatalogItemTable = Pick<
     CatalogItem,
