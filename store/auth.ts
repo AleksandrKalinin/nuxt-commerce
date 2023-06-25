@@ -19,14 +19,14 @@ export const useAuthStore = defineStore("auth", () => {
     }
   };
 
-  const registerUser = async (values: User) => {
-    const { email, password } = values;
+  const registerUser = async (values: FormValues) => {
+    const { email, password } = values as User;
     const error = await authService.registerUser(email, password);
     if (error) {
       const { toast, message } = toastHandler("registration-failed");
       showErrorToast(toast, message);
     } else {
-      addUser(values);
+      addUser(values as User);
       const { toast, message } = toastHandler("registration-successful");
       showSuccessToast(toast, message);
     }

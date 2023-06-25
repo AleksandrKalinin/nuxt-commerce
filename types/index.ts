@@ -127,7 +127,7 @@ declare global {
     status: OrderStatus;
   }
 
-  type FormValues = Discount | CatalogItem | User | Order;
+  type FormValues = DiscountInput | CatalogItem | UserInput | Order;
 
   type OrderItemTable = Pick<
     Order,

@@ -43,8 +43,8 @@ export const useOrdersStore = defineStore("orders", () => {
     }
   };
 
-  const addOrder = async (values: Order) => {
-    const selected = await getUserId(values);
+  const addOrder = async (values: FormValues) => {
+    const selected = await getUserId(values as Order);
     const formValues = {
       userId: selected.user_id,
       ...values,

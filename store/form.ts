@@ -6,11 +6,10 @@ import { useDiscountsStore } from "./discounts";
 import { useCatalogStore } from "./catalog";
 import { useAuthStore } from "./auth";
 import { toastHandler } from "~/utils/toastHandler";
+import { checkFormFields } from "~/utils/checkFormFields";
 import formService from "~/services/formService";
 
 export const useFormStore = defineStore("form", () => {
-  const client = useSupabaseClient();
-
   const catalogStore = useCatalogStore();
   const ordersStore = useOrdersStore();
   const discountsStore = useDiscountsStore();
@@ -30,15 +29,6 @@ export const useFormStore = defineStore("form", () => {
     if (target.files) {
       selectedImage.value = target.files[0];
     }
-  };
-
-  const checkIfFilled = (values: any) => {
-    for (const key in values) {
-      if (values[key] === "") {
-        return false;
-      }
-    }
-    return true;
   };
 
   const formatFormValues = async (
@@ -82,15 +72,15 @@ export const useFormStore = defineStore("form", () => {
         }
       }
     }
-    if (checkIfFilled(formValues)) {
-      callFunction(formValues, currentPage);
+    if (checkFormFields(formValues)) {
+      addItemToDatabase(formValues, currentPage);
     } else {
       const { toast, message } = toastHandler("empty-form-fields");
       showErrorToast(toast, message);
     }
   };
 
-  const callFunction = (values: FormValues, currentPage: string) => {
+  const addItemToDatabase = (values: FormValues, currentPage: string) => {
     switch (currentPage) {
       case "catalog":
         addItem(values);

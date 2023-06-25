@@ -1,8 +1,11 @@
 import { defineStore, storeToRefs } from "pinia";
 import type { RealtimeChannel } from "@supabase/supabase-js";
+import { v4 as uuidv4 } from "uuid";
 import { usePaginationStore } from "./pagination";
 import { useToastsStore } from "./toasts";
+import { checkFormFields } from "~/utils/checkFormFields";
 import catalogService from "~/services/catalogService";
+import formService from "~/services/formService";
 
 export const useCatalogStore = defineStore("catalog", () => {
   const client = useSupabaseClient();
@@ -311,19 +314,14 @@ export const useCatalogStore = defineStore("catalog", () => {
         const curVal = values[i] as HTMLInputElement;
         if (curVal.type !== "submit") {
           const key = curVal.name;
-          if (curVal.type === "file") {
+          if (curVal.type === "file" && selectedImage.value) {
             const filename: string = uuidv4();
-            const { data, error } = await client.storage
-              .from("catalog")
-              .upload(`${filename}.png`, selectedImage.value!, {
-                cacheControl: "3600",
-                upsert: false,
-                contentType: "image/png",
-              });
+            const { data, error } = await formService.uploadImage(
+              filename,
+              selectedImage.value
+            );
             if (data?.path) {
-              const path = client.storage
-                .from("catalog")
-                .getPublicUrl(data.path).data.publicUrl;
+              const path = formService.getImageUrl(data?.path);
               formValues[key as keyof typeof valuesObject] = path;
               if (error) throw error;
             }
@@ -333,11 +331,8 @@ export const useCatalogStore = defineStore("catalog", () => {
         }
       }
     }
-    if (checkIfFilled(formValues)) {
-      const { error } = await client
-        .from("catalog")
-        .update([formValues])
-        .eq("id", id);
+    if (checkFormFields(formValues)) {
+      const error = await catalogService.editItem(formValues, id);
       if (error) {
         const { toast, message } = toastHandler("item-update-error");
         showErrorToast(toast, message);

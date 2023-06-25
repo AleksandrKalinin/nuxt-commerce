@@ -57,6 +57,14 @@ class CatalogService {
     return error;
   }
 
+  async editItem(formValues: FormValues, id: string) {
+    const { error } = await client
+      .from("catalog")
+      .update([formValues])
+      .eq("id", id);
+    return error;
+  }
+
   subscribeToCatalogUpdates = () => {
     realtimeChannel = client
       .channel("table-db-changes")

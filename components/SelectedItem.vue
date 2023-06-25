@@ -185,7 +185,7 @@ watch(selectedItem, () => {
 });
 
 const currentPrice = computed(() => {
-  return selectedItem.value.discounts !== null ? Math.floor(selectedItem.value.price * ( (100 - selectedItem.value.discounts.discount_number)/100 )): selectedItem.value.price
+  return selectedItem.value?.discounts !== null ? Math.floor(selectedItem.value?.price * ( (100 - selectedItem.value?.discounts.discount_number)/100 )): selectedItem.value?.price
 })
 
 const discountItems = computed(() => {

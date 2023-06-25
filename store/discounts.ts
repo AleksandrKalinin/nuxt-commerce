@@ -61,8 +61,8 @@ export const useDiscountsStore = defineStore("discounts", () => {
     }
   };
 
-  const addDiscount = async (values: DiscountInput) => {
-    const error = await discountService.addDiscount(values);
+  const addDiscount = async (values: FormValues) => {
+    const error = await discountService.addDiscount(values as DiscountInput);
     if (error) {
       const { toast, message } = toastHandler("discount-create-error");
       showErrorToast(toast, message);

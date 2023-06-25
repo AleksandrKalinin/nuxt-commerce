@@ -30,7 +30,7 @@ class OrdersService {
     return { data, error };
   }
 
-  async addOrder(formValues) {
+  async addOrder(formValues: Order) {
     const { error } = await client.from("orders").insert([formValues]);
     return error;
   }
