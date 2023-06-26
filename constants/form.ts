@@ -200,14 +200,14 @@ export const DISCOUNT_INPUT_FIELDS = [
     dataType: "date",
     elType: "input",
     default: "",
-    placeholder: "Date of start",
+    placeholder: "Start date",
   },
   {
     name: "date_end",
     dataType: "date",
     elType: "input",
     default: "",
-    placeholder: "Date of end",
+    placeholder: "End date",
   },
   {
     name: "discount_number",

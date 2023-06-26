@@ -7,7 +7,7 @@ export const useToastsStore = defineStore("toasts", () => {
   };
 
   const showErrorToast = (_: any, message: string) => {
-    $toast.error(message, { timeout: 2000 });
+    $toast.error(message, { timeout: 20000 });
   };
 
   const showWarningToast = (_: any, message: string) => {

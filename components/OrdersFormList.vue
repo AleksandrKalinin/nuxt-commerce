@@ -95,6 +95,7 @@ const selectItem = (item) => {
   } else {
     selectedItems.value.splice(index, 1);
   }
+  emit("selectItems", selectedItems.value);
 };
 
 const updateQuantity = (e, id) => {

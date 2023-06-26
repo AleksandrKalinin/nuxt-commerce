@@ -23,8 +23,7 @@ import { storeToRefs } from "pinia";
 import { useOrdersStore } from "~/store/orders";
 import { usePaginationStore } from "~/store/pagination";
 import { ORDERS_HEADER } from "~/constants/orders";
-
-const client = useSupabaseClient();
+import ordersService from "~/services/ordersService";
 
 const pagesStore = usePaginationStore();
 
@@ -32,7 +31,7 @@ const { currentPage } = storeToRefs(pagesStore);
 const store = useOrdersStore();
 
 const { orders } = storeToRefs(store);
-const { fetchOrders, updateOrderStatus } = store;
+const { fetchOrders, updateOrderStatus, subscribeToUpdates } = store;
 
 const emitOptions = ["updateOrderStatus"];
 
@@ -44,12 +43,8 @@ const end = computed(() => {
   return (currentPage.value + 1) * 12;
 });
 
-const currentOrders = computed(() => {
-  return orders.value?.slice(start.value, end.value);
-});
-
 const ordersData = computed(() => {
-  return currentOrders.value?.slice(start.value, end.value).map((item) => {
+  return orders.value?.slice(start.value, end.value).map((item) => {
     return {
       id: item.id,
       created_at: item.created_at,
@@ -62,14 +57,11 @@ const ordersData = computed(() => {
 
 onMounted(() => {
   fetchOrders();
-  client
-    .channel("table-db-changes")
-    .on(
-      "postgres_changes",
-      { event: "*", schema: "public", table: "orders" },
-      () => fetchOrders()
-    )
-    .subscribe();
+  subscribeToUpdates();
+});
+
+onUnmounted(() => {
+  ordersService.unsubscribeFromOrdersUpdates();
 });
 </script>
 

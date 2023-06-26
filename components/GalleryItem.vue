@@ -47,9 +47,7 @@
       <button
         class="button_regular button_centered"
         @click="addToCart(item.id, currentPrice)"
-      >
-        Add to cart
-      </button>
+      >Add to cart</button>
     </div>
   </div>
 </template>

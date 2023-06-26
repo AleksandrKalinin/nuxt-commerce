@@ -1,9 +1,14 @@
 import { defineStore } from "pinia";
+import type { RealtimeChannel } from "@supabase/supabase-js";
 import { useToastsStore } from "./toasts";
 import { toastHandler } from "~/utils/toastHandler";
+import discountService from "~/services/discountService";
+import type { Database } from "~/types/database.types";
 
 export const useDiscountsStore = defineStore("discounts", () => {
-  const client = useSupabaseClient();
+  const client = useSupabaseClient<Database>();
+  let realtimeChannel: RealtimeChannel;
+
   const discounts: Ref<Discount[] | null> = ref([]);
 
   const toastsStore = useToastsStore();
@@ -11,15 +16,33 @@ export const useDiscountsStore = defineStore("discounts", () => {
   const { showErrorToast } = toastsStore;
 
   const fetchDiscounts = async () => {
-    const { data, error } = await client
-      .from("discounts")
-      .select("id, date_start, date_end, discount_number");
-    discounts.value = formatDiscounts(data);
-    if (error) throw error;
+    const { data, error } = await discountService.fetchDiscounts();
+    if (error) {
+      throw error;
+    } else {
+      if (data) {
+        discounts.value = formatDiscounts(data);
+      }
+    }
+  };
+
+  const subscribeToUpdates = () => {
+    realtimeChannel = client
+      .channel("table-db-changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "discounts" },
+        () => fetchDiscounts()
+      );
+    realtimeChannel.subscribe();
+  };
+
+  const unsubscribeFromUpdates = () => {
+    client.removeChannel(realtimeChannel);
   };
 
   const formatDiscounts = (data: Discount[]) => {
-    return data.map((item: Discount) => {
+    return data?.map((item: Discount) => {
       item.is_active = ifDateInRange(
         item.date_start,
         item.date_end,
@@ -40,7 +63,7 @@ export const useDiscountsStore = defineStore("discounts", () => {
   };
 
   const addDiscount = async (values: FormValues) => {
-    const { error } = await client.from("discounts").insert([values]);
+    const error = await discountService.addDiscount(values as DiscountInput);
     if (error) {
       const { toast, message } = toastHandler("discount-create-error");
       showErrorToast(toast, message);
@@ -51,5 +74,7 @@ export const useDiscountsStore = defineStore("discounts", () => {
     addDiscount,
     fetchDiscounts,
     discounts,
+    subscribeToUpdates,
+    unsubscribeFromUpdates,
   };
 });
