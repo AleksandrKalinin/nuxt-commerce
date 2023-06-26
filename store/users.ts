@@ -2,11 +2,12 @@ import { defineStore } from "pinia";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 import { v4 as uuidv4 } from "uuid";
 import { useToastsStore } from "./toasts";
+import type { Database } from "~/types/database.types";
 import { toastHandler } from "~/utils/toastHandler";
 import userService from "~/services/userService";
 
 export const useUsersStore = defineStore("users", () => {
-  const client = useSupabaseClient();
+  const client = useSupabaseClient<Database>();
   let realtimeChannel: RealtimeChannel;
   const users: Ref<User[] | null> = ref([]);
 

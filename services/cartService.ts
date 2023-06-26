@@ -1,6 +1,7 @@
 import type { PostgrestError } from "@supabase/supabase-js";
+import type { Database } from "~/types/database.types";
 
-const client = useSupabaseClient();
+const client = useSupabaseClient<Database>();
 
 class CartService {
   async fetchCartItems(id: string) {
@@ -14,7 +15,7 @@ class CartService {
   async addToCart(cart: [] | CartItem[], id: string) {
     const { error } = await client
       .from("users")
-      .update({ cart })
+      .update({ cart } as never)
       .eq("user_id", id);
     return error;
   }
@@ -22,7 +23,7 @@ class CartService {
   async updateAmount(cart: [] | CartItem[], id: string) {
     const { error } = await client
       .from("users")
-      .update({ cart })
+      .update({ cart } as never)
       .eq("user_id", id);
     return error;
   }
@@ -30,17 +31,17 @@ class CartService {
   async deleteItem(cart: [] | CartItem[], id: string) {
     const { error } = await client
       .from("users")
-      .update({ cart })
+      .update({ cart } as never)
       .eq("user_id", id);
     return error;
   }
 
   async placeOrder(order: Order, id: string): Promise<PostgrestError | null> {
-    const { error } = await client.from("orders").insert([order]);
+    const { error } = await client.from("orders").insert([order] as never);
     if (error) throw error;
     const { error: updateError } = await client
       .from("users")
-      .update({ cart: [] })
+      .update({ cart: [] } as never)
       .eq("user_id", id);
     return updateError;
   }

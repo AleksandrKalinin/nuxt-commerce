@@ -1,4 +1,6 @@
-const client = useSupabaseClient();
+import type { Database } from "~/types/database.types";
+
+const client = useSupabaseClient<Database>();
 
 class RatingsService {
   async fetchRating(id: number) {

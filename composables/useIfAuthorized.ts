@@ -1,5 +1,7 @@
+import type { Database } from "~/types/database.types";
+
 export const useIfAuthorized = () => {
-  const client = useSupabaseClient();
+  const client = useSupabaseClient<Database>();
   const useIfAuthorized = async () => {
     const {
       data: { user },

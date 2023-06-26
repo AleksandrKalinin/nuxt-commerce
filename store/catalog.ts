@@ -4,11 +4,12 @@ import { v4 as uuidv4 } from "uuid";
 import { usePaginationStore } from "./pagination";
 import { useToastsStore } from "./toasts";
 import { checkFormFields } from "~/utils/checkFormFields";
+import type { Database } from "~/types/database.types";
 import catalogService from "~/services/catalogService";
 import formService from "~/services/formService";
 
 export const useCatalogStore = defineStore("catalog", () => {
-  const client = useSupabaseClient();
+  const client = useSupabaseClient<Database>();
   let realtimeChannel: RealtimeChannel;
   const catalogItems: Ref<CatalogItem[] | null> = ref([]);
   const loaded: Ref<boolean> = ref(false);

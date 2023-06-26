@@ -3,9 +3,10 @@ import type { RealtimeChannel } from "@supabase/supabase-js";
 import { useToastsStore } from "./toasts";
 import { toastHandler } from "~/utils/toastHandler";
 import discountService from "~/services/discountService";
+import type { Database } from "~/types/database.types";
 
 export const useDiscountsStore = defineStore("discounts", () => {
-  const client = useSupabaseClient();
+  const client = useSupabaseClient<Database>();
   let realtimeChannel: RealtimeChannel;
 
   const discounts: Ref<Discount[] | null> = ref([]);

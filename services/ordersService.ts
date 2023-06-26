@@ -1,6 +1,7 @@
 import type { RealtimeChannel } from "@supabase/supabase-js";
+import type { Database } from "~/types/database.types";
 
-const client = useSupabaseClient();
+const client = useSupabaseClient<Database>();
 let realtimeChannel: RealtimeChannel;
 
 class OrdersService {
