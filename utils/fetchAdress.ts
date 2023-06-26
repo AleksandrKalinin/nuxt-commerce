@@ -1,12 +1,9 @@
-let message = [
-  {
-    name: "support",
-    to: "aleksandr_kalinin_1995@mail.ru",
-  },
-];
+import type { Database } from "~/types/database.types";
+
+let message = {};
 
 const fetchAdress = async () => {
-  const client = useSupabaseClient();
+  const client = useSupabaseClient<Database>();
 
   const { data: users, error } = await client
     .from("users")

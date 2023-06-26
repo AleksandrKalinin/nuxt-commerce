@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import emailService from "~/services/emailService";
 
 export const useEmailStore = defineStore("email", () => {
   interface EmailTemplate {
@@ -6,22 +7,17 @@ export const useEmailStore = defineStore("email", () => {
     url: string;
   }
 
-  const client = useSupabaseClient();
   const emailTemplate: Ref<EmailEditorData | null> = ref(null);
   const emailTemplatePreset: Ref<EditorDesign | null> = ref(null);
   const templates: Ref<EmailTemplate[]> = ref([]);
 
   const fetchTemplates = async () => {
-    const { data: items, error } = await client.storage
-      .from("html-templates")
-      .list();
+    const { items, error } = await emailService.fetchTemplates();
     items?.forEach((item) => {
-      const { data: url } = client.storage
-        .from("html-templates")
-        .getPublicUrl(item.name);
+      const url = emailService.getTemplateUrl(item.name);
       const template = {
         name: item.name,
-        url: url.publicUrl,
+        url,
       };
       templates.value.push(template);
     });

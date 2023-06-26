@@ -22,15 +22,13 @@ import { useDiscountsStore } from "~/store/discounts";
 import { usePaginationStore } from "~/store/pagination";
 import { DISCOUNTS_HEADER } from "~/constants/discounts";
 
-const client = useSupabaseClient();
-
 const store = useDiscountsStore();
 const pagesStore = usePaginationStore();
 
 const { currentPage } = storeToRefs(pagesStore);
 const { discounts } = storeToRefs(store);
 
-const { fetchDiscounts } = store;
+const { fetchDiscounts, subscribeToUpdates, unsubscribeFromUpdates } = store;
 
 const start = computed(() => {
   return currentPage.value * 12;
@@ -41,21 +39,16 @@ const end = computed(() => {
 });
 
 const data = computed(() => {
-  return discounts.value?.slice(start.value, end.value).map((item) => {
-    return item;
-  });
+  return discounts.value?.slice(start.value, end.value);
 });
 
 onMounted(() => {
   fetchDiscounts();
-  client
-    .channel("table-db-changes")
-    .on(
-      "postgres_changes",
-      { event: "*", schema: "public", table: "users" },
-      () => fetchDiscounts()
-    )
-    .subscribe();
+  subscribeToUpdates();
+});
+
+onUnmounted(() => {
+  unsubscribeFromUpdates();
 });
 </script>
 

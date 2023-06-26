@@ -3,10 +3,11 @@ import { useCatalogStore } from "./catalog";
 import { useToastsStore } from "./toasts";
 import { usePopupStore } from "./popup";
 import { toastHandler } from "~/utils/toastHandler";
+import cartService from "~/services/cartService";
 
 export const useCartStore = defineStore("cart", () => {
-  const client = useSupabaseClient();
-  const userId: Ref<string | undefined> = ref("");
+  const user = useSupabaseUser();
+  const userId: Ref<string> = ref("");
   const userEmail: Ref<string | undefined> = ref("");
   const cartItems: Ref<Array<CartItem> | []> = ref([]);
   const cartLoaded = ref(false);
@@ -23,18 +24,21 @@ export const useCartStore = defineStore("cart", () => {
   const { showErrorToast, showSuccessToast } = toastsStore;
 
   const getCartItems = async () => {
-    const {
-      data: { user },
-    } = await client.auth.getUser();
-    userEmail.value = user?.email;
-    userId.value = user?.id;
-    const { data, error } = await client
-      .from("users")
-      .select("cart")
-      .eq("user_id", user?.id);
-    if (error) throw error;
-    cartItems.value = data[0].cart;
-    cartLoaded.value = true;
+    if (user.value) {
+      userEmail.value = user.value.email;
+      userId.value = user.value.id;
+      const { data, error } = await cartService.fetchCartItems(user.value.id);
+      if (error) {
+        const { toast, message } = toastHandler("cart-empty");
+        showErrorToast(toast, message);
+      } else {
+        cartItems.value = data[0].cart;
+        cartLoaded.value = true;
+      }
+    } else {
+      const { toast, message } = toastHandler("not-authorized");
+      showErrorToast(toast, message);
+    }
   };
 
   const totalSum = computed(() => {
@@ -52,10 +56,7 @@ export const useCartStore = defineStore("cart", () => {
 
   const addToCart = async (id: number, price: number) => {
     fetchCatalogItems();
-    const {
-      data: { user },
-    } = await client.auth.getUser();
-    if (user) {
+    if (user.value) {
       const present = cartItems.value.findIndex((el: CartItem) => el.id === id);
       if (present === -1) {
         const item = catalogItems.value?.find(
@@ -70,10 +71,7 @@ export const useCartStore = defineStore("cart", () => {
         cartItems.value[present].total =
           Number(cartItems.value[present].amount) * price;
       }
-      const { error } = await client
-        .from("users")
-        .update({ cart: cartItems.value })
-        .eq("user_id", userId.value);
+      const error = await cartService.addToCart(cartItems.value, userId.value);
       if (error) {
         throw error;
       } else {
@@ -92,19 +90,13 @@ export const useCartStore = defineStore("cart", () => {
     ) as unknown as CartItem;
     item.amount = value;
     item.total = item.amount * item.price;
-    const { error } = await client
-      .from("users")
-      .update({ cart: cartItems.value })
-      .eq("user_id", userId.value);
+    const error = await cartService.updateAmount(cartItems.value, userId.value);
     if (error) throw error;
   };
 
   const deleteItem = async (id: number) => {
     const newItems = cartItems.value.filter((item: CartItem) => item.id !== id);
-    const { error } = await client
-      .from("users")
-      .update({ cart: newItems })
-      .eq("user_id", userId.value);
+    const error = await cartService.deleteItem(newItems, userId.value);
     if (error) throw error;
   };
 
@@ -116,13 +108,8 @@ export const useCartStore = defineStore("cart", () => {
     newOrder.user = userEmail.value as string;
     newOrder.total = totalSum.value;
     newOrder.status = "Pending" as OrderStatus.Pending;
-    const { error } = await client.from("orders").insert([newOrder]);
-    if (error) throw error;
-    const { error: updateError } = await client
-      .from("users")
-      .update({ cart: [] })
-      .eq("user_id", userId.value);
-    if (updateError) {
+    const error = await cartService.placeOrder(newOrder, userId.value);
+    if (error) {
       const { toast, message } = toastHandler("order-confirmation-error");
       showErrorToast(toast, message);
     } else {
